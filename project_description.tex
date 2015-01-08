@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper,draft]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Kim Rostgaard Christensen}
+\title{Automated use case generated testing}
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+The world of software is ridden with stories about failed projects, and almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply errornous requirement specifications.
+\end{abstract}
+
+\section{Background}
+In the software engineering field, a paradigm shift from waterfall-oriented development methods, towards more agile and iterative methods. However, the iterative approach still has a requirements phase, that may play an only minor role in the implementation phase, and focus shifts to \emph{how to make it work}, rather than \emph{what it should do}. Test-driven development handles this pragmatically by enforcing that tests are written before implementations. This provides a strong interface-driven black-box oriented methodology. It also provides a feedback channel for requirement changes.\\\\
+Taking test-driven development a step further, one may perceive the software system in its entirety as a large interface, and it's requirements as the tests. Use cases are textual descriptions of the functional requirements of the system, which are typically written in a semi-formal language, using only terms clearly defined within a domain model or glossary.\\
+Applying transformations to use cases, turning them into automated acceptance tests could provide a more requirement-oriented development method, keeping the requirements in the loop during the entire development process.
+
+\section{Project}
+%The approach motioned above is influenced by model driven development, formal methods
+\begin{itemize}
+  \item Identify generalizable traits of automated acceptance test generation from a case study focusing on the constraints/complexity reduction tradeoff.
+  \item Introduce a requirement feedback channel
+  \item Build a proof-of-concept tool for generating tests from use cases
+  \item Evaluate the value of the approach.
+\end{itemize}
+%A growing numer of software systems are being moved to the cloud, which makes it a lot easier to make "rolling releases", rather than monolithic releases. %TODO More
+
+%During the development of the OpenReception project, the team have applied a number of ah-hoc measures to 
+
+\end{document}
