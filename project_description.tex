@@ -14,11 +14,37 @@
 %\end{abstract}
 
 \section*{Background}
-Within software projects, documented requirements often become outdated and irrelevant over time as requirements are implemented and verified manually. For long-lived projects that continuously add features and component, maintenance of requirements this maintenance becomes increasingly cumbersome, and increases the risk of requirement documentation decay further. Dynamic documents -- for instance in the form of a linked wiki markup -- may make requirement maintenance more accessible, both for humans but especially also for computers, that may extract valuable information about system requirements for use in system verification tests.\\
-Additionally, if requirement formalization is in done in a sufficiently structured way, and annotated with references to the implementation, the cost of requirements maintenance may be made worthwhile by enabling us to automatically generate system tests from them. 
+Within software projects, documented requirements often become outdated
+and irrelevant over time as requirements are implemented and verified
+manually. For long-lived projects that continuously add features and
+component, maintenance of requirements this maintenance becomes
+increasingly cumbersome, and increases the risk of requirement
+documentation decay further. Dynamic documents -- for instance in the
+form of a inter-linked wiki markup -- may make requirement maintenance more
+accessible, both for humans but especially also for computers, that may
+extract valuable information about system requirements for use in system
+verification tests.\\
+Additionally, if requirement formalization is in done in a sufficiently
+structured way, and annotated with references to the implementation, the
+cost of requirements maintenance may be made worthwhile by enabling us
+to automatically generate system tests from them.
 \subsection*{Project}
-The key idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. It may also mean that requirements should be written with a strong focus on testability -- further increasing the motivation for quantifying, constraining and refining requirements. For example, \emph{who} will perform this action, and how are the outcomes expected to be presented/received?\\\\
-The project will use the requirements from an existing system as case study and formalize structure of these, so that test generation from these is possible. In the process, we will look into how to structure requirements so that we can either generate tests directly from then, and map implementation to requirements. Ideally, we want to identify general patterns and constraints in the structure/formalism introduced to our requirements in the case study, to be able to apply them to other projects. But in general, we will investigate to which extent this idea can be applied.
+The key idea is that sufficient structure in requirement formalization
+may enable tests to be generated directly from requirements fully
+automatically. It may also mean that requirements should be written with
+a strong focus on testability -- further increasing the motivation for
+quantifying, constraining and refining requirements. For example,
+\emph{who} will perform this action, and how are the outcomes expected
+to be presented/received?\\\\
+The project will use the requirements from an existing system as case
+study and formalize structure of these, so that test generation from
+these is possible. In the process, we will look into how to structure
+requirements so that we can either generate tests directly from then,
+and map implementation to requirements. Ideally, we want to identify
+general patterns and constraints in the structure/formalism introduced
+to our requirements in the case study, to be able to apply them to other
+projects. But in general, we will investigate to which extent this idea
+can be applied.
 %In the software engineering field, a paradigm shift from waterfall-oriented development methods, towards more agile and iterative methods. However, the iterative approach still has a requirements phase, that may play an only minor role in the implementation phase, and focus shifts to \emph{how to make it work}, rather than \emph{what it should do}. Test-driven development handles this pragmatically by enforcing that tests are written before implementations. This provides a strong interface-driven black-box oriented methodology. It also provides a feedback channel for requirement changes.\\\\
 %Taking test-driven development a step further, one may perceive the software system in its entirety as a large interface, and it's requirements as the tests. Use cases are textual descriptions of the functional requirements of the system, which are typically written in a semi-formal language, using only terms clearly defined within a domain model or glossary.\\
 %Applying transformations to use cases derived from requirements, turning them into automated acceptance tests, could provide a more requirement-oriented development method, keeping the requirements in the loop during the entire development process.
