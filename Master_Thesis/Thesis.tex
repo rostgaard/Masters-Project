@@ -15,10 +15,43 @@
 The world of software is has over the years been tainted with stories about failed projects. Almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply erroneous requirement specifications.
 \end{abstract}
 
-\chapter{Background}
+\chapter{Introduction}
+
+\section{Terminology}
+\subsection{Three kinds of models}
+Informal models for communication
+Formal models, which can be used for verification -- such as Z or VDM
+Meta-models that model other models, such as UML
+
 
 \chapter{Case project}
 This project uses the open source project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements.
+
+\section{End-user experience}
+The challenge in documenting requirements is, and has always been, to formulate them on a non-ambiguous form. The quantification of ambiguity tends to be difficult as well, due to the fact that requirements are usually formulated in natural languages following some rules, such as pre-defined glossary and constraints. Constraints vocabulary typically consists of should, could, may, must.
+
+As requirements are basically constraints to your system, a subset of them may be expressed as expressions following a formality that is machine-interpretable. Vienna Development Method (VDM) and Z notation are two approaches that tries to formally describe systems on a very high level, so that model-checking can be performed on it prior to programming.
+
+Starting from scratch, the user would be expected to initially define at least one actor and add a sequence of actions that the actor perform.
+
+
+
+
+\begin{figure}
+\includegraphics[scale=0.9]{img/test_case_ui}
+\centering
+\caption{Use case editor UI mockup}
+\label{fig:use_case_editor_mockup}
+\end{figure}
+
+
+
+
+\section{Use case writing level}
+Should not be used to describe UI actions% http://alistair.cockburn.us/Use+cases%2c+ten+years+later (Use case limits).
+
+
+\section{Expressing requirements}
 
 \section{Targeted requirements}
 We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
@@ -67,7 +100,7 @@ This gives the following -- more detailed -- requirements
   \end{itemize}
 \end{description}
 
-
+%TODO High leve description (customer level)
 
 \chapter{Validating implementation}
 %Something about the V-model.
@@ -89,7 +122,7 @@ This gives the following -- more detailed -- requirements
 \chapter{Requirement formalization}
 Actors, Roles
 
-Aspects.
+Aspects. Behavior. State space.
 
 \section{Use case as base}
 \includegraphics[scale=0.4]{img/req_meta.png}
