@@ -34,7 +34,7 @@ Meta-models that model other models, such as UML.
 
 
 \chapter{Case project}
-This project uses the open source project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is open source and any implementation details are therefore public domain.
+This project uses the open source project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is open source and any implementation details are therefore public domain. This section gives a short introduction to the system and
 
 
 \begin{figure}
@@ -75,6 +75,18 @@ What is in the customers interest is having acceptance tests match the use cases
 Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
 
 % Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
+
+\section{Glossary}
+\subsection{Customer}
+The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
+
+\section{Extracting semantic}
+Example; in the use case it is stated that a call is hung up and a callee awaits this event. The lifeline of the call is however not tracked and to be able to properly assert the true state of this, the code macro needs to into account this lifeline and reflect on which assertions hold for every stakeholder that has knowledge of the call. % TODO: Elaborate the example and explain that a phone call is a good example because it has an A and B-leg and potentially a system that tracks its state.
+
+\subsection{Letting the customer inject semantics}
+
+There are two basic approaches to letting the customer inject semantics into the requirements. The first is to do a full up-front declaration of every term used within the problem domain and supply this as a toolbox for the customer %todo example.
+The other approach is to do it on the go by outlining concepts as stubs whenever they appear. This approach is similar to what is used in wiki software. %todo eaxmple
 
 \section{Verification problem}
 A big issue in software
