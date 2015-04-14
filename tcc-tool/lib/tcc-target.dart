@@ -21,5 +21,5 @@ class Target {
   int get hashCode => this.iden.hashCode;
 
   @override
-  bool operator ==(Actor other) => this.iden == other.iden;
+  bool operator ==(Target other) => this.iden == other.iden;
 }

@@ -1,6 +1,7 @@
 part of tcc;
 
 class Statement {
+  String get identity => normalize ('${this.actor}::${this.action}::${this.object}');
   Actor  actor;
   Action action;
   Target object;
@@ -8,7 +9,7 @@ class Statement {
   Statement (this.actor, this.action, this.object);
 
   @override
-  String toString () => '${this.actor} ${this.action} ${this.object}';
+  String toString () => '${this.actor.role} ${this.action} ${this.object}';
 }
 
 class StatementList extends IterableBase<Statement> {

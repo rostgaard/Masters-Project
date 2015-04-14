@@ -3,6 +3,7 @@ library domain_model;
 class Message {}
 
 class Receptionist {
+
   void send(Message m) {
     throw new UnimplementedError();
   }

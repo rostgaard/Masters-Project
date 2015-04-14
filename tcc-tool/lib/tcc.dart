@@ -6,18 +6,20 @@
 library tcc;
 
 import 'dart:collection';
+import 'package:markdown/markdown.dart';
 
 part 'tcc-action.dart';
 part 'tcc-actor.dart';
 part 'tcc-condition.dart';
 part 'tcc-declaration.dart';
+part 'tcc-mappings.dart';
 part 'tcc-statement.dart';
 part 'tcc-target.dart';
 part 'tcc-use_case.dart';
 
 // Mappings of type 'hints' to classes.
 final Map<String,String> classMap = {
-'message' : 'Message'
+  'message' : 'Message'
 };
 
 String lookupClass (String className) {
@@ -28,42 +30,52 @@ if (!classMap.containsKey(className)) {
 return classMap[className];
 }
 
+String normalize (String string) => string.replaceAll(' ', '_').toLowerCase();
+
 String statementToCode (Statement stmt) {
-  return '${stmt.actor.iden}.${stmt.action}(${stmt.object.iden});';
+  return '${stmt.actor.role}.${stmt.action}(${stmt.object.iden});';
 }
 
 String declarationToCode (Declaration decl) {
   return '${decl.type} ${decl.iden};';
 }
 
-String conditionToCode (Condition con) {
-  return statementToCode (con.statement);
+String predicateToCode (Predicate con) {
+  String match = matcherMappings[con.matcher.identity];
+  String actual = expressionMappings[con.expr.identity];
+  String expectation = expectationMappings[con.expectation.identity];
+
+  return '${match}($actual, $expectation)';
 }
 
 String actorDeclarationToCode (Actor act) {
-  return '${act.type} ${act.iden} = ${act.type}Pool.aquire();';
+  return '${act.type} ${normalize(act.role)}';
 }
 
 
 String toTestCase (UseCase uc) {
-  String buffer = 'import \'domain_model.dart\';\n\n';
 
-  buffer += '''
-${uc.name} () {\n
+  Iterable<String> parameters = uc.involvedActors.map(actorDeclarationToCode);
+
+  String template =
+'''import \'domain_model.dart\';
+
+void ${uc.identity} (${parameters.join(', ')}) {
+  
    /* Declarations */
    ${uc.declarations.map(declarationToCode).join('\n   ')}
    ${uc.involvedActors.map(actorDeclarationToCode).join('\n   ')}
 
    /* Preconditions */
-   ${uc._preconditions.map(conditionToCode).join('\n   ')}
+   ${uc.preconditions.map(predicateToCode).join('\n   ')}
 
    /* Use case body */
-   ${uc._statements.map(statementToCode).join('\n   ')}
+   ${uc.statements.map(statementToCode).join('\n   ')}
 
    /* Postconditions */
-   ${uc._postconditions.map(conditionToCode).join('\n   ')}
+   ${uc.postconditions.map(predicateToCode).join('\n   ')}
 
 }''';
 
- return buffer;
+ return template;
 }

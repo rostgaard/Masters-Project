@@ -12,29 +12,32 @@ const String Postconditions = 'postconditions';
 int anonObjCount = 0;
 
 
-UseCase useCase1 = new UseCase (
-    'useCase1',
-    new ConditionList([
-                       ]),
-    new StatementList([
+final Actor receptionist1 = new Actor('Receptionist');
+final Actor receptionist2 = new Actor('Receptionist', role: 'other receptionist');
+final Actor caller = new Actor('Caller');
+
+UseCase useCase1 =
+  new UseCase ('Use case 1')
+    ..stakeholders = [receptionist1, caller]
+    ..postconditions = [new Predicate(new Expression('message'), is_, new Expectation('sent'))]
+    ..statements = new StatementList([
                        new Statement(
-                           new Actor  ('Receptionist', iden: 'R1'),
+                           receptionist1,
                            new Action ('send'),
-                           new Target ('message', iden: 'A')),
+                           new Target ('message')),
                        new Statement(
-                           new Actor  ('Receptionist'),
+                           receptionist1,
                            new Action ('save'),
                            new Target ('message')),
                        new Statement(
-                           new Actor  ('Receptionist', iden: 'R1'),
+                           receptionist1,
                            new Action ('send'),
-                           new Target ('message', iden: 'B')),
+                           new Target ('message')),
                        new Statement(
-                           new Actor  ('Receptionist', iden: 'R2'),
+                           receptionist2,
                            new Action ('retrieve'),
                            new Target ('message', iden: 'A'))
-                       ]),
-    new ConditionList.empty());
+                       ]);
 
 //String aquisition_code (Actor)
 
@@ -45,7 +48,7 @@ main() {
   print (Platform.script.path);
   var file = new File(filename);
 
-  Future<File> finishedWriting = file.writeAsString(toTestCase(useCase1));
+//  Future<File> finishedWriting = file.writeAsString(toTestCase(useCase1));
 //
 //  finishedWriting.then((File newFile)  {
 //    Process.start('/home/krc/lib/dart/dart-sdk/bin/dartanalyzer', [newFile.path]).then((process) {
@@ -61,8 +64,12 @@ main() {
 
 
 print('${useCase1}\n');
-print('Involved actors: ${useCase1.involvedActors}\n');
+print('${toTestCase(useCase1)})\n');
+//print('Involved actors: ${useCase1.involvedActors}\n');
 
-print(toTestCase(useCase1));
+//print('${useCase1.toMarkdown()}\n');
+
+
+//print(toTestCase(useCase1));
 
 }
