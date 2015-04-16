@@ -1,0 +1,25 @@
+In the fall of 2012, a Physicist, an Engineer ... three entrepreneurs and an engineering student met. The entrepreneurs had a grave problem; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed, due to the fact that the company supporting it went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers. All in the good spirit of the free market.\\\\
+The three entrepreneurs were in the business of ``reception hosting''.
+%TODO more on this story. Something that leads to the discovery of a structure and pattern of use cases and tests.
+
+Roughly two years after, the first crude prototype emerged.
+
+
+\section{Background}
+The Danish business Responsum sells a hosted reception service. Their primary customer segment is other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars.
+
+Throughout the last ten years, they have used a COTS\footnote{Commercial Off The Shelf} system for this task, but is now showing its age. The system deals with phone call routing, call handling, presents reception information, manages call routing and reception information.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir frontdesk-client-ui}
+\caption{Screenshot of the reception frontend of the existing system}
+\label{fig:frontdesk_screenshot}
+\end{figure}
+The system is starting to show its age. It's proprietary and abandoned by the developers and is still affected by open bugs and issues. Furthermore, the customers of Responsum are expressing an increasing interest in integrating their own system with the Responsum's system. An example of an integration could be calendar synchronization.
+
+\begin{figure}[ht]
+\centering
+%\includegraphics[width=0.7\textwidth]{\imgdir frontdesk-client-ui}
+\caption{Architecture of the existing system}
+\label{fig:frontdesk_architecture}
+\end{figure}
