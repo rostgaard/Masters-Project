@@ -1,0 +1,96 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{usecases}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% Define colors used for listings
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% Configuration for listings
+\lstset{%
+numbers=left,
+frame=single,
+basicstyle=\small,
+numbers=left,
+numberstyle=\tiny,
+numbersep=15pt,tabsize=4,
+flexiblecolumns=true,
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+numberstyle=\tiny\color{gray},
+language=Java,
+breaklines=true,
+breakatwhitespace=true,
+morekeywords={*,num,String,var,library,get,set} ,
+}
+
+\author{Kim Rostgaard Christensen}
+\begin{document}
+
+\title{Use case translation}
+\maketitle
+%Note: Domain concepts are usually also present in the mapping, and are usually mapped directly to a class.
+
+\begin{verbatim}
+Example 
+  receptionist types in message
+  receptionist sends message
+  receptionist returns to ready state
+ post:
+  The message is stored
+  The receptionist is ready to handle the next call
+\end{verbatim}  
+The first thing that needs to be done is to identify the domain concept of these statements. We have  a receptionist actor and message, and some interaction between these concepts.
+
+Highlighting the basics of the use case; it looks like this:
+  
+Example 
+  [receptionist] {types in} [message]
+  [receptionist] {sends} [message]
+  [receptionist] {returns to} [ready state]
+ post:
+  The [message] {is} [stored]
+  The [receptionist] {is} [ready] to handle the next call
+
+
+In this example we have the concept of a receptionist. This is treated as a class, and could therefore be subbed out.
+
+As code; we would probably end up with something like this;
+
+\begin{lstlisting}
+bool test (receptionist, message) {
+  receptionist.types_in (message);
+  receptionist.sends (message);
+  receptionist.returns_to (ready_state);
+  
+  return
+    is_stored(message) AND
+    is_ready(receptionist);
+}
+\end{lstlisting}
+
+Given the amount of information in (and markup of) the use cases, this code can easily be generated from them. But these functions are still very high-level, and doesn't assert anything about the system being tested. To do this, we need to fill in the macro functions which we inferred earlier on.
+the receptionist.types\_in (message) method requires knowledge of a ``message'' domain concept. Furthermore, the action of typing in a message is actually a creation of message, as it was really a message beforehand with no content. Before being able to test it, we need some way of simulating the message creation and -- more concretely -- fill in the actual message content. So, conceptually, some sort of content generator. A concrete implementation could be a simply ``dummy object'' or an object that is initialized with random content. But this is basically it for the first statement.\\\\
+The next statement \texttt{receptionist.sends (message)} can be classified as a store function. It merely takes the argument (message) makes it available for other actors to access later on, by storing it persistently. This is typically done using a database or file store.\\\\
+The last statement in the scenario is \texttt{receptionist.returns\_to (ready\_state)}. This is a mutation function that alters the state of the receptionist actor. This state change could be global and should then  be updated multiple places, which then leads to additional ``state-store'' dependencies. Here, we also note that there is a concept of a ready\_state this is an explicit state change that could, possibly be linked to a state machine contained within the receptionist actor object.\\\\
+
+
+
+
+The question is then how much more needs to be added. Can we use some stereotyping to increase the semantics of the annotated use cases? Such as 'storage' for message, and 'actor' for receptionist.
+
+
+
+
+\end{document}
