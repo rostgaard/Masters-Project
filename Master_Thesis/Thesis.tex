@@ -4,24 +4,140 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{listings}
+
 \author{Kim Rostgaard Christensen}
 \title{Requirements as tests}
 \subtitle{Automatic generation of test from structured requirements}
+%%%%********************************************************************
+\usepackage{microtype}
+%\usepackage{times}
+\usepackage[utf8]{inputenc}     
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{lipsum}
+%%%%********************************************************************
+% fancy quotes
+\definecolor{quotemark}{gray}{0.7}
+\makeatletter
+\def\fquote{%
+    \@ifnextchar[{\fquote@i}{\fquote@i[]}%]
+           }%
+\def\fquote@i[#1]{%
+    \def\tempa{#1}%
+    \@ifnextchar[{\fquote@ii}{\fquote@ii[]}%]
+                 }%
+\def\fquote@ii[#1]{%
+    \def\tempb{#1}%
+    \@ifnextchar[{\fquote@iii}{\fquote@iii[]}%]
+                      }%
+\def\fquote@iii[#1]{%
+    \def\tempc{#1}%
+    \vspace{1em}%
+    \noindent%
+    \begin{list}{}{%
+         \setlength{\leftmargin}{0.1\textwidth}%
+         \setlength{\rightmargin}{0.1\textwidth}%
+                  }%
+         \item[]%
+         \begin{picture}(0,0)%
+         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \end{picture}%
+         \begingroup\itshape}%
+ %%%%********************************************************************
+ \def\endfquote{%
+ \endgroup\par%
+ \makebox[0pt][l]{%
+ \hspace{0.8\textwidth}%
+ \begin{picture}(0,0)(0,0)%
+ \put(15,15){\makebox(0,0){%
+ \scalebox{3}{\color{quotemark}''}}}%
+ \end{picture}}%
+ \ifx\tempa\empty%
+ \else%
+    \ifx\tempc\empty%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+   \else%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+   \fi\fi\par%
+   \vspace{0.5em}%
+ \end{list}%
+ }%
+ \makeatother
+ %%%%********************************************************************
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% Define colors used for listings
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% Configuration for listings
+\lstset{%
+numbers=left,
+frame=single,
+numbers=left,
+numberstyle=\tiny,
+numbersep=15pt,tabsize=4,
+flexiblecolumns=true,
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+basicstyle=\footnotesize\ttfamily,
+stringstyle=\color{mauve},
+numberstyle=\tiny\color{gray},
+language=Java,
+breaklines=true,
+breakatwhitespace=true,
+morekeywords={*,num,String,var,library,get,set} ,
+}
+
+
+\newcommand{\imgdir}{./img/} % Set the folder which contains the specific images for the report
+
+
+
+%TODO
+% Write up 3-4 use cases. How they relate to each other. Maps to concept, and work on a conceptual level.
+
+%TODO Using expected object state lifecycles (ordered list of states) to describe verification conditions.
+
+%TODO section om mappings and levels of mappings. From Crude (having _one_ ast that is _the_ use case downto full semantics in language). One ast is what was done initially in Coverage_Tests.
 
 \begin{document}
 \maketitle
 
+\begin{fquote}[ -- Johann Wolfgang von Goethe][The Sorrows of Young Werthe][1774]Misunderstandings and neglect occasion more mischief in the world than even malice and wickedness. At all events, the two latter are of less frequent occurrence.
+\end{fquote}
 \begin{abstract}
 The world of software is has over the years been tainted with stories about failed projects. Almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply erroneous requirement specifications.
 \end{abstract}
 
 \chapter{Introduction}
+
+\input{introduction}
+
+%\section{Acknowledgements}
+%Tom Desair\footnote{http://www.tomdesair.com} for making his \LaTeX use case available for the general public, and especially this author who has benefited greatly from them.
+
+
+\input{introduction}
+\section{Evolution of software engineering}
 The natural evolution of software engineering points towards increasing the level of abstraction, moving closer to the usage models that they try capture. Another benefit of using models is that they communicate much better than, for instance, source code. Whereas source code is usually filled with non-essential implementation-specific details, models aim only to capture the essence of what it represents. Models, lacking these details, are challenging to execute. An doing so requires a great deal of extra work, filling out the details with either code snibblets or equivalent constraints -- such as OCL.\footnote{Object Constraint Language - part of UML}\\\\
 One problem with this approach is a that much technical knowledge is required to formulate the models, OCL constraints and/or snibblets required for the system to function. For most technical staff it feels like meta-programming that keeps them from doing real programming.
 \\\\
 Ideally, the person requesting the software being modeled (the customer), should do a lot of the modeling by him/herself. This, however, has historically proven itself infeasible as customers rarely know much about modeling or programming, and if they did, would probably not be requesting software but rather making it on their own.
 \\\\
 This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them.
+
+The ultimate goal is to identify -- or create --  a tool and/or a process that is able to extract the essential information, in a formal format, from informal information. Keeping as close to natural language as possible.
+
+% Stub - I don't know where it should go;
+\subsection{Bad requirements}
+In software engineering there is a rule of thumb saying that requirements should be testable. This probably originates from the more general rule that goals should be measurable, recognizing that a requirement is ultimately a goal and a test is a actually a measure. Having this in mind can prevent a fair amount of bad requirements.
+% Something about the level of detailm the completeness and feedback loop. Prototyping an agile development.
 \section{Terminology}
 \subsection{Three kinds of models}
 This document will use three descriptions for models, which cover;
@@ -32,10 +148,27 @@ Formal models, which can be used for verification -- such as Z or VDM or plain m
 \subsubsection{Meta-models}
 Meta-models that model other models, such as UML.
 
+\section{Background}
+\input{background}
 
+\section{First implementation}
+
+
+The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
+\input{first_implementation}
+
+\section{The verification problem}
+%TODO V-model.
+
+\section{Proposed solution}
+"Side-cart" tool that (maybe) uses natural language processing. The developement is supported by a two-sided approach. Both top-down and bottom-up. Meaning that design an implementation will go hand-in-hand and hopefully lead to a good middle-road.
+%TODO something about existing approaches.
+%TODO Step-wise go through the enhancement process.
+%  - Basically, autogenerate the use case action code line
+%  - Infer some Class dependencies, which then becomes Framework dependencies.
+\input{manual_use_case_conversion}
 \chapter{Case project}
-This project uses the open source project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is open source and any implementation details are therefore public domain. This section gives a short introduction to the system and
-
+\input{case_study_system}
 
 \begin{figure}
   \centering
@@ -50,6 +183,18 @@ This project uses the open source project ``OpenReception'' as case study. The p
   \caption{Receptionist client user interface of OpenReception system}
   \label{fig:openreception-client-ui}
 \end{figure}
+
+\begin{figure}[h]
+%\includegraphics[scale=0.4]{img/activity_diagram_receptionist}
+\centering
+\caption{Activity diagram for the receptionist actor}
+\label{fig:activity_diagram_receptionist}
+\end{figure}
+
+
+\section{Related work}
+\subsection{Writing requirements as tests}
+\subsection{Writing requirements in formal language}
 
 \section{Brainstorming}
 The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
@@ -88,6 +233,10 @@ Example; in the use case it is stated that a call is hung up and a callee awaits
 There are two basic approaches to letting the customer inject semantics into the requirements. The first is to do a full up-front declaration of every term used within the problem domain and supply this as a toolbox for the customer %todo example.
 The other approach is to do it on the go by outlining concepts as stubs whenever they appear. This approach is similar to what is used in wiki software. %todo eaxmple
 
+\section{Class-responsiblity-collaboration cards}
+%Nouns should turn into the classes of the card, verbs typically turn into the responsibilities of the card, and collaborators are the other cards with which the card will be interacting with.
+%FROM: http://en.wikipedia.org/wiki/Class-responsibility-collaboration_card
+
 \section{Verification problem}
 A big issue in software
 
@@ -106,6 +255,14 @@ Wiki-collaboration to "lazily" define the problem domain and verification condit
 
 \section{Formulating requirements}
 
+\section{Framework discussion}
+\subsection{Metrics}
+% How many lines of code is the support tools? The middleware framework?
+% How is it compared to the activities?
+\subsection{Recommended test framework guidelines}
+%Use allocation pools
+%Use interfaces a objects.
+
 \section{Requirements as communication platform}
 
 Avoid technical jargon (\cite{christel1992issues})
@@ -113,8 +270,21 @@ Avoid technical jargon (\cite{christel1992issues})
 \section{Related work}
 \subsection{FIT Framework}
 
-
-
+We've taken an offset in use cases, but there could be other ways of structuring the requirements of a system, such as the SCRUM user story format;
+%Use the SCRUM approach. Don't describe a feature as
+%"It should be doing this and that in the following way"
+%While the sentence above describes all you need to know to implement the feature, it does not justify the feature. My SCRUM book says features should be written down as a story. A story looks like this:
+%"As a <user-role>
+%I need a <functionality>
+%So that I get <business value>"
+%A feature that cannot be justified using such a story is an unjustified feature and thus there is no use to actually implement it.
+%E.g.
+%"As a visitor of a web portal I need a way to authenticate, so I can access my customer data, but nobody else can"
+%Now you don't only know that you need an authentication for your web portal, you also know who needs it (the visitors, basically everyone planing on using it more intensively) and you also know why it is needed, as it gives the user some value.
+%Other examples:
+%"As a passenger I need a list of all my booked journeys, so that I know when I'm going to travel where and won't lose the overview"
+%"As a book keeper, I'd like to have the sales tax being automatically printed to each bill based on customer data, so that I don't have to enter it manually each time I'm printing a bill"
+%If every feature needs to be written like that, you'll automatically see if a feature is for the customer, because it is really necessary, or just something your boss/company wants to have and also why they want to have it (what is the big picture behind it? Why are they doing it?).
 
 
 \section{Use case writing level}
@@ -124,8 +294,11 @@ Use cases expresses expected system behavior. Keep use cases free of UI-action.
 
 There are several levels on which use cases can be written as per\cite{cockburn??}. In our case, it would make the most sense to use the "system" level, as business level is something that is nearly useless because it is largely out of scope. The business logic is also, more elaborately (and implicitly) formulated within a system-level use case. In the other end, a component use case is also very impractical, as our target audience would be people that does not know anything about the specifics of the system being built.
 
+%Note;
+An important aspect to keep in mind is that context is important. Writing hundreds of pages of detailed requirements are bound to be decoupled and lose context, and coherence with each other. Deciding on a level that keeps context is important.
 
 \section{Expressing requirements}
+%Requirement gathering and documentation often feels a lot like stating the obvious, and being overly-verbose.
 
 \section{Targeted requirements}
 We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
@@ -135,14 +308,15 @@ We've chosen to focus on the requirements that involves core features from the R
   \item[Manage message:] Being able to send out messages to contacts, view and resend existing messages.
 \end{description}
 
-This gives the following -- more detailed -- requirements
+For our targeted use cases, we've cherry-picked some specific paths from the activity diagram for the receptionist actor (see figure \ref{fig:activity_diagram_receptionist}).
+
 \begin{description}
-  \item[RQ1: Transfer to contact:] A receptionist must be able to transfer a call to a chosen contact associated with the currently active reception. An example use case, from the receptionist actor point of view is outlined below.
+  \item[UC1: Transfer to contact:] A receptionist must be able to transfer a call to a chosen contact associated with the currently active reception. An example use case, from the receptionist actor point of view is outlined below.
   \begin{itemize}
     \item Preconditions.
     \begin{itemize}
-      \item Receptionist has previously received a call $A$
-      \item Receptionist has parked the previously received call $A$
+      \item Receptionist is handling picked up incoming call $A$
+      \item Receptionist has parked call $A$
     \end{itemize}
     \item Actions.
     \begin{itemize}
@@ -157,7 +331,7 @@ This gives the following -- more detailed -- requirements
     \end{itemize}
   \end{itemize}
 
-  \item[RQ2: Send message to contact:] A receptionist must be able to send a message -- via a distribution list -- to a contact, typically containing information received verbally via a call. An example use case, from the receptionist actor point of view is outlined below.
+  \item[UC2: Send message to contact:] A receptionist must be able to send a message -- via a distribution list -- to a contact, typically containing information received verbally via a call. An example use case, from the receptionist actor point of view is outlined below.
   \begin{itemize}
     \item Preconditions.
     \begin{itemize}
@@ -199,7 +373,13 @@ Actors, Roles
 Aspects. Behavior. State space.
 
 \section{Use case as base}
-\includegraphics[scale=0.4]{img/req_meta.png}
+%\includegraphics[scale=0.4]{img/req_meta.png}
+
+\subsection{What to include?}
+From \cite{Cockburn:2000:WEU:517669} we get;
+\begin{quote}
+``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
+\end{quote}
 
 \section{Processes}
 
@@ -219,37 +399,25 @@ So, summing up, we have;
 If we 
 
 \section{Requirement/test mapping}
-The communication model needs to be known.
+%The communication model needs to be known.
+
+We consider a use case to a flow events that mutates a state...
+
+
+\section{Environment}
+Traversing the use case is considered a long function call-chain. Each new procedure call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
+The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
 
 \chapter{Process evaluation}
 
+%\section{Applicablity to different methodologies} See http://en.wikipedia.org/wiki/Requirements_analysis
+% Waterfall, Prototype model, Incremental, Iterative, V-Model, Spiral, Scrum, Cleanroom, RAD ...
+
+
+% Further work
+%  - Misuse case
+%  - Validating event chain against a state machine (automaton).
 \chapter{Conclusion}
-
-
-% PROJECT DESCRIPTION BELOW.
-
-
-\section*{Background}
-Within software projects, documented requirements often become outdated and irrelevant over time as requirements are implemented and verified manually. For long-lived projects that continuously add features and components, maintenance of requirements becomes increasingly cumbersome, and increases the risk of requirement documentation decay further. Dynamic documents -- for instance, an inter-linked web document written in wiki markup -- may make requirement maintenance more accessible. This applies to both humans, but especially also for computers that may extract valuable information about system requirements for use in system verification tests.\\\\
-Additionally, if the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, the cost of requirements maintenance may be made worthwhile by enabling us to automatically generate system tests from them.
-\subsection*{Project}
-The key idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\\\\
-The project will use the requirements from an existing system as a case study and formalize the structure of these, so that test generation from them is possible. During this process, we will investigate how to structure requirements so that we can generate tests directly from them and map implementation to requirements. Ideally, we want to identify general patterns and constraints in the structure/formalism introduced to our requirements in the case study, to be able to apply them to other projects. But in general, we will investigate to which extent this idea can be applied.
-%In the software engineering field, a paradigm shift from waterfall-oriented development methods, towards more agile and iterative methods. However, the iterative approach still has a requirements phase, that may play an only minor role in the implementation phase, and focus shifts to \emph{how to make it work}, rather than \emph{what it should do}. Test-driven development handles this pragmatically by enforcing that tests are written before implementations. This provides a strong interface-driven black-box oriented methodology. It also provides a feedback channel for requirement changes.\\\\
-%Taking test-driven development a step further, one may perceive the software system in its entirety as a large interface, and it's requirements as the tests. Use cases are textual descriptions of the functional requirements of the system, which are typically written in a semi-formal language, using only terms clearly defined within a domain model or glossary.\\
-%Applying transformations to use cases derived from requirements, turning them into automated acceptance tests, could provide a more requirement-oriented development method, keeping the requirements in the loop during the entire development process.
-
-%\section{Project}
-%The approach motioned above is influenced by model driven development, formal methods
-%\begin{itemize}
-%  \item Identify generalizable traits of automated acceptance test generation from a case study focusing on the constraints/complexity reduction tradeoff.
-%  \item Establish a process for identifying requirements, research and possibly create methods for formalizing them
-%  \item Build a proof-of-concept tool for generating tests from use cases
-  %\item Evaluate the value of the approach.
-%\end{itemize}
-%A growing numer of software systems are being moved to the cloud, which makes it a lot easier to make "rolling releases", rather than monolithic releases. %TODO More
-
-%During the development of the OpenReception project, the team have applied a number of ah-hoc measures to 
 
 \bibliographystyle{plain}
 \bibliography{references}
