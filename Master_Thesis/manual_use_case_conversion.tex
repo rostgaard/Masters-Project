@@ -1,46 +1,4 @@
-\documentclass[10pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{usecases}
-\usepackage{listings}
-\usepackage{color}
-
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-% Define colors used for listings
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-% Configuration for listings
-\lstset{%
-numbers=left,
-frame=single,
-basicstyle=\small,
-numbers=left,
-numberstyle=\tiny,
-numbersep=15pt,tabsize=4,
-flexiblecolumns=true,
-keywordstyle=\color{blue},
-commentstyle=\color{dkgreen},
-stringstyle=\color{mauve},
-numberstyle=\tiny\color{gray},
-language=Java,
-breaklines=true,
-breakatwhitespace=true,
-morekeywords={*,num,String,var,library,get,set} ,
-}
-
-\author{Kim Rostgaard Christensen}
-\begin{document}
-
-%Note: Domain concepts are usually also present in the mapping, and are usually mapped directly to a class.
-\title{Use case translation concepts}
-\maketitle
+%Note: Maybe for glossary: Domain concepts are usually also present in the mapping, and are usually mapped directly to a class.
 This section takes offset in an use case description, and tries to go through the steps needed to convert it into an acceptance tests. The use case used in this text is outlined below in verbatim text.
 \begin{verbatim}
 Scenario:
@@ -152,4 +110,4 @@ class Message {
  \includegraphics[scale=0.45]{img/uc2_test_config}
  \caption{Object diagram showing the use case as mapped test}
 \end{figure}
-\end{document}
+
