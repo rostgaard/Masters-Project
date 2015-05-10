@@ -1,0 +1,305 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{usecases}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% Define colors used for listings
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% Configuration for listings
+\lstset{%
+numbers=left,
+frame=single,
+basicstyle=\small,
+numbers=left,
+numberstyle=\tiny,
+numbersep=15pt,tabsize=4,
+flexiblecolumns=true,
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+numberstyle=\tiny\color{gray},
+language=Java,
+breaklines=true,
+breakatwhitespace=true,
+morekeywords={*,num,String,var,library,get,set} ,
+}
+
+\author{Kim Rostgaard Christensen}
+\begin{document}
+
+\title{Use case translation}
+\maketitle
+
+\section{Introduction}
+This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it. But first, a quick look at the glossary is suggested in order to define the problem domain of the use cases.
+\section{Glossary}
+In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
+\begin{description}
+  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
+  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
+  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
+\end{description}
+This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
+\section{Use case semantics}
+To help us extract the semantics of use cases, we've hand-picked two use cases from our case study system.\\\\
+The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
+The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
+
+\subsection{Identifying concepts}
+The first concept we know, for certain, should got into our meta model is the use case. It serves as our top-level concept that every other concept, in some way, relates to. From here on, we go back to our two case study use cases use cases where we can easily -- by manual inspection -- identify various concepts that most likely also belongs in a domain model. In use case 1 (figure \ref{fig:uc1}), we see three different actors: A receptionist, a contact and a caller. We also have a primary actor that provides us with the ``glasses'' we see the use case through. This, in conclusion, means that we need an actor as part of our domain model, and an association between a use case and an actor.\\\\
+Skipping the pre- and postconditions for now, we take a look at the ``Main success scenario'' and see that, broadly speaking, each use case action involves one actor performing an action, possibly affecting a target object -- which could be another actor. For the purpose of generating tests, it is not important that actors may target other actors though their actions, and this association is therefore left out of the meta model.\\\\
+Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
+Postconditions are defined to be predicates. This is because they share the common trait that they must be true, for the given expression to be true. In our case, the postcondition ``Receptionist is ready for next call'' states the actor receptionist that is participating in this use case, must be in a specific state when the last statement of the use case is done. A postcondition should refer to an actor, target or action previously defined in the use case to avoid redundant mapping. The predicate itself can be some sort of quantifiable strict logic such as ``Message has recipients'', or could as an extension be defined as the more loose ``Message should have recipients'', which should map to a warning in the generated tests, rather than an error.
+
+Pre and post-conditions are operations that work on expressions rather than statements
+
+Alternate scenarios are not yet covered.
+
+\subsection{Meta model}
+This section contains a brief discussion of a meta model that could be used for translating use cases into test cases. The discussion is supported by the graphical model depicted in figure \ref{fig:meta_model}\\\\
+Within the definition mapping, the mapping class denotes the relation between either a predicate and a predicate expression, or a statement (indirectly by the actor, action, target composition). The mapping is uniquely defined by mapping by its composition of an actor, an action and a target, as it should be safe to assume that ``The contact accepts the call'' means the same no matter which use case it appears in. Each mapping will imply a requirement on a resource, which can be any actor or target. The are basically constraints stating the minimum functionality the test framework\footnote{Domain-specific scaffolding code that needs to be written by hand} should have to make the generated test code runnable. These resources could, in test code frameworks, be provided by factory classes or object pools.\\\\
+Tests are the output of a sequence of mappings, that has a state which is then defined by the mappings that originally defined the test. The test will also have references to the predicate expressions that are outputted by mappings as well.
+
+\begin{figure}[h]
+  \centering
+ 
+  \includegraphics[scale=0.72]{img/use_case_meta_model}
+  \caption{Intermediate meta model for use case representation along with tests}
+  \label{fig:use_case_meta_model}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+ 
+  \includegraphics[scale=0.72]{img/use_case_mapping}
+  \caption{Use case mapping}
+  \label{fig:use_case_mapping}
+\end{figure}
+
+\section{Mapping manually}
+Within a use case there are some bits of implicit knowledge that we need to extract. To begin with, we observe that for the use cases in figure \ref{fig:uc1} and \ref{fig:uc2}, there are domain actors involved.
+
+Each involved domain actor will then be mapped to a wrapper class that represents the domain object, and could possibly extend a class from the implemented code base.
+
+In order to get the actor object to perform actions, we need to map the actions in the use case to some functions associated with the actor class. These functions could be a direct link to a method that is part of the main codebase which is tested against, a new method written specifically for this purpose - or a macro function that combines functionality from different domain concepts in a single functions.
+
+Whenever there is a mention of an object (a target of an action) which could be, for instance, a message object we assume that its the same object that is tracked during the entire use case. So, from use case 2, we have ``Receptionist sends the message via the system'' in the main success scenario and ``Message is stored and ready for dispatching'' in the postconditions.
+
+Regarding the test as a function
+
+%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
+
+\section{Test case state}
+A test consists of three basic steps; setup, run and teardown. Setup and teardown is different from pre- and postcondition in that they are unrelated to the test itself, they merely make sure that objects are initialized with right values and, in general, are in the state that the test expects.
+
+There needs to be an executable domain model programmed, not necessarily complete, but the concepts covered in the use cases should at least be there. So for \ref{fig:uc2}. We need at least a class representing the actor ``Receptionist'', and a class representing a message. The actions performed by the actor could then either be class methods, or simply functions taking the primary actor (or more exact; classes of the actor), as an argument.
+
+
+%NOTE: The test mapper will then select the "essentials" of the sentence, which could be just the verb, noun and object.
+\label{sec:test_case_state}
+
+
+\section{Test case example}
+\begin{lstlisting}
+void use_case_1 (Receptionist receptionist) {
+
+   MessageObjectFactory messageObjectFactory = new MessageObjectFactory();
+   Message message = messageObjectFactory.create();
+
+   // Preconditions
+   Matcher.has (selected_contact (receptionist));
+
+   // Use case body 
+   receptionist.types_in(message);
+   receptionist.sends(message);
+   receptionist.marks_state_idle();
+
+   // Postconditions 
+   Matcher.is_true (is_stored (message));
+   Matcher.is_true (is_idle (receptionist));
+}
+\end{lstlisting}
+
+\begin{figure}
+  \centering
+ 
+  \includegraphics[scale=0.6]{img/uc2_test_config}
+  \caption{object diagram depicting the configuration of use case 2}
+  \label{fig:uc2_object_diagram}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+\begin{usecase}
+
+\addtitle{Use Case 1}{Transfer to contact} 
+
+%Scope: the system under design
+\addfield{Scope:}{System-wide}
+
+%Description: A brief description of the use case
+\addfield{Description:}{The receptionist actor must be able to transfer an active call to a chosen -- dialed -- contact associated with the currently active reception}
+
+%Level: "user-goal" or "subfunction"
+\addfield{Level:}{User-goal}
+
+%Primary Actor: Calls on the system to deliver its services.
+\addfield{Primary Actor:}{Receptionist actor}
+
+%Stakeholders and Interests: Who cares about this use case and what do they want?
+\additemizedfield{Stakeholders and Interests:}{
+	\item Receptionist: Wants to process the call with regards to the caller's wishes
+	\item Caller: Wants to reach a specific contact
+}
+
+%Preconditions: What must be true on start and worth telling the reader?
+\additemizedfield{Preconditions:}{
+      \item Receptionist has picked up incoming call from caller
+      \item Receptionist has parked incoming call
+}
+%when multiple
+%\additemizedfield{Preconditions:}{} 
+
+%Postconditions: What must be true on successful completion and worth telling the reader
+\additemizedfield{Postconditions:}{
+      \item Caller and contact's phones are connected
+      \item Receptionist is no longer in call and ready for next call      
+}
+%when multiple
+%\additemizedfield{Preconditions:}{}
+
+%Main Success Scenario: A typical, unconditional happy path scenario of success.
+\addscenario{Main Success Scenario:}{
+      \item Receptionist dials a number of the selected contact
+      \item The contact accepts the call (picks up)
+      \item Receptionist has a dialogue with contact
+      \item Receptionist transfers contact to caller
+      \item Receptionist marks his/her state as idle.
+}
+
+%Extensions: Alternate scenarios of success or failure.
+\addscenario{Extensions:}{
+	\item[2.a] Contact cannot be reached
+		\begin{enumerate}
+		\item[1.] Receptionist tries alternate contact
+		\item[2.] Receptionist returns to step 1
+		\end{enumerate}
+	\item[3.a] Contact declines transfer
+		\begin{enumerate}
+		\item[1.] Receptionist hangs up contact
+		\item[2.] Receptionist picks up caller
+		\item[3.] Receptionist offers caller to leave a message
+		\item[4a.] Caller wishes to leave a message
+		\begin{enumerate}
+			\item[1.] Receptionist types in message and caller information
+			\item[2.] Receptionist saves message
+		\end{enumerate}
+		\item[4b.] Caller does not wish to leave a message
+		\item[5] Receptionist ends call with caller
+		\item[6] Receptionist returns to step 6
+		\end{enumerate}
+}
+
+%Special Requirements: Related non-functional requirements.
+%\additemizedfield{Special Requirements:}{
+%	\item first applicable non-functional requirement
+%	\item second applicable non-functional requirement
+%}
+
+%Technology and Data Variations List: Varying I/O methods and data formats.
+%\addscenario{Technology and Data Variations List:}{
+%	\item[1a.] Alternative first action with other technology
+%}
+
+%Frequency of Occurrence: Influences investigation, testing and timing of implementation.
+%\addfield{Frequency of Occurrence:}{}
+
+%Miscellaneous: Such as open issues/questions
+%\addfield{Open Issues:}{}
+
+\end{usecase}
+   \caption{Use case 1: Forward call to contact}
+  \label{fig:uc1}
+
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+\begin{usecase}
+
+\addtitle{Use Case 2}{Send Message to contact} 
+
+%Scope: the system under design
+\addfield{Scope:}{System-wide}
+
+%Description: A brief description of the use case
+\addfield{Description:}{A receptionist must be able to send a message -- via a distribution list -- to a contact, typically containing information received verbally via a call. An example use case, from the receptionist actor point of view is outlined below.}
+
+%Level: "user-goal" or "subfunction"
+\addfield{Level:}{User-goal}
+
+%Primary Actor: Calls on the system to deliver its services.
+\addfield{Primary Actor:}{Receptionist actor}
+
+%Stakeholders and Interests: Who cares about this use case and what do they want?
+%\additemizedfield{Stakeholders and Interests:}{
+%	\item Receptionist: Wants to process the call with regards to the caller's wishes
+%	\item Stakeholder 2 name: his interests
+%}
+
+\additemizedfield{Preconditions:}{
+      \item Receptionist have selected a contact who will serve as message recipient
+} 
+
+%Postconditions: What must be true on successful completion and worth telling the reader
+\additemizedfield{Postconditions:}{
+      \item Message is stored and ready for dispatching
+      \item Receptionist is idle
+}
+
+%Main Success Scenario: A typical, unconditional happy path scenario of success.
+\addscenario{Main Success Scenario:}{
+      \item Receptionist types in message
+      \item Receptionist sends the message via the system
+      \item Receptionist marks his/her state as idle.
+}
+
+%Extensions: Alternate scenarios of success or failure.
+%\addscenario{Extensions:}{}
+
+\end{usecase}
+   \caption{Use case 2: Send message to contact}
+  \label{fig:uc2}
+\end{figure}
+
+%TODO Integrate and finalize notes below.
+
+%\section{Test framework}
+% You need to write a test framework containing object pools, factory classes aso.
+%\subsection{Exploiting injected semantics}
+%How may we benefit from additional semantics? We can identify rubbish postconditions, such as predicates that involve objects that are either not modified in the statements, or simply never referenced.
+
+%\section{Evaluating a use case}
+%A use case can be modeled as a function taking in a starting environment and returning a boolean value, so $U \rightarrow env \rightarrow bool$
+
+%The expression of a use case that consists of $n$ statements then becomes: 
+%$Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env$
+%The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
+%\texttt{matcher expression} ($s$)
+
+%Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
+%Test cases may further introduce dependencies, such as messageStore
+
+\end{document}
