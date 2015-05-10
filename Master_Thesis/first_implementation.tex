@@ -1,0 +1,48 @@
+It became increasingly difficult to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and return to idle state. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.\\\\
+The next challenge was then to determine which actions should be automated, and how much they should be automated? This was easily solved by reverse engineering a partial activity diagram from the use cases, and add the missing parts with the help of a representative from Responsum. Once we had the activity diagram, we decided that every macro-action we wanted to automate (in executable code) mirrored an action in the activity diagram. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We dubbed this ``use-case oriented scripting''.\\\\
+In this scripting environment, we started to outline some of the domain actors (such as contact and receptionists), the services interfaces, and domain concepts (such as calls and messages).
+
+\section{Mapping}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.90\textwidth]{\imgdir example_test_case}
+\caption{Patterns in generated test case}
+\label{fig:domain_model}
+\end{figure}
+The first implementation merely mapped every action, precondition and postcondition line to a code block. So, for instance, the %TODO example.
+
+Then we assigned every line a unique identification and mapped the identification to individual code chunks meant for three specific purposes;
+\begin{description}
+  \item[Visualization:] A graphical presentation of the use case in the form of a sequence diagram. In our specific case, we used a tool called seqdiag, and an example of the input is shown is shown in listing \ref{lst:seqdiag_code_example}. The main concept of this was to provide convenient overview of how, and when, the interaction between the actors happened.
+  \item[Documentation:] In the OpenReception project, every bit of the documentation lives in a Wiki which is formatted using Markdown. This meant that we could link the source documents associated with use case to the use cases themselves. Generation of use case documentation in the Wiki was using these document fragments.
+  \item[Testing] The final, and most significant part of the system, was the ability to generate use case tests from the actual use cases. This meant that we needed to describe every action in the use case as bit of code and then patch it together using the list of actions, pre- and postconditions provided in the use case descriptions. An example of an assembled is shown in listing \ref{lst:example_python_output}.
+\end{description}
+\begin{lstlisting}[language=Bash, caption=Example seqdiag input, label=lst:seqdiag_code_example]
+
+Receptionist-N ->> Klient-N [label = "genvej: fokus-modtagerliste", note = "maaske"];
+Receptionist-N ->> Klient-N [label = "retter modtagerlisten"];
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Example Python code output, label=lst:example_python_output]
+# \${WIKI_URL}
+from forward_call import Test_Case
+class Sequence_Diagram (Test_Case):
+def test_Run (self):
+try:
+Incoming_Call_ID = self.Preconditions ()
+self.Step (Message = "Receptionist-N ->> Klient-N [genvej: ring-til-primaert-nummer]")
+Outgoing_Call_ID = self.Receptionist_Places_Call (Number = self.Callee.sip_uri ())
+self.Step (Message = "Call-Flow-Control ->> FreeSWITCH [ring-op: telefon-N, nummer]")
+self.Callee_Receives_Call ()
+self.Step (Message = "FreeSWITCH ->> FreeSWITCH [forbind opkald og telefon-N]")
+\end{lstlisting}
+
+\noindent
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own
+
+
+We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.
+
+
+A lot about about the test framework.
