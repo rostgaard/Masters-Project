@@ -2,7 +2,22 @@ This project uses the open source project ``OpenReception'' as case study. The p
 OpenReception web-based software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide then with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\\ This component-oriented design has also helped the testing process, as it enabled individual components to be tested and verified independently of the others.
 
 \section{Project scope}
-The fundemental requirements for the system originates directly from the fact, that is is supposed to be a drop-in replacement of an exisiting system. It should therefore, as a bare minimum, mirror the features of the existing system.\\
-However, the current system has been in production for over ten years and lessons-learned has taught the customer how the system should be improved. %TODO maybe add a list of requirements.
+The fundamental requirements for the system originates directly from the fact, that is is supposed to be a drop-in replacement of an existing system. It should therefore, as a bare minimum, mirror the features of the existing system.\\
+However, the current system has been in production for over ten years and lessons-learned has taught the customer how the system should be improved. Another thing that had to be considered, was the fact that the current system had proven it's stability. Despite being far from perfect, it was certainly usable and provided the technical means for the customer to keep the gears of their business model oiled.
 
+%TODO maybe add a list of requirements.
+%TODO features broke all the time, when was the system done?, Jenkins was introduced ...
 %Use cases are stored in a wiki.
+
+\section{Chosen architecture}
+Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault.
+
+%Something about fault handling, and about not knowning the "failure space"
+
+\section{Implementation}
+\subsection{Fault tolerance}
+Fault tolerance is built into the system, by first decomposing the system into a lot of smaller parts, reduce the amount the amount of communication (in particular; two-way communication) needed for the system to function, at least partially.
+
+\subsection{Stateless architecture}
+We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It build upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.
+
