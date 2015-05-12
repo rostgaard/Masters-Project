@@ -10,14 +10,28 @@ However, the current system has been in production for over ten years and lesson
 %Use cases are stored in a wiki.
 
 \section{Chosen architecture}
-Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault.
+Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault. The component diagram in figure \ref{fig:component_diagramt} shows the architecture, and also gives away some hints about which components are critical, and which are not. Basically, the most critical path is the one that originates from the ``Receptionist Client'' and ends in the ``SIP trunk'' component. These components are considered soft real-time components and are essential for an operation. Fallout of any of these components means direct financial loss for the customer. Fallout of any of the other components (except for SIP Phone, which is actually part of the critical path mentioned above) are tolerated in the design, and the stateless nature of REST (see section \ref{sec:rest}) enables us to maintain caches that can supply clients with the data they need for handling calls.
 
 %Something about fault handling, and about not knowning the "failure space"
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
+\caption{Component diagram}
+\label{fig:component_diagramt}
+\end{figure}
 
 \section{Implementation}
 \subsection{Fault tolerance}
 Fault tolerance is built into the system, by first decomposing the system into a lot of smaller parts, reduce the amount the amount of communication (in particular; two-way communication) needed for the system to function, at least partially.
 
 \subsection{Stateless architecture}
-We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It build upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.
+\label{sec:rest}
+We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It is a client/server protocol that bases itself upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.\\
+Automated system testing is also simplified quite a bit, when you don't need to take into account a protocol state.
+
+\subsection{Loose coupling of components} 
+In order to minimize the damage of a component failing, we have further atomized the REST API's that we created into smaller services, each responsible for only handling one single task. This is what is, informally, defined as the ``bulkhead pattern''. Originating from naval vessel floating compartments, that was composed of several individual bulkheads. These bulkheads could then be closed off, in case of a leakage in one of them. A parallel to software engineering is to divide your application into separate operating system processes that can be terminated if they start to leak memory, consume excessive amounts of CPU time, or merely lock up. Sometimes, killing worker processes is used as a preemptive method of assuring that processes are kept under control. The Apache HTTPD web server uses this strategy by maximizing the number of requests\footnote{http://httpd.apache.org/docs/2.2/mod/worker.html} a worker process may serve before being terminated and replaced.\\
+In our architecture, we have divided the database operations, dialplan generation, CDR\footnote{Call Detail Records: records of call duration and other information used for invoicing} into dedicated servers, that may be replaced -- even while in production.
+
 
