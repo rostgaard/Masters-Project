@@ -39,10 +39,18 @@ self.Step (Message = "FreeSWITCH ->> FreeSWITCH [forbind opkald og telefon-N]")
 \end{lstlisting}
 
 \noindent
-The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions. %TODO example.
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\
+
+Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}. Missing methods, or problems in generated code was identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.
+
+%TODO example.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.20\textwidth]{\imgdir first_generation_class_structure}
+\caption{Class diagram outlining the overall hierarchy of executable use cases}
+\label{fig:first_generation_class_structure}
+\end{figure}
 
 
 We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.
-
-
-A lot about about the test framework.
