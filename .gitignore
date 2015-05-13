@@ -1,4 +1,9 @@
 Master_Thesis/*.pdf
+Master_Thesis/Thesis.glo
+Master_Thesis/Thesis.ist
+Master_Thesis/Thesis.toc
+Master_Thesis/Thesis.xdy
+
 *.aux
 *.bbl
 *.log
@@ -6,3 +11,7 @@ Master_Thesis/*.pdf
 *.synctex.gz
 *.dvi
 *~
+
+
+# Images that should be generated.
+Master_Thesis/img/component_diagram.pdf
