@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{usecases}
 
 \author{Kim Rostgaard Christensen}
 \title{Requirements as tests}
@@ -106,8 +107,11 @@ morekeywords={*,num,String,var,library,get,set} ,
 
 %TODO section om mappings and levels of mappings. From Crude (having _one_ ast that is _the_ use case downto full semantics in language). One ast is what was done initially in Coverage_Tests.
 
+
 \begin{document}
 \maketitle
+ 
+\tableofcontents
 
 \begin{fquote}[ -- Johann Wolfgang von Goethe][The Sorrows of Young Werthe][1774]Misunderstandings and neglect occasion more mischief in the world than even malice and wickedness. At all events, the two latter are of less frequent occurrence.
 \end{fquote}
@@ -122,15 +126,24 @@ The world of software is has over the years been tainted with stories about fail
 %\section{Acknowledgements}
 %Tom Desair\footnote{http://www.tomdesair.com} for making his \LaTeX use case available for the general public, and especially this author who has benefited greatly from them.
 
+\section{Glossary}
+In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
+\begin{description}
+  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
+  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
+  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
+  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
+  \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
+\end{description}
+This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
 
-\input{introduction}
 \section{Evolution of software engineering}
 The natural evolution of software engineering points towards increasing the level of abstraction, moving closer to the usage models that they try capture. Another benefit of using models is that they communicate much better than, for instance, source code. Whereas source code is usually filled with non-essential implementation-specific details, models aim only to capture the essence of what it represents. Models, lacking these details, are challenging to execute. An doing so requires a great deal of extra work, filling out the details with either code snibblets or equivalent constraints -- such as OCL.\footnote{Object Constraint Language - part of UML}\\\\
 One problem with this approach is a that much technical knowledge is required to formulate the models, OCL constraints and/or snibblets required for the system to function. For most technical staff it feels like meta-programming that keeps them from doing real programming.
 \\\\
 Ideally, the person requesting the software being modeled (the customer), should do a lot of the modeling by him/herself. This, however, has historically proven itself infeasible as customers rarely know much about modeling or programming, and if they did, would probably not be requesting software but rather making it on their own.
 \\\\
-This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them.
+This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them. computer
 
 The ultimate goal is to identify -- or create --  a tool and/or a process that is able to extract the essential information, in a formal format, from informal information. Keeping as close to natural language as possible.
 
@@ -159,6 +172,10 @@ The task felt ripe for automation. But first, we needed some sort of abstract re
 
 \section{The verification problem}
 %TODO V-model.
+
+\chapter{Brainstorm}
+
+\input{brainstorm}
 
 \section{Proposed solution}
 "Side-cart" tool that (maybe) uses natural language processing. The developement is supported by a two-sided approach. Both top-down and bottom-up. Meaning that design an implementation will go hand-in-hand and hopefully lead to a good middle-road.
@@ -258,7 +275,7 @@ Wiki-collaboration to "lazily" define the problem domain and verification condit
 \section{Framework discussion}
 \subsection{Metrics}
 % How many lines of code is the support tools? The middleware framework?
-% How is it compared to the activities?
+% How is it compared to the activity count in the activity diagram?
 \subsection{Recommended test framework guidelines}
 %Use allocation pools
 %Use interfaces a objects.
@@ -299,6 +316,9 @@ An important aspect to keep in mind is that context is important. Writing hundre
 
 \section{Expressing requirements}
 %Requirement gathering and documentation often feels a lot like stating the obvious, and being overly-verbose.
+
+\section{Use case translation}
+\input{ast_use_case}
 
 \section{Targeted requirements}
 We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
