@@ -120,7 +120,6 @@ The world of software is has over the years been tainted with stories about fail
 \end{abstract}
 
 \chapter{Introduction}
-
 \input{introduction}
 
 %\section{Acknowledgements}
@@ -129,6 +128,7 @@ The world of software is has over the years been tainted with stories about fail
 \section{Glossary}
 In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
 \begin{description}
+  \item[Customer:] The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
   \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
   \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
   \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
@@ -151,30 +151,31 @@ The ultimate goal is to identify -- or create --  a tool and/or a process that i
 \subsection{Bad requirements}
 In software engineering there is a rule of thumb saying that requirements should be testable. This probably originates from the more general rule that goals should be measurable, recognizing that a requirement is ultimately a goal and a test is a actually a measure. Having this in mind can prevent a fair amount of bad requirements.
 % Something about the level of detailm the completeness and feedback loop. Prototyping an agile development.
-\section{Terminology}
-\subsection{Three kinds of models}
-This document will use three descriptions for models, which cover;
-\subsubsection{Informal models}
-Informal models are used to describe models whose primary purpose is serve as a communication or documentation tool, not have strict semantics and cannot be used for code generation or model-checking.
-\subsubsection{Formal models}
-Formal models, which can be used for verification -- such as Z or VDM or plain math. Anything that has strict semantics and can be used to unambiguously generate code.
-\subsubsection{Meta-models}
-Meta-models that model other models, such as UML.
+%\section{Terminology}
+%\subsection{Three kinds of models}
+%This document will use three descriptions for models, which cover;
+%\subsubsection{Informal models}
+%Informal models are used to describe models whose primary purpose is serve as a communication or documentation tool, not have strict semantics and cannot be used for code generation or model-checking.
+%\subsubsection{Formal models}
+%Formal models, which can be used for verification -- such as Z or VDM or plain math. Anything that has strict semantics and can be used to unambiguously generate code.
+%\subsubsection{Meta-models}
+%Meta-models that model other models, such as UML.
 
 \section{Background}
 \input{background}
 
 \section{First implementation}
-
-
 The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
 \input{first_implementation}
 
-\section{The verification problem}
+%\section{The verification problem}
 %TODO V-model.
+\section{Second implementation}
+During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. This section explains the processes of exploiting this framework for a third application; namely testing.
+\input{second_implementation}
 
-\chapter{Brainstorm}
 
+\section{Brainstorm}
 \input{brainstorm}
 
 \section{Proposed solution}
@@ -209,9 +210,9 @@ The task felt ripe for automation. But first, we needed some sort of abstract re
 \end{figure}
 
 
-\section{Related work}
-\subsection{Writing requirements as tests}
-\subsection{Writing requirements in formal language}
+%\section{Related work}
+%\subsection{Writing requirements as tests}
+%\subsection{Writing requirements in formal language}
 
 \section{Brainstorming}
 The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
@@ -237,10 +238,6 @@ What is in the customers interest is having acceptance tests match the use cases
 Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
 
 % Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
-
-\section{Glossary}
-\subsection{Customer}
-The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
 
 \section{Extracting semantic}
 Example; in the use case it is stated that a call is hung up and a callee awaits this event. The lifeline of the call is however not tracked and to be able to properly assert the true state of this, the code macro needs to into account this lifeline and reflect on which assertions hold for every stakeholder that has knowledge of the call. % TODO: Elaborate the example and explain that a phone call is a good example because it has an A and B-leg and potentially a system that tracks its state.
