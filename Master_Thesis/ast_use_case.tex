@@ -1,56 +1,6 @@
-\documentclass[10pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{usecases}
-\usepackage{listings}
-\usepackage{color}
+%TODO Add a section on multiple actors and race conditions. How do you create a use case that contains multiple simultanious instances of actors that perform the same action synchronously? Basically asserting parallel properties.
 
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-% Define colors used for listings
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-% Configuration for listings
-\lstset{%
-numbers=left,
-frame=single,
-basicstyle=\small,
-numbers=left,
-numberstyle=\tiny,
-numbersep=15pt,tabsize=4,
-flexiblecolumns=true,
-keywordstyle=\color{blue},
-commentstyle=\color{dkgreen},
-stringstyle=\color{mauve},
-numberstyle=\tiny\color{gray},
-language=Java,
-breaklines=true,
-breakatwhitespace=true,
-morekeywords={*,num,String,var,library,get,set} ,
-}
-
-\author{Kim Rostgaard Christensen}
-\begin{document}
-
-\title{Use case translation}
-\maketitle
-
-\section{Introduction}
-This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it. But first, a quick look at the glossary is suggested in order to define the problem domain of the use cases.
-\section{Glossary}
-In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
-\begin{description}
-  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
-  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
-  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
-\end{description}
-This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
+This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
 \section{Use case semantics}
 To help us extract the semantics of use cases, we've hand-picked two use cases from our case study system.\\\\
 The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
@@ -301,5 +251,3 @@ void use_case_1 (Receptionist receptionist) {
 
 %Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
 %Test cases may further introduce dependencies, such as messageStore
-
-\end{document}
