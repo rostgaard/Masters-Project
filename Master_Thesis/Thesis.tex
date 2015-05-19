@@ -98,8 +98,6 @@ morekeywords={*,num,String,var,library,get,set} ,
 
 \newcommand{\imgdir}{./img/} % Set the folder which contains the specific images for the report
 
-
-
 %TODO
 % Write up 3-4 use cases. How they relate to each other. Maps to concept, and work on a conceptual level.
 
@@ -112,11 +110,12 @@ morekeywords={*,num,String,var,library,get,set} ,
 \maketitle
  
 \tableofcontents
+\newpage
 
 \begin{fquote}[ -- Johann Wolfgang von Goethe][The Sorrows of Young Werthe][1774]Misunderstandings and neglect occasion more mischief in the world than even malice and wickedness. At all events, the two latter are of less frequent occurrence.
 \end{fquote}
 \begin{abstract}
-The world of software is has over the years been tainted with stories about failed projects. Almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply erroneous requirement specifications.
+The world of software is has over the years been tainted with stories about failed projects. Almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply erroneous requirement specifications. In the last decades more emphasis have been put on the agile methods, where smaller time-boxed iterations intricately contains every development phase; design, implementation, documentation and validation. Requirement refinement and elicitation may, however, be left dead-in-the-water and remain a \emph{de facto} waterfall phase with neither feed-back from implementation and validation, nor feed-forward to validation.
 \end{abstract}
 
 \chapter{Introduction}
@@ -137,15 +136,12 @@ In this section brief glossary from the problem domain is provided to cover the 
 \end{description}
 This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
 
-\section{Evolution of software engineering}
+\chapter{Top-down}
+\subsection{Evolution of software engineering}
 The natural evolution of software engineering points towards increasing the level of abstraction, moving closer to the usage models that they try capture. Another benefit of using models is that they communicate much better than, for instance, source code. Whereas source code is usually filled with non-essential implementation-specific details, models aim only to capture the essence of what it represents. Models, lacking these details, are challenging to execute. An doing so requires a great deal of extra work, filling out the details with either code snibblets or equivalent constraints -- such as OCL.\footnote{Object Constraint Language - part of UML}\\\\
 One problem with this approach is a that much technical knowledge is required to formulate the models, OCL constraints and/or snibblets required for the system to function. For most technical staff it feels like meta-programming that keeps them from doing real programming.
 \\\\
 Ideally, the person requesting the software being modeled (the customer), should do a lot of the modeling by him/herself. This, however, has historically proven itself infeasible as customers rarely know much about modeling or programming, and if they did, would probably not be requesting software but rather making it on their own.
-\\\\
-This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them. computer
-
-The ultimate goal is to identify -- or create --  a tool and/or a process that is able to extract the essential information, in a formal format, from informal information. Keeping as close to natural language as possible.
 
 % Stub - I don't know where it should go;
 \subsection{Bad requirements}

@@ -1,3 +1,5 @@
+%TODO What is the scope of this? Is it for small/large projects? Long-lived projects? Continously evolving projects?
+
 Within software projects, documented requirements often become outdated and irrelevant over time as requirements are implemented and verified manually. For long-lived projects that continuously add features and components this problem is even greater, as maintenance of requirements while adding new ones significantly increases the risk of requirement documentation decay further.\\\\
 Requirement maintenance is usually a time-consuming and tedious task with little -- immediately -- added value. When, for example, an implementation-specific constraint is forcing a requirement change, the change may propagate to the requirements, but not back into the validation.\\
 When kept up-to-date and well-structured requirements usually maps nicely to integration tests (either manual or automatic), but maintenance is needed for both if requirements change. It would therefore be very desirable to formalize requirements so that changes propagate to tests automatically.\\\\
@@ -6,6 +8,11 @@ These systems are, however, rarely used in practice, as they are very rigid and 
 Customers, on the other hand, are usually interested in very high level usage of systems, communicated in a natural language; such as ``The system should continuously monitor user activity and create statistics for a manager''. A statement such as this contains a lot of implicit domain knowledge and give rise to additional questions that needs to be answered and documented.\\\\
 So, in summary, the dynamics of a requirement gathering have two opposite sides; one wishes more formalism, and the other wants less. The big question is then; can we find a middle ground? A methodology that constrains the user enough to inject useful semantics and structure in requirements, while keeping as much of the natural language as possible.\\
 If the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, we would be also able to automatically generate system tests from them. By generating these tests, we effectively provide a feedback channel from implementation to requirements, as these tests will serve as a link between requirements and implementation.
+
+%Decoupled.
+This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them. computer
+
+The ultimate goal is to identify -- or create --  a tool and/or a process that is able to extract the essential information, in a formal format, from informal information. Keeping as close to natural language as possible.
 
 \section{Existing mapping methods}
 Usually mappings between requirement and implementation is non-existing. But when a mapping exists, it is usually implemented by an ad-hoc notation system, such as comments that link to source code files or integration tests. There exist systems that control the requirement tractability, but these tools usually target the safety-critical software market and are, thus, not really suited for mainstream development.\\%TODO Reference
