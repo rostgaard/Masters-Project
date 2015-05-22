@@ -112,6 +112,8 @@ class Message {
 \end{figure}
 The function mappings are done in the current solution, by manually writing up the logic needed in a support library, that in many situations reuse the framework directly. For instance, for every service, we have made a client class that, similar to RMI or WSDL handles all the low-level serialization and deserialization work. 
 
+This enables us, in our tests to merely require that an interface (a client of it, that is) is provided to use, rather than having to explicitly elaborate the code in the test case.
+
 %TODO Brief discussion on randomizers.
 
 \begin{figure}
