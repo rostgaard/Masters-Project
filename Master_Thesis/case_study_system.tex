@@ -36,4 +36,83 @@ In our architecture, we have divided the database operations, dialplan generatio
 
 \subsection{Reactive application}
 \label{ssec:server_notifications}
-As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the only way we could get the client interface to respond to system events in real-time.
+As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the optimal way we could get the client interface to respond to system events in real-time.
+
+\section{Testing strategy}
+\label{sec:test}
+During the progression of the project, it became more and more clear to us that we were constrained by two parameters, in regards to testing:
+\begin{itemize}
+  \item We needed to verify the the functionality of system as a whole, and argue that it was free of instabilities. This functionality was defined in the use cases.
+  \item We had very limited man-hours available and, thus, had to prioritize very aggressively on what level to tests on.
+\end{itemize}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.6\textwidth]{\imgdir receptionist_workflow}
+\caption{Labeled activity diagram of the basic workflow of a receptionist}
+\label{fig:receptionist_workflow}
+\end{figure}
+Being that the system consisted of a number of loosely coupled components, some of them not under our control, we decided to focus on writing up black-box tests focusing on verifying the behavior of the individual components, or multiple connected components.\\
+Furthermore, we wanted to automate this using a continuous integration service that could run our tests for us, and provide us with reports on regressions, or identified bugs.\\\\
+The basic premise was then to assume everything worked and build tests from the perspective of how it should work, and abstract away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. The activities identified in the use cases where turned into an activity diagram (see figure \ref{fig:receptionist_workflow}), which had every activity node labeled. Any unique path through the activity diagram should then correspond to a use case, but more importantly; be realized by a test.
+
+
+\begin{lstlisting}[language=Python, caption=Example of a generated test, label=fig:python_test]
+
+# Inherit Test_Case class from forward_call generalization.
+from forward_call import Test_Case
+
+class Sequence_Diagram (Test_Case):
+  def test_Run (self):
+    try:
+      Incoming_Call_ID = self.Request_Customer_Call ()
+      Outgoing_Call_ID = self.Receptionist_Places_Call (Number = self.Callee.extension)
+      self.Callee_Receives_Call ()
+      self.Receptionist_Hears_Dialtone ()
+      self.Callee_Accepts_Call ()
+      self.Receptionist_Hangs_Up (Call_ID = Outgoing_Call_ID)
+      self.Callee_Receives_Hang_Up()
+      self.Teardown ()
+    except:
+      self.Teardown () # Cleanup processes started
+      raise            # Re-raise exception so that 
+                       # test fails after we cleaned up
+\end{lstlisting}
+
+\section{Testing}
+
+\subsubsection{Acceptance testing}
+%TODO: STUB, explain CI beforehand.
+An example of a generated sequence diagram is shown in figure \ref{fig:sequence_diagram_example}.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.5\textwidth]{\imgdir sequence_diagram_example}
+\caption{Eksempel på sekvensdiagram}
+\label{fig:sequence_diagram_example}
+\end{figure}
+By letting Jenkins CI automatically re-deploy the software stack and, run our acceptance test (along with a number of integration tests) every time the is any change to the code base, we both strengthen the confidence of the correctness (according to specification) of the software stack, and verify that no regressions arise. The continuous integration server can be reached at \url{http://ci.bitstack.dk/}
+
+
+\subsection{Causality and tests}
+%TODO stub
+Defining for the tests system what valid transitions are, by creating state machines, and then store object state transitions, we can substantiate that no objects within the system will break causality -- at least in the situations elaborated in the use cases.
+
+\subsection{Tools}
+%TODO PJSUA-wrapper, PhonIO, libESL
+
+
+\subsubsection{UI testing}
+%TODO Put to further work.
+It is planned to expand the testing with use case playback from the user interface. A basic framework has been built using the Selenium project\footnote{http://www.seleniumhq.org/}.
+
+\subsection{Revisioning}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.5\textwidth]{\imgdir git_branching}
+\caption{Development model}
+\label{fig:git_branching}
+\end{figure}
+
+
+
+
+
