@@ -10,9 +10,12 @@ So, in summary, the dynamics of a requirement gathering have two opposite sides;
 If the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, we would be also able to automatically generate system tests from them. By generating these tests, we effectively provide a feedback channel from implementation to requirements, as these tests will serve as a link between requirements and implementation.
 
 %Decoupled.
-This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them. computer
+This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them.
 
 The ultimate goal is to identify -- or create --  a tool and/or a process that is able to extract the essential information, in a formal format, from informal information. Keeping as close to natural language as possible.
+
+The methodology used in the process is two-headed. One is bottom-up, and the other is top-down. The bottom is to take an existing system where a rudimentary \emph{ad-hoc} implementation is used, and try to extract some general patterns from it. The top-down approach is to very broadly define the abstract concepts needed to make this entire project feasible. Ideally, there will be some common ground where both of the approaches can agree. The intended effect of choosing this approach is that it tries to keep things applicable, while being guided by an academic scope.
+
 
 \section{Existing mapping methods}
 Usually mappings between requirement and implementation is non-existing. But when a mapping exists, it is usually implemented by an ad-hoc notation system, such as comments that link to source code files or integration tests. There exist systems that control the requirement tractability, but these tools usually target the safety-critical software market and are, thus, not really suited for mainstream development.\\%TODO Reference
