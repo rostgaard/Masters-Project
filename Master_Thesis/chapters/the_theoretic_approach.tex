@@ -1,0 +1,270 @@
+\section{Costumer overview}
+The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
+
+More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
+
+\begin{figure}[h]
+\includegraphics[scale=0.75]{img/use_case_creation_activity_diagram}
+\centering
+\caption{Use case creation with different actors}
+\label{fig:use_case_creation_activity_diagram}
+\end{figure}
+
+What is in the customers interest is having acceptance tests match the use cases as closely as possible. Preferably, the should be able to be automated as well. Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving three actors, the customer, the engineer and the system\footnote{Use case system}. In this diagram, the customer authors use cases while adding missing definitions not already in the tool. A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
+
+\begin{figure}[h]
+\includegraphics[scale=0.9]{img/test_case_ui}
+\centering
+\caption{Use case editor UI mockup}
+\label{fig:use_case_editor_mockup}
+\end{figure}
+
+Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface from the customer point of view is shown in figure \ref{fig:use_case_editor_mockup}. A list of available actors (only containing one element, however) is shown on the right hand side. The main part of the window contains the use case currently being worked on. The bottom part of the window is the edit part, where dropdown lists of actions and targets resides.
+
+\section{Brainstorm}
+\input{brainstorm}
+
+\section{Proposed solution}
+"Side-cart" tool that (maybe) uses natural language processing. The developement is supported by a two-sided approach. Both top-down and bottom-up. Meaning that design an implementation will go hand-in-hand and hopefully lead to a good middle-road.
+%TODO something about existing approaches.
+%TODO Step-wise go through the enhancement process.
+%  - Basically, autogenerate the use case action code line
+%  - Infer some Class dependencies, which then becomes Framework dependencies.
+\input{chapters/manual_use_case_conversion}
+
+\begin{figure}
+  \centering
+ 
+  \includegraphics[scale=0.2]{img/frontdesk-client-ui.png}
+  \caption{Receptionist client user interface of existing system}
+  \label{fig:frontdesk-client-ui}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.2]{img/openreception-client-ui.png}
+  \caption{Receptionist client user interface of OpenReception system}
+  \label{fig:openreception-client-ui}
+\end{figure}
+
+\begin{figure}[h]
+%\includegraphics[scale=0.4]{img/activity_diagram_receptionist}
+\centering
+\caption{Activity diagram for the receptionist actor}
+\label{fig:activity_diagram_receptionist}
+\end{figure}
+
+
+%\section{Related work}
+%\subsection{Writing requirements as tests}
+%\subsection{Writing requirements in formal language}
+
+\section{Brainstorming}
+The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
+
+More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
+
+\begin{figure}[h]
+\includegraphics[scale=0.9]{img/use_case_creation_activity_diagram}
+\centering
+\caption{Use case creation with different actors}
+\label{fig:use_case_creation_activity_diagram}
+\end{figure}
+
+What is in the customers interest is having acceptance tests match the use cases as closely as possible. Preferably, the should be able to be automated as well. Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving three actors, the customer, the engineer and the system\footnote{Use case system}. In this diagram, the customer authors use cases while adding missing definitions not already in the tool. A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
+
+\begin{figure}[h]
+\includegraphics[scale=0.9]{img/test_case_ui}
+\centering
+\caption{Use case editor UI mockup}
+\label{fig:use_case_editor_mockup}
+\end{figure}
+
+Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
+
+% Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
+
+\section{Extracting semantic}
+Example; in the use case it is stated that a call is hung up and a callee awaits this event. The lifeline of the call is however not tracked and to be able to properly assert the true state of this, the code macro needs to into account this lifeline and reflect on which assertions hold for every stakeholder that has knowledge of the call. % TODO: Elaborate the example and explain that a phone call is a good example because it has an A and B-leg and potentially a system that tracks its state.
+
+\subsection{Letting the customer inject semantics}
+
+There are two basic approaches to letting the customer inject semantics into the requirements. The first is to do a full up-front declaration of every term used within the problem domain and supply this as a toolbox for the customer %todo example.
+The other approach is to do it on the go by outlining concepts as stubs whenever they appear. This approach is similar to what is used in wiki software. %todo eaxmple
+
+\section{Class-responsiblity-collaboration cards}
+%Nouns should turn into the classes of the card, verbs typically turn into the responsibilities of the card, and collaborators are the other cards with which the card will be interacting with.
+%FROM: http://en.wikipedia.org/wiki/Class-responsibility-collaboration_card
+
+\section{Verification problem}
+A big issue in software
+
+\section{End-user experience}
+%The challenge in documenting requirements is, and has always been, to formulate them on a non-ambiguous form. The quantification of ambiguity tends to be difficult as well, due to the fact that requirements are usually formulated in natural languages following some rules, such as pre-defined glossary and constraints. Constraints vocabulary typically consists of should, could, may, must.
+
+%As requirements are basically constraints to your system, a subset of them may be expressed as expressions following a formality that is machine-interpretable. Vienna Development Method (VDM) and Z notation are two approaches that tries to formally describe systems on a very high level, so that model-checking can be performed on it prior to programming.
+
+An example UI is Starting from scratch, the user would be expected to initially define at least one actor and add a sequence of actions that the actor perform.
+
+%Other method
+Wiki-collaboration to "lazily" define the problem domain and verification conditions along the way.
+
+\section{Test setup}
+%scaffolding and harness
+
+\section{Formulating requirements}
+
+\section{Framework discussion}
+\subsection{Metrics}
+% How many lines of code is the support tools? The middleware framework?
+% How is it compared to the activity count in the activity diagram?
+\subsection{Recommended test framework guidelines}
+%Use allocation pools
+%Use interfaces a objects.
+
+\section{Requirements as communication platform}
+
+Avoid technical jargon (\cite{christel1992issues})
+
+\section{Related work}
+\subsection{FIT Framework}
+
+We've taken an offset in use cases, but there could be other ways of structuring the requirements of a system, such as the SCRUM user story format;
+%Use the SCRUM approach. Don't describe a feature as
+%"It should be doing this and that in the following way"
+%While the sentence above describes all you need to know to implement the feature, it does not justify the feature. My SCRUM book says features should be written down as a story. A story looks like this:
+%"As a <user-role>
+%I need a <functionality>
+%So that I get <business value>"
+%A feature that cannot be justified using such a story is an unjustified feature and thus there is no use to actually implement it.
+%E.g.
+%"As a visitor of a web portal I need a way to authenticate, so I can access my customer data, but nobody else can"
+%Now you don't only know that you need an authentication for your web portal, you also know who needs it (the visitors, basically everyone planing on using it more intensively) and you also know why it is needed, as it gives the user some value.
+%Other examples:
+%"As a passenger I need a list of all my booked journeys, so that I know when I'm going to travel where and won't lose the overview"
+%"As a book keeper, I'd like to have the sales tax being automatically printed to each bill based on customer data, so that I don't have to enter it manually each time I'm printing a bill"
+%If every feature needs to be written like that, you'll automatically see if a feature is for the customer, because it is really necessary, or just something your boss/company wants to have and also why they want to have it (what is the big picture behind it? Why are they doing it?).
+
+
+\section{Use case writing level}
+Should not be used to describe UI actions% http://alistair.cockburn.us/Use+cases%2c+ten+years+later (Use case limits).
+
+Use cases expresses expected system behavior. Keep use cases free of UI-action.
+
+There are several levels on which use cases can be written as per\cite{cockburn??}. In our case, it would make the most sense to use the "system" level, as business level is something that is nearly useless because it is largely out of scope. The business logic is also, more elaborately (and implicitly) formulated within a system-level use case. In the other end, a component use case is also very impractical, as our target audience would be people that does not know anything about the specifics of the system being built.
+
+%Note;
+An important aspect to keep in mind is that context is important. Writing hundreds of pages of detailed requirements are bound to be decoupled and lose context, and coherence with each other. Deciding on a level that keeps context is important.
+
+\section{Expressing requirements}
+%Requirement gathering and documentation often feels a lot like stating the obvious, and being overly-verbose.
+
+\section{Use case translation}
+\input{chapters/ast_use_case}
+
+\section{Targeted requirements}
+We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
+\begin{description}
+  \item[Manage calls:] Being able to technically handle calls by performing receive, park, transfer and hangup action.
+  \item[Process calls:] Being able to process calls in the context of a dialed reception. This involves having access to data about the reception and its contacts. Being able to dial them, or send them a message.
+  \item[Manage message:] Being able to send out messages to contacts, view and resend existing messages.
+\end{description}
+
+For our targeted use cases, we've cherry-picked some specific paths from the activity diagram for the receptionist actor (see figure \ref{fig:activity_diagram_receptionist}).
+
+\begin{description}
+  \item[UC1: Transfer to contact:] A receptionist must be able to transfer a call to a chosen contact associated with the currently active reception. An example use case, from the receptionist actor point of view is outlined below.
+  \begin{itemize}
+    \item Preconditions.
+    \begin{itemize}
+      \item Receptionist is handling picked up incoming call $A$
+      \item Receptionist has parked call $A$
+    \end{itemize}
+    \item Actions.
+    \begin{itemize}
+      \item Receptionist dials the number of the selected contact (call $B$)
+      \item Receptionist hears dial tone
+      \item The contact's phone is ringing.
+      \item The contact accepts the calls (picks up)
+      \item Receptionist has a dialogue with contact
+      \item Receptionist transfers call $B$ to call $A$
+      \item The system breaks the receptionist's connection to both call $A$ and $B$    
+      \item Receptionist marks his/her state as idle.
+    \end{itemize}
+  \end{itemize}
+
+  \item[UC2: Send message to contact:] A receptionist must be able to send a message -- via a distribution list -- to a contact, typically containing information received verbally via a call. An example use case, from the receptionist actor point of view is outlined below.
+  \begin{itemize}
+    \item Preconditions.
+    \begin{itemize}
+      \item Receptionist may have previously received a call $A$, which may still be active.
+    \end{itemize}
+    \item Actions.
+    \begin{itemize}
+      \item Receptionist finds contact $C$ who will serve as recipient
+      \item Receptionist selects $C$
+      \item Receptionist types in message
+      \item Receptionist sends the message via the system
+      \item Receptionist marks his/her state as idle.
+    \end{itemize}
+  \end{itemize}
+\end{description}
+
+%TODO High leve description (customer level)
+
+\chapter{Validating implementation}
+%Something about the V-model.
+
+\section{Formalized approaches}
+%2.1. Use case description
+%A semiformal use case description is simply a natural
+%language text structured using a text template which divides
+%the text into logical parts. Even though there is no broadly
+%accepted standard use case template, the existing templates
+%are quite similar.
+\section{Testing}
+%Fixtures
+%Design by contract
+%Harness
+
+\section{Regression testing}
+
+\chapter{Requirement formalization}
+Actors, Roles
+
+Aspects. Behavior. State space.
+
+\section{Use case as base}
+%\includegraphics[scale=0.4]{img/req_meta.png}
+
+\subsection{What to include?}
+From \cite{Cockburn:2000:WEU:517669} we get;
+\begin{quote}
+``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
+\end{quote}
+
+\section{Processes}
+
+\chapter{Test generation}
+Using -- exclusively -- the use case from \textbf{RQ2} as base, we try to derive what is needed in order to generate a basic test.
+To achieve the minimum implementation, we cut away the optional precondition that may be covered by other use cases. After this, we see an implicitly \emph{ordered list of actions} that we need to succeed in order for the test to be a success. There is an actor that performs an action at each step. The system, in its entirety, may also be referred to as an actor as it is also capable of performing actions.
+
+So, summing up, we have;
+\begin{itemize}
+  \item This use case consists of an ordered list of actions, where actions consist of
+  \begin{itemize}
+	\item One or more actors
+	\item One verb describing the action
+	\item One target for the action (object for verb)
+  \end{itemize}
+\end{itemize}
+If we 
+
+\section{Requirement/test mapping}
+%The communication model needs to be known.
+
+We consider a use case to a flow events that mutates a state...
+
+
+\section{Environment}
+Traversing the use case is considered a long function call-chain. Each new procedure call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
+The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.

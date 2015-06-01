@@ -1,3 +1,5 @@
+\chapter{The pragmatic approach}
+\section{First implementation}
 During the development of the system, little or no unit tests had prevailed. This. however, was mostly due to the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent.\\
 The high level of asynchronism of the system, and low level of control with the PBX made feature regressions a daily pain. Unit tests were of no use, as what we needed to test were the components. A common way of testing components is to provide a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In this case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.
 
@@ -57,3 +59,12 @@ Programing-wise, this was done by adding the needed macro methods required by th
 
 
 We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.
+
+The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
+
+%\section{The verification problem}
+%TODO V-model.
+\section{Second implementation}
+During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. This section explains the processes of exploiting this framework for a third application; namely testing.
+
+\input{chapters/second_implementation}
