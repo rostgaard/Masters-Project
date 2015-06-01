@@ -1,8 +1,11 @@
-Master_Thesis/*.pdf
-Master_Thesis/Thesis.glo
-Master_Thesis/Thesis.ist
-Master_Thesis/Thesis.toc
-Master_Thesis/Thesis.xdy
+Thesis/*.pdf
+Thesis/Thesis.glo
+Thesis/Thesis.ist
+Thesis/Thesis.toc
+Thesis/Thesis.xdy
+
+# Local TeXmaker session file.
+Thesis/Thesis.tks
 
 *.aux
 *.bbl
