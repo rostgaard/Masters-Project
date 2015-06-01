@@ -5,5 +5,9 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
   markdown: any
+  shelf: any
+  shelf_cors: any
+  shelf_route: any
+  logging : any
 dev_dependencies:
   unittest: any
