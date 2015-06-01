@@ -132,19 +132,9 @@ The world of software is has over the years been tainted with stories about fail
 \chapter{Introduction}
 \input{chapters/introduction}
 
-\section{Glossary}
-In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
-\begin{description}
-  \item[Customer:] The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
-  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
-  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
-  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
-  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
-  \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
-\end{description}
-This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
+\chapter{Background}
+\input{chapters/background}
 
-\chapter{Top-down}
 \subsection{Evolution of software engineering}
 The natural evolution of software engineering points towards increasing the level of abstraction, moving closer to the usage models that they try capture. Another benefit of using models is that they communicate much better than, for instance, source code. Whereas source code is usually filled with non-essential implementation-specific details, models aim only to capture the essence of what it represents. Models, lacking these details, are challenging to execute. An doing so requires a great deal of extra work, filling out the details with either code snibblets or equivalent constraints -- such as OCL.\footnote{Object Constraint Language - part of UML}\\\\
 One problem with this approach is a that much technical knowledge is required to formulate the models, OCL constraints and/or snibblets required for the system to function. For most technical staff it feels like meta-programming that keeps them from doing real programming.
@@ -165,8 +155,7 @@ In software engineering there is a rule of thumb saying that requirements should
 %\subsubsection{Meta-models}
 %Meta-models that model other models, such as UML.
 
-\section{Background}
-\input{background}
+
 
 \section{First implementation}
 The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
