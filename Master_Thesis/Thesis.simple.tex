@@ -1,31 +1,148 @@
-%!TEX TS-program = xelatex
+\documentclass[10pt]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{usecases}
+\usepackage{lmodern}
+\author{Kim Rostgaard Christensen}
+\title{Requirements as tests}
+\subtitle{Automatic generation of test from structured requirements}
+%%%%********************************************************************
+\usepackage{microtype}
+%\usepackage{times}
+\usepackage[utf8]{inputenc}     
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage{hyperref}
+%%%%********************************************************************
+% fancy quotes
+\definecolor{quotemark}{gray}{0.7}
+\makeatletter
+\def\fquote{%
+    \@ifnextchar[{\fquote@i}{\fquote@i[]}%]
+           }%
+\def\fquote@i[#1]{%
+    \def\tempa{#1}%
+    \@ifnextchar[{\fquote@ii}{\fquote@ii[]}%]
+                 }%
+\def\fquote@ii[#1]{%
+    \def\tempb{#1}%
+    \@ifnextchar[{\fquote@iii}{\fquote@iii[]}%]
+                      }%
+\def\fquote@iii[#1]{%
+    \def\tempc{#1}%
+    \vspace{1em}%
+    \noindent%
+    \begin{list}{}{%
+         \setlength{\leftmargin}{0.1\textwidth}%
+         \setlength{\rightmargin}{0.1\textwidth}%
+                  }%
+         \item[]%
+         \begin{picture}(0,0)%
+         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \end{picture}%
+         \begingroup\itshape}%
+ %%%%********************************************************************
+ \def\endfquote{%
+ \endgroup\par%
+ \makebox[0pt][l]{%
+ \hspace{0.8\textwidth}%
+ \begin{picture}(0,0)(0,0)%
+ \put(15,15){\makebox(0,0){%
+ \scalebox{3}{\color{quotemark}''}}}%
+ \end{picture}}%
+ \ifx\tempa\empty%
+ \else%
+    \ifx\tempc\empty%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+   \else%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+   \fi\fi\par%
+   \vspace{0.5em}%
+ \end{list}%
+ }%
+ \makeatother
+ %%%%********************************************************************
 
-\input{preamble/static}
-\input{preamble/general}
-\input{preamble/fonts}
-\input{preamble/etc}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
 
-\addbibresource{bibliography/Bibliography.bib}
+% Define colors used for listings
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% Configuration for listings
+\lstset{%
+numbers=left,
+frame=single,
+numbers=left,
+numberstyle=\tiny,
+numbersep=15pt,tabsize=4,
+flexiblecolumns=true,
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+basicstyle=\footnotesize\ttfamily,
+stringstyle=\color{mauve},
+numberstyle=\tiny\color{gray},
+language=Java,
+breaklines=true,
+breakatwhitespace=true,
+morekeywords={*,num,String,var,library,get,set} ,
+}
+
+\lstdefinestyle{usecase}{
+  emptylines=1,
+  breaklines=true,
+  basicstyle=\ttfamily\color{black},
+  escapeinside={@}{@},
+  keywordstyle=\bfseries,
+  morekeywords = {Scenario, Postconditions, Preconditions}
+}
+\usepackage{drawstack}
+
+\newcommand{\imgdir}{./img/} % Set the folder which contains the specific images for the report
+
+%TODO
+% Write up 3-4 use cases. How they relate to each other. Maps to concept, and work on a conceptual level.
+
+%TODO Using expected object state lifecycles (ordered list of states) to describe verification conditions.
+
+%TODO section om mappings and levels of mappings. From Crude (having _one_ ast that is _the_ use case downto full semantics in language). One ast is what was done initially in Coverage_Tests.
+%NOTE : A brief section on collection of asynchronous responses (expectations) that come in arbitrary order.
 
 \begin{document}
-
-\prefrontmatter
-\include{prefrontmatter/titlepage}
-\cleartoevenpage
-\include{prefrontmatter/colophon}
-\clearforchapter
-
-\frontmatter
-\include{frontmatter/Summary}
-\include{frontmatter/Preface}
-\include{frontmatter/Acknowledgements}
-\clearforchapter
+\maketitle
+ 
 \tableofcontents
-\clearforchapter
-\mylistoftodos
+\newpage
 
-\mainmatter
-\include{chapters/introduction}
+\begin{fquote}[ -- Johann Wolfgang von Goethe][The Sorrows of Young Werthe][1774]Misunderstandings and neglect occasion more mischief in the world than even malice and wickedness. At all events, the two latter are of less frequent occurrence.
+\end{fquote}
+\begin{abstract}
+The world of software is has over the years been tainted with stories about failed projects. Almost everyone has his or her on story about a given software system, that did not solve the task, which it was designed to. This indicates; either a mismatch between requirements and solution, or simply erroneous requirement specifications. In the last decades more emphasis have been put on the agile methods, where smaller time-boxed iterations intricately contains every development phase; design, implementation, documentation and validation. Requirement refinement and elicitation may, however, be left dead-in-the-water and remain a \emph{de facto} waterfall phase with neither feed-back from implementation and validation, nor feed-forward to validation.
+\end{abstract}
+
+\chapter{Introduction}
+\input{chapters/introduction}
+
+\section{Glossary}
+In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
+\begin{description}
+  \item[Customer:] The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
+  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
+  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
+  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
+  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
+  \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
+\end{description}
+This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
 
 \chapter{Top-down}
 \subsection{Evolution of software engineering}
@@ -323,13 +440,9 @@ The environment should contain the current state within the scope of test curren
 %  - Validating event chain against a state machine (automaton).
 \chapter{Conclusion}
 
-\blinddocument
-\include{chapters/Conclusion}
+\bibliographystyle{plain}
+\bibliography{references}
 
-\appendix
-\include{appendices/AnAppendix}
-
-\backmatter
-\printbibliography
+\nocite{*}
 
 \end{document}
