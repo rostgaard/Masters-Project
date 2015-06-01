@@ -1,7 +1,14 @@
-%.pdf: %.svg
+XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
-img/uc2_test_config.pdf:
-	inkscape -z img/uc2_test_config.svg --export-pdf=$@
+.PHONY: all
+all: Thesis.tex
+	latexmk -pdf -pdflatex="$(XELATEX)" -use-make Thesis.tex
 
-distclean:
-	rm img/uc2_test_config.pdf
+.PHONY: auto
+auto: Thesis.tex
+	latexmk -pdf -pdflatex="$(XELATEX)" -use-make -pvc Thesis.tex
+
+.PHONY: clean
+clean:
+	rm -f Thesis.pdf *.aux *.bbl *bcf *.blg *.log *.out *.tdo *.toc *.xdv *.synctex.gz *.fdb_latexmk *.fls *.run.xml; \
+	rm -f **/*.aux
