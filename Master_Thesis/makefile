@@ -12,3 +12,8 @@ auto: Thesis.tex
 clean:
 	rm -f Thesis.pdf *.aux *.bbl *bcf *.blg *.log *.out *.tdo *.toc *.xdv *.synctex.gz *.fdb_latexmk *.fls *.run.xml; \
 	rm -f **/*.aux
+
+img/uc2_test_config.pdf:
+	inkscape -z img/uc2_test_config.svg --export-pdf=$@
+
+
