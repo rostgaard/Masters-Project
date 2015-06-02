@@ -1,0 +1,9 @@
+ - Finish the case study system section
+ - Integrate the feedback from papers
+ - Revisit the introduction
+ - Add a section on Jenkins CI
+ - Parallelizing use case execution
+ - Find a _good_ use case as an example
+ - Make a digram that shows the relation between python test.
+   Basically a diagram that consists of an abstract class with all the macro functions needed for a given use case, and a number of realization that map to a "route" through the use case.
+ 
