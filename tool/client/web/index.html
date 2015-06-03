@@ -19,11 +19,31 @@
 <body>
   <nav>
     <ul>
+      <li><a class="use-cases" href="#use-cases">Use Cases</a></li>
       <li><a class="actors" href="#actors">Actors</a></li>
       <li><a class="concepts" href="#concepts">Concepts</a></li>
+      <li><a class="tests" href="#tests">Tests</a></li>
     </ul>
   </nav>
-  <div id="output"></div>
+
+  <section id="use-cases">
+  <h1>Use cases</h1>
+  <ul class="list"></ul>
+  <button class="add">Add</button>
+  </section>
+
+  <section id="actors">
+  <h1>Actors</h1>
+  <ul class="list"></ul>
+  <input class="add" placeholder="Actor name"></input>
+  <button class="add">Add</button>
+  </section>
+
+  <section id="concepts">
+  <h1>Concepts</h1>
+  <ul class="list"></ul>
+  <button class="add">Add</button>
+  </section>
 
 <script type="application/dart" src="main.dart"></script>
 <script data-pub-inline src="packages/browser/dart.js"></script>
