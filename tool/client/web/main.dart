@@ -25,6 +25,10 @@ void main() {
       list.children = actorNames.map((String actorName) => new LIElement()..text = actorName).toList();
     });
 
+
+    //querySelectorAll('nav li').forEach((LIElement li) => li.classes.toggle('pure-menu-selected', false));
+
+
     hideAll();
     querySelector('#actors').hidden= false;
 
