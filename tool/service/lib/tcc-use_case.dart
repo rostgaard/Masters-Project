@@ -1,5 +1,25 @@
 part of tcc;
 
+abstract class Key {
+  static const String identity = 'identity';
+  static const String name = 'name';
+  static const String description = 'description';
+  static const String preconditions = 'preconditions';
+  static const String statements = 'statements';
+  static const String postconditions = 'postconditions';
+  static const String stakeholders = 'stakeholders';
+  static const String expression = 'expression';
+  static const String matcher = 'matcher';
+  static const String expectation = 'expectation';
+  static const String type = 'type';
+  static const String value = 'value';
+  static const String role = 'role';
+  static const String anonymous = 'anonymous';
+  static const String actor = 'actor';
+  static const String action = 'action';
+  static const String target = 'target';
+}
+
 abstract class Label {
   static const String Stakeholders = 'Stakeholders';
 }
@@ -15,6 +35,20 @@ class UseCase {
   List<Actor>     stakeholders = [];
 
   UseCase (this.name);
+
+  UseCase.fromJson (Map map) {
+
+  }
+
+  Map toJson() => {
+    Key.identity : identity,
+    Key.name : name,
+    Key.description : description,
+    Key.preconditions : preconditions,
+    Key.statements : statements,
+    Key.postconditions : postconditions,
+    Key.stakeholders : stakeholders
+  };
 
   @override
   String toString () {

@@ -9,6 +9,13 @@ class Predicate {
 
   @override
   String toString() => '${this.expr} ${this.matcher} ${this.expectation}';
+
+  Map toJson() => {
+    Key.expression : expr,
+    Key.matcher : matcher,
+    Key.expectation : expectation
+  };
+
 }
 
 class Expression {
@@ -21,6 +28,11 @@ class Expression {
 
   @override
   String toString() => '${this.expression}';
+
+  Map toJson() => {
+    Key.identity : identity,
+    Key.expression : expression,
+  };
 }
 
 final Matcher is_ = new Matcher('is');
@@ -41,6 +53,12 @@ class Matcher {
 
   @override
   int get hashCode => this.identity.hashCode;
+
+  Map toJson() => {
+    Key.identity : identity,
+    Key.type : type,
+    Key.value : value
+  };
 }
 
 class Expectation {
@@ -52,6 +70,11 @@ class Expectation {
 
   @override
   String toString() => '${this.value}';
+
+  Map toJson() => {
+    Key.identity : identity,
+    Key.value : value
+  };
 }
 
 

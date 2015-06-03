@@ -28,4 +28,11 @@ class Actor {
 
   @override
   bool operator ==(Actor other) => this.role == other.role;
+
+  Map toJson() => {
+    Key.type : type,
+    Key.role : role,
+    Key.anonymous : anonymous
+  };
+
 }

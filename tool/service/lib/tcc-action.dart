@@ -7,4 +7,6 @@ class Action {
 
   @override
   String toString () => this.name;
+
+  String toJson() => name;
 }

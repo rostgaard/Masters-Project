@@ -10,6 +10,13 @@ class Statement {
 
   @override
   String toString () => '${this.actor.role} ${this.action} ${this.object}';
+
+  Map toJson () => {
+    Key.identity : identity,
+    Key.actor : actor,
+    Key.action : action,
+    Key.target : object
+  };
 }
 
 class StatementList extends IterableBase<Statement> {
@@ -25,4 +32,6 @@ class StatementList extends IterableBase<Statement> {
   @override
   String toString () =>
       this._statements.map((Statement stmt) => '${stmt}').join('\n');
+
+  List toJson() => _statements;
 }
