@@ -11,6 +11,7 @@ import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_route/shelf_route.dart' as shelf_route;
 import 'package:shelf_cors/shelf_cors.dart' as shelf_cors;
+import 'tcc.dart';
 
 part 'handler-actor.dart';
 
@@ -37,6 +38,7 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
 
   var router = shelf_route.router()
     ..get('/actor', actorHandler.list)
+    ..get('/dummy', actorHandler.dummy)
     ..get('/actor/{name}', actorHandler.get)
     ..put('/actor/{name}', actorHandler.update)
     ..post('/actor/{name}', actorHandler.create)

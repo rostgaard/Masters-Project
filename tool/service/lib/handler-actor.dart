@@ -2,7 +2,12 @@ part of tcctool.router;
 
 class Actor {
 
-  String _jsonStorePath = 'json';
+  String _jsonStorePath = '/tmp/json';
+
+  shelf.Response dummy (shelf.Request request) {
+
+    return new shelf.Response.ok (JSON.encode(useCase1));
+  }
 
   Future<shelf.Response> get (shelf.Request request) {
     String name = shelf_route.getPathParameter(request, 'name');
@@ -26,8 +31,13 @@ class Actor {
     String name = shelf_route.getPathParameter(request, 'name');
 
     IO.File file = new IO.File ('$_jsonStorePath/$name.json');
+    file.createSync();
 
-    return request.readAsString().then(file.writeAsString).then((_) => new shelf.Response.ok ('ok'));
+
+    return request.readAsString().then((String body) {
+      file.writeAsStringSync(body);
+      return new shelf.Response.ok ('ok');
+    });
   }
 
   Future<shelf.Response> update (shelf.Request request) {
