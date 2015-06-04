@@ -1,3 +1,5 @@
+%TODO Add a section on passing use cases on to each other.
+
 \chapter{The theoretic approach}
 This chapter is provides a top-down analysis of the requirement-to-test problem. By discussing the different stakeholders interests, roles and challenges, a theoretic solution will be devised.
 
@@ -287,3 +289,10 @@ We consider a use case to a flow events that mutates a state...
 \section{Environment}
 Traversing the use case is considered a long function call-chain. Each new procedure call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
 The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
+
+\begin{figure}[h]
+\includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
+\centering
+\caption{State machine of perceived system state}
+\label{fig:system-state-machine-relations}
+\end{figure}
