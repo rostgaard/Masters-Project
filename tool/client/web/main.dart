@@ -12,68 +12,8 @@ import 'src/view/view.dart' as View;
 HttpClient client = new HttpClient();
 
 
-
 void main() {
-  hideAll();
-
-  querySelector('nav a.use-cases').onClick.listen((_) {
-
-    hideAll();
-    querySelector('#use-cases').hidden= false;
-    querySelector('#use-cases').append(useCase());
-
-    View.Body.title.text = 'Use cases';
-
-  });
-
-  querySelector('nav a.actors').onClick.listen((_) {
-    UListElement list = querySelector('#actors ul');
-
-    listActors().then((Iterable<String> actorNames) {
-      list.children = actorNames.map((String actorName) => new LIElement()..text = actorName).toList();
-    });
-
-    print(View.Body.title);
-
-    View.Body.title.text = 'Actors';
-
-
-    //querySelectorAll('nav li').forEach((LIElement li) => li.classes.toggle('pure-menu-selected', false));
-
-
-    hideAll();
-    querySelector('#actors').hidden= false;
-
-  });
-
-  querySelector('#actors button.add').onClick.listen((_) {
-    InputElement e = querySelector('#actors input.add');
-
-    addNewActor(e.value).then((_) {
-      UListElement list = querySelector('#actors ul');
-
-      listActors().then((Iterable<String> actorNames) {
-        list.children = actorNames.map((String actorName) => new LIElement()..text = actorName).toList();
-      });
-    });
-  });
-
-  querySelector('nav a.concepts').onClick.listen((_) {
-    hideAll();
-    querySelector('#concepts').hidden= false;
-
-    querySelector('nav a.use-cases').click();
-    View.Body.title.text = 'Concepts';
-  });
-
-  querySelector('nav a.tests').onClick.listen((_) {
-    hideAll();
-    querySelector('#concepts').hidden= false;
-
-    querySelector('nav a.use-cases').click();
-    View.Body.title.text = 'Tests';
-  });
-
+  View.UI ui = new View.UI();
 }
 
 Future addNewActor(String name) {
@@ -90,8 +30,6 @@ Future<Iterable<String>> listActors() {
 
 
 DivElement useCase () {
-
-
 
   return new DivElement()
     ..children =

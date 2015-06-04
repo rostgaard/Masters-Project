@@ -105,8 +105,7 @@ appears on the left side of the page.
         /*
         Change color of the anchor links on hover/focus.
         */
-        #menu .pure-menu li a:hover,
-        #menu .pure-menu li a:focus {
+        #menu .pure-menu li a:hover {
             background: #333;
         }
 
@@ -114,7 +113,8 @@ appears on the left side of the page.
     This styles the selected menu item `<li>`.
     */
     #menu .pure-menu-selected,
-    #menu .pure-menu-heading {
+    #menu .pure-menu-heading,
+        #menu .pure-menu li a:focus {
         background: #1f8dd6;
     }
         /*

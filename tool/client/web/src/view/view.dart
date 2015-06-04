@@ -1,5 +1,7 @@
 library tcc.client.view;
 
+import 'dart:async';
 import 'dart:html';
 
-part 'body.dart';
+part 'ui.dart';
+part 'menu.dart';

@@ -22,17 +22,18 @@
           <a class="pure-menu-heading" href="#">Menu</a>
 
           <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="#use-cases" class="use-cases pure-menu-link">Use cases</a></li>
-            <li class="pure-menu-item"><a href="#actors" class="actors pure-menu-link">Actors</a></li>
-            <li class="pure-menu-item"><a href="#concepts" class="concepts pure-menu-link">Concepts</a></li>
-            <li class="pure-menu-item"><a href="#tests" class="tests pure-menu-link">Tests</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="#" class="use-cases pure-menu-link">Use cases</a></li>
+            <li class="pure-menu-item"><a href="#" class="actors pure-menu-link">Actors</a></li>
+            <li class="pure-menu-item"><a href="#" class="concepts pure-menu-link">Concepts</a></li>
+            <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
+            <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
+
           </ul>
         </div>
       </nav>
 
       <div id="main">
         <div class="header">
-          <h1>TCC</h1>
           <h2 class="title">:: title ::</h2>
         </div>
 
@@ -41,7 +42,7 @@
           <button class="add">Add</button>
         </section>
 
-        <section id="actors" class="content">
+        <section id="actors" class="content" hidden>
 
           <h1>Actors</h1>
           <ul class="list"></ul>
@@ -60,14 +61,20 @@
           <button class="add">Add</button>
         </section>
 
-        <section id="concepts" class="content">
+        <section id="concepts" class="content" hidden>
           <ul class="list"></ul>
           <button class="add">Add</button>
         </section>
 
-        <section id="tests" class="content">
+        <section id="tests" class="content" hidden>
           <ul class="list"></ul>
           <button class="add">Add</button>
+        </section>
+
+        <section id="configuration" class="content" hidden>
+          <label for="configuration-jenkins-url" >Jenkins URL</label>
+          <input id="configuration-jenkins-url"  type="text">
+          <button class="save">Save</button>
         </section>
 
       </div>
