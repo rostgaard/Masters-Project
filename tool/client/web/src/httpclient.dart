@@ -2,13 +2,14 @@ library httpclient;
 
 import 'dart:async';
 import 'dart:html' as HTML;
+import 'package:libtcc/libtcc.dart' as libtcc;
 
 import 'package:logging/logging.dart';
 
 /**
  * HTTP Client for use with dart:html.
  */
-class HttpClient {
+class HttpClient extends libtcc.WebService{
 
   Logger log = new Logger('httpclient');
 
@@ -26,7 +27,7 @@ class HttpClient {
         ..open('GET', resource.toString())
         ..onLoad.listen((_) {
           try {
-            WebService.checkResponse(
+            libtcc.WebService.checkResponse(
                 request.status,
                 'GET',
                 resource,
@@ -56,7 +57,7 @@ class HttpClient {
         ..open('PUT', resource.toString())
         ..onLoad.listen((_) {
           try {
-            WebService.checkResponse(
+            libtcc.WebService.checkResponse(
                 request.status,
                 'PUT',
                 resource,
@@ -86,7 +87,7 @@ class HttpClient {
         ..open('POST', resource.toString())
         ..onLoad.listen((_) {
           try {
-            WebService.checkResponse(
+            libtcc.WebService.checkResponse(
                 request.status,
                 'GET',
                 resource,
@@ -116,7 +117,7 @@ class HttpClient {
         ..open('DELETE', resource.toString())
         ..onLoad.listen((_) {
           try {
-            WebService.checkResponse(
+            libtcc.WebService.checkResponse(
                 request.status,
                 'DELETE',
                 resource,
@@ -133,111 +134,3 @@ class HttpClient {
   }
 }
 
-abstract class WebService {
-
-  static const String GET    = 'GET';
-  static const String PUT    = 'PUT';
-  static const String POST   = 'POST';
-  static const String DELETE = 'DELETE';
-
-  Future<String> get    (Uri path);
-  Future<String> put    (Uri path, String payload);
-  Future<String> post   (Uri path, String payload);
-  Future<String> delete (Uri path);
-
-  static void checkResponse(int responseCode,String method,
-                            Uri path, String response) {
-    switch (responseCode) {
-      case 200:
-        break;
-
-      case 400:
-        throw new ClientError ('$method $path - $response');
-        break;
-
-      case 401:
-        throw new NotAuthorized ('$method  $path - $response');
-        break;
-
-      case 403:
-        throw new Forbidden ('$method $path - $response');
-        break;
-
-      case 409:
-        throw new Conflict ('$method $path - $response');
-        break;
-
-      case 404:
-       throw new NotFound('$method  $path - $response');
-       break;
-
-      case 500:
-        throw new ServerError('$method  $path - $response');
-        break;
-
-      default:
-        throw new StateError('Status (${responseCode}): $method $path - $response');
-    }
-  }
-}
-
-
-class StorageException implements Exception {}
-
-class NotFound implements StorageException {
-
-  final String message;
-  const NotFound([this.message = ""]);
-
-  String toString() => "NotFound: $message";
-}
-
-
-class SaveFailed implements StorageException {
-
-  final String message;
-  const SaveFailed([this.message = ""]);
-
-  String toString() => "SaveFailed: $message";
-}
-
-class Forbidden implements StorageException {
-
-  final String message;
-  const Forbidden([this.message = ""]);
-
-  String toString() => "Forbidden: $message";
-}
-
-class Conflict implements StorageException {
-
-  final String message;
-  const Conflict([this.message = ""]);
-
-  String toString() => "Conflict: $message";
-}
-
-
-class NotAuthorized implements StorageException {
-
-  final String message;
-  const NotAuthorized([this.message = ""]);
-
-  String toString() => "NotAuthorized: $message";
-}
-
-class ClientError implements StorageException {
-
-  final String message;
-  const ClientError([this.message = ""]);
-
-  String toString() => "ClientError: $message";
-}
-
-class ServerError implements StorageException {
-
-  final String message;
-  const ServerError([this.message = ""]);
-
-  String toString() => "ServerError: $message";
-}

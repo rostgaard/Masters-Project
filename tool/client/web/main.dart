@@ -5,15 +5,26 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 import 'src/httpclient.dart';
+import 'package:libtcc/libtcc.dart' as libtcc;
 
 import 'src/view/view.dart' as View;
 
 
 HttpClient client = new HttpClient();
 
-
 void main() {
   View.UI ui = new View.UI();
+  libtcc.TestCaseService service =
+    new libtcc.TestCaseService(Uri.parse('http://localhost:7777'), new HttpClient());
+
+  service.getConfig().then((libtcc.Configuration config) {
+    print(config.jenkinsUri);
+
+    querySelector('#configuration-jenkins-url').value = config.jenkinsUri.toString();
+
+
+
+  });
 }
 
 Future addNewActor(String name) {

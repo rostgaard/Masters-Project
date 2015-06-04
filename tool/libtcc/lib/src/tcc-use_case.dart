@@ -18,6 +18,7 @@ abstract class Key {
   static const String actor = 'actor';
   static const String action = 'action';
   static const String target = 'target';
+  static const String jenkinsUri = 'jenkinsUri';
 }
 
 abstract class Label {
