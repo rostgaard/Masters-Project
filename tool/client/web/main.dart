@@ -6,7 +6,12 @@ import 'dart:convert';
 import 'dart:html';
 import 'src/httpclient.dart';
 
+import 'src/view/view.dart' as View;
+
+
 HttpClient client = new HttpClient();
+
+
 
 void main() {
   hideAll();
@@ -15,6 +20,9 @@ void main() {
 
     hideAll();
     querySelector('#use-cases').hidden= false;
+    querySelector('#use-cases').append(useCase());
+
+    View.Body.title.text = 'Use cases';
 
   });
 
@@ -24,6 +32,10 @@ void main() {
     listActors().then((Iterable<String> actorNames) {
       list.children = actorNames.map((String actorName) => new LIElement()..text = actorName).toList();
     });
+
+    print(View.Body.title);
+
+    View.Body.title.text = 'Actors';
 
 
     //querySelectorAll('nav li').forEach((LIElement li) => li.classes.toggle('pure-menu-selected', false));
@@ -50,10 +62,17 @@ void main() {
     hideAll();
     querySelector('#concepts').hidden= false;
 
-
+    querySelector('nav a.use-cases').click();
+    View.Body.title.text = 'Concepts';
   });
 
-  querySelector('nav a.use-cases').click();
+  querySelector('nav a.tests').onClick.listen((_) {
+    hideAll();
+    querySelector('#concepts').hidden= false;
+
+    querySelector('nav a.use-cases').click();
+    View.Body.title.text = 'Tests';
+  });
 
 }
 
@@ -70,6 +89,21 @@ Future<Iterable<String>> listActors() {
 }
 
 
+DivElement useCase () {
+
+
+
+  return new DivElement()
+    ..children =
+      [new HeadingElement.h2()..text = 'Name',
+       new ParagraphElement()..text = 'description',
+       new HeadingElement.h3()..text = 'Primary actor:',
+       new ParagraphElement()..text = 'Actor name',
+       new HeadingElement.h3()..text = 'Primary actor',
+       new UListElement()..children];
+
+
+}
 
 void hideAll() =>
   querySelectorAll('section').forEach((Element e) => e.hidden = true);
