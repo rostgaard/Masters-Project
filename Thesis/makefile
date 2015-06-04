@@ -1,7 +1,8 @@
 diagrams = uc2_test_config.pdf \
            first_generation_class_structure.pdf \
            support-tools-recepionist-example.pdf \
-           component_diagram.pdf
+           component_diagram.pdf \
+           system-state-machine-relations.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
