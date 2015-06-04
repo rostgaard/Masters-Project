@@ -1,4 +1,4 @@
-part of tcc;
+part of libtcc.base;
 
 class Action {
   String name;

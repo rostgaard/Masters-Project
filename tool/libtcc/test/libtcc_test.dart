@@ -9,14 +9,14 @@ import 'package:libtcc/libtcc.dart';
 
 void main() {
   group('A group of tests', () {
-    Awesome awesome;
+    UseCase tc;
 
     setUp(() {
-      awesome = new Awesome();
+      tc = new UseCase('test');
     });
 
     test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
+      expect(tc.name, equals('test'));
     });
   });
 }

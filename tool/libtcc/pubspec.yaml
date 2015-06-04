@@ -1,11 +1,9 @@
 name: libtcc
-description: A starting point for Dart libraries or applications.
+description: Shared library for test case compiler
 version: 0.0.1
-#author: <your name> <email@example.com>
-#homepage: https://www.example.com
 environment:
   sdk: '>=1.0.0 <2.0.0'
-#dependencies:
-#  lib_name: any
+dependencies:
+  markdown: any
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'

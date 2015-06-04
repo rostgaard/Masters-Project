@@ -1,4 +1,4 @@
-part of tcc;
+part of libtcc.base;
 
 class Statement {
   String get identity => normalize ('${this.actor}::${this.action}::${this.object}');

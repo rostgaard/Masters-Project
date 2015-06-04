@@ -4,40 +4,13 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import '../lib/tcc.dart';
+import 'package:libtcc/libtcc.dart';
 
 const String Preconditions  = 'preconditions';
 const String Postconditions = 'postconditions';
 
 int anonObjCount = 0;
 
-
-final Actor receptionist1 = new Actor('Receptionist');
-final Actor receptionist2 = new Actor('Receptionist', role: 'other receptionist');
-final Actor caller = new Actor('Caller');
-
-UseCase useCase1 =
-  new UseCase ('Use case 1')
-    ..stakeholders = [receptionist1, caller]
-    ..postconditions = [new Predicate(new Expression('message'), is_, new Expectation('sent'))]
-    ..statements = new StatementList([
-                       new Statement(
-                           receptionist1,
-                           new Action ('send'),
-                           new Target ('message')),
-                       new Statement(
-                           receptionist1,
-                           new Action ('save'),
-                           new Target ('message')),
-                       new Statement(
-                           receptionist1,
-                           new Action ('send'),
-                           new Target ('message')),
-                       new Statement(
-                           receptionist2,
-                           new Action ('retrieve'),
-                           new Target ('message', iden: 'A'))
-                       ]);
 
 //String aquisition_code (Actor)
 

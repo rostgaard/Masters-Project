@@ -1,4 +1,4 @@
-part of tcc;
+part of libtcc.base;
 
 abstract class Key {
   static const String identity = 'identity';

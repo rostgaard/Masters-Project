@@ -1,4 +1,4 @@
-part of tcc;
+part of libtcc.base;
 
 final Map expressionMappings = {'message' : 'message'};
 

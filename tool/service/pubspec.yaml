@@ -4,7 +4,8 @@ description: A minimal command-line application.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  markdown: any
+  libtcc:
+    path: ../libtcc
   shelf: any
   shelf_cors: any
   shelf_route: any
