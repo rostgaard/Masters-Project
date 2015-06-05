@@ -14,6 +14,12 @@ class Actor {
     }
   }
 
+  Actor.fromMap(Map map) {
+    type = map[Key.type];
+    role = map[Key.role];
+    anonymous = map[Key.anonymous];
+  }
+
   @override
   String toString () => '${this.role.isNotEmpty ? ' ${this.role}' : '??' } (${this.type})';
 
