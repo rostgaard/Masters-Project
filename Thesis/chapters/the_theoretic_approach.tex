@@ -266,14 +266,18 @@ From \cite{Cockburn:2000:WEU:517669} we get;
 \section{Processes}
 
 \chapter{Test generation}
-
-Starting out from ideal, well-formed use cases, we try to derive what is needed in order to generate a basic test.\\\\
+In order to help the computer make more sense of our use cases, we need to define to it what a use case is. But since a use case is neither strictly defined nor standardized anywhere, we need to pick a suitable representation.
+To help us extract some machine-understandable structure -- or merely semantics -- of use cases, we assume that we are working on ideal, well-formed use cases. This abstracts some of away the informal ambiguity, which is notoriously omnipresent in requirements, and will aid us when we try to derive what is needed from use cases in order to generate executable tests from them.\\\\
 The first problem we need to solve is the level of use case writing, and template -- as there are many way of writing use cases. 
 %TODO More discussion.
-We have decided on using a fully-dressed use case template\cite{larman2005applying} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model.
+We have decided on using a fully-dressed use case template\cite{larman2005applying} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model. The main focus are concepts which provide useful information to generate tests from.
 
 \section{Use case concepts}
 This section discussed the individual components of a use case in the perspective of converting it into an executable test.
+
+\subsection{Primary actor}
+The primary actor is important, as this is the stakeholder that defines the perspective and scope of the test. The primary is the person that starts the use case via an active action, or receives a start signal from another actor -- the system for instance.
+
 \subsection{Preconditions}
 
 
@@ -290,22 +294,45 @@ So, summing up, we have;
 \end{itemize}
 If we 
 
-\section{Requirement/test mapping}
 %The communication model needs to be known.
 
-We consider a use case to a flow events that mutates a state...
+\section{Executable use case}
+This section discusses a programming model and possible system designs that supports executing use cases.
 
-\section{Abstract interpretations of use cases}
-This section discusses possible system designs of use cases that are structured enough to generate tests from them.
 \subsection{System state}
+We know from the literature\cite{larman2005applying}, that a use case can completely self-contained in the way that every action and alternative, for a given actor, may be put into a single (large) use case. Use cases may also specify some expectations to the system state. This is what is defined as preconditions. If we, however, maintain the system state analogy, we can regard use case executions as mutation functions that affect the global system state.\\\\
+A simple example; a actor \emph{accountant} has a use case \emph{accountant creates invoice}. This use case requires that the \emph{accountant} actor has previously been created. The creation could be provided by the \emph{admin} actor's \emph{admin creates accountant} use case.
 \begin{figure}[h]
 \includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
 \centering
 \caption{State machine of perceived system state}
 \label{fig:system-state-machine-relations}
 \end{figure}
+In summary, the \emph{accountant creates invoice} effectively has a precondition that is provided by \emph{admin creates accountant} to make the global state match what is expected to execute the \emph{accountant creates invoice}. The concept is illustrated in figure \ref{fig:system-state-machine-relations} where \emph{Use Case 1} is a prerequisite to \emph{Use Case 2}, but \emph{Use Case 3} has no prerequisites. In order to reach completion (termination) and coverage of \emph{Use Case 2}, \emph{Use Case 1} has to be executed.
 
 \subsection{Environment}
 Executing the use case can be considered a long function call-chain. Each new function call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
 The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
+The expression of a use case that consists of $n$ statements then becomes: 
+\begin{equation}
+Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env
+\end{equation}
+The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
+%\texttt{matcher expression} ($s$)
+
+
+%TODO Integrate and finalize notes below.
+
+%\section{Test framework}
+% You need to write a test framework containing object pools, factory classes aso.
+%\subsection{Exploiting injected semantics}
+%How may we benefit from additional semantics? We can identify rubbish postconditions, such as predicates that involve objects that are either not modified in the statements, or simply never referenced.
+
+%\section{Evaluating a use case}
+%A use case can be modeled as a function taking in a starting environment and returning a boolean value, so $U \rightarrow env \rightarrow bool$
+
+
+%Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
+%Test cases may further introduce dependencies, such as messageStore
+
 
