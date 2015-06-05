@@ -2,8 +2,7 @@
 
 This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
 \section{Use case semantics}
-In order to help the computer make more sense of our use cases, we need to define to it what a use case is. But since a use case is neither strictly defined nor standardized anywhere, we need to pick a suitable representation.
-To help us extract some machine-understandable structure -- or merely semantics -- of use cases, we've hand-picked two use cases from our case study system.\\\\
+
 The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
 The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
 
@@ -235,20 +234,3 @@ void use_case_1 (Receptionist receptionist) {
   \label{fig:uc2}
 \end{figure}
 
-%TODO Integrate and finalize notes below.
-
-%\section{Test framework}
-% You need to write a test framework containing object pools, factory classes aso.
-%\subsection{Exploiting injected semantics}
-%How may we benefit from additional semantics? We can identify rubbish postconditions, such as predicates that involve objects that are either not modified in the statements, or simply never referenced.
-
-%\section{Evaluating a use case}
-%A use case can be modeled as a function taking in a starting environment and returning a boolean value, so $U \rightarrow env \rightarrow bool$
-
-%The expression of a use case that consists of $n$ statements then becomes: 
-%$Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env$
-%The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
-%\texttt{matcher expression} ($s$)
-
-%Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
-%Test cases may further introduce dependencies, such as messageStore
