@@ -266,7 +266,17 @@ From \cite{Cockburn:2000:WEU:517669} we get;
 \section{Processes}
 
 \chapter{Test generation}
-Using -- exclusively -- the use case from \textbf{RQ2} as base, we try to derive what is needed in order to generate a basic test.
+
+Starting out from ideal, well-formed use cases, we try to derive what is needed in order to generate a basic test.\\\\
+The first problem we need to solve is the level of use case writing, and template -- as there are many way of writing use cases. 
+%TODO More discussion.
+We have decided on using a fully-dressed use case template\cite{larman2005applying} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model.
+
+\section{Use case concepts}
+This section discussed the individual components of a use case in the perspective of converting it into an executable test.
+\subsection{Preconditions}
+
+
 To achieve the minimum implementation, we cut away the optional precondition that may be covered by other use cases. After this, we see an implicitly \emph{ordered list of actions} that we need to succeed in order for the test to be a success. There is an actor that performs an action at each step. The system, in its entirety, may also be referred to as an actor as it is also capable of performing actions.
 
 So, summing up, we have;
@@ -285,14 +295,17 @@ If we
 
 We consider a use case to a flow events that mutates a state...
 
-
-\section{Environment}
-Traversing the use case is considered a long function call-chain. Each new procedure call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
-The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
-
+\section{Abstract interpretations of use cases}
+This section discusses possible system designs of use cases that are structured enough to generate tests from them.
+\subsection{System state}
 \begin{figure}[h]
 \includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
 \centering
 \caption{State machine of perceived system state}
 \label{fig:system-state-machine-relations}
 \end{figure}
+
+\subsection{Environment}
+Executing the use case can be considered a long function call-chain. Each new function call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
+The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
+
