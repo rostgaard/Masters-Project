@@ -20,6 +20,55 @@ class TestCaseService {
   }
 
   /**
+   * Gets [UseCase].
+   */
+  Future<UseCase> getUseCase(String name) {
+    Uri uri = Uri.parse('${this._host}/usecase/$name');
+
+    return this._backend.get (uri)
+      .then((String response)
+        => new UseCase.fromMap(JSON.decode(response)));
+  }
+
+
+  /**
+   * Gets all [UseCase].
+   */
+  Future<Iterable<UseCase>> getUseCases() {
+    Uri uri = Uri.parse('${this._host}/usecase');
+
+    return this._backend.get (uri)
+      .then(JSON.decode)
+        .then((Iterable<Map> maps) =>
+          maps.map((Map map) =>
+            new UseCase.fromMap(JSON.decode(map))));
+  }
+
+  /**
+   * Gets all [Actor].
+   */
+  Future<Iterable<Actor>> getActors() {
+    Uri uri = Uri.parse('${this._host}/actor');
+
+    return this._backend.get (uri)
+      .then(JSON.decode)
+        .then((Iterable<Map> maps) =>
+          maps.map((Map map) =>
+            new Actor.fromMap(JSON.decode(map))));
+  }
+
+  /**
+   * Gets [Actor].
+   */
+  Future<Actor> getActor(String name) {
+    Uri uri = Uri.parse('${this._host}/actor/$name');
+
+    return this._backend.get (uri)
+      .then((String response)
+        => new Actor.fromMap(JSON.decode(response)));
+  }
+
+  /**
    * Saves config.
    */
   Future saveConfig(Configuration config) {
