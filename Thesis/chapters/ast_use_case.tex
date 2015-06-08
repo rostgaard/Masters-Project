@@ -1,8 +1,5 @@
-%TODO Add a section on multiple actors and race conditions. How do you create a use case that contains multiple simultanious instances of actors that perform the same action synchronously? Basically asserting parallel properties.
-
 This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
 \section{Use case semantics}
-
 The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
 The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
 
