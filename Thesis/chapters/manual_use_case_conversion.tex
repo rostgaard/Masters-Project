@@ -1,29 +1,28 @@
-%Note: Maybe for glossary: Domain concepts are usually also present in the mapping, and are usually mapped directly to a class.
-%Use case definition: An event that describes behaviors and it's written from a user's perspective.
-% Define high-level user goals (use case diagrams)
 %Definition dictionary
 % Remember that an actor has a set of goals, which he/she wants to realize through the system. Actor can be  primary (typically people) or supporting (provides service or information) - passive.
 % A good goal has a verb/noun combination.
 %REMEMBER TO TAKE INTO ACCOUNT <INCLUDE> use cases -- Basically extensions
-This section takes offset in an use case description, and tries to go through the steps needed to convert it into an acceptance tests. The use case used in this text is simplified and outlined in verbatim text seen in listing \ref{lst:uc-simple-example}.
+This section takes starts from a use case description, and tries to go through the steps needed to convert it into an acceptance tests. The use case used in this text is simplified and outlined in verbatim text seen in listing \ref{lst:uc-simple-example}.\todo[inline]{Check context, and make sure it leads in to this.}.
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example, label=lst:uc-simple-example]
 Scenario:
   Receptionist types in message
   Receptionist sends message
-  Receptionist returns to ready state
+  Receptionist marks state as ready 
 Preconditions:
+  The receptionist is created
   The receptionist is logged in
 Postconditions:
   The message is stored
   The receptionist is ready to handle the next call
 \end{lstlisting} 
-Translating this example, we first identify the domain concept contained within the statements in the text. We here observe that it includes the concept ``message'' a ``receptionist'' actor. There is also some interaction between the message and the actor, which we define as actions.\\
+Translating this example, we first identify the domain concept contained within the statements in the text. In this case, we here observe that it includes the concept ``message'' a ``receptionist'' actor. additionally; some interaction between the message and the actor, which we define as actions.\\
 In listing \ref{lst:uc-simple-example-highlighted} we have highlighted the different parts of the use case, using an orange color for actors, green for actions, blue for domain concepts, and a dark red for attributes. Using this highlight, it illustrates the abstract interpretation and the interaction between the different part very well. It also reveals very clearly which archetype (actor, concept \dots) each of the different parts should have. 
+\todo[inline]{More elaborate text here}.
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example with its different parts highlighted, label=lst:uc-simple-example-highlighted]
 Scenario:
   @\color{orange} Receptionist@ @\color{dkgreen}{types in}@ @\color{blue}{message}@
   @\color{orange} Receptionist@ @\color{dkgreen}{sends}@ @\color{blue}message@
-  @\color{orange} Receptionist@ @\color{dkgreen}{returns to}@ @\color{blue}ready state@
+  @\color{orange} Receptionist@ @\color{dkgreen}{marks state}@ as @\color{blue}{ready}@
 Preconditions:
   The @\color{orange}receptionist@ is @\color{dkred}logged in@
 Postconditions:
@@ -33,12 +32,12 @@ Postconditions:
 Based upon the information in listing \ref{lst:uc-simple-example-highlighted}, we could create an abstract interpretation that generates a test that looks like listing \ref{lst:uc2_example_test_code}.
 Each of the concepts in this example is mapped to a class, that could likely be stubbed out automatically by the test tool.\\\\
 Given the amount of information in (and markup of) the use cases, we can easily generate code such as the one shown in listing \ref{lst:uc2_example_test_code}. But these functions are still very high-level, and doesn't assert anything about the system being tested. To do this, we need to fill in the methods used on our receptionist and message object.
-\begin{lstlisting}[caption=Generated test case,label={lst:uc2_example_test_code}]
+\begin{lstlisting}[caption=Suggestion of generated test case,label={lst:uc2_example_test_code}]
 boolean test (receptionist, message) {
   // Scenario
   receptionist.types_in (message);
   receptionist.sends (message);
-  receptionist.returns_to (ready_state);
+  receptionist.marks_state (idle);
   
   // Postcondition
   return
@@ -133,3 +132,10 @@ This enables us, in our tests to merely require that an interface (a client of i
  \caption{support-tools-recepionist-example}
  \label{fig:support-tools-recepionist-example}
 \end{figure}
+
+%\begin{figure}
+% \centering
+%\missingfigure[figwidth=6cm]{This is some text that is with the todo and in the figure}
+% \caption{support-tools-recepionist-example}
+% \label{fig:support-tools-recepionist-example}
+%\end{figure}
