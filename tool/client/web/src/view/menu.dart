@@ -5,6 +5,7 @@ enum MenuItem {
  actors,
  concepts,
  tests,
+ goals,
  configuration,
 }
 
@@ -21,6 +22,7 @@ class Menu {
   Element get _actors => _root.querySelector('a.actors');
   Element get _useCases => _root.querySelector('a.use-cases');
   Element get _tests => _root.querySelector('a.tests');
+  Element get _goals => _root.querySelector('a.goals');
   Element get _configuration => _root.querySelector('a.configuration');
 
 
@@ -53,6 +55,12 @@ class Menu {
       _selectedMenuItem.classes.toggle('pure-menu-selected', false);
       _tests.parent.classes.toggle('pure-menu-selected', true);
       _selectedItem.add(MenuItem.tests);
+    });
+
+    _goals.onClick.listen((_) {
+      _selectedMenuItem.classes.toggle('pure-menu-selected', false);
+      _goals.parent.classes.toggle('pure-menu-selected', true);
+      _selectedItem.add(MenuItem.goals);
     });
 
     _configuration.onClick.listen((_) {

@@ -9,22 +9,19 @@ import 'package:libtcc/libtcc.dart' as libtcc;
 
 import 'src/view/view.dart' as View;
 
-
 HttpClient client = new HttpClient();
 
 void main() {
   View.UI ui = new View.UI();
-  libtcc.TestCaseService service =
-    new libtcc.TestCaseService(Uri.parse('http://localhost:7777'), new HttpClient());
+  libtcc.TestCaseService service = new libtcc.TestCaseService(
+      Uri.parse('http://localhost:7777'), new HttpClient());
 
   service.getConfig().then((libtcc.Configuration config) {
-    print(config.jenkinsUri);
-
-    querySelector('#configuration-jenkins-url').value = config.jenkinsUri.toString();
-
-
-
+    (querySelector('#configuration-jenkins-url') as InputElement).value =
+        config.jenkinsUri.toString();
   });
+
+  ui.render();
 }
 
 Future addNewActor(String name) {
@@ -39,20 +36,17 @@ Future<Iterable<String>> listActors() {
   return client.get(uri).then(JSON.decode);
 }
 
-
-DivElement useCase () {
-
+DivElement useCase() {
   return new DivElement()
-    ..children =
-      [new HeadingElement.h2()..text = 'Name',
-       new ParagraphElement()..text = 'description',
-       new HeadingElement.h3()..text = 'Primary actor:',
-       new ParagraphElement()..text = 'Actor name',
-       new HeadingElement.h3()..text = 'Primary actor',
-       new UListElement()..children];
-
-
+    ..children = [
+      new HeadingElement.h2()..text = 'Name',
+      new ParagraphElement()..text = 'description',
+      new HeadingElement.h3()..text = 'Primary actor:',
+      new ParagraphElement()..text = 'Actor name',
+      new HeadingElement.h3()..text = 'Primary actor',
+      new UListElement()..children
+    ];
 }
 
 void hideAll() =>
-  querySelectorAll('section').forEach((Element e) => e.hidden = true);
+    querySelectorAll('section').forEach((Element e) => e.hidden = true);

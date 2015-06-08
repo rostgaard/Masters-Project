@@ -13,6 +13,7 @@ class UI {
   Element get _testsPanel => querySelector('section#tests');
   Element get _useCasesPanel => querySelector('section#use-cases');
   Element get _configurationPanel => querySelector('section#configuration');
+  Element get _goalsPanel => querySelector('section#goals');
 
   UI() {
     _menu.selectItem.listen((MenuItem itemSelected) {
@@ -35,6 +36,9 @@ class UI {
         case MenuItem.configuration:
           _select(_configurationPanel, 'Configuration');
           break;
+        case MenuItem.goals:
+          _select(_goalsPanel, 'Goals');
+          break;
       }
     });
   }
@@ -44,4 +48,6 @@ class UI {
     panel.hidden = false;
     _title.text = title;
   }
+
+  void render() {}
 }
