@@ -65,6 +65,7 @@
 
 \usepackage{drawstack}
 \newcommand{\imgdir}{./img/} % Set the folder which contains the specific images for the report
+%\usepackage{quotchap}
 
 %%%%********************************************************************
 \usepackage{microtype}
@@ -98,7 +99,7 @@
                   }%
          \item[]%
          \begin{picture}(0,0)%
-         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \put(1.5,0.5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
          \end{picture}%
          \begingroup\itshape}%
  %%%%********************************************************************
@@ -107,7 +108,7 @@
  \makebox[0pt][l]{%
  \hspace{0.8\textwidth}%
  \begin{picture}(0,0)(0,0)%
- \put(15,15){\makebox(0,0){%
+ \put(-1.5,-2.0){\makebox(0,0){%
  \scalebox{3}{\color{quotemark}''}}}%
  \end{picture}}%
  \ifx\tempa\empty%
