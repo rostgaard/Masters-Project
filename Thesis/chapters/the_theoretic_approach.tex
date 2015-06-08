@@ -273,13 +273,29 @@ The first problem we need to solve is the level of use case writing, and templat
 We have decided on using a fully-dressed use case template\cite{larman2005applying} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model. The main focus are concepts which provide useful information to generate tests from.
 
 \section{Use case concepts}
-This section discussed the individual components of a use case in the perspective of converting it into an executable test.
+This section discussed the individual components of a use case in the perspective of converting it into an executable test. But before venturing forth, we need to outline the concept of \emph{system state}, as it is referred in the following sections.
+
+\subsection{System state}
+Well-formed use cases  know are completely self-contained\cite{larman2005} in the way that every action and alternative, for a given actor, may be put into a single (large) use case. Use cases may also specify some expectations to the system state. This is what is defined as preconditions. If we, however, maintain the system state analogy, we can regard use case executions as mutation functions that affect the global system state.\\\\
+A simple example; a actor \emph{accountant} has a use case \emph{accountant creates invoice}. This use case requires that the \emph{accountant} actor has previously been created. The creation could be provided by the \emph{admin} actor's \emph{admin creates accountant} use case.
+\begin{figure}[h]
+\includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
+\centering
+\caption{State machine of perceived system state}
+\label{fig:system-state-machine-relations}
+\end{figure}
+In summary, the \emph{accountant creates invoice} effectively has a precondition that is provided by \emph{admin creates accountant} to make the global state match what is expected to execute the \emph{accountant creates invoice}. The concept is illustrated in figure \ref{fig:system-state-machine-relations} where \emph{Use Case 1} is a prerequisite to \emph{Use Case 2}, but \emph{Use Case 3} has no prerequisites. In order to reach completion (termination) and coverage of \emph{Use Case 2}, \emph{Use Case 1} has to be executed.\\
+Each use case state (an example is \textbf{UC1} in figure \ref{fig:system-state-machine-relations}) is a super-state that contains the state space of every alternative scenario. An example is shown in figure \ref{fig:system-sub-state-machine-relations}, where \\dots %TODO
+\begin{figure}[h]
+\centering
+\caption{Example sub-states of a use case}
+\label{fig:system-sub-state-machine-relations}
+\end{figure}
 
 \subsection{Primary actor}
 The primary actor is important, as this is the stakeholder that defines the perspective and scope of the test. The primary is the person that starts the use case via an active action, or receives a start signal from another actor -- the system for instance.
 
 \subsection{Preconditions}
-
 
 To achieve the minimum implementation, we cut away the optional precondition that may be covered by other use cases. After this, we see an implicitly \emph{ordered list of actions} that we need to succeed in order for the test to be a success. There is an actor that performs an action at each step. The system, in its entirety, may also be referred to as an actor as it is also capable of performing actions.
 
@@ -296,19 +312,11 @@ If we
 
 %The communication model needs to be known.
 
+\subsection{High-level goals}
+\todo{.\\Content}
+
 \section{Executable use case}
 This section discusses a programming model and possible system designs that supports executing use cases.
-
-\subsection{System state}
-We know from the literature\cite{larman2005applying}, that a use case can completely self-contained in the way that every action and alternative, for a given actor, may be put into a single (large) use case. Use cases may also specify some expectations to the system state. This is what is defined as preconditions. If we, however, maintain the system state analogy, we can regard use case executions as mutation functions that affect the global system state.\\\\
-A simple example; a actor \emph{accountant} has a use case \emph{accountant creates invoice}. This use case requires that the \emph{accountant} actor has previously been created. The creation could be provided by the \emph{admin} actor's \emph{admin creates accountant} use case.
-\begin{figure}[h]
-\includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
-\centering
-\caption{State machine of perceived system state}
-\label{fig:system-state-machine-relations}
-\end{figure}
-In summary, the \emph{accountant creates invoice} effectively has a precondition that is provided by \emph{admin creates accountant} to make the global state match what is expected to execute the \emph{accountant creates invoice}. The concept is illustrated in figure \ref{fig:system-state-machine-relations} where \emph{Use Case 1} is a prerequisite to \emph{Use Case 2}, but \emph{Use Case 3} has no prerequisites. In order to reach completion (termination) and coverage of \emph{Use Case 2}, \emph{Use Case 1} has to be executed.
 
 \subsection{Environment}
 \textbf{!Unfinished!}\\
