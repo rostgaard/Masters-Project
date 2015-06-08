@@ -7,8 +7,15 @@ class Predicate {
 
   Predicate(this.expr, this.matcher, this.expectation);
 
+  Predicate.fromMap(Map map) {
+    expr = new Expression.fromMap(map[Key.expression]);
+    matcher = new Matcher.fromMap (map[Key.matcher]);
+    expectation = new Expectation.fromMap(map[Key.expectation]);
+  }
+
   @override
   String toString() => '${this.expr} ${this.matcher} ${this.expectation}';
+
 
   Map toJson() => {
     Key.expression : expr,
@@ -25,6 +32,10 @@ class Expression {
   String expression;
 
   Expression(this.expression);
+
+  Expression.fromMap (Map map) {
+    expression = map[Key.expression];
+  }
 
   @override
   String toString() => '${this.expression}';
@@ -48,6 +59,10 @@ class Matcher {
 
   Matcher(this.value);
 
+  Matcher.fromMap (Map map) {
+    value = map[Key.value];
+  }
+
   @override
   String toString() => '${this.value}';
 
@@ -67,6 +82,10 @@ class Expectation {
   String value;
 
   Expectation(this.value);
+
+  Expectation.fromMap(Map map) {
+    this.value = map[Key.value];
+  }
 
   @override
   String toString() => '${this.value}';

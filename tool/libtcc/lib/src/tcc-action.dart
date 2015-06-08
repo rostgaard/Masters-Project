@@ -5,6 +5,10 @@ class Action {
 
   Action (this.name);
 
+  Action.fromMap (String name) {
+    this.name = name;
+  }
+
   @override
   String toString () => this.name;
 

@@ -14,6 +14,12 @@ class Target {
     }
   }
 
+  Target.fromMap(Map map) {
+    type = map[Key.type];
+    iden = map[Key.identifier];
+    anonymous = map[Key.anonymous];
+  }
+
   @override
   String toString() => '${this.type}${!this.anonymous ? ' ${this.iden}' : ''}';
 
@@ -24,5 +30,5 @@ class Target {
   bool operator ==(Target other) => this.iden == other.iden;
 
   Map toJson() =>
-      {Key.type: type, Key.identity: iden, Key.anonymous: anonymous};
+      {Key.type: type, Key.identifier: iden, Key.anonymous: anonymous};
 }

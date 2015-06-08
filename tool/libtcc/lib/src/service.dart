@@ -27,7 +27,7 @@ class TestCaseService {
 
     return this._backend.get (uri)
       .then((String response)
-        => new UseCase.fromMap(JSON.decode(response)));
+        => new UseCase.fromJson(JSON.decode(response)));
   }
 
 
@@ -41,7 +41,7 @@ class TestCaseService {
       .then(JSON.decode)
         .then((Iterable<Map> maps) =>
           maps.map((Map map) =>
-            new UseCase.fromMap(JSON.decode(map))));
+            new UseCase.fromJson(map)));
   }
 
   /**
@@ -54,7 +54,7 @@ class TestCaseService {
       .then(JSON.decode)
         .then((Iterable<Map> maps) =>
           maps.map((Map map) =>
-            new Actor.fromMap(JSON.decode(map))));
+            new Actor.fromMap(map)));
   }
 
   /**

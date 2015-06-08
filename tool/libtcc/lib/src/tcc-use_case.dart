@@ -2,6 +2,7 @@ part of libtcc.base;
 
 abstract class Key {
   static const String identity = 'identity';
+  static const String identifier = 'identifier';
   static const String name = 'name';
   static const String description = 'description';
   static const String preconditions = 'preconditions';
@@ -25,20 +26,55 @@ abstract class Label {
   static const String Stakeholders = 'Stakeholders';
 }
 
+
+//TODO: Add primary actor.
 class UseCase {
   String        name;
   String        description = 'No description provided';
   String    get identity  => normalize(this.name);
 
   List<Predicate> preconditions = [];
-  StatementList   statements;
+  StatementList   statements = new StatementList.empty();
   List<Predicate> postconditions = [];
   List<Actor>     stakeholders = [];
 
   UseCase (this.name);
 
   UseCase.fromJson (Map map) {
+    name = map[Key.name];
+    description = map[Key.description];
 
+    /// Add preconditions
+    {
+      Iterable<Map> maps = (map[Key.preconditions]);
+      Iterable<Predicate> preconditions = maps.map((Map map) => new Predicate.fromMap(map));
+
+      this.preconditions.addAll(preconditions);
+    }
+
+    /// Add statements
+    {
+      Iterable<Map> maps = (map[Key.statements]);
+      Iterable<Statement> statements = maps.map((Map map) => new Statement.fromMap(map));
+
+      this.statements = new StatementList(statements);
+    }
+
+    /// Add postconditions
+    {
+      Iterable<Map> maps = (map[Key.postconditions]);
+      Iterable<Predicate> postconditions = maps.map((Map map) => new Predicate.fromMap(map));
+
+      this.postconditions.addAll(postconditions);
+    }
+
+    /// Add stakeholders
+    {
+      Iterable<Map> maps = (map[Key.stakeholders]);
+      Iterable<Actor> stakeholders = maps.map((Map map) => new Actor.fromMap(map));
+
+      this.stakeholders.addAll(stakeholders);
+    }
   }
 
   Map toJson() => {
