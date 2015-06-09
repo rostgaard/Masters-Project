@@ -2,22 +2,46 @@ part of tcc.client.view;
 
 ///TODO: implement.
 class UseCase {
+  final HeadingElement _name = new HeadingElement.h1();
+  final ParagraphElement _description = new ParagraphElement();
+  final UListElement _scenario = new UListElement();
 
-  UseCase._internal();
+  DivElement get element => new DivElement()
+    ..classes.add('use-case')
+    ..children = [_name, _description, _scenario];
 
-  factory UseCase.fromModel() {
-    var uc = new UseCase._internal();
+  /**
+   * Default constructor.
+   */
+  UseCase();
 
+  /**
+   * Replace the selected [UseCase] with [uc].
+   */
+  void set selectedUseCase(libtcc.UseCase uc) {
+    _name.text = uc.name;
+    _description.text = uc.description;
+    _scenario.children =
+        uc.statements.map(_statementToLI).toList(growable: false);
   }
-}
 
-LIElement useCaseToLI (libtcc.UseCase uc) {
-  HeadingElement name = new HeadingElement.h1()..text = uc.name;
-  ParagraphElement description = new ParagraphElement()..text = uc.description;
+  /**
+   * Convert a statement into a visual LI element.
+   */
+  LIElement _statementToLI(libtcc.Statement stmt) {
+    SpanElement actorElement = new SpanElement()
+      ..text = '${stmt.actor.role} '
+      ..classes.add('actor');
 
-  return new LIElement()
-    ..children = [
-      name,
-      description
-      ];
+    SpanElement actionElement = new SpanElement()
+      ..text = '${stmt.action.name} '
+      ..classes.add('action');
+
+    SpanElement objectElement = new SpanElement()
+      ..text = '${stmt.object.type} '
+      ..classes.add('object');
+
+    return new LIElement()
+      ..children = [actorElement, actionElement, objectElement];
+  }
 }
