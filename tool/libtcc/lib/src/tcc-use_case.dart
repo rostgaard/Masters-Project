@@ -57,7 +57,7 @@ class UseCase {
       Iterable<Map> maps = (map[Key.statements]);
       Iterable<Statement> statements = maps.map((Map map) => new Statement.fromMap(map));
 
-      this.statements = new StatementList(statements);
+      this.statements = new StatementList(statements.toList());
     }
 
     /// Add postconditions
