@@ -14,9 +14,11 @@ part 'view/view-goals_panel.dart';
 part 'view/view-menu.dart';
 part 'view/view-popup.dart';
 part 'view/view-tests_panel.dart';
+part 'view/view-test_case.dart';
 part 'view/view-ui.dart';
 part 'view/view-use_case.dart';
 part 'view/view-use_cases_panel.dart';
+part 'view/view-use_case_selector.dart';
 
 abstract class Panel {
 
