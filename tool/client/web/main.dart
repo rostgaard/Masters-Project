@@ -3,10 +3,22 @@
 
 library tcc.client;
 
+import 'dart:html';
 import 'src/view.dart' as View;
+import 'package:logging/logging.dart';
 
 void main() {
-  View.UI ui =
-    new View.UI()
-      ..render();
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen(print);
+
+  /// Verify that we support HTMl5 notifications
+  if(Notification.supported) {
+    Notification.requestPermission().then((String perm) =>
+        Logger.root.info('HTML5 permission ${perm}'));
+  } else {
+    Logger.root.shout('HTML5 notifications not supported.');
+  }
+
+  View.UI ui = new View.UI();
+  ui.render();
 }
