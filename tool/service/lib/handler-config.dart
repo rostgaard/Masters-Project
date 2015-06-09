@@ -19,7 +19,6 @@ class Config {
 
   Future<shelf.Response> update (shelf.Request request) {
     IO.File file = new IO.File ('$_jsonStorePath/config.json');
-    file.createSync();
 
     return request.readAsString().then(file.writeAsString).then((_) => new shelf.Response.ok ('ok'));
   }
