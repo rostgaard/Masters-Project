@@ -23,6 +23,8 @@ part 'handler-test_template.dart';
 const String libraryName = 'tcctool.router';
 final Logger log = new Logger (libraryName);
 
+const String fileStore = '/home/krc/DTU/Masters-Project/tool/examples';
+
 final Map corsHeaders =
   {'Access-Control-Allow-Origin': '*' ,
    'Access-Control-Allow-Methods' : 'GET, PUT, POST, DELETE'};
