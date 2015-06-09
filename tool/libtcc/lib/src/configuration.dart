@@ -15,7 +15,7 @@ class Configuration {
   Map toJson() => this.asMap;
 
   Map get asMap => {
-    Key.jenkinsUri : jenkinsUri
+    Key.jenkinsUri : jenkinsUri.toString()
   };
 
 }
