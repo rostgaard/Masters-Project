@@ -32,16 +32,13 @@ class TestCaseService {
 
 
   /**
-   * Gets all [UseCase].
+   * Gets all [UseCase] names.
    */
-  Future<Iterable<UseCase>> getUseCases() {
+  Future<Iterable<String>> getUseCases() {
     Uri uri = Uri.parse('${this._host}/usecase');
 
     return this._backend.get (uri)
-      .then(JSON.decode)
-        .then((Iterable<Map> maps) =>
-          maps.map((Map map) =>
-            new UseCase.fromJson(map)));
+      .then(JSON.decode);
   }
 
   /**
