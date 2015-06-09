@@ -45,6 +45,18 @@ class TestCaseService {
   }
 
   /**
+   * Gets dummy [UseCase].
+   */
+  Future<UseCase> getDummyUseCase() {
+    Uri uri = Uri.parse('${this._host}/dummy');
+
+    return this._backend.get (uri)
+      .then((String response)
+        => new UseCase.fromJson(JSON.decode(response)));
+  }
+
+
+  /**
    * Gets all [Actor].
    */
   Future<Iterable<Actor>> getActors() {
