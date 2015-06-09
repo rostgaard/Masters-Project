@@ -27,6 +27,7 @@
             <li class="pure-menu-item"><a href="#" class="goals pure-menu-link">Goals</a></li>
             <li class="pure-menu-item"><a href="#" class="concepts pure-menu-link">Concepts</a></li>
             <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
+            <li class="pure-menu-item"><a href="#" class="activities pure-menu-link" hidden>Activities</a></li>
             <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
 
           </ul>
@@ -78,11 +79,16 @@
           <button class="add">Add</button>
         </section>
 
+        <section id="activities" class="content" hidden>
+          <!-- Use yuml.me for rendering -->
+        </section>
+
         <section id="configuration" class="content" hidden>
           <label for="configuration-jenkins-url" >Jenkins URL</label>
           <input id="configuration-jenkins-url"  type="text">
           <button class="save">Save</button>
         </section>
+
 
       </div>
       <script type="application/dart" src="main.dart"></script>

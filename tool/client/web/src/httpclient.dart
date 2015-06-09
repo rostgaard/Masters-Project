@@ -1,4 +1,4 @@
-library httpclient;
+library tcc.httpclient;
 
 import 'dart:async';
 import 'dart:html' as HTML;
