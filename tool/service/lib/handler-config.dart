@@ -9,7 +9,8 @@ class Config {
     IO.File file = new IO.File ('$_jsonStorePath/config.json');
 
     if(!file.existsSync()) {
-      new shelf.Response.notFound('No config found');
+      log.warning('No config found. Creating one.');
+      file.writeAsStringSync(JSON.encode(new Configuration.initial()));
     }
 
     return file.readAsString().then((String result) =>
