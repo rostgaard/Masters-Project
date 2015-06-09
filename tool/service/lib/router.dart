@@ -43,6 +43,7 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
   Actor actorHandler = new Actor();
   Config configHandler = new Config();
   Test testHandler = new Test();
+  UseCase useCaseHandler = new UseCase();
   TestTemplate testTemplateHandler = new TestTemplate();
 
 
@@ -57,7 +58,11 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
     ..post('/test/template', testTemplateHandler.create)
     ..get('/test/template/{tplid}', testTemplateHandler.get)
     ..put('/test/template{tplid}', testTemplateHandler.update)
-
+    ..get('/usecase', useCaseHandler.list)
+    ..get('/usecase/{name}', useCaseHandler.get)
+    ..put('/usecase/{name}', useCaseHandler.update)
+    ..post('/usecase/{name}', useCaseHandler.create)
+    ..delete('/usecase/{name}', useCaseHandler.remove)
     ..post('/test/{tid}/analyse', testHandler.analyse)
     ..get('/configuration', configHandler.get)
     ..put('/configuration', configHandler.update);
