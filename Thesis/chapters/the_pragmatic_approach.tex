@@ -1,8 +1,8 @@
 \chapter{The pragmatic approach}
+This section describes the first and second iteration of the test generation tool.
 \section{First implementation}
 During the development of the system, little or no unit tests had prevailed. This. however, was mostly due to the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent.\\
-The high level of asynchronism of the system, and low level of control with the PBX made feature regressions a daily pain. Unit tests were of no use, as what we needed to test were the components. A common way of testing components is to provide a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In this case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.
-
+The high level of asynchronism of the system, and low level of control with the PBX made feature regressions a daily pain. Unit tests were of no use, as what we needed to test were the components. A common way of testing components is to provide a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In this case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.\\\\
 As development progressed, it became increasingly difficult and time consuming to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and signal an idle state to system. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.\\\\
 The next challenge was then to determine which actions should be automated, and how much they should be automated? This was easily solved by reverse engineering a partial activity diagram from the use cases, and add the missing parts with the help of a representative from Responsum. Once we had the activity diagram, we decided that every macro-action we wanted to automate (in executable code) mirrored an action in the activity diagram. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We dubbed this ``use-case oriented scripting''.\\\\
 In this scripting environment, we started to outline some of the domain actors (such as contact and receptionists), the services interfaces, and domain concepts (such as calls and messages).
@@ -44,29 +44,28 @@ self.Step (Message = "FreeSWITCH ->> FreeSWITCH [forbind opkald og telefon-N]")
 \end{lstlisting}
 
 \noindent
-The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
+Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}. Missing methods, or problems in generated code were identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.\todo{.\\example here}\\\\
 
-Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}. Missing methods, or problems in generated code was identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.
 
-%TODO example.
-
-\begin{figure}
+\begin{figure}[!h]
 \centering
 \includegraphics[width=0.20\textwidth]{\imgdir first_generation_class_structure}
-\caption{Class diagram outlining the overall hierarchy of executable use cases}
+\caption{Class diagram outlining the overall hierarchy of executable use cases (\textbf{TODO:} Should implement run, pre- and postconditions)}
 \label{fig:first_generation_class_structure}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
-\caption{Mock-up of a user interface using a markdown-like language for writing use cases.}
+\caption{Early mock-up of a user interface using a markdown-like language for writing use cases.}
 \label{fig:markdown_ui_mockup}
 \end{figure}
 
-We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.
+We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.\\\\
+We realized that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.
 
-The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
+%The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
 
 %\section{The verification problem}
 %TODO V-model.
