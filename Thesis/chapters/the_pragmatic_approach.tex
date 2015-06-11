@@ -65,7 +65,8 @@ Programing-wise, this was done by adding the needed macro methods required by th
 \end{figure}
 
 We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.\\\\
-We realized that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.
+We realized that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.\\\\
+An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the 
 
 %The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
 
