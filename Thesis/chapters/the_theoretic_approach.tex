@@ -7,7 +7,19 @@ This chapter is provides a top-down analysis of the requirement-to-test problem.
 Given that we want to be able to generate tests based on requirements require structure and a touch of semantics. For the latter, we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
 This structure and semantics are best defined by the stakeholder that knowns the problem domain by heart; the customer of the software. There are however some challenges in extracting the domain knowledge from these stakeholders which is discussed in the next section.
 
-\section{Costumer perspective}
+\section{Stakeholders}
+
+\subsection{Developer}
+% What is to be gained for this stakeholder?
+There are different levels to write the use-case tests on;
+%\begin{description}
+%  \item [Manually:] all the tests and the domain model and logic
+%  \item [Partially automatic:] either by writing up support code for the domain model manually, and generates the use cases, or the other way around.
+%  \item [Fully:] automatic.
+%\end{description}
+
+\subsection{Costumer perspective}
+% What is to be gained for this stakeholder?
 The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
 
 More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
