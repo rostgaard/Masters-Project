@@ -13,12 +13,17 @@ part 'tcc-action.dart';
 part 'service.dart';
 part 'configuration.dart';
 part 'tcc-actor.dart';
+part 'tcc-concept.dart';
+part 'tcc-defintion.dart';
+part 'tcc-definitions.dart';
 part 'tcc-condition.dart';
 part 'tcc-declaration.dart';
 part 'tcc-mappings.dart';
 part 'tcc-statement.dart';
 part 'tcc-target.dart';
 part 'tcc-use_case.dart';
+part 'tcc-use_case_block.dart';
+part 'tcc-use_case_entry.dart';
 
 // Mappings of type 'hints' to classes.
 final Map<String, String> classMap = {'message': 'Message'};
@@ -81,7 +86,7 @@ void ${uc.identity} (${parameters.join(', ')}) {
 
 final Actor receptionist1 = new Actor('Receptionist');
 final Actor receptionist2 =
-    new Actor('Receptionist', role: 'other receptionist');
+    new Actor.withRole('Receptionist', 'other receptionist');
 final Actor caller = new Actor('Caller');
 
 UseCase useCase1 = new UseCase('Use case 1')

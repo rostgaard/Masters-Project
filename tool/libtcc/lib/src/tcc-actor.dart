@@ -1,24 +1,18 @@
 part of libtcc.base;
 
-class Actor {
-  String type;
+class Actor extends Concept {
+
   String role;
   static const String anonID = '__anonymous_actor_';
-  bool anonymous = true;
+  bool get anonymous => this.role.isEmpty;
 
-  Actor(this.type, {String this.role : ''}) {
-    if (this.role.isEmpty) {
-      this.role = this.type.toLowerCase();
-    } else {
-      anonymous = false;
-    }
-  }
+  Actor(type) : super(type);
 
-  Actor.fromMap(Map map) {
-    type = map[Key.type];
-    role = map[Key.role];
-    anonymous = map[Key.anonymous];
-  }
+  factory Actor.withRole(String type, String role) =>
+      new Actor(type)..role = role;
+
+  factory Actor.fromMap(Map map) =>
+     new Actor.withRole(map[Key.type], map[Key.role]);
 
   @override
   String toString () => '${this.role.isNotEmpty ? ' ${this.role}' : '??' } (${this.type})';
@@ -38,7 +32,6 @@ class Actor {
   Map toJson() => {
     Key.type : type,
     Key.role : role,
-    Key.anonymous : anonymous
   };
 
 }
