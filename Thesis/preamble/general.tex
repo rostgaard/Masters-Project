@@ -100,28 +100,6 @@
     \def\todoshowing{disable}
 \fi
 \usepackage[colorinlistoftodos,\todoshowing]{todonotes} % Todonotes package for nice todos
-\newtotcounter{todocounter}           % Creates counter in todo
-\let\oldtodo\todo
-\newcommand*{\newtodo}[2][]{\stepcounter{todocounter}\oldtodo[#1]{\thesection~(\thetodocounter)~#2}}
-\let\todo\newtodo
-\let\oldmissingfigure\missingfigure
-\newcommand*{\newmissingfigure}[2][]{\stepcounter{todocounter}\oldmissingfigure[#1]{\thesection~(\thetodocounter)~#2}}
-\let\missingfigure\newmissingfigure
-\makeatletter
-\newcommand*{\mylistoftodos}{% Only show list if there are todos
-\if@todonotes@disabled
-\else
-    \ifnum\totvalue{todocounter}>0
-        \markboth{\@todonotes@todolistname}{\@todonotes@todolistname}
-        \phantomsection\todototoc
-        \listoftodos
-    \else
-    \fi
-\fi
-}
-\makeatother
-\newcommand{\lesstodo}[2][]{\todo[color=green!40,#1]{#2}}
-\newcommand{\moretodo}[2][]{\todo[color=red!40,#1]{#2}}
 
 % Chapterstyle
 \makeatletter
