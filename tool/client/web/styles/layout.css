@@ -16,7 +16,7 @@ span.action {
   color: blue;
 }
 
-span.object {
+span.object, span.concept {
   color: orange;
 }
 

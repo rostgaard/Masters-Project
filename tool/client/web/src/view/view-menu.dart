@@ -7,7 +7,8 @@ enum MenuItem {
  tests,
  goals,
  configuration,
- activities
+ activities,
+ uiExamples
 }
 
 
@@ -26,7 +27,7 @@ class Menu {
   Element get _goals => _root.querySelector('a.goals');
   Element get _configuration => _root.querySelector('a.configuration');
   Element get _activities => _root.querySelector('a.activities');
-
+  Element get _uiExamples => _root.querySelector('a.ui-examples');
 
   Element get _selectedMenuItem => _root.querySelector('li.pure-menu-selected');
 
@@ -75,6 +76,12 @@ class Menu {
       _selectedMenuItem.classes.toggle('pure-menu-selected', false);
       _configuration.parent.classes.toggle('pure-menu-selected', true);
       _selectedItem.add(MenuItem.configuration);
+    });
+
+    _uiExamples.onClick.listen((_) {
+      _selectedMenuItem.classes.toggle('pure-menu-selected', false);
+      _configuration.parent.classes.toggle('pure-menu-selected', true);
+      _selectedItem.add(MenuItem.uiExamples);
     });
 
   }

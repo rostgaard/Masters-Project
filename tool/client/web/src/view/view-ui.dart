@@ -10,7 +10,6 @@ class UI {
 
   Element get _activitiesPanel => querySelector('section#activities');
 
-
   final libtcc.TestCaseService _service = new libtcc.TestCaseService(
       Uri.parse('http://localhost:7777'), new HttpClient());
   final libtcc.Configuration _configModel = new libtcc.Configuration.initial();
@@ -25,6 +24,7 @@ class UI {
   UseCasesPanel _useCasesPanel;
   GoalsPanel _goalsPanel;
   ConfigPanel _configPanel;
+  UIExamples _examplesPanel;
 
   UI() {
 
@@ -37,6 +37,7 @@ class UI {
     _goalsPanel = new GoalsPanel(querySelector('section#goals'), _configController, _service);
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);
 
+    _examplesPanel = new UIExamples(querySelector('section#ui-examples'));
     _observers();
   }
 
@@ -75,6 +76,10 @@ class UI {
 
         case MenuItem.goals:
           _select(_goalsPanel, 'Goals');
+          break;
+
+        case MenuItem.uiExamples:
+          _select(_examplesPanel, 'UI Examples (not real data)');
           break;
       }
     });
