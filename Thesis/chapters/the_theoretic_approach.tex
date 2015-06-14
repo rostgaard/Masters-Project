@@ -356,4 +356,4 @@ The expression function is applied to the statement, then the result is applied 
 %Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
 %Test cases may further introduce dependencies, such as messageStore
 
-
+%On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled.
