@@ -5,10 +5,7 @@ part of libtcc.base;
  */
 class UseCaseBlock extends IterableBase<UseCaseEntry>{
 
-  /// By default, every block leads to termination.
-  UseCaseEntry returnsTo = UseCaseEntry.termination;
-
-  Iterator get iterator => ([]..addAll(_entries)..add(returnsTo)).iterator;
+  Iterator get iterator => _entries.iterator;
 
   final List<UseCaseEntry> _entries;
 

@@ -13,6 +13,7 @@ part 'tcc-action.dart';
 part 'service.dart';
 part 'configuration.dart';
 part 'tcc-actor.dart';
+part 'tcc-base_use_case.dart';
 part 'tcc-concept.dart';
 part 'tcc-defintion.dart';
 part 'tcc-definitions.dart';
@@ -24,6 +25,7 @@ part 'tcc-target.dart';
 part 'tcc-use_case.dart';
 part 'tcc-use_case_block.dart';
 part 'tcc-use_case_entry.dart';
+part 'tcc-use_case_extension.dart';
 
 // Mappings of type 'hints' to classes.
 final Map<String, String> classMap = {'message': 'Message'};

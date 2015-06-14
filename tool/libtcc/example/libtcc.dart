@@ -6,7 +6,7 @@ library libtcc.example;
 import 'package:libtcc/libtcc.dart';
 
 final Actor receptionist1 = new Actor('Receptionist');
-final Actor receptionist2 = new Actor('Receptionist', role: 'other receptionist');
+final Actor receptionist2 = new Actor.withRole('Receptionist', 'other receptionist');
 final Actor caller = new Actor('Caller');
 
 UseCase useCase1 =
