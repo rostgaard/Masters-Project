@@ -16,6 +16,7 @@ part 'view/panels/view-templates_panel.dart';
 part 'view/panels/view-tests_panel.dart';
 part 'view/panels/view-use_cases_panel.dart';
 
+part 'view/view-actors.dart';
 part 'view/view-menu.dart';
 part 'view/view-popup.dart';
 part 'view/view-test_case.dart';
