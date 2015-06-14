@@ -8,7 +8,8 @@ enum MenuItem {
  goals,
  configuration,
  activities,
- uiExamples
+ uiExamples,
+ templates
 }
 
 
@@ -28,6 +29,7 @@ class Menu {
   Element get _configuration => _root.querySelector('a.configuration');
   Element get _activities => _root.querySelector('a.activities');
   Element get _uiExamples => _root.querySelector('a.ui-examples');
+  Element get _templates => _root.querySelector('a.templates');
 
   Element get _selectedMenuItem => _root.querySelector('li.pure-menu-selected');
 
@@ -84,5 +86,10 @@ class Menu {
       _selectedItem.add(MenuItem.uiExamples);
     });
 
+    _templates.onClick.listen((_) {
+      _selectedMenuItem.classes.toggle('pure-menu-selected', false);
+      _templates.parent.classes.toggle('pure-menu-selected', true);
+      _selectedItem.add(MenuItem.templates);
+    });
   }
 }

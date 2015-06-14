@@ -25,6 +25,7 @@ class UI {
   GoalsPanel _goalsPanel;
   ConfigPanel _configPanel;
   UIExamples _examplesPanel;
+  TemplatesPanel _templatesPanel;
 
   UI() {
 
@@ -36,6 +37,7 @@ class UI {
     _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _configController, _service);
     _goalsPanel = new GoalsPanel(querySelector('section#goals'), _configController, _service);
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);
+    _templatesPanel = new TemplatesPanel(querySelector('section#templates'), _configController, _service);
 
     _examplesPanel = new UIExamples(querySelector('section#ui-examples'));
     _observers();
@@ -50,6 +52,7 @@ class UI {
         case MenuItem.actors:
           _select(_actorsPanel, 'Actors');
           break;
+
         case MenuItem.concepts:
           _select(_conceptsPanel, 'Concepts');
           break;
@@ -74,8 +77,8 @@ class UI {
           //_select(_activitiesPanel, 'Activities');
           break;
 
-        case MenuItem.goals:
-          _select(_goalsPanel, 'Goals');
+        case MenuItem.templates:
+          _select(_templatesPanel, 'Templates');
           break;
 
         case MenuItem.uiExamples:

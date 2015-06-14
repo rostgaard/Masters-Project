@@ -26,6 +26,7 @@
             <li class="pure-menu-item"><a href="#" class="actors pure-menu-link">Actors</a></li>
             <li class="pure-menu-item"><a href="#" class="goals pure-menu-link">Goals</a></li>
             <li class="pure-menu-item"><a href="#" class="concepts pure-menu-link">Concepts</a></li>
+            <li class="pure-menu-item"><a href="#" class="templates pure-menu-link">Templates</a></li>
             <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
             <li class="pure-menu-item"><a href="#" class="activities pure-menu-link" hidden>Activities</a></li>
             <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
@@ -95,6 +96,46 @@
 
         <section id="activities" class="content" hidden>
           <!-- Use yuml.me for rendering -->
+        </section>
+
+        <section id="templates" class="content" hidden>
+           <nav class="template">
+            <div class="pure-menu  pure-menu-horizontal pure-menu-scrollable">
+              <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Template 1</a></li>
+                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Template 2</a></li>
+
+              </ul>
+            </div>
+            </nav>
+        <pre>
+library domain_model;
+
+[%TESTCASES%]
+
+class Message {}
+
+class Receptionist {
+
+  void send(Message m) {
+    throw new UnimplementedError();
+  }
+
+  void save(Message m) {
+    throw new UnimplementedError();
+  }
+
+  void retrieve(Message m) {
+    throw new UnimplementedError();
+  }
+}
+
+abstract class ReceptionistPool {
+  static Receptionist aquire() {
+    return new Receptionist();
+  }
+}
+        </pre>
         </section>
 
         <section id="configuration" class="content" hidden>
