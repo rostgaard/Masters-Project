@@ -1,11 +1,62 @@
 
-%TODO more on this story. Something that leads to the discovery of a structure and pattern of use cases and tests.
+%TODO more on this story. Something that leads to the discovery of a structure and pattern of use cases and tests. ALSO IMPORTANT; Add general section on tests (background and exisiting solutions) - and how this solution wishes to improve it.
+
 \chapter{Background}
+%TODO review this section and make it fit with next one.
 This chapter provides the historical background and motivation for the idea that eventually became the topic of this thesis. It also gives a brief overview of the design and implementation of the case study system used in this thesis.
 
-\section{The brief story}
+.. provides a brief introduction to software testing, test-driven development and how these relate to, and differ from this project.
+
+\section{Software testing}
+
+\subsection{Continuous integration}
+Continuous integration is a very good supplement to Test-driven development.
+\subsection{Test-driven development}
+A development methodology that emerged around the millennium and have been looking very promising is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.6]{\imgdir test-driven-development-flow}
+\caption{Basic work-flow of test-driven development.}
+\label{fig:test-driven-development-flow}
+\end{figure}
+
+Some of the arguments for using TDD is that it; enables continuous regression testing and focus strongly on building the object and components that are needed,, rather than the ones that are thought to be needed.\cite{george2003}.
+...
+Ho will this differ from TDD? It uses the same philosophy of; tests firsts.
+
+
+\section{Tests glossary}
+%TODO Verify these.
+In this section brief glossary from the test domain
+\begin{description}
+  \item[Coverage:] How much of the system is actually covered by the tests.
+  \item[Unit test:] Small component test
+  \item[White-box test:] Test system as known
+  \item[Black-box test:] Test system as unknown
+  \item[Integration test:] Test system as deployed, stress-tests and others
+  \item[Acceptance test:] Test system as it should work
+\end{description}
+
+\section{Case study system}
 Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\\\\
 The three entrepreneurs were in the business of ``reception hosting''. About one year after, the first conceptual prototype emerged, and by the end of 2013, an alpha version of the product was ready to be tested and hardened for production use. However, due to the high level of asynchronism, and low level of explicit coordination -- which was by design -- regressions became an increasing problem. And when the requirements also started to change, a dire need for automated, and usage-oriented testing became evident.
+
+
+\subsection{Problem domain glossary}
+In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
+\begin{description}
+  \item[Customer:] The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
+  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
+  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
+  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
+  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
+  \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
+% \item[Domain concept] are usually also present in the mapping, and are usually mapped directly to a class.
+%Use case definition: An event that describes behaviors and it's written from a user's perspective.
+
+\end{description}
+This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.\\\\
 
 \section{Business model and existing system}
 The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually.\\\\
