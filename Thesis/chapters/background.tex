@@ -9,8 +9,6 @@ This chapter provides the historical background and motivation for the idea that
 
 \section{Software testing}
 
-\subsection{Continuous integration}
-Continuous integration is a very good supplement to Test-driven development.
 \subsection{Test-driven development}
 A development methodology that emerged around the millennium and have been looking very promising is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.
 
@@ -21,18 +19,25 @@ A development methodology that emerged around the millennium and have been looki
 \label{fig:test-driven-development-flow}
 \end{figure}
 
-Some of the arguments for using TDD is that it; enables continuous regression testing and focus strongly on building the object and components that are needed,, rather than the ones that are thought to be needed.\cite{george2003}.
-...
+Some of the arguments for using test-driven development is that it enables continuous regression testing. It focuses strongly on building the object and components that are needed rather than the ones that are thought to be needed. And it also lowers the gap between component design, and feedback.\cite{george2003}. By feedback is meant developer feedback -- whether the component works or not.\\
+Test-driven development, in its nature, encourages code to be written testable. If a test is written prior to the code, then -- obviously -- the code written will be testable, or it will not pass the tests that originated it. This often means better code reuse and smaller, more loosely coupled components. This is probably due to the fact that when you write tests, it is often the case that you repeat some actions over and over again.\\\\ %TODO maybe an example?
 Ho will this differ from TDD? It uses the same philosophy of; tests firsts.
+
+\subsection{Continuous integration}
+Continuous integration is a methodology, that u
+
+ that supplements
+
+ to Test-driven development.
 
 
 \section{Tests glossary}
 %TODO Verify these.
 In this section brief glossary from the test domain
 \begin{description}
-  \item[Coverage:] How much of the system is actually covered by the tests.
+  \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
   \item[Unit test:] Small component test
-  \item[White-box test:] Test system as known
+  \item[White-box test:] A white-box test treats the system as a transparent box where all the internals are known. From these known internals, tests can be written to take a specific code path within the component under test. Unit tests are an example of a white-box test, as it tests the known internals of the unit. In the case study system, white-box tests are used to verify API's and system functionality -- effectively testing multiple API's in a single test.
   \item[Black-box test:] Test system as unknown
   \item[Integration test:] Test system as deployed, stress-tests and others
   \item[Acceptance test:] Test system as it should work
