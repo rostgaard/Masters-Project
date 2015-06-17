@@ -1,7 +1,8 @@
-\chapter{The pragmatic approach}
+\chapter{First iterations}
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
-This section describes the first and second iteration of the test generation tool.
+This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{sec:openreception_framework}).\\
+This section covers the motivation for building the test, and test tools as we did, and how it was implemented.
 \section{First implementation}
 During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent.\\
 The high level of asynchronism of the system, and low level of control with the PBX made feature regressions a daily pain. Unit tests were of no use, as what we needed to test were the components. A common way of testing components is to provide a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In this case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.\\\\
