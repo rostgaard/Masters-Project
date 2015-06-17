@@ -1,5 +1,8 @@
 \chapter{Introduction}
 %TODO What is the scope of this? Is it for small/large projects? Long-lived projects? Continously evolving projects?
+%How does this project want to change to actual problem.
+%STATE THE ACTUAL PROBLEM - VERY SPECIFIC.
+
 
 Within the realm of software engineering, there exists a realm of requirement engineering there exists a domain of requirement elicitation and maintenance. In this realm, struggles of keeping documented requirements both consistent with -- and relevant to -- implementation often take place. A common mean gaining an upper hand in this struggle is to continuously, verify requirements though reviews and manual acceptance testing.
 For long-lived projects that continuously add features and components, this problem is even greater, as maintenance of requirements while adding new ones increases the risk of requirement documentation decay and inconsistency significantly. For example, a new requirement that allows users to access some information unauthenticated, may contradict a previous requirement.\\\\
@@ -9,6 +12,7 @@ Adding structure and formalism to requirements is in no way a new idea. Tools ex
 These systems are, however, rarely used in practice, as they are very rigid and hard to read to anyone not proficient in the notation. A typical customer for a new software product would not be able to read, and even more critically, verify accuracy of requirements. In every case, most software engineers prefer more formalism due to the fact that processes (such as documentation and model checking) can be better automated.\\\\
 Customers, on the other hand, are usually interested in very high level usage of systems, communicated in a natural language; such as ``The system should continuously monitor user activity and create statistics for a manager''. A statement such as this contains a lot of implicit domain knowledge and give rise to additional questions that needs to be answered and documented.\\\\
 So, in summary, the dynamics of a requirement gathering have two opposite sides; one wishes more formalism, and the other wants less. The big question is then; can we find a middle ground? A methodology that constrains the user enough to inject useful semantics and structure in requirements, while keeping as much of the natural language as possible.\\
+%If we were to map these statements to real system implementation
 If the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, we would be also able to automatically generate system tests from them. By generating these tests, we effectively provide a feedback channel from implementation to requirements, as these tests will serve as a link between requirements and implementation.\\\\
 \todo[inline]{The following sections are somewhat decoupled, fix that.}
 This thesis will try to look for a middle ground, where we put the customer in the middle and try to provide a tool and methodology to extract models and verification information from them indirectly. The hope is to be able to infer or manually add semantics to the system descriptions the users provide, so that we will be able to generate acceptance tests from them.\\\\
@@ -16,8 +20,7 @@ The ultimate goal is to identify -- or create --  a tool and/or a process that i
 The methodology used in the process is two-headed. One is bottom-up, and the other is top-down. The bottom is to take an existing system where a rudimentary \emph{ad-hoc} implementation is used, and try to extract some general patterns from it. The top-down approach is to very broadly define the abstract concepts needed to make this entire project feasible. Ideally, there will be some common ground where both of the approaches can agree. The intended effect of choosing this approach is that it tries to keep things applicable, while being guided by an academic scope.
 
 \section{Problem statement}
-\todo[inline]{Write up a clear-cut text here that explains it, and leads into the project subsection.}
-
+Software project fail \cite{verner2008} \cite{charette2005}
 \section{Existing mapping methods}
 Usually mappings between requirement and implementation is non-existing. But when a mapping exists, it is usually implemented by an ad-hoc notation system, such as comments that link to source code files or integration tests. There exist systems that control the requirement tractability, but these tools usually target the safety-critical software market and are, thus, not really suited for mainstream development.\\%TODO Reference
 
@@ -27,26 +30,40 @@ There exist already methods and tools that extend the formalization of requireme
 \subsection{Project}
 %This is a Model Driven Engineering (MDE) technique.
 %NOTE the summary of this section should be that we want to look into the value of this in requirement elicitation process, the level of abstraction in the methododogy and discussion on value.
+\begin{figure}
+\centering
+\begin{tikzpicture}
+
+% horizontal axis
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+
+% ranges
+%\draw (4,3.5) node{{\scriptsize Test parameters}};
+
+% vertical axis
+\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+% nominal speed
+
+\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+
+% Psis
+\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+
+\end{tikzpicture}
+\label{fig:project_parameter_plot}
+\caption{Project parameters and key points}
+\end{figure}
+
+%TODO Define Domain-awareness and add explanation of the above graphic.
+
 The basic idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability, and try to avoid bad requirements. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\\\\
 These questions should -- preferably -- be answered by the customer of the system, and mapped to actual functionality that may then be tested with regards to the behavior described in the requirements. So, in essence, the very basic use case; ``Administrator creates a new user'' with the postcondition ``The new user is created in the system'' should result in a test that, in some way, performs the ``add user'' action of the Administrator actor, and then verifies it against the postconditions. Ideally; with an appropriate level of detail provided in the use cases, and a grain of automated (and manual) mapping to domain concepts will enable automatic generation of acceptance tests. These can then be combined with a continuous integration service that runs the tests and reports results to developers.\\\\
 The project will use the requirements from an existing system as a case study and formalize the structure of these, so that test generation from them is possible. During this process, we will investigate how to structure requirements so that we can generate tests directly from them and map implementation to requirements. Ideally, we want to identify general patterns and constraints in the structure/formalism introduced to our requirements in the case study, to be able to apply them to other projects. But in general, we will investigate to which extent this idea can be applied, and try to implement a translation tool that is able to translate a representation of a use cases into a tests case.
 
-\section{Glossary}
-In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
-\begin{description}
-  \item[Customer:] The person in the role of purchasing the software. Assumed to have little or no knowledge about formalism, modeling or programming.
-  \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
-  \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
-  \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
-  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
-  \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
-% \item[Domain concept] are usually also present in the mapping, and are usually mapped directly to a class.
-%Use case definition: An event that describes behaviors and it's written from a user's perspective.
-
-\end{description}
-This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.\\\\
-
-This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements. 
+This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements. \\\\
+The project is, considered an extension of the test-driven development methodology, lifting it from its typical application of integration testing onto the new level of acceptance testing. This process is meant to be tool-assisted, so that tests may be generated automatically, but the mappings to the system needs to be done by hand.
 %Original project description.
 
 %\section{Background}
