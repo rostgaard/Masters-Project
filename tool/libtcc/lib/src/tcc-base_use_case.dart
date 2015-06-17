@@ -45,9 +45,16 @@ class BaseUseCase {
   }
 
 
-  Iterable<int> pathOfExtension(UseCaseExtension uce) {
-    List<int> main = idsOfBlock(uce.entries);
+  Iterable<UseCaseEntry> pathOfExtension(UseCaseExtension uce) {
+    // Join it in the tree
+    List<UseCaseEntry> path = []..addAll(pathDownto(uce.extensionOf))
+                                ..addAll(uce.entries);
 
+    if (uce.returnsTo != UseCaseEntry.termination) {
+      path.addAll(pathFrom(uce.returnsTo));
+    }
+
+    return path;
   }
 
   List<List<UseCaseEntry>> get paths {
@@ -57,30 +64,29 @@ class BaseUseCase {
     values.add(scenario.toList());
 
     // Next paths are the extensions.
-    Iterable<UseCaseEntry> exts = extensions.first.entries;
 
-    // Join it in the tree
-    List<UseCaseEntry> path = []..addAll(pathDownto(extensions.first.extensionOf))
-                                ..addAll(exts);
-
-    if (extensions.first.returnsTo != UseCaseEntry.termination) {
-
-    } else {
-      print ('termination detected!');
-    }
-
-
-    //print (pathDownto (this._scenario.first));
-    //print (pathFrom (this._scenario.elementAt(2)));
-    //print (this._scenario.elementAt(1));
-
-   // print (pathFrom(this._scenario.elementAt(2)));
-
-    print (path);
+    extensions.forEach((UseCaseExtension uce) {
+      values.add(pathOfExtension(uce));
+    });
 
     return values;
   }
 
+  List<UseCaseExtension> get loops {
+    List<UseCaseExtension>  values = [];
+
+    extensions.forEach((UseCaseExtension uce) {
+
+      if (uce.returnsTo != UseCaseEntry.termination) {
+        List<UseCaseEntry> tailPath = pathFrom(uce.returnsTo);
+        if (tailPath.contains(uce.extensionOf)) {
+          values.add(uce);
+        }
+      }
+    });
+
+    return values;
+  }
 
 
   List<UseCaseExtension> extensions;

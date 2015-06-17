@@ -31,3 +31,28 @@ UseCase useCase1 =
                            new Action ('retrieve'),
                            new Target ('message', iden: 'A'))
                        ]);
+
+
+UseCaseEntry pickupCall = new UseCaseEntry('Receptionist picks up call');
+UseCaseEntry giveGreeting = new UseCaseEntry('Receptionist gives greeting');
+UseCaseEntry lookupEmployee = new UseCaseEntry('Receptionist looks up employee');
+
+UseCaseEntry specificEmployee = new UseCaseEntry('Receptionist select specific employee');
+
+UseCaseEntry searchEmployee = new UseCaseEntry('Receptionist searches for employee');
+UseCaseEntry dialContact = new UseCaseEntry('Receptionist dials contact');
+
+UseCaseEntry initiateTransfer = new UseCaseEntry('Receptionist initiates transfer');
+
+UseCaseExtension noSpecificEmployee = new UseCaseExtension(lookupEmployee, [searchEmployee])
+  ..returnsTo= dialContact;
+
+UseCaseExtension contactNotAvailable = new UseCaseExtension(lookupEmployee, [searchEmployee])
+  ..returnsTo= lookupEmployee;
+
+UseCaseBlock block1 =
+  new UseCaseBlock([pickupCall, giveGreeting, lookupEmployee, specificEmployee, dialContact, initiateTransfer]);
+
+BaseUseCase buc1 = new BaseUseCase('some use case')
+ ..scenario = block1
+ ..extensions = [noSpecificEmployee, contactNotAvailable];
