@@ -1,6 +1,6 @@
 %TODO Add a section on passing use cases on to each other.
 
-\chapter{The theoretic approach}
+\chapter{Design}
 This chapter is provides a top-down analysis of the requirement-to-test problem. By discussing the different stakeholders interests, roles and challenges, a theoretic solution will be devised.
 
 \section{Outline}
@@ -341,8 +341,38 @@ Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow
 The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
 %\texttt{matcher expression} ($s$)
 
+%\begin{algorithmic}
+%\If {$i\geq maxval$}
+%    \State $i\gets 0$
+%\Else
+%    \If {$i+k\leq maxval$}
+%        \State $i\gets i+k$
+%    \EndIf
+%\EndIf
+%\end{algorithmic}
+
+\subsection{Mapping entries}
+Any use case statement may be mapped to an assumption, an error or an assumption.
+
+\subsection{Mapping branches}
+Use cases may branch out and go to alternatives actions. These branches are associated with errors, and may be difficult to emulate. One possibility is to use an assumption mapping here, and treat the event or decision as having occurred. For active decisions taken by the primary actor, for example an action taken to better serve a customer request, it is easy to assume. Injecting errors in a running system is something else entirely... %TODO Finish.
+
+\subsection{Determining paths}
+%This is, most definitely a non-trivial problem.
+In order to find all possible paths in a use case, the easiest way is to represent it as a graph and use a depth-first search or the more efficient one based upon Warshall's Theorem\cite{rubin1978enumerating} to emumerate them. Once a list of paths is retrieved, it is possible to convert every path, which is essentially a list of active actions either performed by, or affecting, the primary actor.\\\\
+This list will be translated into a test by converting it into code snibblet, and join them together in a code block that becomes the body of a test function.
+
+The basic rules for path collection is;
+
+\subsection{Detecting logic errors in use cases}
+Should it be possible to jump ahead in the use case?
+
 
 %TODO Integrate and finalize notes below.
+
+% A use case returns a outputstate which is composed by an outputlog (log messages). A list of assumptions or an error. An error is for when an expectation failed, or a system error occured. Assumptions are for use case entries that are mapped to assumption statements.
+
+
 
 %\section{Test framework}
 % You need to write a test framework containing object pools, factory classes aso.
@@ -357,3 +387,7 @@ The expression function is applied to the statement, then the result is applied 
 %Test cases may further introduce dependencies, such as messageStore
 
 %On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled.
+
+\section{Implementation}
+%lead-in
+The implementation is done in a client/server architecture. It consists of a s
