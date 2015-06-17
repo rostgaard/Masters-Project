@@ -15,4 +15,7 @@ class UseCaseEntry {
   UseCaseEntry (this.text);
 
   operator == (UseCaseEntry other) => this.id == other.id;
+
+  @override
+  String toString() => '$id. $text';
 }

@@ -5,18 +5,31 @@ part of libtcc.base;
  */
 class UseCaseExtension {
 
-  UseCaseBlock block;
-
-  UseCaseEntry extensionOf;
+  final UseCaseEntry extensionOf;
 
   /// By default, every block leads to termination.
   UseCaseEntry returnsTo = UseCaseEntry.termination;
 
-  Iterator get iterator => ([]..addAll(_entries)..add(returnsTo)).iterator;
+  Iterator get iterator => ([]..addAll(entries)..add(returnsTo)).iterator;
 
-  final List<UseCaseEntry> _entries;
+  final UseCaseBlock entries;
 
-  UseCaseExtension(Iterable<UseCaseEntry> entries) :
-    _entries = []..addAll(entries);
+  UseCaseExtension(this.extensionOf, Iterable<UseCaseEntry> scenario) :
+    entries = new UseCaseBlock(scenario) {
+
+    int i = 0;
+
+    entries.forEach ((UseCaseEntry e) {
+      e.id = ++i;
+    });
+  }
+
+  @override
+  String toString() =>
+'''
+extends : $extensionOf
+
+${entries.map((var uce) => '${extensionOf.id}.$uce').join('\n')}
+''';
 
 }
