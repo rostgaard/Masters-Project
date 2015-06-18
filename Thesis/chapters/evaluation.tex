@@ -13,3 +13,35 @@ A section on multiple actors and race conditions. How do you create a use case t
 %  - Validating event chain against a state machine (automaton).
 %  - Executable activity diagrams - knieke2010 
 % Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
+Writing tests is generally easier. Especially tests that asserts that an edge case is not reached. The code becomes 
+
+\begin{figure}[!hbpt]
+\centering
+\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-1}
+\caption{Iteration 1 build trend}
+\label{fig:jenkins-build-trend-interation-1}
+\end{figure}
+
+
+\begin{figure}[!hbpt]
+\centering
+\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-2}
+\caption{Iteration 2 build trend}
+\label{fig:jenkins-build-trend-interation-2}
+\end{figure}
+
+
+\section{Feasibility}
+Parameters that should be measured; LOC ratio; test tools; Phonio is around 2kLOC and neglecatable
+
+Test framework is \~8.5kLOC and 1.1 of these lines are code that wraps the framework. The ratio is then roughly around 10\% written code lines.
+
+Model framework is also around 8kLOC and is reused in both the client and the server.
+\subsection{Relationship to TDD}
+In practice; the approach presented in this thesis is a variant of TDD, but injects some elements from MDE and increases the test coverage by automatically generating the tests from use case branches.
+
+
+\subsection{Is if feasible}
+Basically; no. Can it be used? To some extent. The process is nice, but the mapping simply unfolds into a too large state space with a stucture so complex that is impossible for an end-user to specify it, and very hard for a trained professional to elaborate it. It may be feasible once model-based software engineering reaches a level where behavioral model can be applied to domain models, and thus ...
+
+\section{Related work}
