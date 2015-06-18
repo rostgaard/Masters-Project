@@ -2,25 +2,47 @@
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
 This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{sec:openreception_framework}).\\
-This section covers the motivation for building the test, and test tools as we did, and how it was implemented.
-\section{First implementation}
-During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent.\\
-The high level of asynchronism of the system, and low level of control with the PBX made feature regressions a daily pain. Unit tests were of no use, as what we needed to test were the components. A common way of testing components is to provide a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In this case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.\\\\
-As development progressed, it became increasingly difficult and time consuming to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and signal an idle state to system. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.\\\\
-The next challenge was then to determine which actions should be automated, and how much they should be automated? This was easily solved by reverse engineering a partial activity diagram from the use cases, and add the missing parts with the help of a representative from customer of the system. Once we had the activity diagram, we decided that every macro-action we wanted to automate (in executable code) mirrored an action in the activity diagram. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We dubbed this ``use-case oriented scripting''.\\\\
-In this scripting environment, we started to outline some of the domain actors (such as contact and receptionists), the services interfaces, and domain concepts (such as calls and messages).
-
-\section{Mapping}
-
-\begin{figure}[ht]
+This section covers the motivation for and scoping for the tests and test tools. Later on, it explains how it was implemented and refined.
+%TODO refer to the figure.
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.90\textwidth]{\imgdir example_test_case}
-\caption{Patterns in generated test case}
-\label{fig:domain_model}
-\end{figure}
-The first implementation merely mapped every action, precondition and postcondition line to a code block. So, for instance, the %TODO example.
+\begin{tikzpicture}
 
-Then we assigned every line a unique identification and mapped the identification to individual code chunks meant for three specific purposes;
+% horizontal axis
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+
+% ranges
+%\draw (4,3.5) node{{\scriptsize Test parameters}};
+
+% vertical axis
+\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+% nominal speed
+
+\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,label=above:1st iteration] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+
+% Optimum
+\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+
+\end{tikzpicture}
+\label{fig:project_parameter_plot_1st_iteration}
+\caption{Project parameters with the 1st iteration highlighted}
+\end{figure}
+\section{Motivation and scope}
+During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but no longer behaved as it should.\\
+Is was mainly the high level of asynchronism of the system, and low level of control with the PBX that made feature regressions a daily pain. Unit tests were of little, or no use, as we were basically writing and testing components, without knowing if they belonged in the system, or not. For this problem; the solution of applying a test-driven development methods seemed very suitable, but we wanted to raise the abstraction level a bit further, and start directly from requirements and test the system as a whole.\\\\
+Testing the system as a whole can be done in two ways; either by providing a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In our case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX and IP-telephony domain, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.
+The second way you can test a system as whole, is to test a deployed instance of the system. But before anything could be tested, we needed to decide what to test.
+
+\subsection{Test specification}
+In order to derive a which cases should be tested, we -- in a figurative sense --  tore apart an activity diagram and created use cases from them. Then added the missing parts with the help of a representative from customer of the system. Once we had the use cases as a list of actions and alternatives, we had a manuscript that we needed to replay to assert functionality of the system.\\
+In order to automate this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
+
+\subsection{Mapping}
+Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\\
+In the scripting environment, we then outlined the domain actors (such as caller and receptionists). External resources were also needed, and was provided by the main system via services interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\\\\
+The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code chunks. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
 \begin{description}
   \item[Visualization:] A graphical presentation of the use case in the form of a sequence diagram. In our specific case, we used a tool called seqdiag, and an example of the input is shown is shown in listing \ref{lst:seqdiag_code_example}. The main concept of this was to provide convenient overview of how, and when, the interaction between the actors happened.
   \item[Documentation:] In the OpenReception project, every bit of the documentation lives in a Wiki which is formatted using Markdown. This meant that we could link the source documents associated with use case to the use cases themselves. Generation of use case documentation in the Wiki was using these document fragments.
@@ -28,53 +50,69 @@ Then we assigned every line a unique identification and mapped the identificatio
 \end{description}
 \begin{lstlisting}[language=Bash, caption=Example seqdiag input, label=lst:seqdiag_code_example]
 
-Receptionist-N ->> Klient-N [label = "genvej: fokus-modtagerliste", note = "maaske"];
-Receptionist-N ->> Klient-N [label = "retter modtagerlisten"];
+Receptionist ->> System [label = "Dials contact"];
+System       ->> Receptionist [label = "Call rejected"];
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Example Python code output, label=lst:example_python_output]
+\begin{lstlisting}[language=Python, caption=Example generated Python code output, label=lst:example_python_output]
 # \${WIKI_URL}
 from forward_call import Test_Case
 class Sequence_Diagram (Test_Case):
-def test_Run (self):
-try:
-Incoming_Call_ID = self.Preconditions ()
-self.Step (Message = "Receptionist-N ->> Klient-N [genvej: ring-til-primaert-nummer]")
-Outgoing_Call_ID = self.Receptionist_Places_Call (Number = self.Callee.sip_uri ())
-self.Step (Message = "Call-Flow-Control ->> FreeSWITCH [ring-op: telefon-N, nummer]")
-self.Callee_Receives_Call ()
-self.Step (Message = "FreeSWITCH ->> FreeSWITCH [forbind opkald og telefon-N]")
+  def test_Run (self):
+    self.Preconditions ()
+    self.Receptionist_Dial_Contact()
+    self.Call_Is_Denied()
+    self.Postconditions()
+
 \end{lstlisting}
 
 \noindent
-The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Callee\_Receives\_Call()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
-Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}. Missing methods, or problems in generated code were identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.\todo{.\\example here}\\\\
-
-
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.20\textwidth]{\imgdir first_generation_class_structure}
-\caption{Class diagram outlining the overall hierarchy of executable use cases (\textbf{TODO:} Should implement run, pre- and postconditions)}
+\caption{Class diagram outlining the overall hierarchy of executable use cases}
 \label{fig:first_generation_class_structure}
 \end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
-\caption{Early mock-up of a user interface using a markdown-like language for writing use cases.}
-\label{fig:markdown_ui_mockup}
-\end{figure}
-
+Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}, where you can see that every variant (path of an extension) of a use case may reuse methods from its superclass. Each use case variant must also supply the abstract methods \texttt{run}, \texttt{Precondition} and \texttt{Postcondition} to fulfill the interface.\\
+Missing methods, or problems in generated code were identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.
+\newpage
+\section{Second iteration}
 We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.\\\\
-We realized that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.\\\\
-An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the 
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}
 
-%The task felt ripe for automation. But first, we needed some sort of abstract representation of the use cases and thus the idea of use cases as tests were born.
+% horizontal axis
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
 
-%\section{The verification problem}
-%TODO V-model.
-\section{Second implementation}
-During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. This section explains the processes of exploiting this framework for a third application; namely testing.
+% ranges
+%\draw (4,3.5) node{{\scriptsize Test parameters}};
+
+% vertical axis
+\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+% nominal speed
+
+\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,  label=above:2nd iteration] {}; %label
+
+% Optimum
+\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+
+\end{tikzpicture}
+\label{fig:project_parameter_plot_2nd_iteration}
+\caption{Project parameters with the 2nd iteration highlighted}
+\end{figure}We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.
+
+\todo[inline]{lead-over and refer to the figure. and add section explaining the content.}
+The 2nd iteration is build during the course this thesis, and is thus considered a part of it.
+
+
+
+\subsection{Sharing domain model knowledge}
+During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. We could now, fairly easy, by re-using the domain classes and interfaces from the framework build tests that with a higher domain awareness than the previous iteration.\\
+This section explains the processes of befitting from the models and interface of the framework for a third application: Namely testing. 
 
 \begin{figure}
 \centering
@@ -83,60 +121,22 @@ During the evolution of the software, platform, language and architecture change
 \label{fig:component_diagram_with_tests}
 \end{figure}
 
+\todo[inline]{undone stuff below}
 \subsection{Framework content}
+The framework is a set of passive classes that is divided, into the following categories (and code libraries).
+\begin{description}
+  \item[Models:] Every model of the framework is supplied with methods that returns a DTO (Data Transfer Object) representation of the object
+  \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD\todo{add glossary definition} operations, and and ``enqueue'' that puts a message into a delivery queue.
+  \item[Service:] These classes use the framework model DTO's.
+  \item[Database:] Database access
+  \item[Resource:] Encoding library that turns object into a REST-resource
+\end{description}
 
-During the writing and refinement of the testing model defined in 
-%Service layer, model layer and more.
+\subsection{Supporting test tools}
 
-\section{Resource pools}
-%TODO stub.
-Tests require resources that could be acquired from pools. Pools are resource containers with a fixed discrete amount of resources in them, or in some cases, containers with infinite amount of resources in them. Either they should hide behind macros, or provide components for other resources.
+\begin{description}
+ \item[Resource pools:] Tests require resources that could be acquired from pools. Pools are resource containers with a fixed discrete amount of resources in them, or in some cases, containers with infinite amount of resources in them. Either they should hide behind macros, or provide components for other resources.
 
-%TODO move this section to a main section
-\section{Adding domain knowledge}
-%STUB
-If we were to add additional domain knowledge to the use cases, then we would also be able to extract capabilities easily.
-%yada yada, use case example: actor does something to some other thing
-% it means the the actor can do something to some other thing.
-
-Taking one step up, trying to abstract away the current problem domain, what problem did we actually try to solve? We wanted to verify expected behavior of a system that we treat as being a black-box system. We use the holy grail of behavior -- the use cases -- as reference point to how the system should behave in difference situations.
-
-%NOTE: use cases, and requirements must be expected to be incomplete (find some historical reference), and could possibly be thought into the development process,. making the use cases and requirement a more living part of the development.
-
-%How to structure and formalize/represent requirements
-Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete with regards to system working. However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge, other improving then general understanding of the problem domain, may also affect the the requirements by either; making them more elaborate and/or complete. For example, a boundary case of a use case may be appear clearer (TODO: EXAMPLE). But, the acquired knowledge may also lead to requirement changes, either due to decreased implementation complexity, or simply non-realizable requirement. (TODO: EXAMPLE)
-
-In any case, assuming requirements evolve and shift during development. We do nice stuff.
-%TODO STUB.
-
-\section{Development process}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
-\caption{Ideal development flow}
-\label{fig:ideal_flow}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.7\textwidth]{\imgdir event-stack-to-state-machine}
-\caption{Concept; validate event stack using life-cycle state machines.}
-\label{fig:event-stack-to-state-machine}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\begin{drawstack}
-  % Within the environment, draw stack elements with \cell{...}
-  \cell{lock}
-  \cell{unlock}
-\end{drawstack}
-\caption{Event stack}
-\label{fig:event-stack-example}
-\end{figure}
-
-Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
-
-%\section{Current implementation}
-% tcc-tool is a client/server architecture with a share library.
-
+ \item
+\end{description}
+%TODO add some snibblets of framwork content.
