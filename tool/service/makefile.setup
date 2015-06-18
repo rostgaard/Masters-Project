@@ -1,0 +1,5 @@
+PGHOST=localhost
+PGUSER=tcc
+PG_SUPER_USER=postgres
+PGDB=tcc
+PGARGS=-X -q -a -1 -v ON_ERROR_STOP=1 --pset pager=off

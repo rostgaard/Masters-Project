@@ -1,16 +1,18 @@
 part of tcctool.router;
 
-class Concepts {
+class Actor {
 
   String _jsonStorePath = '/tmp/json';
 
+  shelf.Response dummy (shelf.Request request) {
+
+    return new shelf.Response.ok (JSON.encode(Model.useCase1));
+  }
+
   Future<shelf.Response> get (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+    int conceptID = int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-
-    return file.readAsString().then((String result) =>
-      new shelf.Response.ok (result));
+    return new shelf.Response.ok (JSON.encode('{}'));
   }
 
   shelf.Response list (shelf.Request request) {

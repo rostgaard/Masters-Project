@@ -10,7 +10,7 @@ class Config {
 
     if(!file.existsSync()) {
       log.warning('No config found. Creating one.');
-      file.writeAsStringSync(JSON.encode(new Configuration.initial()));
+      file.writeAsStringSync(JSON.encode(new Model.Configuration.initial()));
     }
 
     return file.readAsString().then((String result) =>

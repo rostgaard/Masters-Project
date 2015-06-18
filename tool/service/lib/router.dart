@@ -6,19 +6,22 @@ import 'dart:convert';
 import 'dart:io' as IO;
 
 import 'package:logging/logging.dart';
-import 'package:libtcc/libtcc.dart';
+import 'package:libtcc/libtcc.dart' as Model;
 
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_route/shelf_route.dart' as shelf_route;
 import 'package:shelf_cors/shelf_cors.dart' as shelf_cors;
 
-part 'handler-actor.dart';
-part 'handler-concept.dart';
-part 'handler-use_case.dart';
-part 'handler-config.dart';
-part 'handler-test.dart';
-part 'handler-test_template.dart';
+import 'config.dart';
+import 'database.dart' as Database;
+
+part 'controller/controller-actor.dart';
+part 'controller/controller-concept.dart';
+part 'controller/controller-use_case.dart';
+part 'controller/controller-config.dart';
+part 'controller/controller-test.dart';
+part 'controller/controller-test_template.dart';
 
 const String libraryName = 'tcctool.router';
 final Logger log = new Logger (libraryName);
@@ -39,40 +42,54 @@ void _accessLogger(String msg, bool isError) {
   }
 }
 
+
 Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
-  Actor actorHandler = new Actor();
-  Config configHandler = new Config();
-  Test testHandler = new Test();
-  UseCase useCaseHandler = new UseCase();
-  TestTemplate testTemplateHandler = new TestTemplate();
+
+  return Database.Connection.connect(ServiceConfiguration.databaseDSN)
+    .then((Database.Connection databaseConnection) {
+
+    Database.Concept conceptStore = new Database.Concept(databaseConnection);
+
+    Actor actorController = new Actor();
+    Concept conceptController = new Concept(conceptStore);
+    Config configController = new Config();
+    Test testController = new Test();
+    UseCase useCaseController = new UseCase();
+    TestTemplate testTemplateController = new TestTemplate();
 
 
-  var router = shelf_route.router()
-    ..get('/actor', actorHandler.list)
-    ..get('/dummy', actorHandler.dummy)
-    ..get('/actor/{name}', actorHandler.get)
-    ..put('/actor/{name}', actorHandler.update)
-    ..post('/actor/{name}', actorHandler.create)
-    ..delete('/actor/{name}', actorHandler.remove)
-    ..get('/test/template', testTemplateHandler.list)
-    ..post('/test/template', testTemplateHandler.create)
-    ..get('/test/template/{tplid}', testTemplateHandler.get)
-    ..put('/test/template{tplid}', testTemplateHandler.update)
-    ..get('/usecase', useCaseHandler.list)
-    ..get('/usecase/{name}', useCaseHandler.get)
-    ..put('/usecase/{name}', useCaseHandler.update)
-    ..post('/usecase/{name}', useCaseHandler.create)
-    ..delete('/usecase/{name}', useCaseHandler.remove)
-    ..post('/test/{tid}/analyse', testHandler.analyse)
-    ..get('/configuration', configHandler.get)
-    ..put('/configuration', configHandler.update);
-  var handler = const shelf.Pipeline()
-      .addMiddleware(shelf_cors.createCorsHeadersMiddleware(corsHeaders : corsHeaders))
-      .addMiddleware(shelf.logRequests(logger : _accessLogger))
-      .addHandler(router.handler);
+    var router = shelf_route.router()
+      ..get('/actor', actorController.list)
+      ..get('/dummy', actorController.dummy)
+      ..get('/actor/{id}', actorController.get)
+      ..get('/concept/{id}', conceptController.get)
+      ..put('/actor/{id}', actorController.update)
+      ..post('/actor/{name}', actorController.create)
+      ..delete('/actor/{name}', actorController.remove)
+      ..get('/test/template', testTemplateController.list)
+      ..post('/test/template', testTemplateController.create)
+      ..get('/test/template/{tplid}', testTemplateController.get)
+      ..put('/test/template{tplid}', testTemplateController.update)
+      ..get('/usecase', useCaseController.list)
+      ..get('/usecase/{name}', useCaseController.get)
+      ..put('/usecase/{name}', useCaseController.update)
+      ..post('/usecase/{name}', useCaseController.create)
+      ..delete('/usecase/{name}', useCaseController.remove)
+      ..post('/test/{tid}/analyse', testController.analyse)
+      ..get('/configuration', configController.get)
+      ..put('/configuration', configController.update);
 
-  log.fine('Serving interfaces:');
-  shelf_route.printRoutes(router, printer : log.fine);
+    var pipeline = const shelf.Pipeline()
+        .addMiddleware(shelf_cors.createCorsHeadersMiddleware(corsHeaders : corsHeaders))
+        .addMiddleware(shelf.logRequests(logger : _accessLogger))
+        .addHandler(router.handler);
 
-  return shelf_io.serve(handler, hostname, port);
+    log.fine('Serving interfaces:');
+    shelf_route.printRoutes(router, printer : log.fine);
+
+    return shelf_io.serve(pipeline, hostname, port);
+  });
+
+
+
 }
