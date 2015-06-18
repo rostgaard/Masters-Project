@@ -40,7 +40,7 @@ In this section brief glossary from the test domain
   \item[White-box test:] A white-box test treats the system as a transparent box where all the internals are known. From these known internals, tests can be written to take a specific code path within the component under test. Unit tests are an example of a white-box test, as it tests the known internals of the unit. In the case study system, white-box tests are used to verify API's and system functionality -- effectively testing multiple API's in a single test.
   \item[Black-box test:] Test system as unknown
   \item[Integration test:] Test system as deployed, stress-tests and others
-  \item[Acceptance test:] Test system as it should work
+  \item[Acceptance test:] Test system as it should work %  is a test conducted to determine if the requirements of a specification or contract are met. It
 \end{description}
 
 \section{Case study system}
@@ -122,7 +122,9 @@ In our architecture, we have divided the database operations, dialplan generatio
 As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the optimal way we could get the client interface to respond to system events in real-time. It ultimately also became an important component in testing, as we could use it as a mean to validate causal relationship of actions and events (for instance; a hangup action on a phone would lead to a hangup event notification).\todo{. maybe add a reference to the causality section}
 
 \section{Testing strategy}
-\label{sec:test}
+\label{sec:background-testing-strategy}
+%NOTE This one is moved from first-iterations chapter.
+As development progressed, it became increasingly difficult and time consuming to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and signal an idle state to system. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.
 During the progression of the project, it became more and more clear to us that we were constrained by two parameters, in regards to testing:
 \begin{itemize}
   \item We needed to verify the the functionality of system as a whole, and argue that it was free of instabilities. This functionality was defined in the use cases.
