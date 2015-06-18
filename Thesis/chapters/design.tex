@@ -1,22 +1,19 @@
-%TODO Add a section on passing use cases on to each other.
-
 \chapter{Design}
-This chapter is provides a top-down analysis of the requirement-to-test problem. By discussing the different stakeholders interests, roles and challenges, a theoretic solution will be devised.
+This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. This discussion is started on the conceptual level with the aspects and interests of the different stakeholders.
 
-\section{Outline}
-Given that we want to be able to generate tests based on requirements require structure and a touch of semantics. For the latter, we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
-This structure and semantics are best defined by the stakeholder that knowns the problem domain by heart; the customer of the software. There are however some challenges in extracting the domain knowledge from these stakeholders which is discussed in the next section.
+\section{Overview}
+Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete with regards to system working. However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
+Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
+Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feed back loop back into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
+If there existed a method for validating the refined requirements
 
-\section{Stakeholders}
-
-\subsection{Developer}
-% What is to be gained for this stakeholder?
-There are different levels to write the use-case tests on;
-%\begin{description}
-%  \item [Manually:] all the tests and the domain model and logic
-%  \item [Partially automatic:] either by writing up support code for the domain model manually, and generates the use cases, or the other way around.
-%  \item [Fully:] automatic.
-%\end{description}
+\section{Development process}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
+\caption{Ideal development flow}
+\label{fig:ideal_flow}
+\end{figure}
 
 \subsection{Costumer perspective}
 % What is to be gained for this stakeholder?
@@ -53,6 +50,57 @@ What is in the customers interest is having acceptance tests match the use cases
 \end{figure}
 
 Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface from the customer point of view is shown in figure \ref{fig:use_case_editor_mockup}. A list of available actors (only containing one element, however) is shown on the right hand side. The main part of the window contains the use case currently being worked on. The bottom part of the window is the edit part, where dropdown lists of actions and targets resides.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir event-stack-to-state-machine}
+\caption{Concept; validate event stack using life-cycle state machines.}
+\label{fig:event-stack-to-state-machine}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{drawstack}
+  % Within the environment, draw stack elements with \cell{...}
+  \cell{lock}
+  \cell{unlock}
+\end{drawstack}
+\caption{Event stack}
+\label{fig:event-stack-example}
+\end{figure}
+
+Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
+
+%\section{Current implementation}
+% tcc-tool is a client/server architecture with a share library.
+
+
+%A use case scenario should always terminate.
+\section{Concept}
+\begin{figure}
+\centering
+\includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
+\caption{Early mock-up of a user interface using a markdown-like language for writing use cases.}
+\label{fig:markdown_ui_mockup}
+\end{figure}
+An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the 
+
+
+\section{Outline}
+Given that we want to be able to generate tests based on requirements require structure and a touch of semantics. For the latter, we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
+This structure and semantics are best defined by the stakeholder that knowns the problem domain by heart; the customer of the software. There are however some challenges in extracting the domain knowledge from these stakeholders which is discussed in the next section.
+
+\section{Stakeholders}
+
+\subsection{Developer}
+% What is to be gained for this stakeholder?
+There are different levels to write the use-case tests on;
+%\begin{description}
+%  \item [Manually:] all the tests and the domain model and logic
+%  \item [Partially automatic:] either by writing up support code for the domain model manually, and generates the use cases, or the other way around.
+%  \item [Fully:] automatic.
+%\end{description}
+
 
 %\section{Brainstorm}
 %\input{brainstorm}
@@ -95,13 +143,6 @@ Whenever there is a new use case, a change to an existing use case, or simply a 
 The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
 
 More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
-
-\begin{figure}[h]
-\includegraphics[scale=0.9]{img/use_case_creation_activity_diagram}
-\centering
-\caption{Use case creation with different actors}
-\label{fig:use_case_creation_activity_diagram}
-\end{figure}
 
 What is in the customers interest is having acceptance tests match the use cases as closely as possible. Preferably, the should be able to be automated as well. Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving three actors, the customer, the engineer and the system\footnote{Use case system}. In this diagram, the customer authors use cases while adding missing definitions not already in the tool. A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
 
@@ -158,27 +199,12 @@ Wiki-collaboration to "lazily" define the problem domain and verification condit
 
 Avoid technical jargon (\cite{christel1992issues})
 
-\section{Related work}
-\subsection{FIT Framework}
-
-We've taken an offset in use cases, but there could be other ways of structuring the requirements of a system, such as the SCRUM user story format;
-%Use the SCRUM approach. Don't describe a feature as
-%"It should be doing this and that in the following way"
-%While the sentence above describes all you need to know to implement the feature, it does not justify the feature. My SCRUM book says features should be written down as a story. A story looks like this:
-%"As a <user-role>
-%I need a <functionality>
-%So that I get <business value>"
-%A feature that cannot be justified using such a story is an unjustified feature and thus there is no use to actually implement it.
-%E.g.
-%"As a visitor of a web portal I need a way to authenticate, so I can access my customer data, but nobody else can"
-%Now you don't only know that you need an authentication for your web portal, you also know who needs it (the visitors, basically everyone planing on using it more intensively) and you also know why it is needed, as it gives the user some value.
-%Other examples:
-%"As a passenger I need a list of all my booked journeys, so that I know when I'm going to travel where and won't lose the overview"
-%"As a book keeper, I'd like to have the sales tax being automatically printed to each bill based on customer data, so that I don't have to enter it manually each time I'm printing a bill"
-%If every feature needs to be written like that, you'll automatically see if a feature is for the customer, because it is really necessary, or just something your boss/company wants to have and also why they want to have it (what is the big picture behind it? Why are they doing it?).
-
-
 \section{Use case writing level}
+\subsection{What to include?}
+From \cite{Cockburn:2000:WEU:517669} we get;
+\begin{quote}
+``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
+\end{quote}
 Should not be used to describe UI actions% http://alistair.cockburn.us/Use+cases%2c+ten+years+later (Use case limits).
 
 Use cases expresses expected system behavior. Keep use cases free of UI-action.
@@ -242,42 +268,7 @@ For our targeted use cases, we've cherry-picked some specific paths from the act
   \end{itemize}
 \end{description}
 
-%TODO High leve description (customer level)
-
-\chapter{Validating implementation}
-%Something about the V-model.
-
-\section{Formalized approaches}
-%2.1. Use case description
-%A semiformal use case description is simply a natural
-%language text structured using a text template which divides
-%the text into logical parts. Even though there is no broadly
-%accepted standard use case template, the existing templates
-%are quite similar.
-\section{Testing}
-%Fixtures
-%Design by contract
-%Harness
-
-\section{Regression testing}
-
-\chapter{Requirement formalization}
-Actors, Roles
-
-Aspects. Behavior. State space.
-
-\section{Use case as base}
-%\includegraphics[scale=0.4]{img/req_meta.png}
-
-\subsection{What to include?}
-From \cite{Cockburn:2000:WEU:517669} we get;
-\begin{quote}
-``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
-\end{quote}
-
-\section{Processes}
-
-\chapter{Test generation}
+\section{Structuring use cases}
 In order to help the computer make more sense of our use cases, we need to define to it what a use case is. But since a use case is neither strictly defined nor standardized anywhere, we need to pick a suitable representation.
 To help us extract some machine-understandable structure -- or merely semantics -- of use cases, we assume that we are working on ideal, well-formed use cases. This abstracts some of away the informal ambiguity, which is notoriously omnipresent in requirements, and will aid us when we try to derive what is needed from use cases in order to generate executable tests from them.\\\\
 The first problem we need to solve is the level of use case writing, and template -- as there are many way of writing use cases. 
@@ -362,7 +353,9 @@ Use cases may branch out and go to alternatives actions. These branches are asso
 In order to find all possible paths in a use case, the easiest way is to represent it as a graph and use a depth-first search or the more efficient one based upon Warshall's Theorem\cite{rubin1978enumerating} to emumerate them. Once a list of paths is retrieved, it is possible to convert every path, which is essentially a list of active actions either performed by, or affecting, the primary actor.\\\\
 This list will be translated into a test by converting it into code snibblet, and join them together in a code block that becomes the body of a test function.
 
-The basic rules for path collection is;
+Back edges can occur, and this raised the bar, as it introduces loops.
+
+%The basic rules for path collection is;
 
 \subsection{Detecting logic errors in use cases}
 Should it be possible to jump ahead in the use case?
