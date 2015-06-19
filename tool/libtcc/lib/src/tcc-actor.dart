@@ -12,11 +12,16 @@ class Actor extends Concept {
       new Actor(type)..role = role;
 
   factory Actor.fromMap(Map map) =>
-     new Actor.withRole(map[Key.type], map[Key.role]);
+      new Actor.withRole(map[Key.type], map[Key.role]);
 
   @override
-  String toString () => '${this.role.isNotEmpty ? ' ${this.role}' : '??' } (${this.type})';
+  String toString() =>
+      '${this.role.isNotEmpty ? ' ${this.role}' : '??' } (${this.type})';
 
+  /**
+   * Hashcodes for actors are defined as identical if their role and type are
+   * identical.
+   */
   @override
   int get hashCode {
     int hash = 23;
@@ -30,8 +35,9 @@ class Actor extends Concept {
   bool operator ==(Actor other) => this.role == other.role;
 
   Map toJson() => {
-    Key.type : type,
-    Key.role : role,
+    Key.id: id,
+    Key.type: type,
+    Key.description: description,
+    Key.role: role,
   };
-
 }

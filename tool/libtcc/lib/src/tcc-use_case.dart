@@ -1,6 +1,7 @@
 part of libtcc.base;
 
 abstract class Key {
+  static const String id = 'id';
   static const String identity = 'identity';
   static const String identifier = 'identifier';
   static const String name = 'name';
