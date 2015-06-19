@@ -6,6 +6,11 @@ Thesis/Thesis.xdy
 Thesis/Thesis.bcf
 Thesis/Thesis.out
 Thesis/Thesis.run.xml
+Thesis/Thesis.fdb_latexmk
+Thesis/Thesis.fls
+Thesis/Thesis.simple.out
+Thesis/Thesis.simple.toc
+Thesis/Thesis.tdo
 
 # Local TeXmaker session file.
 Thesis/Thesis.tks
@@ -25,4 +30,6 @@ Thesis/img/first_generation_class_structure.pdf
 Thesis/img/support-tools-recepionist-example.pdf
 Thesis/img/system-state-machine-relations.pdf
 Thesis/img/uc2_test_config.pdf
-
+Thesis/img/component_diagram_with_tests.pdf
+Thesis/img/test-driven-development-flow.pdf
+Thesis/img/sor-model.pdf
