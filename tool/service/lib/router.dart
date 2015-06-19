@@ -62,10 +62,16 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
       ..get('/actor', actorController.list)
       ..get('/dummy', actorController.dummy)
       ..get('/actor/{id}', actorController.get)
-      ..get('/concept/{id}', conceptController.get)
       ..put('/actor/{id}', actorController.update)
       ..post('/actor/{name}', actorController.create)
       ..delete('/actor/{name}', actorController.remove)
+
+      ..get('/concept', conceptController.list)
+      ..get('/concept/{id}', conceptController.get)
+      ..put('/concept/{id}', conceptController.update)
+      ..post('/concept', conceptController.create)
+      ..delete('/concept/{id}', conceptController.remove)
+
       ..get('/test/template', testTemplateController.list)
       ..post('/test/template', testTemplateController.create)
       ..get('/test/template/{tplid}', testTemplateController.get)

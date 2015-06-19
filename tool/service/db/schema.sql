@@ -36,13 +36,13 @@ CREATE TABLE dialplan_templates (
 
 CREATE TABLE concepts (
    id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   name TEXT    NOT NULL,
+   name TEXT    NOT NULL UNIQUE,
    description TEXT    NOT NULL
 );
 
 CREATE TABLE actors (
    id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   name TEXT    NOT NULL,
+   name TEXT    NOT NULL UNIQUE,
    description TEXT    NOT NULL
 );
 
@@ -61,9 +61,12 @@ CREATE TABLE actor_roles (
 );
 
 CREATE TABLE use_cases (
-   id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   data JSON    NOT NULL,
-   description TEXT    NOT NULL
+   id               INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   name             TEXT    NOT NULL UNIQUE,
+   primary_role_id  INTEGER REFERENCES actor_roles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+   scenario         JSON    NOT NULL,
+   extensions       JSON    NOT NULL,
+   description      TEXT    NOT NULL
 );
 
 -------------------------------------------------------------------------------

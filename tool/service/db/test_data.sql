@@ -14,13 +14,21 @@ VALUES (1, 1),
 INSERT INTO auth_identities (identity, user_id)
 VALUES ('kim.rostgaard@gmail.com', 1);
 
-INSERT INTO actors (name, description)
-VALUES ('user', 'Basic user'),
-       ('admin', 'An admin user');
+INSERT INTO actors (id, name, description)
+VALUES (1, 'user', 'Basic user'),
+       (2, 'admin', 'An admin user');
 
-INSERT INTO actor_roles (name, description)
-VALUES ('user', 'Basic user'),
-       ('admin', 'An admin user');
+INSERT INTO actor_roles (id, name, description, actor_id)
+VALUES (1, 'user 1', 'Basic user', 1),
+       (2, 'admin 1', 'An admin user', 2);
+
+INSERT INTO concepts (id, name, description)
+VALUES (1, 'message', 'A message'),
+       (2, 'call', 'A call');
+
+INSERT INTO use_cases (name, primary_role_id, scenario, extensions, description)
+VALUES ('Transfer call', 1, '[]', '[]', 'Transfer an inbound call'),
+       ('Send message', 2, '[]', '[]', 'Send a message to an employee');
 
 -------------------
 

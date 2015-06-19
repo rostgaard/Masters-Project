@@ -7,6 +7,9 @@ class Concept {
 
   Concept(this.conceptStore);
 
+  /**
+   *
+   */
   Future<shelf.Response> get(shelf.Request request) {
     final int conceptID =
         int.parse(shelf_route.getPathParameter(request, 'id'));
@@ -15,45 +18,49 @@ class Concept {
         (Model.Concept concept) => new shelf.Response.ok(JSON.encode(concept)));
   }
 
-  shelf.Response list(shelf.Request request) {
-    List<IO.FileSystemEntity> files =
-        new IO.Directory('$_jsonStorePath').listSync();
-
-    String result = JSON.encode(files
-        .map((IO.FileSystemEntity f) =>
-            f.path.substring(_jsonStorePath.length + 1, f.path.length - 5))
-        .toList());
-
-    return new shelf.Response.ok(result);
+  /**
+   *
+   */
+  Future<shelf.Response> list(shelf.Request request) {
+    return conceptStore.list().then((Iterable<Model.Concept> concept) =>
+        new shelf.Response.ok(JSON.encode(concept.toList(growable: false))));
   }
-
+  /**
+   *
+   */
   Future<shelf.Response> create(shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+    return request.readAsString().then((String content) {
+      Model.Concept concept = new Model.Concept.fromJson(JSON.decode(content));
 
-    IO.File file = new IO.File('$_jsonStorePath/$name.json');
-    file.createSync();
-
-    return request.readAsString().then((String body) {
-      file.writeAsStringSync(body);
-      return new shelf.Response.ok('ok');
+      return conceptStore.create(concept).then((Model.Concept concept) =>
+          new shelf.Response.ok(JSON.encode(concept)));
     });
   }
 
+  /**
+   *
+   */
   Future<shelf.Response> update(shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+    final int conceptID =
+        int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File('$_jsonStorePath/$name.json');
+    return request.readAsString().then((String content) {
+      Model.Concept concept = new Model.Concept.fromJson(JSON.decode(content))
+        ..id = conceptID;
 
-    return request
-        .readAsString()
-        .then(file.writeAsString)
-        .then((_) => new shelf.Response.ok('ok'));
+      return conceptStore.update(concept).then((Model.Concept concept) =>
+          new shelf.Response.ok(JSON.encode(concept)));
+    });
   }
 
+  /**
+   *
+   */
   Future<shelf.Response> remove(shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+    final int conceptID =
+        int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File('$_jsonStorePath/$name.json');
-    return file.delete().then((_) => new shelf.Response.ok('ok'));
+    return conceptStore.remove(conceptID).then(
+        (Model.Concept concept) => new shelf.Response.ok(JSON.encode({})));
   }
 }
