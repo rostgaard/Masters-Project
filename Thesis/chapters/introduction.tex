@@ -6,8 +6,13 @@
 
 
 Within the realm of software engineering, there exists a realm of requirement engineering there exists a domain of requirement elicitation and maintenance. In this realm, struggles of keeping documented requirements both consistent with -- and relevant to -- implementation often take place. A common mean for gaining an upper hand in this struggle is to continuously, verify requirements though reviews and manual acceptance testing.
-For long-lived projects that continuously add features and components, this problem is even greater, as maintenance of requirements while adding new ones increases the risk of requirement documentation decay and inconsistency significantly. For example, a new requirement that allows users to access some information unauthenticated, may contradict a previous requirement.\\\\
-Requirement maintenance is usually a time-consuming and tedious task with little -- immediately -- added value. When, for example, an implementation-specific constraint is forcing a requirement change, the change may propagate to the requirements, but not back into the validation.\\
+For long-lived projects that continuously add features and components, this problem is even greater, as maintenance of requirements while adding new ones increases the risk of requirement documentation decay and inconsistency significantly. For example, a new requirement that allows users to access some information unauthenticated, may contradict a previous requirement.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
+\caption{Ideal development flow}
+\label{fig:ideal_flow}
+\end{figure}Requirement maintenance is usually a time-consuming and tedious task with little -- immediately -- added value. When, for example, an implementation-specific constraint is forcing a requirement change, the change may propagate to the requirements, but not back into the validation.\\
 When kept up-to-date and well-structured requirements usually maps nicely to integration tests (either manual or automatic), but maintenance is needed for both if requirements change. It would therefore be very desirable to formalize requirements so that changes propagate to tests automatically.\\\\
 Adding structure and formalism to requirements is in no way a new idea. Tools exist that add formalization to requirements in order to add traceability and help building detailed models of the system. This gives the great benefit of being able to -- for instance -- verify model correctness with regards to requirements and to perform code (or code stub) generation.\\
 These systems are, however, not widely used in practice, as they are very rigid and hard to read to anyone not proficient in the notation. A typical customer for a new software product would not be able to read, and even more critically, verify accuracy of requirements. In every case, most software engineers prefer more structure and better cross-linking of artifacts, due to the fact that processes (such as documentation and model checking) can be better automated.\\\\
@@ -65,26 +70,3 @@ The project will use the requirements from an existing system as a case study an
 
 This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements. \\\\
 The project is, considered an extension of the test-driven development methodology, lifting it from its typical application of integration testing onto the new level of acceptance testing. This process is meant to be tool-assisted, so that tests may be generated automatically, but the mappings to the system needs to be done by hand.
-%Original project description.
-
-%\section{Background}
-%Within software projects, documented requirements often become outdated and irrelevant over time as requirements are implemented and verified manually. For long-lived projects that continuously add features and components, maintenance of requirements becomes increasingly cumbersome, and increases the risk of requirement documentation decay further. Dynamic documents -- for instance, an inter-linked web document written in wiki markup -- may make requirement maintenance more accessible. This applies to both humans, but especially also for computers that may extract valuable information about system requirements for use in system verification tests.\\\\
-%Additionally, if the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, the cost of requirements maintenance may be made worthwhile by enabling us to automatically generate system tests from them.
-%\subsection*{Project}
-%The key idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\\\\
-%The project will use the requirements from an existing system as a case study and formalize the structure of these, so that test generation from them is possible. During this process, we will investigate how to structure requirements so that we can generate tests directly from them and map implementation to requirements. Ideally, we want to identify general patterns and constraints in the structure/formalism introduced to our requirements in the case study, to be able to apply them to other projects. But in general, we will investigate to which extent this idea can be applied.
-%In the software engineering field, a paradigm shift from waterfall-oriented development methods, towards more agile and iterative methods. However, the iterative approach still has a requirements phase, that may play an only minor role in the implementation phase, and focus shifts to \emph{how to make it work}, rather than \emph{what it should do}. Test-driven development handles this pragmatically by enforcing that tests are written before implementations. This provides a strong interface-driven black-box oriented methodology. It also provides a feedback channel for requirement changes.\\\\
-%Taking test-driven development a step further, one may perceive the software system in its entirety as a large interface, and it's requirements as the tests. Use cases are textual descriptions of the functional requirements of the system, which are typically written in a semi-formal language, using only terms clearly defined within a domain model or glossary.\\
-%Applying transformations to use cases derived from requirements, turning them into automated acceptance tests, could provide a more requirement-oriented development method, keeping the requirements in the loop during the entire development process.
-
-%\section{Project}
-%The approach motioned above is influenced by model driven development, formal methods
-%\begin{itemize}
-%  \item Identify generalizable traits of automated acceptance test generation from a case study focusing on the constraints/complexity reduction tradeoff.
-%  \item Establish a process for identifying requirements, research and possibly create methods for formalizing them
-%  \item Build a proof-of-concept tool for generating tests from use cases
-  %\item Evaluate the value of the approach.
-%\end{itemize}
-%A growing numer of software systems are being moved to the cloud, which makes it a lot easier to make "rolling releases", rather than monolithic releases. %TODO More
-
-%During the development of the OpenReception project, the team have applied a number of ah-hoc measures to 
