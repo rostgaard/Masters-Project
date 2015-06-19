@@ -17,4 +17,8 @@ class Definitions extends IterableBase<Definition> {
 
   }
 
+  void add (Definition definition) {
+    this._definitions.add(definition);
+  }
+
 }
