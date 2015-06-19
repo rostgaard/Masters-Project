@@ -1,0 +1,35 @@
+\begin{usecase}
+\addtitle{Use Case 2}{Send Message to contact} 
+
+%Scope: the system under design
+\addfield{Scope:}{System-wide}
+
+%Description: A brief description of the use case
+\addfield{Description:}{A receptionist must be able to send a message -- via a distribution list -- to a contact, typically containing information received verbally via a call. An example use case, from the receptionist actor point of view is outlined below.}
+
+%Level: "user-goal" or "subfunction"
+\addfield{Level:}{User-goal}
+
+%Primary Actor: Calls on the system to deliver its services.
+\addfield{Primary Actor:}{Receptionist actor}
+
+
+\additemizedfield{Preconditions:}{
+      \item Receptionist have selected a contact who will serve as message recipient
+} 
+
+%Postconditions: What must be true on successful completion and worth telling the reader
+\additemizedfield{Postconditions:}{
+      \item Message is stored and ready for dispatching
+      \item Receptionist is idle
+}
+
+%Main Success Scenario: A typical, unconditional happy path scenario of success.
+\addscenario{Main Success Scenario:}{
+      \item Receptionist types in message
+      \item Receptionist sends the message via the system
+      \item Receptionist marks his/her state as idle.
+}
+
+\end{usecase}
+
