@@ -8,4 +8,7 @@ class Definition {
 
   Definition (this._concept);
 
+  @override
+  int get hashCode => '${_concept.type}::${_concept.role}'.hashCode;
+
 }

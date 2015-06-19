@@ -1,8 +1,9 @@
 part of libtcc.base;
 
 class Actor extends Concept {
-
   String role;
+
+  ///For code generation.
   static const String anonID = '__anonymous_actor_';
   bool get anonymous => this.role.isEmpty;
 
