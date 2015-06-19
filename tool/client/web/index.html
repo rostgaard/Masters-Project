@@ -8,6 +8,7 @@
     <title>Test case generator</title>
 
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/layout.css">
   </head>
   <body>
@@ -161,8 +162,7 @@ abstract class SendMessage {
     return new Future.value(null);
   }
 
-[%TESTCASES%]
-
+  [%TESTCASES%]
 
 }
         </pre>
@@ -175,6 +175,16 @@ abstract class SendMessage {
         </section>
 
         <section id="ui-examples" class="content" hidden>
+          <button class="mark-actor pure-button">
+            <i class="fa fa-cog"></i>Mark as actor
+          </button>
+          <button class="mark-concept pure-button">
+            <i class="fa fa-cog"></i>Mark as concept
+          </button>
+            <div class="pure-g">
+                <div class="use-case pure-u-1-2"></div>
+                <div class="definitions pure-u-1-2"></div>
+              </div>
         </section>
 
       </div>

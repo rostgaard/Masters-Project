@@ -17,7 +17,8 @@ class UseCaseEntry {
         print (_toElement(def.concept).outerHtml.toString());
       }
 
-      decomposed = decomposed.replaceAll(definition, _toElement(def.concept).outerHtml);
+      decomposed = decomposed.replaceAll
+          (definition, _toElement(def.concept).outerHtml);
     });
 
     print(decomposed);

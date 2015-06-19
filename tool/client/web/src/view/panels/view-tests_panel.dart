@@ -6,6 +6,7 @@ class TestsPanel implements Panel {
   final controller.Config _configController;
   final libtcc.TestCaseService _service;
   final TestCase testCaseView = new TestCase();
+
   UseCaseSelector _useCaseSelector;
 
   TestsPanel(this._root, this._configController, this._service) {

@@ -1,6 +1,6 @@
 part of tcc.client.view;
 
-class ActorsView {
+class Actors {
 
   UListElement element = new UListElement();
 
@@ -9,7 +9,7 @@ class ActorsView {
         newActors.map(_toNode).toList();
   }
 
-  ActorsView ();
+  Actors ();
 
 
   LIElement _toNode (libtcc.Actor actor) {

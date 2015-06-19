@@ -6,7 +6,7 @@ class ActorsPanel implements Panel {
   final controller.Config _configController;
   final libtcc.TestCaseService _service;
 
-  ActorsView _actorsView = new ActorsView();
+  Actors _actorsView = new Actors();
 
 
   ActorsPanel(this._root, this._configController, this._service) {
