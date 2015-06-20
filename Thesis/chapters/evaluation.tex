@@ -1,7 +1,23 @@
 \chapter{Evaluation and discussion}
-
+This section evaluates and discusses the implementations from the thesis so far, setting up some quantifiable goals and raises some issues that needs to be solved before in order to improve the method.
 \section{Parallelism}
-A section on multiple actors and race conditions. How do you create a use case that contains multiple simultaneous instances of actors that perform the same action synchronously? Basically asserting parallel properties.\todo{.\\turn this into a real section}
+A section on multiple actors and race conditions. How do you create a use case that contains multiple simultaneous instances of actors that perform the same action synchronously? Basically asserting parallel properties.\todo{.\\turn this into a real section}\\\\
+We have a use case, where two Receptionist actor battles for the same call. In order to test this, we may wish to describe the scenario like so -- assuming a call is has arrived and is ready for pickup:
+\begin{enumerate}
+ \item Receptionist 1 tries to pickup call
+ \item Receptionist 2 tries to pickup call
+ \item Call is assigned to either Receptionist
+\end{enumerate}
+A postcondition may read ``The call is assigned to \emph{only} one receptionist'', in order to emphasize on the actual intended behavior of the system.\\
+Studying the use case a bit closer, what is actually implied is that 1. happens simultaneously with 2. In practice, it would mean that a test would have to emulate the simultaneous behavior by spawning multiple threads and collecting their return values once they have terminated. But there is another problem with the scenario above, which is that the test tools do not know when to parallelize. As of now, every entry in a use case scenario is modeled as a synchronous action and will wait until the entry has completed its execution before starting the next one.\\\\
+A method for solving this, is to add the asynchronism in the mapped test code, but this is a very bad idea. This would lead to very unexpected behavior if requirements change in the specific block. This would lead to treads being spawned, expecting to perform a specific action that no longer existed in the requirements, perhaps deadlocking while waiting for an event to happen -- or change the state of the system that would lead an error later in the test.\\
+A better way of solving it, is to add a keyword. For instance \textbf{simultaneously}. So the use case would then read;
+\begin{enumerate}
+ \item Receptionist 1 tries to pickup call
+ \item Receptionist 2 tries to pickup call \textbf{simultaneously}
+ \item Call is assigned to either Receptionist
+\end{enumerate}
+Making the keyword refer in 2. refer to the previous entry, 1. This feature is neither implemented, nor conceptualized further, but included in the discussion as it is a actual problem that was encountered during the development of the 2nd iteration of the tests. There has been developed an \emph{ad-hoc} test that uses the spawn-threads-and-collect method introduced above so there exists a technical solution for the problem.
 %\section{Applicablity to different methodologies} See http://en.wikipedia.org/wiki/Requirements_analysis
 % Waterfall, Prototype model, Incremental, Iterative, V-Model, Spiral, Scrum, Cleanroom, RAD ...
 
@@ -13,12 +29,15 @@ A section on multiple actors and race conditions. How do you create a use case t
 %  - Validating event chain against a state machine (automaton).
 %  - Executable activity diagrams - knieke2010 
 % Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
-Writing tests is generally easier. Especially tests that asserts that an edge case is not reached. The code becomes 
+Writing tests is generally easier. Especially integration tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action.
 
+
+\subsection{Differences between first and second iteration}
+In the first implementation of the test tools (see section \ref{sec:1st-iteration}), there was no shared knowledge of the domain. The tests were written in a different programming language than the main codebase, and interfacing was manual -- even though the test case generation were automated.
 \begin{figure}[!hbpt]
 \centering
 \includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-1}
-\caption{Iteration 1 build trend}
+\caption{Iteration 1 Jenkins build trend}
 \label{fig:jenkins-build-trend-interation-1}
 \end{figure}
 
@@ -26,7 +45,7 @@ Writing tests is generally easier. Especially tests that asserts that an edge ca
 \begin{figure}[!hbpt]
 \centering
 \includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-2}
-\caption{Iteration 2 build trend}
+\caption{Iteration 2 Jenkins build trend}
 \label{fig:jenkins-build-trend-interation-2}
 \end{figure}
 
@@ -34,11 +53,13 @@ Writing tests is generally easier. Especially tests that asserts that an edge ca
 \section{Feasibility}
 Parameters that should be measured; LOC ratio; test tools; Phonio is around 2kLOC and neglecatable
 
-Test framework is \~8.5kLOC and 1.1 of these lines are code that wraps the framework. The ratio is then roughly around 10\% written code lines.
+Test framework is \~8.5kLOC and 1.1kLOC of these lines are code that wraps the framework. The ratio is then roughly around 10\% written code lines.
 
 Model framework is also around 8kLOC and is reused in both the client and the server.
 \subsection{Relationship to TDD}
 In practice; the approach presented in this thesis is a variant of TDD, but injects some elements from MDE and increases the test coverage by automatically generating the tests from use case branches.
+
+%Important bit.
 
 
 \subsection{Is if feasible}
