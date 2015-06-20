@@ -53,6 +53,13 @@ UseCaseExtension contactNotAvailable = new UseCaseExtension(lookupEmployee, [sea
 UseCaseBlock block1 =
   new UseCaseBlock([pickupCall, giveGreeting, lookupEmployee, specificEmployee, dialContact, initiateTransfer]);
 
+Definitions bucDefinitions =
+  new Definitions ([
+    new Definition (new Actor.withRole('Receptionist', 'Receptionist')),
+    new Definition (new Actor('User')),
+    new Definition (new Concept.withRole('Message', 'message'))
+    ]);
+
 BaseUseCase buc1 = new BaseUseCase('some use case')
  ..scenario = block1
  ..extensions = [noSpecificEmployee, contactNotAvailable];

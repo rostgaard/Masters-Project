@@ -39,7 +39,7 @@ class UI {
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);
     _templatesPanel = new TemplatesPanel(querySelector('section#templates'), _configController, _service);
 
-    _examplesPanel = new UIExamples(querySelector('section#ui-examples'));
+    _examplesPanel = new UIExamples(querySelector('section#ui-examples'), _service);
     _observers();
   }
 

@@ -2,6 +2,7 @@ part of tcc.client.view;
 
 class UIExamples extends Panel {
   final Element _root;
+  final libtcc.TestCaseService _service;
 
   DivElement get _useCaseBody => _root.querySelector('.use-case');
   DivElement get _definitions => _root.querySelector('.definitions ');
@@ -23,7 +24,7 @@ class UIExamples extends Panel {
   /**
    * Default constructor.
    */
-  UIExamples(this._root) {
+  UIExamples(this._root, this._service) {
     libtcc.UseCaseEntry pickupCall =
         new libtcc.UseCaseEntry('Receptionist picks up call');
     libtcc.UseCaseEntry giveGreeting =
@@ -115,6 +116,7 @@ class UIExamples extends Panel {
    * Render the content of the widget.
    */
   _render() {
+
     _useCaseBody.children = [
       new HeadingElement.h3()..text = 'Use Case',
       new UseCaseBlock(buc1.scenario, bucDefinitions).element
@@ -122,7 +124,12 @@ class UIExamples extends Panel {
 
     _definitions.children = [
       new HeadingElement.h3()..text = 'Definitions',
-      new Definitions(bucDefinitions).element
+      new Definitions(bucDefinitions, _service).element
     ];
+
+    _service.getConcepts().then((Iterable<libtcc.Concept> concepts) {
+      Iterable<libtcc.Definition> definitions = concepts.map((libtcc.Concept concept) => new libtcc.Definition(concept));
+      _definitions.children.add(new Definitions(definitions, _service).element);
+    });
   }
 }

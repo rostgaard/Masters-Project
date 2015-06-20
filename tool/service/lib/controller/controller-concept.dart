@@ -30,7 +30,7 @@ class Concept {
    */
   Future<shelf.Response> create(shelf.Request request) {
     return request.readAsString().then((String content) {
-      Model.Concept concept = new Model.Concept.fromJson(JSON.decode(content));
+      Model.Concept concept = new Model.Concept.fromMap(JSON.decode(content));
 
       return conceptStore.create(concept).then((Model.Concept concept) =>
           new shelf.Response.ok(JSON.encode(concept)));
@@ -45,7 +45,7 @@ class Concept {
         int.parse(shelf_route.getPathParameter(request, 'id'));
 
     return request.readAsString().then((String content) {
-      Model.Concept concept = new Model.Concept.fromJson(JSON.decode(content))
+      Model.Concept concept = new Model.Concept.fromMap(JSON.decode(content))
         ..id = conceptID;
 
       return conceptStore.update(concept).then((Model.Concept concept) =>

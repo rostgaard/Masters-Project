@@ -1,12 +1,69 @@
 part of libtcc.base;
 
 class TestCaseService {
-
   WebService _backend = null;
-  Uri        _host;
+  Uri _host;
+
+  TestCaseService(Uri this._host, this._backend);
+
+  /// Conversion functions.
+  Concept _mapToConcept(Map map) => new Concept.fromMap(map);
+  Iterable<Map> _mapsToConcept(Iterable<Map> maps) => maps.map(_mapToConcept);
 
 
-  TestCaseService (Uri this._host, this._backend);
+  /**
+   * Gets concept.
+   */
+  Future<Concept> getConcept(int conceptID) {
+    Uri uri = Uri.parse('${this._host}/concept/$conceptID');
+
+    return this._backend
+        .get(uri)
+        .then((String response) => new Concept.fromMap(JSON.decode(response)));
+  }
+
+
+  /**
+   * Gets concepts.
+   */
+  Future<Iterable<Concept>> getConcepts() {
+    Uri uri = Uri.parse('${this._host}/concept');
+
+    return this._backend
+        .get(uri)
+        .then((String response) => _mapsToConcept(JSON.decode(response)));
+  }
+
+  /**
+   * Add concept.
+   */
+  Future<Concept> addConcept(Concept concept) {
+    Uri uri = Uri.parse('${this._host}/concept');
+
+    return this._backend
+        .post(uri, JSON.encode(concept))
+        .then((String response) => _mapToConcept(JSON.decode(response)));
+  }
+
+  /**
+   * Update concept.
+   */
+  Future<Concept> updateConcept(Concept concept) {
+    Uri uri = Uri.parse('${this._host}/concept/${concept.id}');
+
+    return this._backend
+        .put(uri, JSON.encode(concept))
+        .then((String response) => _mapToConcept(JSON.decode(response)));
+  }
+
+  /**
+   * Delete concept.
+   */
+  Future removeConcept(Concept concept) {
+    Uri uri = Uri.parse('${this._host}/concept/${concept.id}');
+
+    return this._backend.delete(uri);
+  }
 
   /**
    * Gets config.
@@ -14,9 +71,8 @@ class TestCaseService {
   Future<Configuration> getConfig() {
     Uri uri = Uri.parse('${this._host}/configuration');
 
-    return this._backend.get (uri)
-      .then((String response)
-        => new Configuration.fromMap(JSON.decode(response)));
+    return this._backend.get(uri).then(
+        (String response) => new Configuration.fromMap(JSON.decode(response)));
   }
 
   /**
@@ -25,11 +81,10 @@ class TestCaseService {
   Future<UseCase> getUseCase(String name) {
     Uri uri = Uri.parse('${this._host}/usecase/$name');
 
-    return this._backend.get (uri)
-      .then((String response)
-        => new UseCase.fromJson(JSON.decode(response)));
+    return this._backend
+        .get(uri)
+        .then((String response) => new UseCase.fromJson(JSON.decode(response)));
   }
-
 
   /**
    * Gets all [UseCase] names.
@@ -37,8 +92,7 @@ class TestCaseService {
   Future<Iterable<String>> getUseCases() {
     Uri uri = Uri.parse('${this._host}/usecase');
 
-    return this._backend.get (uri)
-      .then(JSON.decode);
+    return this._backend.get(uri).then(JSON.decode);
   }
 
   /**
@@ -47,11 +101,10 @@ class TestCaseService {
   Future<UseCase> getDummyUseCase() {
     Uri uri = Uri.parse('${this._host}/dummy');
 
-    return this._backend.get (uri)
-      .then((String response)
-        => new UseCase.fromJson(JSON.decode(response)));
+    return this._backend
+        .get(uri)
+        .then((String response) => new UseCase.fromJson(JSON.decode(response)));
   }
-
 
   /**
    * Gets all [Actor].
@@ -59,11 +112,8 @@ class TestCaseService {
   Future<Iterable<Actor>> getActors() {
     Uri uri = Uri.parse('${this._host}/actor');
 
-    return this._backend.get (uri)
-      .then(JSON.decode)
-        .then((Iterable<Map> maps) =>
-          maps.map((Map map) =>
-            new Actor.fromMap(map)));
+    return this._backend.get(uri).then(JSON.decode).then(
+        (Iterable<Map> maps) => maps.map((Map map) => new Actor.fromMap(map)));
   }
 
   /**
@@ -72,9 +122,9 @@ class TestCaseService {
   Future<Actor> getActor(String name) {
     Uri uri = Uri.parse('${this._host}/actor/$name');
 
-    return this._backend.get (uri)
-      .then((String response)
-        => new Actor.fromMap(JSON.decode(response)));
+    return this._backend
+        .get(uri)
+        .then((String response) => new Actor.fromMap(JSON.decode(response)));
   }
 
   /**
@@ -85,7 +135,6 @@ class TestCaseService {
 
     return this._backend.put(uri, JSON.encode(config));
   }
-
 }
 /**
  * Superclass for abstracting away the griddy details of
@@ -96,67 +145,63 @@ class TestCaseService {
  *    or 'error' field from the server.
  */
 abstract class WebService {
-
-  static const String GET    = 'GET';
-  static const String PUT    = 'PUT';
-  static const String POST   = 'POST';
+  static const String GET = 'GET';
+  static const String PUT = 'PUT';
+  static const String POST = 'POST';
   static const String DELETE = 'DELETE';
 
-  Future<String> get    (Uri path);
-  Future<String> put    (Uri path, String payload);
-  Future<String> post   (Uri path, String payload);
-  Future<String> delete (Uri path);
+  Future<String> get(Uri path);
+  Future<String> put(Uri path, String payload);
+  Future<String> post(Uri path, String payload);
+  Future<String> delete(Uri path);
 
-  static void checkResponse(int responseCode,String method,
-                            Uri path, String response) {
+  static void checkResponse(
+      int responseCode, String method, Uri path, String response) {
     switch (responseCode) {
       case 200:
         break;
 
       case 400:
-        throw new ClientError ('$method $path - $response');
+        throw new ClientError('$method $path - $response');
         break;
 
       case 401:
-        throw new NotAuthorized ('$method  $path - $response');
+        throw new NotAuthorized('$method  $path - $response');
         break;
 
       case 403:
-        throw new Forbidden ('$method $path - $response');
+        throw new Forbidden('$method $path - $response');
         break;
 
       case 409:
-        throw new Conflict ('$method $path - $response');
+        throw new Conflict('$method $path - $response');
         break;
 
       case 404:
-       throw new NotFound('$method  $path - $response');
-       break;
+        throw new NotFound('$method  $path - $response');
+        break;
 
       case 500:
         throw new ServerError('$method  $path - $response');
         break;
 
       default:
-        throw new StateError('Status (${responseCode}): $method $path - $response');
+        throw new StateError(
+            'Status (${responseCode}): $method $path - $response');
     }
   }
 }
 
-
 class StorageException implements Exception {}
 
 class NotFound implements StorageException {
-
   final String message;
   const NotFound([this.message = ""]);
 
   String toString() => "NotFound: $message";
 }
 
-
 class SaveFailed implements StorageException {
-
   final String message;
   const SaveFailed([this.message = ""]);
 
@@ -164,7 +209,6 @@ class SaveFailed implements StorageException {
 }
 
 class Forbidden implements StorageException {
-
   final String message;
   const Forbidden([this.message = ""]);
 
@@ -172,16 +216,13 @@ class Forbidden implements StorageException {
 }
 
 class Conflict implements StorageException {
-
   final String message;
   const Conflict([this.message = ""]);
 
   String toString() => "Conflict: $message";
 }
 
-
 class NotAuthorized implements StorageException {
-
   final String message;
   const NotAuthorized([this.message = ""]);
 
@@ -189,7 +230,6 @@ class NotAuthorized implements StorageException {
 }
 
 class ClientError implements StorageException {
-
   final String message;
   const ClientError([this.message = ""]);
 
@@ -197,7 +237,6 @@ class ClientError implements StorageException {
 }
 
 class ServerError implements StorageException {
-
   final String message;
   const ServerError([this.message = ""]);
 

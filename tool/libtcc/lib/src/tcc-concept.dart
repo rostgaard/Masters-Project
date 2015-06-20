@@ -14,7 +14,7 @@ class Concept {
 
   Concept(this.type);
 
-  Concept.fromJson(Map map) {
+  Concept.fromMap(Map map) {
     id = map.containsKey(Key.id) ? map[Key.id] : id;
     type = map.containsKey(Key.type) ? map[Key.type] : type;
     description = map.containsKey(Key.description)

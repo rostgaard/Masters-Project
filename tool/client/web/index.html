@@ -66,7 +66,16 @@
 
         <section id="concepts" class="content" hidden>
           <ul class="list"></ul>
-          <button class="add">Add</button>
+            <fieldset>
+              <legend>Add new concept</legend>
+
+          <input type="text" id="input-new-concept-name" placeholder="Name"></input>
+          <input type="text" id="input-new-concept-description" placeholder="Description"></input>
+
+          <button class="pure-button-primary pure-button create">Create</button>
+       </fieldset>
+                <div class="definitions"></div>
+
         </section>
 
         <!-- Actor goals (Use case diagrams) -->
