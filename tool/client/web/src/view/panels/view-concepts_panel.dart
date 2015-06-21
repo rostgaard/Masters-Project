@@ -1,5 +1,8 @@
 part of tcc.client.view;
 
+/**
+ *
+ */
 class ConceptsPanel implements Panel {
   final Element _root;
   final controller.Config _configController;
@@ -11,6 +14,9 @@ class ConceptsPanel implements Panel {
   InputElement get _addInputDescription => _root.querySelector('#input-new-concept-description');
 
 
+  /**
+   * Constructor.
+   */
   ConceptsPanel(this._root, this._configController, this._service) {
     _observers();
     _render();
@@ -35,6 +41,9 @@ class ConceptsPanel implements Panel {
     _render();
   }
 
+  /**
+   * Renders the widget.
+   */
   _render() {
     _service.getConcepts().then((Iterable<libtcc.Concept> concepts) {
       Iterable<libtcc.Definition> definitions = concepts
@@ -43,6 +52,9 @@ class ConceptsPanel implements Panel {
     });
   }
 
+  /**
+   * Extracts a [libtcc.Concept] from the UI component.
+   */
   libtcc.Concept _inputConcept() =>
       new libtcc.Concept.withRole(_addInputName.value, _addInputName.value)
         ..description = _addInputDescription.value;
