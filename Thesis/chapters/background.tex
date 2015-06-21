@@ -10,18 +10,17 @@ This chapter provides the historical background and motivation for the idea that
 \section{Software testing}
 
 \subsection{Test-driven development}
-A development methodology that emerged around the millennium and have been looking very promising is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.
+A development methodology that emerged around the millennium, and have been looking very promising, is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[scale=0.6]{\imgdir test-driven-development-flow}
-\caption{Basic work-flow of test-driven development.}
+\caption{Basic work-flow of test-driven development}
 \label{fig:test-driven-development-flow}
-\end{figure}
-
-Some of the arguments for using test-driven development is that it enables continuous regression testing. It focuses strongly on building the object and components that are needed rather than the ones that are thought to be needed. And it also lowers the gap between component design, and feedback.\cite{george2003}. By feedback is meant developer feedback -- whether the component works or not.\\
-Test-driven development, in its nature, encourages code to be written testable. If a test is written prior to the code, then -- obviously -- the code written will be testable, or it will not pass the tests that originated it. This often means better code reuse and smaller, more loosely coupled components. This is probably due to the fact that when you write tests, it is often the case that you repeat some actions over and over again.\\\\ %TODO maybe an example?
-Ho will this differ from TDD? It uses the same philosophy of; tests firsts.
+\end{figure}Some of the arguments for using test-driven development is that it enables continuous regression testing. It focuses strongly on building the object and components that are needed rather than the ones that are thought to be needed. And it also lowers the gap between component design, and feedback.\cite{george2003}. By feedback is meant developer feedback -- whether the component works or not.\\
+Test-driven development, in its nature, encourages code to be written testable. If a test is written prior to the code, then -- obviously -- the code written will be testable, or it will not pass the tests that originated it. This often means better code reuse and smaller, more loosely coupled components. This is probably due to the fact that when you write tests, it is often the case that you repeat some actions over and over again.\\\\
+In this thesis, the methodology used is similar to the one found in test-driven development, in the way that you \emph{can} build tests from your use cases before the implementation. But unlike test-driven development it does dictate a specific point in development process where you should add the tests.\\
+Instead it focuses on a tool-assisted generation of tests scopes to achieve a very broad coverage of requirements. So basically, it gives you the outline of what to test, and which domain concepts are needed for the test.
 
 \subsection{Continuous integration}
 Continuous integration is a methodology, that u
@@ -36,12 +35,18 @@ Continuous integration is a methodology, that u
 In this section brief glossary from the test domain
 \begin{description}
   \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
-  \item[Unit test:] Small component test
   \item[White-box test:] A white-box test treats the system as a transparent box where all the internals are known. From these known internals, tests can be written to take a specific code path within the component under test. Unit tests are an example of a white-box test, as it tests the known internals of the unit. In the case study system, white-box tests are used to verify API's and system functionality -- effectively testing multiple API's in a single test.
-  \item[Black-box test:] Test system as unknown
-  \item[Integration test:] Test system as deployed, stress-tests and others
+  \item[Black-box test:] Treats the system as an unknown entity which responds to external stimuli. Nothing is known about the internals of the entity, and by by applying the stimuli, the entity will respond -- hopefully -- in the expected way. The Stimuli-organism-response (figure \ref{fig:sor-model}), which is used areas such as behavioral psychology, graphically depicts the concept very well.
+  \item[Unit test:] Is a detailed test of a single unit in the system. While the size of the unit is not strictly defined, a unit is typically a single file or class in software systems. A unit test is a white-box test that focus on broad test coverage.
+  \item[Integration test:] Is a test that treats a component, or set of components as a combined entity, and tests it as a black-box system. Integration testing is linked to functional requirements, but may also refer to non-functional requirements, such as behavior under load -- which is known is stress-testing.
   \item[Acceptance test:] Test system as it should work %  is a test conducted to determine if the requirements of a specification or contract are met. It
 \end{description}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.6]{\imgdir sor-model}
+  \label{fig:sor-model}
+  \caption{Stimuli-organism-response model. Used -- for instance -- in psychology, but is analogous black-box testing}
+\end{figure}
 
 \section{Case study system}
 Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\\\\
