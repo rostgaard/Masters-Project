@@ -1,8 +1,8 @@
 \chapter{First iterations}
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
-This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{sec:openreception_framework}).\\
-This section covers the motivation for and scoping for the tests and test tools. Later on, it explains how it was implemented and refined.
+This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{ssec:openreception_framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\\
+This section also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined.
 %TODO refer to the figure.
 \begin{figure}[!htbp]
 \centering
@@ -121,22 +121,28 @@ This section explains the processes of befitting from the models and interface o
 \label{fig:component_diagram_with_tests}
 \end{figure}
 
-\todo[inline]{undone stuff below}
 \subsection{Framework content}
-The framework is a set of passive classes that is divided, into the following categories (and code libraries).
+\label{ssec:openreception_framework}
+The framework is a set of passive classes that is divided, into the following categories (and code libraries). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
   \item[Models:] Every model of the framework is supplied with methods that returns a DTO (Data Transfer Object) representation of the object
   \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD\todo{add glossary definition} operations, and and ``enqueue'' that puts a message into a delivery queue.
-  \item[Service:] These classes use the framework model DTO's.
-  \item[Database:] Database access
-  \item[Resource:] Encoding library that turns object into a REST-resource
+  \item[Service:] These classes use the framework model DTO deserialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
+  \item[Database:] Database access layer. Contains every SQL query functions. The functions casts from database queries to domain objects that may be serialized for transport to remote clients via -- for instance -- HTTP.
+  \item[Resource:] Encoding library that turns objects into a REST-resource identifiers. Used to abstract away the Uri encodings on both the client and the server.
 \end{description}
-
+The framework served an important purpose in writing the code that modeled the actor behavior needed in the acceptance tests that we wrote.
 \subsection{Supporting test tools}
+%TODO Finish this section
+\label{ssec:supporting-test-tools}
+In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A black box test of a system -- in general -- requires external stimuli in order to produce a result.
+
+
+We wanted to actually perform phone calls
 
 \begin{description}
  \item[Resource pools:] Tests require resources that could be acquired from pools. Pools are resource containers with a fixed discrete amount of resources in them, or in some cases, containers with infinite amount of resources in them. Either they should hide behind macros, or provide components for other resources.
-
- \item
+ \item[json-pjsua:] simple software SIP phone.
+ \item[PhonIO:] Phone communication library
 \end{description}
 %TODO add some snibblets of framwork content.
