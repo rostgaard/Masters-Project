@@ -2,8 +2,7 @@
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
 This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{ssec:openreception_framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\\
-This section also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined.
-%TODO refer to the figure.
+This section also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined. The first iteration of the project focused primarily on automating the generation of test, and is highlighted in the plot in figure \ref{fig:project_parameter_plot_1st_iteration}.
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
@@ -27,8 +26,14 @@ This section also covers the motivation and scoping for the tests and test tools
 
 \end{tikzpicture}
 \label{fig:project_parameter_plot_1st_iteration}
-\caption{Project parameters with the 1st iteration highlighted}
+\caption{First iteration focused mainly on automation. The dark red dot highlights the 1st iteration}
 \end{figure}
+\section{Glossary}
+This section contains a brief glossary of the terms introduced in this chapter.
+\begin{description}
+  \item[CRUD:] Abbreviation of \textbf{C}reate, \textbf{R}ead \textbf{U}pdate and \textbf{D}elete is an acronym denoting the four primitives operation of persistent data storage. An interface for persistent storage may expose all or a subset of these primitives.
+\end{description}
+
 \section{Motivation and scope}
 During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but no longer behaved as it should.\\
 Is was mainly the high level of asynchronism of the system, and low level of control with the PBX that made feature regressions a daily pain. Unit tests were of little, or no use, as we were basically writing and testing components, without knowing if they belonged in the system, or not. For this problem; the solution of applying a test-driven development methods seemed very suitable, but we wanted to raise the abstraction level a bit further, and start directly from requirements and test the system as a whole.\\\\
@@ -39,7 +44,7 @@ The second way you can test a system as whole, is to test a deployed instance of
 In order to derive a which cases should be tested, we -- in a figurative sense --  tore apart an activity diagram and created use cases from them. Then added the missing parts with the help of a representative from customer of the system. Once we had the use cases as a list of actions and alternatives, we had a manuscript that we needed to replay to assert functionality of the system.\\
 In order to automate this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
 
-\subsection{Mapping}
+\subsection{Mappings}
 Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\\
 In the scripting environment, we then outlined the domain actors (such as caller and receptionists). External resources were also needed, and was provided by the main system via services interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\\\\
 The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code chunks. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
@@ -102,47 +107,50 @@ We soon realized that doing individual mapping for every line was tedious, time 
 
 \end{tikzpicture}
 \label{fig:project_parameter_plot_2nd_iteration}
-\caption{Project parameters with the 2nd iteration highlighted}
-\end{figure}We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument.
-
-\todo[inline]{lead-over and refer to the figure. and add section explaining the content.}
-The 2nd iteration is build during the course this thesis, and is thus considered a part of it.
-
-
+\caption{Second iteration involved manually writing up the use case tests while linking it to the domain model, but didn't include any automation}
+\end{figure}We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument. The second iteration it highlighted in figure \ref{fig:project_parameter_plot_2nd_iteration}. It is built during the course this thesis, and is thus considered an auxiliary part of it.
 
 \subsection{Sharing domain model knowledge}
 During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. We could now, fairly easy, by re-using the domain classes and interfaces from the framework build tests that with a higher domain awareness than the previous iteration.\\
 This section explains the processes of befitting from the models and interface of the framework for a third application: Namely testing. 
-
-\begin{figure}
-\centering
-\includegraphics[width=0.80\textwidth]{\imgdir component_diagram_with_tests}
-\caption{Component diagram -- extended with tests}
-\label{fig:component_diagram_with_tests}
-\end{figure}
 
 \subsection{Framework content}
 \label{ssec:openreception_framework}
 The framework is a set of passive classes that is divided, into the following categories (and code libraries). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
   \item[Models:] Every model of the framework is supplied with methods that returns a DTO (Data Transfer Object) representation of the object
-  \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD\todo{add glossary definition} operations, and and ``enqueue'' that puts a message into a delivery queue.
+  \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD operations, and and ``enqueue'' that puts a message into a delivery queue.
   \item[Service:] These classes use the framework model DTO deserialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
   \item[Database:] Database access layer. Contains every SQL query functions. The functions casts from database queries to domain objects that may be serialized for transport to remote clients via -- for instance -- HTTP.
   \item[Resource:] Encoding library that turns objects into a REST-resource identifiers. Used to abstract away the Uri encodings on both the client and the server.
 \end{description}
 The framework served an important purpose in writing the code that modeled the actor behavior needed in the acceptance tests that we wrote.
 \subsection{Supporting test tools}
-%TODO Finish this section
 \label{ssec:supporting-test-tools}
-In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A black box test of a system -- in general -- requires external stimuli in order to produce a result.
-
-
-We wanted to actually perform phone calls
-
+In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A black box test of a system -- in general -- requires external stimuli in order to produce a result.\\\\
+So, to perform tests from a use case perspective, we needed to add more domain-awareness to our test environment. We did this writing up classes that corresponded to a caller, callee and receptionist actor and aggregated the needed client interfaces and concepts. Most of this was provided by the framework (see section \ref{ssec:openreception_framework}), such as the user and reception information. But, we also wanted to perform actual phone calls whenever a use case stated that this was what happened. We developed a small software phone, that could be integrated into, into and controlled by, our test tools. On top of that, an abstraction library was created -- PhonIO\footnote{https://github.com/Bitstackers/Phonio}. This library abstracted away the specifics of a phone, exposing just a general interface. This allowed us to scale up tests a lot easier, as we could just add additional soft-phones. It also allowed us to use the tests tools to both assert the functionality of a physical deployment (with hardware phones), and the functionality of an automated test-deployment (using soft-phones).\\\\
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{\imgdir component_diagram_with_tests}
+\caption{Component diagram -- extended with tests}
+\label{fig:component_diagram_with_tests}
+\end{figure}The extended component diagram in figure \ref{fig:component_diagram_with_tests} depicts how the supporting test tools fit into the overall architecture of the system. It re-uses the REST interfaces (exposed in the shared framework) and controls phones via the library mentioned before. By reusing the model and interface classes from framework, a lot of test code is reduced significantly.
+\subsection{Resource pools}
+\label{ssec:resource-pools}
+A crucial component that was added to the tests tools were the resource pool. This component has also been found to be important in automation, but this is covered later on.\\
+Tests require resources as part of their test harness -- resources that are available to them prior to the test body -- need to get these from somewhere. For this purpose we defined the abstract component ``resource pool''. For those familiar with manual memory management from -- for example -- the C programming language, will recognize the pattern of explicitly allocating and deallocating resources from the \texttt{malloc/free} system calls. This system is almost identical, however it manage no hold memory blocks -- it manages resources.\\
+Resources a quite a broad term, but specifically in our test tools, resources are pre-configured actors; domain objects -- such as user and reception data. Before a test can run, it needs to specify which resources it needs to be able to complete. For instance; a test involving a caller dialing a reception -- handled by a receptionist, needs a caller and reception actor, and reception data. These will be allocated from three separate resource pools that must be available before starting the tests.\\\\
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.50\textwidth]{\imgdir resource_pool}
+\caption{Abstract resource pools with specializations}
+\label{fig:resource_pool}
+\end{figure}There are three different specializations of resource pools in our current implementation of the test tools. These cover a broad variety of scenarios, and should be sufficient for most implementations.
 \begin{description}
- \item[Resource pools:] Tests require resources that could be acquired from pools. Pools are resource containers with a fixed discrete amount of resources in them, or in some cases, containers with infinite amount of resources in them. Either they should hide behind macros, or provide components for other resources.
- \item[json-pjsua:] simple software SIP phone.
- \item[PhonIO:] Phone communication library
+  \item[Bounded pool:] A Bounded pool hold resources that are limited in the system. For example, our system holds a limited number of configured receptionist actors, and when that last one is allocated, there is no way of acquiring more. The only way to get around it is to manually lower the required number of actors required for a test or add more receptionist actors.
+  \item[Unbounded pool:] Any resource that conceptually infinite, it realized by a bounded pool. By infinite is meant either a resource that may be shared (allocated multiple times), or a resource that easy to replicate. For instance, an object that is created from a template.
+  \item[Randomizer:] The randomizer is a sort of bastard-concept we introduced in order to spice our tests up with some random inputs. It constructs new random object upon each allocate call, but may be both bounded and unbounded in nature.
 \end{description}
+These concepts are reused in the next iteration of the tests, which is the refined tests-generation tool.
+
 %TODO add some snibblets of framwork content.
