@@ -3,9 +3,9 @@ part of tcc.client.view;
 class Definitions {
 
   UListElement element = new UListElement();
-  final libtcc.TestCaseService _service;
+  final controller.Concept _conceptController;
 
-  Definitions (Iterable<libtcc.Definition> definitions, this._service) {
+  Definitions (Iterable<libtcc.Definition> definitions, this._conceptController) {
     element.children.addAll(definitions.map(_toNode));
   }
 
@@ -20,7 +20,7 @@ class Definitions {
      ..classes.add('delete');
 
    delete.onClick.listen((_) =>
-       _service.removeConcept(definition.concept)
+       _conceptController.removeConcept(definition.concept)
                .then((_) => li.remove()));
 
    li.children.add(delete);

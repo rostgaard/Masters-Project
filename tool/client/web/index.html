@@ -60,8 +60,14 @@
           <ul class="list"></ul>
 
 
-          <input class="add" placeholder="Actor name"></input>
-          <button class="add">Add new actor</button>
+            <fieldset>
+              <legend>Add new concept</legend>
+
+          <input type="text" id="input-new-actor-name" placeholder="Name" style="width:100%;"></input><br />
+          <textarea style="width:100%;" id="input-new-actor-description" placeholder="Description"></textarea>
+
+          <button class="pure-button-primary pure-button create">Create</button>
+       </fieldset>
         </section>
 
         <section id="concepts" class="content" hidden>
@@ -69,7 +75,7 @@
             <fieldset>
               <legend>Add new concept</legend>
 
-          <input type="text" id="input-new-concept-name" placeholder="Name"></input>
+          <input type="text" id="input-new-concept-name" placeholder="Name"></input><br>
           <input type="text" id="input-new-concept-description" placeholder="Description"></input>
 
           <button class="pure-button-primary pure-button create">Create</button>
@@ -185,11 +191,30 @@ abstract class SendMessage {
 
         <section id="ui-examples" class="content" hidden>
           <button class="mark-actor pure-button">
-            <i class="fa fa-cog"></i>Mark as actor
+            <i class="fa fa-user"></i> Actor
           </button>
           <button class="mark-concept pure-button">
-            <i class="fa fa-cog"></i>Mark as concept
+            <i class="fa fa-car"></i> Concept
           </button>
+          <br />
+
+          <select>
+           <option>stuff</option>
+          </select>
+
+          <button class="mark-actor-role pure-button">
+            <i class="fa fa-user-secret"></i> Actor role
+          </button>
+          <br />
+
+          <select>
+           <option>stuff</option>
+          </select>
+
+          <button class="mark-concept-role pure-button">
+            <i class="fa fa-taxi"></i> Concept role
+          </button>
+
             <div class="pure-g">
                 <div class="use-case pure-u-1-2"></div>
                 <div class="definitions pure-u-1-2"></div>

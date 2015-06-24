@@ -20,7 +20,7 @@ class TestCase {
   /**
    * Replace the selected [UseCase] with [uc].
    */
-  void set selectedUseCase(libtcc.UseCase uc) {
+  void set selectedUseCase(libtcc.AnalyzedUseCase uc) {
     _name.text = uc.name;
     _description.text = uc.description;
     _code.text = libtcc.toTestCase(uc);

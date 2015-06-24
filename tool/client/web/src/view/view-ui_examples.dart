@@ -2,7 +2,7 @@ part of tcc.client.view;
 
 class UIExamples extends Panel {
   final Element _root;
-  final libtcc.TestCaseService _service;
+  final controller.Concept _conceptController;
 
   DivElement get _useCaseBody => _root.querySelector('.use-case');
   DivElement get _definitions => _root.querySelector('.definitions ');
@@ -18,13 +18,13 @@ class UIExamples extends Panel {
       ? window.getSelection().getRangeAt(0).cloneContents().innerHtml
       : '';
 
-  libtcc.BaseUseCase buc1;
+  libtcc.UseCase buc1;
   libtcc.Definitions bucDefinitions;
 
   /**
    * Default constructor.
    */
-  UIExamples(this._root, this._service) {
+  UIExamples(this._root, this._conceptController) {
     libtcc.UseCaseEntry pickupCall =
         new libtcc.UseCaseEntry('Receptionist picks up call');
     libtcc.UseCaseEntry giveGreeting =
@@ -65,7 +65,7 @@ class UIExamples extends Panel {
       new libtcc.Definition(new libtcc.Concept.withRole('Message', 'message'))
     ]);
 
-    buc1 = new libtcc.BaseUseCase('some use case')
+    buc1 = new libtcc.UseCase('some use case')
       ..scenario = block1
       ..extensions = [noSpecificEmployee, contactNotAvailable];
 
@@ -124,12 +124,12 @@ class UIExamples extends Panel {
 
     _definitions.children = [
       new HeadingElement.h3()..text = 'Definitions',
-      new Definitions(bucDefinitions, _service).element
+      new Definitions(bucDefinitions, _conceptController).element
     ];
 
-    _service.getConcepts().then((Iterable<libtcc.Concept> concepts) {
+    _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
       Iterable<libtcc.Definition> definitions = concepts.map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children.add(new Definitions(definitions, _service).element);
+      _definitions.children.add(new Definitions(definitions, _conceptController).element);
     });
   }
 }

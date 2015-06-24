@@ -1,13 +1,44 @@
 part of tcc.client.view;
 
 class UseCaseEntry {
-  final LIElement element;
+  LIElement element;
 
-  UseCaseEntry(libtcc.UseCaseEntry entry, libtcc.Definitions definitions)
-      : element = _decompose(entry, definitions);
+  /**
+   *
+   */
+  UseCaseEntry(libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
+    element = _decompose(entry, definitions);
+  }
 
-  static LIElement _decompose(
+  /**
+   *
+   */
+  LIElement _decompose(
       libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
+    ButtonElement deleteButton = new ButtonElement()
+      ..text = 'X'
+      ..onClick.listen((_) {
+        this.element.remove();
+      });
+
+    ButtonElement upButton = new ButtonElement()
+      ..text = '↑'
+      ..onClick.listen((_) {
+        if (this.element != this.element.parent.children.first) {
+          this.element.parent.insertBefore(this.element, this.element.previousElementSibling);
+        }
+      });
+
+    ButtonElement downButton = new ButtonElement()
+      ..text = '↓'
+      ..onClick.listen((_) {
+      if (this.element != this.element.parent.children.last) {
+        this.element.parent.insertBefore(this.element,
+            this.element.nextElementSibling.nextElementSibling);
+      }
+      });
+
+
     LIElement element = new LIElement();
     String decomposed = entry.text.toLowerCase();
 
@@ -21,12 +52,15 @@ class UseCaseEntry {
           (definition, _toElement(def.concept).outerHtml);
     });
 
-    print(decomposed);
-
-    return element..appendHtml(decomposed);
+    return element
+      ..children.addAll([upButton,downButton, deleteButton])
+      ..appendHtml(decomposed);
   }
 
 
+  /**
+   *
+   */
   static SpanElement _toElement (libtcc.Concept concept) =>
     new SpanElement()..classes.add(concept.runtimeType.toString().toLowerCase())
       ..text = concept.type;

@@ -27,7 +27,7 @@ class TestsPanel implements Panel {
   }
 
   _render() {
-    _service.getUseCase('Use_Case_1').then((libtcc.UseCase uc) {
+    _service.getUseCase('Use_Case_1').then((libtcc.AnalyzedUseCase uc) {
       testCaseView.selectedUseCase = uc;
     });
 
@@ -35,7 +35,7 @@ class TestsPanel implements Panel {
 
       _useCaseSelector.render(ucNames.map(_useCaseSelector._menuItem));
 
-      _service.getUseCase(ucNames.first).then((libtcc.UseCase uc) {
+      _service.getUseCase(ucNames.first).then((libtcc.AnalyzedUseCase uc) {
         //_root.appendHtml(uc.toMarkdown());
         //useCaseView.selectedUseCase = uc;
       });

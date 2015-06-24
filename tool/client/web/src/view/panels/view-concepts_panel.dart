@@ -5,8 +5,7 @@ part of tcc.client.view;
  */
 class ConceptsPanel implements Panel {
   final Element _root;
-  final controller.Config _configController;
-  final libtcc.TestCaseService _service;
+  final controller.Concept _conceptController;
 
   DivElement get _definitions => _root.querySelector('.definitions');
   ButtonElement get _addButton => _root.querySelector('button.create');
@@ -17,7 +16,7 @@ class ConceptsPanel implements Panel {
   /**
    * Constructor.
    */
-  ConceptsPanel(this._root, this._configController, this._service) {
+  ConceptsPanel(this._root, this._conceptController) {
     _observers();
     _render();
   }
@@ -27,7 +26,7 @@ class ConceptsPanel implements Panel {
    */
   _observers() {
     _addButton.onClick.listen((_) {
-      _service.addConcept(_inputConcept());
+      _conceptController.create(_inputConcept());
       _render();
     });
 
@@ -45,10 +44,10 @@ class ConceptsPanel implements Panel {
    * Renders the widget.
    */
   _render() {
-    _service.getConcepts().then((Iterable<libtcc.Concept> concepts) {
+    _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
       Iterable<libtcc.Definition> definitions = concepts
           .map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children = [new Definitions(definitions, _service).element];
+      _definitions.children = [new Definitions(definitions, _conceptController).element];
     });
   }
 

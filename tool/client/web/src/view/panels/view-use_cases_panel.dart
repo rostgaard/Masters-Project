@@ -30,7 +30,7 @@ class UseCasesPanel implements Panel {
     _service.getUseCases().then((Iterable<String> ucNames) {
       useCaseSelector.render(ucNames.map(useCaseSelector._menuItem));
 
-      _service.getUseCase(ucNames.first).then((libtcc.UseCase uc) {
+      _service.getUseCase(ucNames.first).then((libtcc.AnalyzedUseCase uc) {
         //_root.appendHtml(uc.toMarkdown());
         useCaseView.selectedUseCase = uc;
       });
