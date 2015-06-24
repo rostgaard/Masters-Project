@@ -1,4 +1,41 @@
- - Finish the case study system section
+Minors:
+ - Redo all the diagrams from MagicDraw using the <text> option. Gives a crisper look on diagrams.
+
+Structure:
+
+Intro
+ - (Very high level introduction of the project)
+
+Background (Background material on tests, requirements,
+ - terminology, why it did not fit entirely, and something about the case study system)
+ 
+First iterations
+ - Descriptions of the first two implementations
+
+Design
+ - Concept. Workflow and who is involved in what. Screen shots and more.
+ - Which level to write use cases on
+ - What to include from use cases
+ - How to represent use cases (a presentation of possibilites and a discussion on which may be better suited.
+ - How to map domain concepts to use cases
+
+Implementation
+ - Architecture
+ - Techology
+ - Point-and-click interface.
+ 
+Evaluation
+ - Make up some metrics. (Number of commits done in support tools, for instance).
+ 
+Conclusion
+ - Further work.
+
+Appendix
+ - Handbook?
+
+
+Loose TODOs's;
+- Finish the case study system section
  - Integrate the feedback from papers
  - Revisit the introduction
  - Add a section on Jenkins CI
