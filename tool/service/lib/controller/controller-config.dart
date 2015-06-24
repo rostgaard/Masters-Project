@@ -1,26 +1,31 @@
-part of tcctool.router;
+part of tcc.service.controller;
 
 class Config {
 
-  final String _jsonStorePath = fileStore;
   final Logger log = new Logger('$libraryName.Config');
 
-  Future<shelf.Response> get (shelf.Request request) {
-    IO.File file = new IO.File ('$_jsonStorePath/config.json');
+  final Database.Config _configStore;
 
-    if(!file.existsSync()) {
-      log.warning('No config found. Creating one.');
-      file.writeAsStringSync(JSON.encode(new Model.Configuration.initial()));
-    }
+  /**
+   * Default constructor.
+   */
+  Config(this._configStore);
 
-    return file.readAsString().then((String result) =>
-      new shelf.Response.ok (result));
-  }
+  /**
+   * Loads and serialized a [Configuration] object.
+   */
+  Future<shelf.Response> get (shelf.Request request) =>
+    _configStore.load().then((Model.Configuration config) =>
+      new shelf.Response.ok (JSON.encode(config)));
 
-  Future<shelf.Response> update (shelf.Request request) {
-    IO.File file = new IO.File ('$_jsonStorePath/config.json');
 
-    return request.readAsString().then(file.writeAsString).then((_) => new shelf.Response.ok ('ok'));
-  }
-
+  /**
+   * Saves the config
+   */
+  Future<shelf.Response> save (shelf.Request request) =>
+   request.readAsString()
+     .then(JSON.decode)
+     .then(Model.Configuration.decode)
+     .then(_configStore.save)
+     .then(_okJSONResponse);
 }

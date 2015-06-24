@@ -1,35 +1,27 @@
-part of tcctool.router;
+part of tcc.service.controller;
 
 class UseCase {
 
-  final String _jsonStorePath = '$fileStore/usecases';
   final Logger log = new Logger('$libraryName.UseCase');
+
+  final Database.UseCase _usecaseStore;
+
+  UseCase (this._usecaseStore);
 
   /**
    * Retrieve a single use case
    */
   Future<shelf.Response> get (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+    int id = int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-
-    log.fine('Sending file: ${file.path}');
-
-    return file.readAsString().then((String result) =>
-      new shelf.Response.ok (result));
+    return _usecaseStore.get(id).then(_okJSONResponse);
   }
 
   /**
    * Retrieve a list of available use cases
    */
-  shelf.Response list (shelf.Request request) {
-    List<IO.FileSystemEntity> files = new IO.Directory ('$_jsonStorePath').listSync();
-
-    String result = JSON.encode(files.map((IO.FileSystemEntity f) =>
-      f.path.substring(_jsonStorePath.length+1,f.path.length-5)).toList());
-
-    return new shelf.Response.ok (result);
-  }
+  shelf.Response list (shelf.Request request) =>
+    _usecaseStore.list().then(_okJSONIterableResponse);
 
   /**
    * Create a new use case.

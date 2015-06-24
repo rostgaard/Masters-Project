@@ -2,12 +2,12 @@
 --  System users:
 
 CREATE TABLE users (
-   id               INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   id               INTEGER NOT NULL PRIMARY KEY,
    name             TEXT    NOT NULL
 );
 
 CREATE TABLE groups (
-   id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   id   INTEGER NOT NULL PRIMARY KEY,
    name TEXT    NOT NULL
 );
 
@@ -24,49 +24,47 @@ CREATE TABLE auth_identities (
 );
 
 -------------------------------------------------------------------------------
---  Dial-plans:
-
-CREATE TABLE dialplan_templates (
-   id       INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   template JSON    NOT NULL
-);
-
--------------------------------------------------------------------------------
 --  Domain concepts (also Actors).
 
 CREATE TABLE concepts (
-   id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   name TEXT    NOT NULL UNIQUE,
-   description TEXT    NOT NULL
+   id          INTEGER NOT NULL PRIMARY KEY,
+   name        TEXT    NOT NULL UNIQUE,
+   description TEXT    NOT NULL DEFAULT ''
 );
 
 CREATE TABLE actors (
-   id   INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
-   name TEXT    NOT NULL UNIQUE,
-   description TEXT    NOT NULL
+   id          INTEGER NOT NULL PRIMARY KEY,
+   name        TEXT    NOT NULL UNIQUE,
+   description TEXT    NOT NULL DEFAULT ''
 );
 
 CREATE TABLE concept_roles (
-   id          INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   id          INTEGER NOT NULL PRIMARY KEY,
    concept_id  INTEGER REFERENCES concepts (id) ON UPDATE CASCADE ON DELETE CASCADE,
    name        TEXT    NOT NULL,
-   description TEXT    NOT NULL
+   description TEXT    NOT NULL DEFAULT ''
 );
 
 CREATE TABLE actor_roles (
-   id          INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   id          INTEGER NOT NULL PRIMARY KEY,
    actor_id    INTEGER REFERENCES actors (id) ON UPDATE CASCADE ON DELETE CASCADE,
-   name TEXT   NOT NULL,
-   description TEXT    NOT NULL
+   name        TEXT    NOT NULL UNIQUE,
+   description TEXT    NOT NULL DEFAULT ''
 );
 
 CREATE TABLE use_cases (
-   id               INTEGER NOT NULL PRIMARY KEY, --  AUTOINCREMENT
+   id               INTEGER NOT NULL PRIMARY KEY,
    name             TEXT    NOT NULL UNIQUE,
-   primary_role_id  INTEGER REFERENCES actor_roles (id) ON UPDATE CASCADE ON DELETE CASCADE,
-   scenario         JSON    NOT NULL,
-   extensions       JSON    NOT NULL,
-   description      TEXT    NOT NULL
+   primary_role_id  INTEGER REFERENCES actor_roles (id)
+                                       ON UPDATE CASCADE
+                                       ON DELETE CASCADE,
+   scenario         JSON    NOT NULL DEFAULT '[]',
+   extensions       JSON    NOT NULL DEFAULT '[]',
+   description      TEXT    NOT NULL DEFAULT ''
+);
+
+CREATE TABLE configuration (
+   client JSON NOT NULL
 );
 
 -------------------------------------------------------------------------------

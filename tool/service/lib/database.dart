@@ -7,6 +7,8 @@ import 'package:postgresql/postgresql.dart' as PG;
 import 'package:libtcc/libtcc.dart' as Model;
 
 part 'database/database-concept.dart';
+part 'database/database-config.dart';
+part 'database/database-use_case.dart';
 
 const String libraryName = 'tcc.service.database';
 

@@ -6,6 +6,7 @@ class ServiceConfiguration {
   static const String dbhost = 'localhost';
   static const String dbport = '5432';
   static const String dbname = 'tcc';
+  static const String templateDir = 'templates';
 
   static String get databaseDSN =>
       'postgres://${dbuser}:${dbpassword}@${dbhost}:${dbport}/${dbname}';

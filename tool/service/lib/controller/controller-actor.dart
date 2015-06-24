@@ -1,4 +1,4 @@
-part of tcctool.router;
+part of tcc.service.controller;
 
 class Actor {
 

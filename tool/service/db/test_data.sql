@@ -15,7 +15,14 @@ INSERT INTO auth_identities (identity, user_id)
 VALUES ('kim.rostgaard@gmail.com', 1);
 
 INSERT INTO actors (id, name, description)
-VALUES (1, 'user', 'Basic user'),
+VALUES (1, 'user',
+'##Basic user 
+Markdown syntax is supported, and gives list items
+
+  * For example this
+  * And this
+
+Very convenient.'),
        (2, 'admin', 'An admin user');
 
 INSERT INTO actor_roles (id, name, description, actor_id)
@@ -29,6 +36,9 @@ VALUES (1, 'message', 'A message'),
 INSERT INTO use_cases (name, primary_role_id, scenario, extensions, description)
 VALUES ('Transfer call', 1, '[]', '[]', 'Transfer an inbound call'),
        ('Send message', 2, '[]', '[]', 'Send a message to an employee');
+
+INSERT INTO configuration (client)
+VALUES ('{"jenkinsUri":"http://localhost/jenkins"}');
 
 -------------------
 

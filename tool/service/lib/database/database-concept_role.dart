@@ -1,6 +1,6 @@
 part of tcc.service.database;
 
-class Concept {
+class ConceptRole {
 
   /// Database connection backend.
   Connection _connection;
@@ -8,12 +8,12 @@ class Concept {
   /**
    * Default constructor.
    */
-  Concept(Connection this._connection);
+  ConceptRole(Connection this._connection);
 
   /**
    *
    */
-  Future<Model.Concept> get(int conceptID) {
+  Future<Model.Actor> get(int conceptID) {
     String sql = '''
 SELECT 
   id, name, description 
@@ -36,7 +36,7 @@ WHERE
   /**
    *
    */
-  Future<Iterable<Model.Concept>> list() {
+  Future<Iterable<Model.Actor>> list() {
     String sql = '''
 SELECT 
   id, name, description 
@@ -51,15 +51,14 @@ FROM
   /**
    *
    */
-  Future<Model.Concept> create(Model.Concept concept) {
+  Future<Model.Actor> create(Model.Concept concept) {
     String sql = '''
 INSERT INTO 
-  concepts (name, description)
-SELECT 
-   @name, @description
-WHERE NOT EXISTS 
-  (SELECT 1 FROM concepts WHERE name=@name)
-RETURNING id;''';
+  concepts (name, description) 
+VALUES
+  (@name, @description)
+RETURNING 
+  id''';
 
     Map parameters = {'name': concept.type, 'description': concept.description};
 
@@ -68,13 +67,13 @@ RETURNING id;''';
     return _connection.query(sql, parameters).then(
         (Iterable rows) => rows.length == 1
             ? (concept..id = rows.first.id)
-            : new Future.error(new StateError('Not completed (already defined)')));
+            : new Future.error(new StateError('Not completed')));
   }
 
   /**
    *
    */
-  Future<Model.Concept> update(Model.Concept concept) {
+  Future<Model.Actor> update(Model.Actor concept) {
     String sql = '''
 UPDATE
   concepts
@@ -99,7 +98,7 @@ WHERE
   /**
    *
    */
-  Future remove(int conceptID) {
+  Future remove(int actorID) {
     String sql = '''
 DELETE FROM 
   concepts
@@ -114,6 +113,6 @@ WHERE
   }
 }
 
-_rowToConcept(var row) => new Model.Concept(row.name)
+_rowToActor(var row) => new Model.Actor(row.name)
   ..description = row.description
   ..id = row.id;
