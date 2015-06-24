@@ -31,7 +31,6 @@ Continuous integration is a methodology, that u
 
 
 \section{Tests glossary}
-%TODO Verify these.
 In this section brief glossary from the test domain
 \begin{description}
   \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
@@ -39,6 +38,7 @@ In this section brief glossary from the test domain
   \item[Black-box test:] Treats the system as an unknown entity which responds to external stimuli. Nothing is known about the internals of the entity, and by by applying the stimuli, the entity will respond -- hopefully -- in the expected way. The Stimuli-organism-response (figure \ref{fig:sor-model}), which is used areas such as behavioral psychology, graphically depicts the concept very well.
   \item[Unit test:] Is a detailed test of a single unit in the system. While the size of the unit is not strictly defined, a unit is typically a single file or class in software systems. A unit test is a white-box test that focus on broad test coverage.
   \item[Integration test:] Is a test that treats a component, or set of components as a combined entity, and tests it as a black-box system. Integration testing is linked to functional requirements, but may also refer to non-functional requirements, such as behavior under load -- which is known is stress-testing.
+  \item[Test harness:] An artificial environment that surrounds a test, supplying it with the resources and API's it needs. An example of a resource could be a database layer that supplies the test with the objects it needs. The harness does not need to provide real objects, but is free to return mock objects to the test, rather than having to deal with actually connecting to a database.
   \item[Acceptance test:] Test system as it should work %  is a test conducted to determine if the requirements of a specification or contract are met. It
 \end{description}
 \begin{figure}[!htbp]
@@ -100,7 +100,7 @@ However, the current system has been in production for over ten years and lesson
 Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault. The component diagram in figure \ref{fig:component_diagram} shows the architecture, and also gives away some hints about which components are critical, and which are not. Basically, the most critical path is the one that originates from the ``Receptionist Client'' and ends in the ``SIP trunk'' component. These components are considered soft real-time components and are essential for an operation. Fallout of any of these components means direct financial loss for the customer. Fallout of any of the other components (except for SIP Phone, which is actually part of the critical path mentioned above) are tolerated in the design, and the stateless nature of REST (see section \ref{sec:rest}) enables us to maintain caches that can supply clients with the data they need for handling calls.
 
 %Something about fault handling, and about not knowning the "failure space"
-
+%TODO add explanation of the figure, the components and the interfaces.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.9\textwidth]{\imgdir component_diagram}

@@ -1,25 +1,79 @@
 \chapter{Design}
-This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. This discussion is started on the conceptual level with the aspects and interests of the different stakeholders.
-
-\section{Overview}
-Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete with regards to system working. However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
-Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
-Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feed back loop back into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
-If there existed a method for validating the refined requirements
-
-\section{Development process}
+This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. This discussion is started on the conceptual level with the aspects and interests of the different stakeholders. The goal is reach a good a point where we get better domain-awareness in our tests, and are able to automate the generation of them. The constraint for not going after the optimum is added meta-model complexity.\\\\
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
-\caption{Ideal development flow}
-\label{fig:ideal_flow}
+\begin{tikzpicture}
+
+% horizontal axis
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+
+% ranges
+%\draw (4,3.5) node{{\scriptsize Test parameters}};
+
+% vertical axis
+\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+% nominal speed
+
+\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, minimum size=0.3cm, label=above:Project] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+
+% Optimum
+\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+
+\end{tikzpicture}
+\label{fig:project_parameter_plot_project}
+\caption{Finding a good trade-off between domain-awareness and automation}
+\end{figure}By discussing a number of different conceptual designs, their benefits and disadvantages, a suitable model will emerge. The basic design guidelines are;
+\begin{itemize}
+  \item Easy integration into existing processes
+  \item Enough structure to generate tests without having to explicitly state everything.
+\end{itemize}
+
+can suggests a model that is optimized to support loose structure, but still provide a enough information test generation and basic requirement analysis. %TODO introduce the concept of requirement analysis.
+%TODO Every entry in a use case scenario is modeled as a synchronous action.
+
+\section{Glossary}
+\begin{description}
+  \item[Requirement analysis:] Requirement analysis, for the purpose of this project, meant as a concept that uses some the information stored in the requirements to check it for validity, ambiguity and provide alternative representations. An example of an alternative representation is that a set of use cases becomes a use a use case diagram, just on a different abstraction level.
+
+\end{description}
+
+\section{Extracting meaning from use cases}
+
+
+\section{Overview}
+%TODO review this secion, and maybe move to introduction.
+Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete with regards to system working. However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
+Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
+Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feedback into that loop into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
+In this thesis, one of the goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process. A design of a development process is explained in the next section.
+%maybe the above section should go to introduction.
+
+\section{Concept 1 - Markdown editor}
+%Same concept as a ritch-text editor. Select and make bold.
+%Basically put everything into a textual format.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
+\caption{Early mock-up of a user interface using a markdown-like language for writing use cases.}
+\label{fig:markdown_ui_mockup}
+\end{figure}
+An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the...
+The concept of clear-text analysis lived on.
+
+\section{Concept 2 - Component/structure editor}
+Concept is to define everyhing beforehand, and create use cases from these predefined actors, actions and concepts.
+\begin{figure}[h]
+\includegraphics[scale=0.9]{img/test_case_ui}
+\centering
+\caption{Use case editor UI mockup}
+\label{fig:use_case_editor_mockup}
 \end{figure}
 
-\subsection{Costumer perspective}
-% What is to be gained for this stakeholder?
-The problem in attaining broad coverage of use cases, and therefore completeness in requirements i primarily that, from the customer perspective, that they feel very overly-verbose and usually too formal in nature. For software engineers, the opposite is usually the case. They feel that the use case descriptions are not structured nor elaborate enough for use in, for instance, code stub generation.
+One of the problems with this solution is that you also need to specify who is performing the action, and who is the target.
 
-More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
+\section{Concept 3 - Trade-off}
 \begin{figure}[!htbp]
   \centering
   \subbottom[Actors tab\label{sfig:customer-ui-mockup-actors}]{%
@@ -31,23 +85,25 @@ More structure, however, could be helped along the way with proper tooling. Hidi
     \includegraphics[width=0.49\linewidth]{\imgdir customer-ui-mockup-definitions}}
   \caption{Mock-up screens of the customer user interface.}
 \end{figure}
+\section{Additional concept}
 
 
-\begin{figure}[h]
+\subsection{Activities in a development process}
+In addition any activities already in place within the development of a software product, a few more needs to be added for the different stakeholders to enable improved test generation.
+%TODO leadover
+Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving three actors, the customer, the engineer and the system\footnote{Use case system}. In this diagram, the customer authors use cases while adding missing definitions not already in the tool. 
+\begin{figure}[!htbp]
 \includegraphics[scale=0.75]{img/use_case_creation_activity_diagram}
 \centering
 \caption{Use case creation with different actors}
 \label{fig:use_case_creation_activity_diagram}
 \end{figure}
 
-What is in the customers interest is having acceptance tests match the use cases as closely as possible. Preferably, the should be able to be automated as well. Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving three actors, the customer, the engineer and the system\footnote{Use case system}. In this diagram, the customer authors use cases while adding missing definitions not already in the tool. A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
+\subsection{Definition}
+A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
 
-\begin{figure}[h]
-\includegraphics[scale=0.9]{img/test_case_ui}
-\centering
-\caption{Use case editor UI mockup}
-\label{fig:use_case_editor_mockup}
-\end{figure}
+More structure, however, could be helped along the way with proper tooling. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
+
 
 Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface from the customer point of view is shown in figure \ref{fig:use_case_editor_mockup}. A list of available actors (only containing one element, however) is shown on the right hand side. The main part of the window contains the use case currently being worked on. The bottom part of the window is the edit part, where dropdown lists of actions and targets resides.
 
@@ -77,14 +133,6 @@ Some basics on the procedure; take every line of the use case and not every conc
 
 %A use case scenario should always terminate.
 \section{Concept}
-\begin{figure}
-\centering
-\includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
-\caption{Early mock-up of a user interface using a markdown-like language for writing use cases.}
-\label{fig:markdown_ui_mockup}
-\end{figure}
-An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the 
-
 
 \section{Outline}
 Given that we want to be able to generate tests based on requirements require structure and a touch of semantics. For the latter, we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
@@ -383,4 +431,62 @@ Should it be possible to jump ahead in the use case?
 
 \section{Implementation}
 %lead-in
-The implementation is done in a client/server architecture. It consists of a s
+The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.
+
+\subsection{Running the analysis}
+Having a set of definitions, we can detect actors and concepts from textually analysing the text of every UseCaseEntry object. The analysis is quite simple, and merely looks for occurrences of the definition by comparing strings.
+
+\subsection{Use case paths}
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=0.8pt,auto,node distance=1.8cm,
+thick,
+visited node/.style={circle,fill=blue!20,draw,font=\sffamily\bfseries},
+extension1 node/.style={circle,fill=orange!20,draw,font=\sffamily\bfseries},
+chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
+
+%Scenario
+\node[chosen node] (s1) {$s_1$};
+\node[chosen node] (s2) [below of=s1] {$s_2$};
+\node[chosen node] (s3) [below of=s2] {$s_3$};
+\node[chosen node] (s4) [below of=s3] {$s_4$};
+\node[chosen node] (s5) [below of=s4] {$s_5$};
+
+%Extension 1
+\node[visited node] (e1_1) [left of=s2] {$e_{1.1}$};
+
+%Extension 2
+\node[extension1 node] (e2_1) [right of=s4] {$e_{2.1}$};
+
+
+%Paths
+\path[every node/.style={font=\sffamily\small}]
+(s1)   edge node [] {} (s2)	
+(s2)   edge node [] {} (s3)
+       edge node [] {} (e1_1)
+(s3)   edge node [] {} (s4)
+(s4)   edge node [] {} (s5)
+       edge node [] {} (e2_1)
+(e1_1) edge[bend right] node [] {} (s3)
+(e2_1) edge[bend right] node [] {} (s2)
+;
+\end{tikzpicture}
+\caption{Graph depicting different paths through a use case}
+\label{fig:application graphs}
+\end{figure}
+
+
+%TODO add something about detection of loops.
+Extensions may be covered in two ways. Just test the single extension with respect to the main scenario (the ``happy path''), or with respect to the other extensions as well.
+
+\subsection{Capabilites of an actor}
+If we were to add additional domain knowledge to the use cases, then we would also be able to extract capabilities easily.
+%yada yada, use case example: actor does something to some other thing
+% it means the the actor can do something to some other thing.
+
+\subsection{Providing initial information}
+%How to add receptions, users and other stuff?
+%Could this be done with a use case as well?
+
+\subsection{Configuration environment}
+How do we define which objects are currently in the test harness? In our implementation, we have made a configuration file that, potentially could be auto-generated from a description of which domain types the objects have, what their internal data is, and when they need to be present.
