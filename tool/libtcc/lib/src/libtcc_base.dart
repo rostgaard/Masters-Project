@@ -13,7 +13,7 @@ part 'tcc-action.dart';
 part 'service.dart';
 part 'configuration.dart';
 part 'tcc-actor.dart';
-part 'tcc-base_use_case.dart';
+part 'tcc-use_case.dart';
 part 'tcc-concept.dart';
 part 'tcc-defintion.dart';
 part 'tcc-definitions.dart';
@@ -22,7 +22,8 @@ part 'tcc-declaration.dart';
 part 'tcc-mappings.dart';
 part 'tcc-statement.dart';
 part 'tcc-target.dart';
-part 'tcc-use_case.dart';
+part 'tcc-user_goal.dart';
+part 'tcc-analyzed_use_case.dart';
 part 'tcc-use_case_block.dart';
 part 'tcc-use_case_entry.dart';
 part 'tcc-use_case_extension.dart';
@@ -61,7 +62,7 @@ String actorDeclarationToCode(Actor act) {
   return '${act.type} ${normalize(act.role)}';
 }
 
-String toTestCase(UseCase uc) {
+String toTestCase(AnalyzedUseCase uc) {
   Iterable<String> parameters = uc.involvedActors.map(actorDeclarationToCode);
 
   String template = '''import \'domain_model.dart\';
@@ -91,7 +92,7 @@ final Actor receptionist2 =
     new Actor.withRole('Receptionist', 'other receptionist');
 final Actor caller = new Actor('Caller');
 
-UseCase useCase1 = new UseCase('Use case 1')
+AnalyzedUseCase useCase1 = new AnalyzedUseCase('Use case 1')
   ..stakeholders = [receptionist1, caller]
   ..postconditions =
   [new Predicate(new Expression('message'), is_, new Expectation('sent'))]

@@ -18,4 +18,9 @@ class UseCaseEntry {
 
   @override
   String toString() => '$id. $text';
+
+  Map toJson() => {
+    Key.id : id,
+    Key.value : text
+  };
 }

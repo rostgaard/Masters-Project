@@ -9,7 +9,10 @@ class UseCaseBlock extends IterableBase<UseCaseEntry>{
 
   final List<UseCaseEntry> _entries;
 
+  factory UseCaseBlock.empty() => new UseCaseBlock([]);
+
   UseCaseBlock(Iterable<UseCaseEntry> entries) :
     _entries = []..addAll(entries);
 
+  List toJson() => _entries.map((UseCaseEntry e) => e.toJson()).toList(growable : false);
 }

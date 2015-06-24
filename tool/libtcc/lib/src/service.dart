@@ -76,18 +76,18 @@ class TestCaseService {
   }
 
   /**
-   * Gets [UseCase].
+   * Gets [AnalyzedUseCase].
    */
-  Future<UseCase> getUseCase(String name) {
+  Future<AnalyzedUseCase> getUseCase(String name) {
     Uri uri = Uri.parse('${this._host}/usecase/$name');
 
     return this._backend
         .get(uri)
-        .then((String response) => new UseCase.fromJson(JSON.decode(response)));
+        .then((String response) => new AnalyzedUseCase.fromJson(JSON.decode(response)));
   }
 
   /**
-   * Gets all [UseCase] names.
+   * Gets all [AnalyzedUseCase] names.
    */
   Future<Iterable<String>> getUseCases() {
     Uri uri = Uri.parse('${this._host}/usecase');
@@ -96,14 +96,14 @@ class TestCaseService {
   }
 
   /**
-   * Gets dummy [UseCase].
+   * Gets dummy [AnalyzedUseCase].
    */
-  Future<UseCase> getDummyUseCase() {
+  Future<AnalyzedUseCase> getDummyUseCase() {
     Uri uri = Uri.parse('${this._host}/dummy');
 
     return this._backend
         .get(uri)
-        .then((String response) => new UseCase.fromJson(JSON.decode(response)));
+        .then((String response) => new AnalyzedUseCase.fromJson(JSON.decode(response)));
   }
 
   /**
