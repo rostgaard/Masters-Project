@@ -5,7 +5,8 @@ diagrams = uc2_test_config.pdf \
            system-state-machine-relations.pdf \
            component_diagram_with_tests.pdf \
            test-driven-development-flow.pdf \
-           sor-model.pdf
+           sor-model.pdf \
+           resource_pool.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
