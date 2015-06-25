@@ -8,6 +8,7 @@ We have a use case, where two Receptionist actor battles for the same call. In o
  \item Receptionist 2 tries to pickup call
  \item Call is assigned to either Receptionist
 \end{enumerate}
+%TODO add sequence diagram.
 A postcondition may read ``The call is assigned to \emph{only} one receptionist'', in order to emphasize on the actual intended behavior of the system.\\
 Studying the use case a bit closer, what is actually implied is that 1. happens simultaneously with 2. In practice, it would mean that a test would have to emulate the simultaneous behavior by spawning multiple threads and collecting their return values once they have terminated. But there is another problem with the scenario above, which is that the test tools do not know when to parallelize. As of now, every entry in a use case scenario is modeled as a synchronous action and will wait until the entry has completed its execution before starting the next one.\\\\
 A method for solving this, is to add the asynchronism in the mapped test code, but this is a very bad idea. This would lead to very unexpected behavior if requirements change in the specific block. This would lead to treads being spawned, expecting to perform a specific action that no longer existed in the requirements, perhaps deadlocking while waiting for an event to happen -- or change the state of the system that would lead an error later in the test.\\
@@ -69,3 +70,7 @@ In practice; the approach presented in this thesis is a variant of TDD, but inje
 Basically; no. Can it be used? To some extent. The process is nice, but the mapping simply unfolds into a too large state space with a stucture so complex that is impossible for an end-user to specify it, and very hard for a trained professional to elaborate it. It may be feasible once model-based software engineering reaches a level where behavioral model can be applied to domain models, and thus ...
 %As of now, an ad-hoc templating system is in place. A real templating system should be used in a real product.
 \section{Related work}
+
+\subsection{Recommended test framework guidelines}
+%Use allocation pools
+%Use interfaces a objects.

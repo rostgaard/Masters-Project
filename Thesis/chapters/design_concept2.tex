@@ -1,7 +1,27 @@
+\section{Concept 2 - Component/structure editor}
+The second concept originated from the idea that structure, could be added by component-based tool. Hiding some of the complexity of the constrains of a data model behind a simple user interface supplying dragable components and providing immediate visual feedback in the form of textual use case representation (or a diagram) could "cheat" the customer into adding the needed structure to the use case model.
+
+Concept is to define everyhing beforehand, and create use cases from these predefined actors, actions and concepts.
+
+An example UI is Starting from scratch, the user would be expected to initially define at least one actor and add a sequence of actions that the actor perform.
+
+
+A big problem with this approach is that it could quickly lead to artificial or too technical jargon in use cases, which is generally a bad idea as it alienates the customer \cite{christel1992}.
+
+
+\begin{figure}[!htbp]
+\includegraphics[scale=0.9]{img/test_case_ui}
+\centering
+\caption{Use case editor UI mockup}
+\label{fig:use_case_editor_mockup}
+\end{figure}
+
+\section{Interpreting use cases}
 %IN SUMMARY; How much information can you acutally derive from a use case?
+%A use case scenario should always terminate.
 
 This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
-\section{Use case semantics}
+
 The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
 The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
 
@@ -45,48 +65,16 @@ In order to get the actor object to perform actions, we need to map the actions 
 
 Whenever there is a mention of an object (a target of an action) which could be, for instance, a message object we assume that its the same object that is tracked during the entire use case. So, from use case 2, we have ``Receptionist sends the message via the system'' in the main success scenario and ``Message is stored and ready for dispatching'' in the postconditions.
 
-Regarding the test as a function
-
-%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
-
-\section{Test case state}
-A test consists of three basic steps; setup, run and teardown. Setup and teardown is different from pre- and postcondition in that they are unrelated to the test itself, they merely make sure that objects are initialized with right values and, in general, are in the state that the test expects.
-
-There needs to be an executable domain model programmed, not necessarily complete, but the concepts covered in the use cases should at least be there. So for \ref{fig:uc2}. We need at least a class representing the actor ``Receptionist'', and a class representing a message. The actions performed by the actor could then either be class methods, or simply functions taking the primary actor (or more exact; classes of the actor), as an argument.
-
-
-%NOTE: The test mapper will then select the "essentials" of the sentence, which could be just the verb, noun and object.
-\label{sec:test_case_state}
+So, summing up, we have in this model a very strict view on single use case entries:
+\begin{itemize}
+  \item This use case consists of an ordered list of actions, where actions consist of
+  \begin{itemize}
+	\item One or more actors
+	\item One verb describing the action
+	\item One target for the action (object for verb)
+  \end{itemize}
+\end{itemize}
+If we 
 
 
-\section{Test case example}
-\begin{lstlisting}
-void use_case_1 (Receptionist receptionist) {
-
-   MessageObjectFactory messageObjectFactory = new MessageObjectFactory();
-   Message message = messageObjectFactory.create();
-
-   // Preconditions
-   Matcher.has (selected_contact (receptionist));
-
-   // Use case body 
-   receptionist.types_in(message);
-   receptionist.sends(message);
-   receptionist.marks_state_idle();
-
-   // Postconditions 
-   Matcher.is_true (is_stored (message));
-   Matcher.is_true (is_idle (receptionist));
-}
-\end{lstlisting}
-
-\begin{figure}
-  \centering
- 
-  \includegraphics[scale=0.65]{img/uc2_test_config}
-  \caption{object diagram depicting the configuration of use case 2}
-  \label{fig:uc2_object_diagram}
-\end{figure}
-
-
-
+One of the problems with this solution is that you also need to specify who is performing the action, and who is the target.

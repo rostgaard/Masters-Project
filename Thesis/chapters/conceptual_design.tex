@@ -1,0 +1,98 @@
+\chapter{Conceptual design}
+This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. This discussion is started on the conceptual level with the aspects and interests of the different stakeholders. The goal is reach a good a point where we get better domain-awareness in our tests, and are able to automate the generation of them. The constraint for not going after the optimum is added meta-model complexity.\\\\
+\begin{figure}[!htbp]
+\centering
+
+\begin{tikzpicture}
+
+% horizontal axis
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+
+% ranges
+%\draw (4,3.5) node{{\scriptsize Test parameters}};
+
+% vertical axis
+\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+% nominal speed
+
+\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, minimum size=0.3cm, label=above:Project] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+
+% Optimum
+\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+
+\end{tikzpicture}
+\label{fig:project_parameter_plot_project}
+\caption{Finding a good trade-off between domain-awareness and automation}
+\end{figure}By discussing a number of different conceptual designs, their benefits and disadvantages, a suitable model will emerge. The basic design guidelines are;
+\begin{itemize}
+  \item Easy integration into existing processes
+  \item Enough structure to generate tests without having to explicitly state everything.
+\end{itemize}
+
+can suggests a model that is optimized to support loose structure, but still provide a enough information test generation and basic requirement analysis. %TODO introduce the concept of requirement analysis.
+%TODO Every entry in a use case scenario is modeled as a synchronous action.
+
+\section{Glossary}
+\begin{description}
+  \item[Requirement analysis:] Requirement analysis, for the purpose of this project, meant as a concept that uses some the information stored in the requirements to check it for validity, ambiguity and provide alternative representations. An example of an alternative representation is that a set of use cases becomes a use a use case diagram, just on a different abstraction level.
+
+\end{description}
+
+\section{Overview}
+%TODO review this secion, and maybe move to introduction.
+Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete in nature. This means that a tool that is able to integrated into 
+
+However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
+Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
+Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feedback into that loop into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
+In this thesis, one of the goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process. A design of a development process is explained in the next section.
+%maybe the above section should go to introduction.
+
+%BASIC of concept; add structure and type information.
+By adding the extra structure and type information to use cases
+\section{Interpreting use cases}
+
+From \cite{cockburn2000} we get;
+\begin{quote}
+``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
+\end{quote}
+Should not be used to describe UI actions% http://alistair.cockburn.us/Use+cases%2c+ten+years+later (Use case limits).
+
+Use cases expresses expected system behavior. Keep use cases free of UI-action.
+
+There are several levels on which use cases can be written as per\cite{cockburn2000}. In our case, it would make the most sense to use the "system" level, as business level is something that is nearly useless because it is largely out of scope. The business logic is also, more elaborately (and implicitly) formulated within a system-level use case. In the other end, a component use case is also very impractical, as our target audience would be people that does not know anything about the specifics of the system being built.
+
+%Note;
+An important aspect to keep in mind is that context is important. Writing hundreds of pages of detailed requirements are bound to be decoupled and lose context, and coherence with each other. Deciding on a level that keeps context is important.
+
+
+\include{chapters/design_concept1}
+\include{chapters/design_concept2}
+\include{chapters/design_concept3}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir event-stack-to-state-machine}
+\caption{Concept; validate event stack using life-cycle state machines.}
+\label{fig:event-stack-to-state-machine}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{drawstack}
+  % Within the environment, draw stack elements with \cell{...}
+  \cell{lock}
+  \cell{unlock}
+\end{drawstack}
+\caption{Event stack}
+\label{fig:event-stack-example}
+\end{figure}
+
+Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
+
+%\section{Current implementation}
+% tcc-tool is a client/server architecture with a share library.
+
+
