@@ -3,6 +3,7 @@ diagrams = uc2_test_config.pdf \
            support-tools-recepionist-example.pdf \
            component_diagram.pdf \
            system-state-machine-relations.pdf \
+           system-state-machine-relations-detailed.pdf \
            component_diagram_with_tests.pdf \
            test-driven-development-flow.pdf \
            sor-model.pdf \
