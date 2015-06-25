@@ -7,7 +7,8 @@ diagrams = uc2_test_config.pdf \
            component_diagram_with_tests.pdf \
            test-driven-development-flow.pdf \
            sor-model.pdf \
-           resource_pool.pdf
+           resource_pool.pdf \
+           3rd_iteration_meta_model.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
