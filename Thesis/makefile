@@ -8,7 +8,9 @@ diagrams = uc2_test_config.pdf \
            test-driven-development-flow.pdf \
            sor-model.pdf \
            resource_pool.pdf \
-           3rd_iteration_meta_model.pdf
+           3rd_iteration_meta_model.pdf \
+           initial_model.pdf \
+           framework_example.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
@@ -32,4 +34,3 @@ clean_diagrams:
 
 %.pdf:
 	make -C img $@
-
