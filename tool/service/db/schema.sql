@@ -1,5 +1,5 @@
 ﻿-------------------------------------------------------------------------------
---  System users:
+--  System users: For later login system.
 
 CREATE TABLE users (
    id               INTEGER NOT NULL PRIMARY KEY,
@@ -26,38 +26,26 @@ CREATE TABLE auth_identities (
 -------------------------------------------------------------------------------
 --  Domain concepts (also Actors).
 
-CREATE TABLE concepts (
-   id          INTEGER NOT NULL PRIMARY KEY,
-   name        TEXT    NOT NULL UNIQUE,
-   description TEXT    NOT NULL DEFAULT ''
+CREATE TABLE concept_types (
+   name TEXT NOT NULL PRIMARY KEY
 );
 
-CREATE TABLE actors (
-   id          INTEGER NOT NULL PRIMARY KEY,
-   name        TEXT    NOT NULL UNIQUE,
-   description TEXT    NOT NULL DEFAULT ''
+CREATE TABLE concepts  (
+   id           INTEGER NOT NULL PRIMARY KEY,
+   name         TEXT    NOT NULL,
+   role         TEXT    NOT NULL,
+   type         TEXT    NOT NULL REFERENCES concept_types(name),
+    description TEXT    NOT NULL DEFAULT '',
+   UNIQUE (name, role)
 );
 
-CREATE TABLE concept_roles (
-   id          INTEGER NOT NULL PRIMARY KEY,
-   concept_id  INTEGER REFERENCES concepts (id) ON UPDATE CASCADE ON DELETE CASCADE,
-   name        TEXT    NOT NULL,
-   description TEXT    NOT NULL DEFAULT ''
-);
-
-CREATE TABLE actor_roles (
-   id          INTEGER NOT NULL PRIMARY KEY,
-   actor_id    INTEGER REFERENCES actors (id) ON UPDATE CASCADE ON DELETE CASCADE,
-   name        TEXT    NOT NULL UNIQUE,
-   description TEXT    NOT NULL DEFAULT ''
-);
+-------------------------------------------------------------------------------
+--  Use cases
 
 CREATE TABLE use_cases (
    id               INTEGER NOT NULL PRIMARY KEY,
    name             TEXT    NOT NULL UNIQUE,
-   primary_role_id  INTEGER REFERENCES actor_roles (id)
-                                       ON UPDATE CASCADE
-                                       ON DELETE CASCADE,
+   primary_role_id  INTEGER REFERENCES concepts (id),
    scenario         JSON    NOT NULL DEFAULT '[]',
    extensions       JSON    NOT NULL DEFAULT '[]',
    description      TEXT    NOT NULL DEFAULT ''
@@ -65,6 +53,13 @@ CREATE TABLE use_cases (
 
 CREATE TABLE configuration (
    client JSON NOT NULL
+);
+
+CREATE TABLE templates (
+   id          INTEGER NOT NULL PRIMARY KEY,
+   name        TEXT    NOT NULL,
+   body        TEXT    NOT NULL,
+   description TEXT    NOT NULL
 );
 
 -------------------------------------------------------------------------------
@@ -97,32 +92,14 @@ CREATE SEQUENCE concepts_id_sequence
 ALTER SEQUENCE concepts_id_sequence OWNED BY concepts.id;
 ALTER TABLE ONLY concepts ALTER COLUMN id SET DEFAULT nextval ('concepts_id_sequence'::regclass);
 
-CREATE SEQUENCE actors_id_sequence
+CREATE SEQUENCE templates_id_sequence
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
   NO MAXVALUE
   CACHE 1;
-ALTER SEQUENCE actors_id_sequence OWNED BY actors.id;
-ALTER TABLE ONLY actors ALTER COLUMN id SET DEFAULT nextval ('actors_id_sequence'::regclass);
-
-CREATE SEQUENCE concept_roles_id_sequence
-  START WITH 1
-  INCREMENT BY 1
-  NO MINVALUE
-  NO MAXVALUE
-  CACHE 1;
-ALTER SEQUENCE concept_roles_id_sequence OWNED BY concept_roles.id;
-ALTER TABLE ONLY concept_roles ALTER COLUMN id SET DEFAULT nextval ('concept_roles_id_sequence'::regclass);
-
-CREATE SEQUENCE actor_roles_id_sequence
-  START WITH 1
-  INCREMENT BY 1
-  NO MINVALUE
-  NO MAXVALUE
-  CACHE 1;
-ALTER SEQUENCE actor_roles_id_sequence OWNED BY actor_roles.id;
-ALTER TABLE ONLY actor_roles ALTER COLUMN id SET DEFAULT nextval ('actor_roles_id_sequence'::regclass);
+ALTER SEQUENCE templates_id_sequence OWNED BY templates.id;
+ALTER TABLE ONLY templates ALTER COLUMN id SET DEFAULT nextval ('templates_id_sequence'::regclass);
 
 CREATE SEQUENCE use_cases_id_sequence
   START WITH 1
@@ -139,18 +116,14 @@ ALTER TABLE ONLY use_cases ALTER COLUMN id SET DEFAULT nextval ('use_cases_id_se
 
 ALTER TABLE users OWNER TO tcc;
 ALTER TABLE groups OWNER TO tcc;
-ALTER TABLE actors OWNER TO tcc;
 ALTER TABLE concepts OWNER TO tcc;
-ALTER TABLE actor_roles OWNER TO tcc;
-ALTER TABLE concept_roles OWNER TO tcc;
+ALTER TABLE templates OWNER TO tcc;
 ALTER TABLE use_cases OWNER TO tcc;
 
 ALTER SEQUENCE users_id_sequence OWNER TO tcc;
 ALTER SEQUENCE groups_id_sequence OWNER TO tcc;
 ALTER SEQUENCE concepts_id_sequence OWNER TO tcc;
-ALTER SEQUENCE actors_id_sequence OWNER TO tcc;
-ALTER SEQUENCE concept_roles_id_sequence OWNER TO tcc;
-ALTER SEQUENCE actor_roles_id_sequence OWNER TO tcc;
+ALTER SEQUENCE templates_id_sequence OWNER TO tcc;
 ALTER SEQUENCE use_cases_id_sequence OWNER TO tcc;
 
 -------------------------------------------------------------------------------
