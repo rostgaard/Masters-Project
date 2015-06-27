@@ -1,5 +1,8 @@
 Minors:
  - Redo all the diagrams from MagicDraw using the <text> option. Gives a crisper look on diagrams.
+ - Add scour (svg cleanup rule to makefile).
+ - Add comments to all source code files.
+ - Add copyright and author headers to all source code files.
 
 Structure:
 
