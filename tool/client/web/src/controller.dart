@@ -8,6 +8,7 @@ import 'model.dart' as model;
 
 part 'controller/controller-concept.dart';
 part 'controller/controller-config.dart';
+part 'controller/controller-template.dart';
 part 'controller/controller-use_case.dart';
 
 const String libraryName = 'tcc.client.controller';

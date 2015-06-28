@@ -6,38 +6,49 @@ library libtcc.test;
 import 'package:test/test.dart';
 import '../example/libtcc.dart';
 
+/**
+ * Set of unit tests that assert basic properties of the system.
+ */
 import 'package:libtcc/libtcc.dart';
 
 void main() {
-  group('A group of tests', () {
-    UseCase tc;
+  group('Database.Template', () {
 
     setUp(() {
-      tc = new UseCase('test');
+       Database;
     });
 
     test('First Test', () {
       expect(tc.name, equals('test'));
     });
+
+    test('First Test', () {
+      expect(tc.name, equals('test'));
+    });
+
   });
 
-  testBaseUseCase();
+
+
+
+  //testBaseUseCase();
 }
 
+
 testBaseUseCase() {
+  String template = '''
+import domain_model;
+
+int main () {
+}
+
+[%USECASES]
+''';
 
 
-  //print (uc1);
+  Definitions defs = new
+      Definitions([new Definition(new Actor('Receptionist'))..role = 'receptionist']);
 
-  print ('paths:');
-  buc1.paths.forEach((Iterable<UseCaseEntry> e) {
-    print ('---------');
-    print (e.join('\n'));
 
-  });
-
-  print ('LOOPS:');
-    print ('---------');
-    print (buc1.loops.join('\n'));
-
+  print (useCasesToCode(buc1, defs, template));
 }

@@ -24,6 +24,7 @@ abstract class Key {
   static const String primaryActor= 'primaryActor';
   static const String scenario = 'scenario';
   static const String extensions = 'extensions';
+  static const String body = 'body';
 }
 
 abstract class Label {

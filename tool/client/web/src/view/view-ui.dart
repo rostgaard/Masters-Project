@@ -16,10 +16,14 @@ class UI {
 
 
   final model.UINotification _uiNotificationModel = new model.UINotification();
+
+  /// Controllers
   controller.Config _configController;
   controller.Concept _conceptController;
+  controller.Template _templateController;
 
 
+  /// Panels
   Popup _popup;
   ActorsPanel _actorsPanel;
   ConceptsPanel _conceptsPanel;
@@ -30,10 +34,14 @@ class UI {
   UIExamples _examplesPanel;
   TemplatesPanel _templatesPanel;
 
+  /**
+   * Default constructor.
+   */
   UI() {
 
     _configController = new controller.Config(_service, _configModel, _uiNotificationModel);
     _conceptController = new controller.Concept(_service, _uiNotificationModel);
+    _templateController = new controller.Template(_service, _uiNotificationModel);
 
     _actorsPanel = new ActorsPanel(querySelector('section#actors'), _configController, _service);
     _conceptsPanel = new ConceptsPanel(querySelector('section#concepts'), _conceptController);
@@ -41,7 +49,7 @@ class UI {
     _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _configController, _service);
     _goalsPanel = new GoalsPanel(querySelector('section#goals'), _configController, _service);
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);
-    _templatesPanel = new TemplatesPanel(querySelector('section#templates'), _configController, _service);
+    _templatesPanel = new TemplatesPanel(querySelector('section#templates'), _templateController);
 
     _examplesPanel = new UIExamples(querySelector('section#ui-examples'), _conceptController);
     _observers();

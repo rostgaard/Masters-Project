@@ -43,13 +43,14 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
     Database.Concept conceptStore = new Database.Concept(databaseConnection);
     Database.Config configStore = new Database.Config(databaseConnection);
     Database.UseCase usecaseStore = new Database.UseCase(databaseConnection);
+    Database.Template templateStore = new Database.Template(databaseConnection);
 
     final Controller.Actor actorController = new Controller.Actor();
     Controller.Concept conceptController = new Controller.Concept(conceptStore);
     Controller.Config configController = new Controller.Config(configStore);
-    Controller.Test testController = new Controller.Test();
+    Controller.Test testController = new Controller.Test(usecaseStore, templateStore);
     Controller.UseCase useCaseController = new Controller.UseCase(usecaseStore);
-    Controller.TestTemplate testTemplateController = new Controller.TestTemplate();
+    Controller.TestTemplate testTemplateController = new Controller.TestTemplate(templateStore);
 
     router = shelf_route.router()
       ..get('/actor', actorController.list)
@@ -74,7 +75,9 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
       ..put('/usecase/{id}', useCaseController.update)
       ..post('/usecase/{id}', useCaseController.create)
       ..delete('/usecase/{id}', useCaseController.remove)
-      ..post('/test/{tid}/analyse', testController.analyse)
+      ..post('/usecase/{id}/testsfromtemplate/{tplid}/', testController.generate)
+
+      ..post('/test/{tid}/analyze', testController.analyse)
       ..get('/configuration', configController.get)
       ..put('/configuration', configController.save);
 
@@ -88,7 +91,5 @@ Future<IO.HttpServer> start({String hostname : '0.0.0.0', int port : 7777}) {
 
     return shelf_io.serve(pipeline, hostname, port);
   });
-
-
-
 }
+

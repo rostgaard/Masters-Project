@@ -20,7 +20,7 @@
 
       <nav id="menu">
         <div class="pure-menu">
-          <a class="pure-menu-heading" href="#">Menu</a>
+          <a class="pure-menu-heading" href="#"><img alt="logo" class="center" src="img/tcc_logo.png"></a>
 
           <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-selected"><a href="#" class="use-cases pure-menu-link">Use cases</a></li>
@@ -36,10 +36,14 @@
         </div>
       </nav>
 
+      <!-- Main container -->
       <div id="main">
         <div class="header">
           <h2 class="title">:: title ::</h2>
         </div>
+
+
+        <!-- Use cases panel -->
 
         <section id="use-cases" class="content">
           <nav class="use-case">
@@ -53,6 +57,8 @@
           <button class="add">Add</button>
           <button class="get-selection">Show selection</button>
         </section>
+
+        <!-- Activities panel -->
 
         <section id="actors" class="content" hidden>
 
@@ -70,6 +76,8 @@
        </fieldset>
         </section>
 
+        <!-- Concepts panel -->
+
         <section id="concepts" class="content" hidden>
           <ul class="list"></ul>
             <fieldset>
@@ -85,10 +93,13 @@
         </section>
 
         <!-- Actor goals (Use case diagrams) -->
+
         <section id="goals" class="content" hidden>
           <ul class="list"></ul>
           <button class="add">Add</button>
         </section>
+
+        <!-- Tests panel -->
 
         <section id="tests" class="content" hidden>
           <nav class="use-case">
@@ -101,21 +112,26 @@
           <button class="add">Add</button>
         </section>
 
+        <!-- Activities panel -->
+
         <section id="activities" class="content" hidden>
           <!-- Use yuml.me for rendering -->
         </section>
 
+        <!-- Templates panel -->
+
         <section id="templates" class="content" hidden>
            <nav class="template">
-            <div class="pure-menu  pure-menu-horizontal pure-menu-scrollable">
-              <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Template 1</a></li>
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Template 2</a></li>
-
-              </ul>
-            </div>
+             <label for="template-selector">Current template</label>
+             <select id="template-selector">
+             </select>
+             <button class="pure-button save">Save</button>
+             <button class="pure-button create">New</button>
             </nav>
-        <pre>
+        <label for="template-edit-name">Name</label>
+        <input id="template-edit-name" type="text" value="..."/>
+        <input id="template-edit-id" type="hidden" value="0"/>
+        <textarea id="template-edit">
 part of or_test_fw;
 
 abstract class SendMessage {
@@ -180,7 +196,7 @@ abstract class SendMessage {
   [%TESTCASES%]
 
 }
-        </pre>
+        </textarea>
         </section>
 
         <section id="configuration" class="content" hidden>

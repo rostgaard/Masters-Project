@@ -20,8 +20,11 @@ part 'tcc-definitions.dart';
 part 'tcc-condition.dart';
 part 'tcc-declaration.dart';
 part 'tcc-mappings.dart';
+
+
 part 'tcc-statement.dart';
 part 'tcc-target.dart';
+part 'tcc-test_template.dart';
 part 'tcc-user_goal.dart';
 part 'tcc-analyzed_use_case.dart';
 part 'tcc-use_case_block.dart';
@@ -40,7 +43,9 @@ String lookupClass(String className) {
   return classMap[className];
 }
 
-String normalize(String string) => string.replaceAll(' ', '_').toLowerCase();
+String normalize(String string) => string != null
+    ?string.replaceAll(' ', '_').toLowerCase()
+     :'undefined';
 
 String statementToCode(Statement stmt) {
   return '${stmt.actor.role}.${stmt.action}(${stmt.object.iden});';
@@ -103,3 +108,39 @@ AnalyzedUseCase useCase1 = new AnalyzedUseCase('Use case 1')
     new Statement(
         receptionist2, new Action('retrieve'), new Target('message', iden: 'A'))
   ]);
+
+
+definitionToDeclaration (Definition def) =>
+  '${def.concept.type} ${normalize(def.role)}';
+
+useCaseEntryToCode(UseCaseEntry e, Definitions defs) {
+  String arguments = e.involvedDefinitions(defs).map(definitionToDeclaration).join(', ');
+
+  return '${e.identity} (${arguments})';
+}
+
+String useCasesToCode (UseCase uc, Definitions defs, String template) {
+
+  Set usedDefinitions = new Set();
+  uc.paths.forEach((List<UseCaseEntry> entries) =>
+      entries.forEach((UseCaseEntry entry) =>
+          usedDefinitions.addAll(entry.involvedDefinitions(defs))));
+
+  String arguments = usedDefinitions.map(definitionToDeclaration).join(', ');
+
+  int offset = 1;
+  StringBuffer buf = new StringBuffer();
+
+  uc.paths.forEach((Iterable<UseCaseEntry> e) {
+    /// TODO: Harvest all declarations.
+    buf.write('\n');
+    buf.write('use_case_${normalize(uc.name)}_path_${offset++}($arguments) {\n');
+
+    buf.write('  ');
+    buf.write (e.map((e1) => useCaseEntryToCode(e1, defs)).join('\n    '));
+    buf.write('\n  }\n');
+
+  });
+
+  return template.replaceAll('[%USECASES]', buf.toString());
+}

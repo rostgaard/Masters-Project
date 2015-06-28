@@ -116,11 +116,29 @@ class UIExamples extends Panel {
    * Render the content of the widget.
    */
   _render() {
+    String template = '''
+import domain_model;
+
+int main () {
+}
+
+[%USECASES]
+''';
+
 
     _useCaseBody.children = [
       new HeadingElement.h3()..text = 'Use Case',
       new UseCaseBlock(buc1.scenario, bucDefinitions).element
     ];
+
+    int i = 1;
+    buc1.extensions.forEach((libtcc.UseCaseExtension ext) {
+      _useCaseBody.children
+      ..add(new HeadingElement.h3()..text = 'Extension ${i++}')
+      ..add(new UseCaseBlock(ext.entries, bucDefinitions).element);
+
+    });
+
 
     _definitions.children = [
       new HeadingElement.h3()..text = 'Definitions',
@@ -131,5 +149,11 @@ class UIExamples extends Panel {
       Iterable<libtcc.Definition> definitions = concepts.map((libtcc.Concept concept) => new libtcc.Definition(concept));
       _definitions.children.add(new Definitions(definitions, _conceptController).element);
     });
+
+    String testBody = libtcc.useCasesToCode(buc1, bucDefinitions, template);
+    PreElement tests = new PreElement()..text = testBody;
+
+
+    _definitions.children.add(tests);
   }
 }

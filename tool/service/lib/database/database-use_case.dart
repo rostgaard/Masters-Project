@@ -142,7 +142,3 @@ WHERE
             : new Future.error(new StateError('Not completed')));
   }
 }
-
-Model.UseCase _rowToUseCase(var row) =>
-  new Model.UseCase(row.name)
-    ..description = row.description;

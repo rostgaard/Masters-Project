@@ -20,7 +20,7 @@ class Definitions {
      ..classes.add('delete');
 
    delete.onClick.listen((_) =>
-       _conceptController.removeConcept(definition.concept)
+       _conceptController.remove(definition.concept)
                .then((_) => li.remove()));
 
    li.children.add(delete);

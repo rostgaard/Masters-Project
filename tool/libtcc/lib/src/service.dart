@@ -12,6 +12,66 @@ class TestCaseService {
 
 
   /**
+   * Gets template.
+   */
+  Future<TestTemplate> getTemplate(int templateID) {
+    Uri uri = Uri.parse('${this._host}/template/$templateID');
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(TestTemplate.decode);
+  }
+
+  /**
+   * Lists templates.
+   */
+  Future<Iterable<TestTemplate>> getTemplates() {
+    Uri uri = Uri.parse('${this._host}/template');
+
+    Iterable<TestTemplate> decodeList (Iterable<Map> maps ) =>
+        maps.map(TestTemplate.decode);
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(decodeList);
+  }
+
+  /**
+   * Create template.
+   */
+  Future<TestTemplate> createTemplate(TestTemplate template) {
+    Uri uri = Uri.parse('${this._host}/template');
+
+    return this._backend
+        .post(uri, JSON.encode(template))
+        .then(JSON.decode)
+        .then(TestTemplate.decode);
+  }
+
+  /**
+   * Update template.
+   */
+  Future<TestTemplate> updateTemplate(TestTemplate template) {
+    Uri uri = Uri.parse('${this._host}/template/${template.id}');
+
+    return this._backend
+        .put(uri, JSON.encode(template))
+        .then(JSON.decode)
+        .then(TestTemplate.decode);
+  }
+
+  /**
+   * Remoce template.
+   */
+  Future removeTemplate(TestTemplate template) {
+    Uri uri = Uri.parse('${this._host}/template/${template.id}');
+
+    return this._backend.delete(uri);
+  }
+
+  /**
    * Gets concept.
    */
   Future<Concept> getConcept(int conceptID) {

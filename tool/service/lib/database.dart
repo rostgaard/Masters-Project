@@ -24,7 +24,8 @@ Model.UseCase _rowToUseCase(var row) =>
  * Conversion function. Creates a [TestTemplate] object from a database row.
  */
 Model.TestTemplate _rowToTestTemplate(var row) =>
-  new Model.TestTemplate()
+  new Model.TestTemplate.empty()
+    ..id = row.id
     ..name = row.name
     ..body = row.body
     ..description = row.description;
@@ -49,7 +50,6 @@ class Connection {
 
     return db._pool.start().then((_) => db._testConnection()).then((_) => db);
   }
-
 
   /**
    * Close the connection

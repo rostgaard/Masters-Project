@@ -9,8 +9,8 @@ final Actor receptionist1 = new Actor('Receptionist');
 final Actor receptionist2 = new Actor.withRole('Receptionist', 'other receptionist');
 final Actor caller = new Actor('Caller');
 
-UseCase useCase1 =
-  new UseCase ('Use case 1')
+AnalyzedUseCase useCase1 =
+  new AnalyzedUseCase ('Use case 1')
     ..stakeholders = [receptionist1, caller]
     ..postconditions = [new Predicate(new Expression('message'), is_, new Expectation('sent'))]
     ..statements = new StatementList([
@@ -60,6 +60,6 @@ Definitions bucDefinitions =
     new Definition (new Concept.withRole('Message', 'message'))
     ]);
 
-BaseUseCase buc1 = new BaseUseCase('some use case')
+UseCase buc1 = new UseCase('some use case')
  ..scenario = block1
  ..extensions = [noSpecificEmployee, contactNotAvailable];

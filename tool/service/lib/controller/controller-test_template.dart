@@ -2,16 +2,21 @@ part of tcc.service.controller;
 
 class TestTemplate {
 
-  shelf.Response get (shelf.Request request) => throw new UnimplementedError();
+  final Database.Template _templateDB;
 
-  shelf.Response list (shelf.Request request) {
-    List<IO.FileSystemEntity> files = new IO.Directory ('${ServiceConfiguration.templateDir}').listSync();
+  TestTemplate (this._templateDB);
 
-    String result = JSON.encode(files.map((IO.FileSystemEntity f) =>
-      f.path.substring(ServiceConfiguration.templateDir.length+1,f.path.length-5)).toList());
+  Future<shelf.Response> get (shelf.Request request) {
+    final int tplID = int.parse(shelf_route.getPathParameter(request, 'tplid'));
 
-    return new shelf.Response.ok (result);
+    return _templateDB.get(tplID).then((Model.TestTemplate template) =>
+        new shelf.Response.ok(JSON.encode(template)));
   }
+
+  Future<shelf.Response> list (shelf.Request request) =>
+    _templateDB.list().then((Iterable<Model.TestTemplate> templates) =>
+        new shelf.Response.ok(JSON.encode(templates.toList(growable: false))));
+
 
   shelf.Response create (shelf.Request request) => throw new UnimplementedError();
 

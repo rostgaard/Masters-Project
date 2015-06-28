@@ -14,5 +14,12 @@ class UseCaseBlock extends IterableBase<UseCaseEntry>{
   UseCaseBlock(Iterable<UseCaseEntry> entries) :
     _entries = []..addAll(entries);
 
+  /**
+   *
+   */
+  void append (UseCaseEntry entry) {
+    _entries.add(entry);
+  }
+
   List toJson() => _entries.map((UseCaseEntry e) => e.toJson()).toList(growable : false);
 }

@@ -16,7 +16,7 @@ class Template {
   Future<Model.TestTemplate> get(int templateID) {
     String sql = '''
 SELECT 
-  name, body, description 
+  id, name, body, description 
 FROM 
   templates 
 WHERE 
@@ -38,13 +38,13 @@ WHERE
   Future<Iterable<Model.TestTemplate>> list() {
     String sql = '''
 SELECT 
-  name, body, description 
+  id, name, body, description 
 FROM 
   templates 
 ''';
     return _connection
         .query(sql)
-        .then((Iterable rows) => rows.map(_rowToConcept));
+        .then((Iterable rows) => rows.map(_rowToTestTemplate));
   }
 
   /**
