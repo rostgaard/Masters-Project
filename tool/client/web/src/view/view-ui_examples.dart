@@ -142,12 +142,12 @@ int main () {
 
     _definitions.children = [
       new HeadingElement.h3()..text = 'Definitions',
-      new Definitions(bucDefinitions, _conceptController).element
+      new Concepts(bucDefinitions, _conceptController).element
     ];
 
     _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
       Iterable<libtcc.Definition> definitions = concepts.map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children.add(new Definitions(definitions, _conceptController).element);
+      _definitions.children.add(new Concepts(definitions, _conceptController).element);
     });
 
     String testBody = libtcc.useCasesToCode(buc1, bucDefinitions, template);

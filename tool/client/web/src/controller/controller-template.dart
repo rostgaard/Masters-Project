@@ -23,6 +23,14 @@ class Template {
     .catchError(_logAndNotify);
 
   /**
+   * Update an existing template
+   */
+  Future update (libtcc.TestTemplate template) =>
+     _service.updateTemplate(template)
+    .then((_) => _notify ('Template updated'))
+    .catchError(_logAndNotify);
+
+  /**
    * Remove a templates
    */
   Future remove (libtcc.TestTemplate template) =>

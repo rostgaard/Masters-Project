@@ -12,6 +12,9 @@ class TemplatesPanel implements Panel {
 
   InputElement get _templateIdInput => _root.querySelector('#template-edit-id');
   InputElement get _templateNameInput => _root.querySelector('#template-edit-name');
+  InputElement get _templateDescriptionInput => _root.querySelector('#template-edit-description');
+  ButtonElement get _addButton => _root.querySelector('button.create');
+  ButtonElement get _saveButton => _root.querySelector('button.save');
 
 
   int get _templateId => int.parse(_templateIdInput.value);
@@ -21,12 +24,23 @@ class TemplatesPanel implements Panel {
   set _templateName (String name) => _templateNameInput.value = name;
 
   /**
-   *
+   * Default constructor.
    */
   TemplatesPanel(this._root, this._templateController) {
     _render();
     _observers();
   }
+
+  /**
+   * 'getter' for extracting the information about the currently selected
+   * template and returning it as an object.
+   */
+  libtcc.TestTemplate get _currentTemplate =>
+      new libtcc.TestTemplate.empty()
+        ..body = _editArea.text
+        ..description = _templateDescriptionInput.value
+        ..name = _templateNameInput.value
+        ..id = _templateId;
 
   /**
    * Observers
@@ -36,8 +50,36 @@ class TemplatesPanel implements Panel {
       int tplId = int.parse
           (_templateSelector.options[_templateSelector.selectedIndex].value);
 
-      _templateController.get(tplId).then(_renderTemplate);
+      if (tplId != _templateId) {
+        _templateController.get(tplId).then(_renderTemplate);
+      }
 
+    });
+
+    _addButton.onClick.listen((_) {
+      _saveButton.disabled = true;
+      _templateId = libtcc.TestTemplate.noId;
+      _templateNameInput.value = '';
+      _editArea.text = 'int main () {\n}';
+
+      _templateNameInput.focus();
+    });
+
+    _templateNameInput.onInput.listen((_) {
+      _saveButton.disabled = _templateNameInput.value.isEmpty;
+    });
+
+    _editArea.onInput.listen((_) {
+      _saveButton.disabled = _templateNameInput.value.isEmpty;
+    });
+
+    _saveButton.onClick.listen((_) {
+      if(_templateId == libtcc.TestTemplate.noId) {
+        _templateController.create(_currentTemplate).whenComplete(_render);
+      }
+      else {
+        _templateController.update(_currentTemplate).whenComplete(_render);
+      }
     });
   }
 
@@ -56,7 +98,8 @@ class TemplatesPanel implements Panel {
     _templateController.list()
       .then((Iterable<libtcc.TestTemplate> templates) {
         _templateSelector
-          .children.addAll(templates.map(_templateToOptionElement));
+          .children = []..addAll(templates.map(_templateToOptionElement));
+        _templateSelector.children.last.focus();
     });
   }
 

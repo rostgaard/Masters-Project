@@ -9,7 +9,9 @@ class ConceptsPanel implements Panel {
 
   DivElement get _definitions => _root.querySelector('.definitions');
   ButtonElement get _addButton => _root.querySelector('button.create');
+
   InputElement get _addInputName => _root.querySelector('#input-new-concept-name');
+  InputElement get _addInputRole => _root.querySelector('#input-new-concept-role');
   InputElement get _addInputDescription => _root.querySelector('#input-new-concept-description');
 
 
@@ -26,11 +28,21 @@ class ConceptsPanel implements Panel {
    */
   _observers() {
     _addButton.onClick.listen((_) {
-      _conceptController.create(_inputConcept());
-      _render();
+      _conceptController.create(_inputConcept())
+        .whenComplete(_render);
+      ;
     });
 
-  }
+    _addInputName.onInput.listen((_) {
+      _addButton.disabled = _addInputRole.value.isEmpty ||
+                            _addInputName.value.isEmpty;
+    });
+
+    _addInputRole.onInput.listen((_) {
+      _addButton.disabled = _addInputRole.value.isEmpty ||
+                            _addInputName.value.isEmpty;
+    });
+}
 
   /**
    * Select the panel.
@@ -47,7 +59,7 @@ class ConceptsPanel implements Panel {
     _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
       Iterable<libtcc.Definition> definitions = concepts
           .map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children = [new Definitions(definitions, _conceptController).element];
+      _definitions.children = [new Concepts(definitions, _conceptController).element];
     });
   }
 

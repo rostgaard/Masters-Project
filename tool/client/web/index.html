@@ -61,18 +61,14 @@
         <!-- Activities panel -->
 
         <section id="actors" class="content" hidden>
-
-          <h1>Actors</h1>
-          <ul class="list"></ul>
-
-
             <fieldset>
-              <legend>Add new concept</legend>
+              <legend>Add new actor</legend>
 
-          <input type="text" id="input-new-actor-name" placeholder="Name" style="width:100%;"></input><br />
-          <textarea style="width:100%;" id="input-new-actor-description" placeholder="Description"></textarea>
+          <input type="text" id="input-new-actor-name" placeholder="Name"></input><br>
+          <input type="text" id="input-new-actor-role" placeholder="Role"></input><br>
+          <input type="text" id="input-new-actor-description" placeholder="Description"></input>
 
-          <button class="pure-button-primary pure-button create">Create</button>
+          <button class="pure-button-primary pure-button create" disabled>Create</button>
        </fieldset>
         </section>
 
@@ -84,9 +80,10 @@
               <legend>Add new concept</legend>
 
           <input type="text" id="input-new-concept-name" placeholder="Name"></input><br>
+          <input type="text" id="input-new-concept-role" placeholder="Role"></input><br>
           <input type="text" id="input-new-concept-description" placeholder="Description"></input>
 
-          <button class="pure-button-primary pure-button create">Create</button>
+          <button class="pure-button-primary pure-button create" disabled>Create</button>
        </fieldset>
                 <div class="definitions"></div>
 
@@ -125,78 +122,15 @@
              <label for="template-selector">Current template</label>
              <select id="template-selector">
              </select>
-             <button class="pure-button save">Save</button>
+             <button class="pure-button save" disabled>Save</button>
              <button class="pure-button create">New</button>
             </nav>
-        <label for="template-edit-name">Name</label>
+        <label for="template-edit-name">Name: </label>
         <input id="template-edit-name" type="text" value="..."/>
+        <label for="template-edit-description">Description: </label>
+        <input id="template-edit-description" type="text" value="..."/>
         <input id="template-edit-id" type="hidden" value="0"/>
-        <textarea id="template-edit">
-part of or_test_fw;
-
-abstract class SendMessage {
-
-  static DateTime startTime = null;
-  static int nextStep = 1;
-  static Customer caller = null;
-  static Receptionist receptionist = null;
-  static Storage.Message messageStore = null;
-  static Storage.Contact contactStore = null;
-
-  static Logger log = new Logger('$libraryName.UseCase.SendMessage');
-
-  static Future setup() {
-    startTime = new DateTime.now();
-    nextStep = 1;
-
-    log.finest('Setting up preconditions...');
-
-    log.finest ('Setting up a MessageStore...');
-    messageStore = new Service.RESTMessageStore(
-        Config.messageStoreUri,
-        receptionist.authToken,
-        new Transport.Client());
-
-    log.finest ('Setting up a ReceptionStore...');
-    contactStore= new Service.RESTContactStore(
-        Config.contactStoreUri,
-        receptionist.authToken,
-        new Transport.Client());
-
-    log.finest ("Send message test case: Preconditions set up.");
-
-    return new Future.value (null);
-  }
-
-  static void teardown() {
-    log.finest("Cleaning up after test...");
-  }
-
-  static Future Receptionist_Send_Message () {
-    step ("Receptionist sends a message...");
-    Model.Message message = new Model.Message.stub(Model.Message.noID);
-    return contactStore.getByReception(4, 1).then((Model.Contact contact) {
-      message.recipients = contact.distributionList;
-      message.body = 'Sent from test framework.';
-      message.sender = receptionist.user;
-   }).then((_) {
-      return messageStore.enqueue(message);
-   }).then((_) {
-      step ("Receptionist has sent message.");
-   });
-  }
-
-  static Future Callee_Checks_For_Message () {
-    step ("Callee checks for message...");
-    log.severe('Assuming the message is delivered, as we do not have built '
-        'access to IMAP stores yet');
-    return new Future.value(null);
-  }
-
-  [%TESTCASES%]
-
-}
-        </textarea>
+        <textarea id="template-edit"></textarea>
         </section>
 
         <section id="configuration" class="content" hidden>
