@@ -3,3 +3,37 @@
 \input{use_case_1}
 
 \input{use_case_2}
+
+\chapter{Handbook}
+\chapter{Protocol specification}
+%TODO taken at 2015-06-29
+Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests.
+\begin{verbatim}
+[FINE] tcctool.router: GET	->	/actor
+[FINE] tcctool.router: GET	->	/dummy
+[FINE] tcctool.router: GET	->	/actor/{id}
+[FINE] tcctool.router: PUT	->	/actor/{id}
+[FINE] tcctool.router: POST	->	/actor/{name}
+[FINE] tcctool.router: DELETE	->	/actor/{name}
+[FINE] tcctool.router: GET	->	/concept
+[FINE] tcctool.router: GET	->	/concept/{id}
+[FINE] tcctool.router: PUT	->	/concept/{id}
+[FINE] tcctool.router: POST	->	/concept
+[FINE] tcctool.router: DELETE	->	/concept/{id}
+[FINE] tcctool.router: GET	->	/template
+[FINE] tcctool.router: POST	->	/template
+[FINE] tcctool.router: GET	->	/template/{tplid}
+[FINE] tcctool.router: PUT	->	/template{tplid}
+[FINE] tcctool.router: GET	->	/usecase
+[FINE] tcctool.router: GET	->	/usecase/{id}
+[FINE] tcctool.router: PUT	->	/usecase/{id}
+[FINE] tcctool.router: POST	->	/usecase/{id}
+[FINE] tcctool.router: DELETE	->	/usecase/{id}
+[FINE] tcctool.router: POST	->	/usecase/{id}/testsfromtemplate/{tplid}/
+[FINE] tcctool.router: POST	->	/test/{tid}/analyze
+[FINE] tcctool.router: GET	->	/configuration
+[FINE] tcctool.router: PUT	->	/configuration
+\end{verbatim}
+
+\chapter{Database schema}
+\lstinputlisting[language=SQL, caption=Database schema for the test generation tool ]{../tool/service/db/schema.sql}

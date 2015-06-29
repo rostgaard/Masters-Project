@@ -1,7 +1,7 @@
 \chapter{Design}
+This chapter documents the major design decisions in the process of building a model that supports translation of structured requirements from tests.
 
-\section{Outline}
-Given that we want to be able to generate tests based on requirements require structure and a touch of semantics. For the latter, we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
+we need to infer some minimal understanding into the test generation system of what the different components are (actor, action, \dots). For the structure part, we must enforce some sort of categorization such as defining the level, scope and composition of a use case. By composition is meant the different parts; scenario, pre- and post-conditions.\\
 This structure and semantics are best defined by the stakeholder that knowns the problem domain by heart; the customer of the software. There are however some challenges in extracting the domain knowledge from these stakeholders which is discussed in the next section.
 
 \section{Stakeholders}
@@ -23,30 +23,6 @@ There are different levels to write the use-case tests on;
 %\section{Brainstorm}
 %\input{brainstorm}
 
-\section{Proposed solution}
-"Side-cart" tool that (maybe) uses natural language processing. The developement is supported by a two-sided approach. Both top-down and bottom-up. Meaning that design an implementation will go hand-in-hand and hopefully lead to a good middle-road.
-%TODO something about existing approaches.
-%TODO Step-wise go through the enhancement process.
-%  - Basically, autogenerate the use case action code line
-%  - Infer some Class dependencies, which then becomes Framework dependencies.
-\input{chapters/manual_use_case_conversion}
-
-\begin{figure}[h]
-%\includegraphics[scale=0.4]{img/activity_diagram_receptionist}
-\centering
-\caption{Activity diagram for the receptionist actor}
-\label{fig:activity_diagram_receptionist}
-\end{figure}
-
-
-%\section{Related work}
-%\subsection{Writing requirements as tests}
-%\subsection{Writing requirements in formal language}
-
-\section{Brainstorming}
-Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
-
-% Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
 
 \section{Extracting semantic}
 Example; in the use case it is stated that a call is hung up and a callee awaits this event. The lifeline of the call is however not tracked and to be able to properly assert the true state of this, the code macro needs to into account this lifeline and reflect on which assertions hold for every stakeholder that has knowledge of the call. % TODO: Elaborate the example and explain that a phone call is a good example because it has an A and B-leg and potentially a system that tracks its state.
@@ -63,11 +39,6 @@ The other approach is to do it on the go by outlining concepts as stubs whenever
 \subsection{Metrics}
 % How many lines of code is the support tools? The middleware framework?
 % How is it compared to the activity count in the activity diagram?
-
-\section{Requirements as communication platform}
-
-\section{Use case translation}
-%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
 
 \section{Test case state}
 A test consists of three basic steps; setup, run and teardown. Setup and teardown is different from pre- and postcondition in that they are unrelated to the test itself, they merely make sure that objects are initialized with right values and, in general, are in the state that the test expects.
@@ -161,6 +132,7 @@ The expression of a use case that consists of $n$ statements then becomes:
 Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env
 \end{equation}
 The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
+%TODO This is conceptually a monad.
 %\texttt{matcher expression} ($s$)
 
 %\begin{algorithmic}
@@ -276,3 +248,4 @@ If we were to add additional domain knowledge to the use cases, then we would al
 
 \subsection{Configuration environment}
 How do we define which objects are currently in the test harness? In our implementation, we have made a configuration file that, potentially could be auto-generated from a description of which domain types the objects have, what their internal data is, and when they need to be present.
+

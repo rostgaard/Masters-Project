@@ -26,7 +26,13 @@ The ultimate goal is to identify -- or create --  a tool and/or a process that i
 The methodology used in the process is two-headed. One is bottom-up, and the other is top-down. The bottom is to take an existing system where a rudimentary \emph{ad-hoc} implementation is used, and try to extract some general patterns from it. The top-down approach is to very broadly define the abstract concepts needed to make this entire project feasible. Ideally, there will be some common ground where both of the approaches can agree. The intended effect of choosing this approach is that it tries to keep things applicable, while being guided by an academic scope.
 
 \section{Problem statement}
-Software project fail \cite{verner2008} \cite{charette2005}
+Given the high rate of software project failures\cite{verner2008} \cite{charette2005}, and the general widespread requirement/implementation mismatch, a common claim is that requirements (and use cases) are incomplete in nature.\\
+%TODO better lead-over.
+However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
+Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
+Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feedback into that loop into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
+In this thesis, one of the goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process. A design of a development process is explained in the next section.
+
 \section{Existing mapping methods}
 Usually mappings between requirement and implementation is non-existing. But when a mapping exists, it is usually implemented by an ad-hoc notation system, such as comments that link to source code files or integration tests. There exist systems that control the requirement tractability, but these tools usually target the safety-critical software market and are, thus, not really suited for mainstream development.\\%TODO Reference
 
@@ -34,6 +40,7 @@ Usually mappings between requirement and implementation is non-existing. But whe
 There exist already methods and tools that extend the formalization of requirements, but there seems to be a lack of motivation for applying them. This lack of motivation is found in multiple stakeholders; programmers and customers.
 
 \subsection{Project}
+%"Side-cart" tool that (maybe) uses natural language processing. 
 %This is a Model Driven Engineering (MDE) technique.
 %NOTE the summary of this section should be that we want to look into the value of this in requirement elicitation process, the level of abstraction in the methododogy and discussion on value.
 \begin{figure}

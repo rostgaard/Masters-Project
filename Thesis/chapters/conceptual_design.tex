@@ -35,42 +35,46 @@ can suggests a model that is optimized to support loose structure, but still pro
 %TODO Every entry in a use case scenario is modeled as a synchronous action.
 
 \section{Glossary}
+%TODO merge this glossary, or put it into appendix.
 \begin{description}
   \item[Requirement analysis:] Requirement analysis, for the purpose of this project, meant as a concept that uses some the information stored in the requirements to check it for validity, ambiguity and provide alternative representations. An example of an alternative representation is that a set of use cases becomes a use a use case diagram, just on a different abstraction level.
 
 \end{description}
 
-\section{Overview}
-%TODO review this secion, and maybe move to introduction.
-Given the high rate of software project failures, and the general widespread requirement/implementation mismatch, it would be safe to claim that requirements (and use cases) are incomplete in nature. This means that a tool that is able to integrated into 
-
-However, during the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. But it and may also affect the the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\\\\
-Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
-Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. Also, reformulating documentation may cause a feedback into that loop into the implementation, which then needs to be reviewed and -- perhaps -- changed.\\\\
-In this thesis, one of the goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process. A design of a development process is explained in the next section.
-%maybe the above section should go to introduction.
-
-%BASIC of concept; add structure and type information.
-By adding the extra structure and type information to use cases
 \section{Interpreting use cases}
-
-From \cite{cockburn2000} we get;
+Before we try to build up a concept that translates use cases, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
 \begin{quote}
 ``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
-\end{quote}
-Should not be used to describe UI actions% http://alistair.cockburn.us/Use+cases%2c+ten+years+later (Use case limits).
+\end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is commonly stated is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\\\\
+So, in essence; use cases expresses \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario.
+%TODO define use case entries, actors and concepts.
+%IN SUMMARY; How much information can you acutally derive from a use case?
+%A use case scenario should always terminate.
 
-Use cases expresses expected system behavior. Keep use cases free of UI-action.
+This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
 
-There are several levels on which use cases can be written as per\cite{cockburn2000}. In our case, it would make the most sense to use the "system" level, as business level is something that is nearly useless because it is largely out of scope. The business logic is also, more elaborately (and implicitly) formulated within a system-level use case. In the other end, a component use case is also very impractical, as our target audience would be people that does not know anything about the specifics of the system being built.
-
-%Note;
-An important aspect to keep in mind is that context is important. Writing hundreds of pages of detailed requirements are bound to be decoupled and lose context, and coherence with each other. Deciding on a level that keeps context is important.
+The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
+The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
 
 
-\include{chapters/design_concept1}
-\include{chapters/design_concept2}
-\include{chapters/design_concept3}
+\section{Requirement-to-test process}
+%Definition dictionary
+% Remember that an actor has a set of goals, which he/she wants to realize through the system. Actor can be  primary (typically people) or supporting (provides service or information) - passive.
+% A good goal has a verb/noun combination.
+%REMEMBER TO TAKE INTO ACCOUNT <INCLUDE> use cases -- Basically extensions
+Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
+Postconditions can be defined to be predicates
+%TODO introduce domain concept along with domain actor.
+
+\section{Brainstorming}
+Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
+
+% Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
+
+
+\input{chapters/design_concept1}
+\input{chapters/design_concept2}
+\input{chapters/design_concept3}
 
 \begin{figure}[ht]
 \centering
@@ -78,6 +82,7 @@ An important aspect to keep in mind is that context is important. Writing hundre
 \caption{Concept; validate event stack using life-cycle state machines.}
 \label{fig:event-stack-to-state-machine}
 \end{figure}
+%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
 
 \begin{figure}[ht]
 \centering
@@ -94,5 +99,6 @@ Some basics on the procedure; take every line of the use case and not every conc
 
 %\section{Current implementation}
 % tcc-tool is a client/server architecture with a share library.
+
 
 

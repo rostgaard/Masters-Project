@@ -1,19 +1,11 @@
 \section{Concept 1 - Markdown editor}
-%Same concept as a ritch-text editor. Select and make bold.
-%Basically put everything into a textual format.
+One of the earliest concepts for a tool to aid use case structuring, was an editor that used a markup language that enabled the user to tag specific words as keywords using a special syntax -- such as surrounding text with parentheses, or other significant characters. The concept was dropped in an early state, but is documented for completeness, and to reference some of the ideas introduced by it later on.\\\\
 \begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.80\textwidth]{\imgdir markdown_ui_mockup}
-\caption{Early mock-up of a user interface using a markdown-like language for writing use cases. Left part of the UI shows a structured textual representation of a use case. The middle part was reserved for graphical representations of the use case, which could be sequence diagrams or activity diagrams}
+  \centering
+  \includegraphics[width=0.70\textwidth]{\imgdir markdown_ui_mockup}
+  \caption{Crude mock-up of a user interface using a markup language for writing use cases.}
 \label{fig:markdown_ui_mockup}
-\end{figure}
-An early idea was to provide a markup language with the possibility to tag specific words as keywords, which then became the concepts that were included in the...
-This concept was only implemented as an experimental prototype model without user interface, and proved too loose in structure to be able to implement within the time frame of this Thesis. The main problem was that it required a domain-specific language to be able to support the structure needed for test generation.
-
-%The challenge in documenting requirements is, and has always been, to formulate them on a non-ambiguous form. The quantification of ambiguity tends to be difficult as well, due to the fact that requirements are usually formulated in natural languages following some rules, such as pre-defined glossary and constraints. Constraints vocabulary typically consists of should, could, may, must.
-
-%Other method
-Wiki-collaboration to "lazily" define the problem domain and verification conditions along the way.
-
-The concept of clear-text analysis lived on.
+\end{figure}The benefit that was hoped to gain from this procedure was that both the use case, and the extra data needed to generate tests, was stored in the same textual representation.\\
+This concept was only implemented as an experimental prototype model without user interface, and proved too loose in structure to be able to implement within the time frame of this Thesis. The main problem was that it effectively required a domain-specific language to be able to support the structure needed for test generation. The creation of a domain-specific language was considered out of scope, and a too large task that would dominate the project, taking focus from the actual task.\\\\
+Figure \ref{fig:markdown_ui_mockup} crudely shows how the user interface was planned to look like. Left part of the UI shows a structured textual representation of a use case. The middle part was reserved for graphical representations of the use case, which could be sequence diagrams or activity diagrams, and the right panel is for ``use case analysis'', which is associations that will become evident during a use case analysis. For example, ``user sends email'' implicitly states an association between ``user'' and ``email'. The tool was meant a online Wiki-like tool that enabled collaboration. The concept of markup language was dropped, but the concept of clear-text analysis was re-introduced later on.
 

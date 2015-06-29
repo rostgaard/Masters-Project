@@ -41,6 +41,15 @@ Testing the system as a whole can be done in two ways; either by providing a com
 The second way you can test a system as whole, is to test a deployed instance of the system. But before anything could be tested, we needed to decide what to test.
 
 \subsection{Test specification}
+%TODO Note; the motivation for using the activity diagram, was that is was very simple for the customer to relate to -- without being distracted by the more specific level of use cases. I.e. not much "what happens if".
+%TODO Another motivation for creating the tests, and focusing on this actor is that the functionality of this actor is business-breaking if stuff goes wrong.
+\begin{figure}[h]
+\includegraphics[scale=0.8]{\imgdir receptionist_workflow}
+\centering
+\caption{Activity diagram for the receptionist actor}
+\label{fig:activity_diagram_receptionist}
+\end{figure}
+
 In order to derive a which cases should be tested, we -- in a figurative sense --  tore apart an activity diagram and created use cases from them. Then added the missing parts with the help of a representative from customer of the system. Once we had the use cases as a list of actions and alternatives, we had a manuscript that we needed to replay to assert functionality of the system.\\
 In order to automate this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
 
@@ -48,12 +57,20 @@ In order to automate this, we estimated that every statement, or line, in the us
 Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\\
 In the scripting environment, we then outlined the domain actors (such as caller and receptionists). External resources were also needed, and was provided by the main system via services interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\\\\
 The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code chunks. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.60\textwidth]{\imgdir initial_model}
+\caption{Class diagram outlining the composition of the initial test-generation model}
+\label{fig:first_generation_model}
+\end{figure}
 \begin{description}
   \item[Visualization:] A graphical presentation of the use case in the form of a sequence diagram. In our specific case, we used a tool called seqdiag, and an example of the input is shown is shown in listing \ref{lst:seqdiag_code_example}. The main concept of this was to provide convenient overview of how, and when, the interaction between the actors happened.
   \item[Documentation:] In the OpenReception project, every bit of the documentation lives in a Wiki which is formatted using Markdown. This meant that we could link the source documents associated with use case to the use cases themselves. Generation of use case documentation in the Wiki was using these document fragments.
   \item[Testing] The final, and most significant part of the system, was the ability to generate use case tests from the actual use cases. This meant that we needed to describe every action in the use case as bit of code and then patch it together using the list of actions, pre- and postconditions provided in the use case descriptions. An example of an assembled is shown in listing \ref{lst:example_python_output}.
 \end{description}
-\begin{lstlisting}[language=Bash, caption=Example seqdiag input, label=lst:seqdiag_code_example]
+\noindent
+A class diagram showing the relations between the different components in our initial use case translator is shown in figure \ref{fig:first_generation_model}. It depicts the association between the different types of code fragments, and how they are related to a use case model.
+\begin{lstlisting}[language=Bash, caption=Example seqdiag input fragment, label=lst:seqdiag_code_example]
 
 Receptionist ->> System [label = "Dials contact"];
 System       ->> Receptionist [label = "Call rejected"];
@@ -75,7 +92,7 @@ class Sequence_Diagram (Test_Case):
 The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
 \begin{figure}[!h]
 \centering
-\includegraphics[width=0.20\textwidth]{\imgdir first_generation_class_structure}
+\includegraphics[width=0.25\textwidth]{\imgdir first_generation_class_structure}
 \caption{Class diagram outlining the overall hierarchy of executable use cases}
 \label{fig:first_generation_class_structure}
 \end{figure}
@@ -116,6 +133,14 @@ This section explains the processes of befitting from the models and interface o
 
 \subsection{Framework content}
 \label{ssec:openreception_framework}
+\begin{figure}[!htbp]
+\includegraphics[scale=0.65]{\imgdir framework_example}
+\centering
+\caption{Example of the framework class structure}
+\label{fig:framework_example}
+\end{figure}
+%TODO mention above figure.
+\noindent
 The framework is a set of passive classes that is divided, into the following categories (and code libraries). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
   \item[Models:] Every model of the framework is supplied with methods that returns a DTO (Data Transfer Object) representation of the object

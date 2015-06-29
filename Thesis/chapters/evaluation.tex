@@ -56,15 +56,35 @@ Iteration 1 build trend in figure \ref{fig:jenkins-build-trend-interation-1}\foo
 
 Parameters that should be measured; LOC ratio; test tools; Phonio is around 2kLOC and neglecatable
 
-Test framework is \~8.5kLOC and 1.1kLOC of these lines are code that wraps the framework. The ratio is then roughly around 10\% written code lines.
+\begin{table}[!htbp]
+\begin{tabular}{ | l | r | r | r |}
+   \hline
+   Project        & Total (kLoc) & Test support (kLoc) & Overhead \\ \hline
+   Test framework & 8.9          & 1.1                 & 10\%     \\
+   Phonio         & 2            & 2                   & 100\%    \\
+   \hline
+   \hline
+   Total          & 10.9         & 3.1                 & 28\%     \\
+   \hline
+\end{tabular}
+\caption{Test framework metrics}
+\label{tab:test_metrics}
+\end{table}
+   
+ is \~8.5kLOC and kLOC of these lines are code that wraps the framework. The ratio is then roughly around  written code lines.
 
 Model framework is also around 8kLOC and is reused in both the client and the server.
+%How much effort is there involved in changing requirements, or implementation.
+%Discuss code change on different levels; interface (component), function or data model.
 %is this always possible? Are we lucky to have found a good fit for this procedure? Which cases could be thought, not to support this method?
+%TODO note; 
+LOC isn't all, and coverage certainly isn't all either\cite{fraser2013does}.
 \subsection{Relationship to TDD}
 In practice; the approach presented in this thesis is a variant of TDD, but injects some elements from MDE and increases the test coverage by automatically generating the tests from use case branches.
 
 %Important bit.
 
+%another note; it was a good experience for me, as a software engineer to be able communicate how I wanted the system to interact internally via tests. It is easier for code-oriented people to relate to code, rather than diagrams and designs.
 
 \subsection{Is if feasible}
 Basically; no. Can it be used? To some extent. The process is nice, but the mapping simply unfolds into a too large state space with a stucture so complex that is impossible for an end-user to specify it, and very hard for a trained professional to elaborate it. It may be feasible once model-based software engineering reaches a level where behavioral model can be applied to domain models, and thus ...
