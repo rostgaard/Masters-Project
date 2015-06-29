@@ -5,6 +5,8 @@ part of libtcc.base;
  */
 class TestTemplate {
 
+  static const int noId = 0;
+
   int id;
   String name;
   String description;
