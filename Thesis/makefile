@@ -10,7 +10,8 @@ diagrams = uc2_test_config.pdf \
            resource_pool.pdf \
            3rd_iteration_meta_model.pdf \
            initial_model.pdf \
-           framework_example.pdf
+           framework_example.pdf \
+           test_case_ui.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
