@@ -17,9 +17,20 @@ class TestTemplate {
     _templateDB.list().then((Iterable<Model.TestTemplate> templates) =>
         new shelf.Response.ok(JSON.encode(templates.toList(growable: false))));
 
+  /**
+   * HTTP response handler for creating a [TestTemplate] resource.
+   */
+  Future<shelf.Response> create (shelf.Request request) =>
+    request.readAsString()
+    .then(JSON.decode)
+    .then(Model.TestTemplate.decode)
+    .then(_templateDB.create)
+    .then(_okJSONResponse);
 
-  shelf.Response create (shelf.Request request) => throw new UnimplementedError();
-
-  shelf.Response update (shelf.Request request) => throw new UnimplementedError();
-
+  Future<shelf.Response> update (shelf.Request request) =>
+      request.readAsString()
+      .then(JSON.decode)
+      .then(Model.TestTemplate.decode)
+      .then(_templateDB.update)
+      .then(_okJSONResponse);
 }
