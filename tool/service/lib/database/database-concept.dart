@@ -16,17 +16,19 @@ class Concept {
   Future<Model.Concept> get(int conceptID) {
     String sql = '''
 SELECT 
-  id, name, description 
+  id, name, role, type, description 
 FROM 
   concepts
 WHERE 
+  type = 'concept' 
+AND 
   id = @conceptID ''';
 
     Map parameters = {'conceptID': conceptID};
 
     return _connection.query(sql, parameters).then((Iterable rows) {
       if (rows.isEmpty) {
-        throw new StateError('No contact found with ID $conceptID');
+        throw new StateError('No concept found with ID $conceptID');
       }
 
       return _rowToConcept(rows.first);
@@ -39,9 +41,12 @@ WHERE
   Future<Iterable<Model.Concept>> list() {
     String sql = '''
 SELECT 
-  id, name, description 
+  id, name, role,type, description 
 FROM 
-  concepts''';
+  concepts
+WHERE 
+  type = 'concept' 
+''';
 
     return _connection
         .query(sql)
@@ -54,17 +59,16 @@ FROM
   Future<Model.Concept> create(Model.Concept concept) {
     String sql = '''
 INSERT INTO 
-  concepts (name, description)
+  concepts (name, role, description, type)
 SELECT 
-   @name, @description
+   @name, @role, @description, 'concept'
 WHERE NOT EXISTS 
   (SELECT 1 FROM concepts WHERE name=@name)
 RETURNING id;''';
 
-    Map parameters = {'name': concept.type, 'description': concept.description};
+    Map parameters = {'name': concept.type, 'role' : concept.role,
+      'description': concept.description};
 
-    print(sql);
-    print(parameters);
     return _connection.query(sql, parameters).then(
         (Iterable rows) => rows.length == 1
             ? (concept..id = rows.first.id)
@@ -80,12 +84,14 @@ UPDATE
   concepts
 SET
   name = @name, 
+  role = @role,
   description = @description 
 WHERE
   id = @id''';
 
     Map parameters = {
       'id': concept.id,
+      'role' : concept.role,
       'name': concept.type,
       'description': concept.description
     };
@@ -113,7 +119,3 @@ WHERE
             : new Future.error(new StateError('Not completed')));
   }
 }
-
-_rowToConcept(var row) => new Model.Concept(row.name)
-  ..description = row.description
-  ..id = row.id;

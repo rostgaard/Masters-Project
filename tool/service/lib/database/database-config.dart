@@ -38,10 +38,3 @@ SET
     return _connection.query(sql, parameters).then((_) => config);
   }
 }
-
-_rowToActor(var row) => new Model.Actor(row.name)
-  ..description = row.description
-  ..id = row.id;
-
-_rowToConfiguration (var row) =>
-    new Model.Configuration.fromMap(row.client);

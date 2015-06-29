@@ -13,23 +13,25 @@ class Actor {
   /**
    *
    */
-  Future<Model.Actor> get(int conceptID) {
+  Future<Model.Actor> get(int actorID) {
     String sql = '''
 SELECT 
-  id, name, description 
+  id, name, role,type, description 
 FROM 
   concepts
 WHERE 
-  id = @conceptID ''';
+  type = 'actor' 
+AND 
+  id = @actorID ''';
 
-    Map parameters = {'conceptID': conceptID};
+    Map parameters = {'actorID': actorID};
 
     return _connection.query(sql, parameters).then((Iterable rows) {
       if (rows.isEmpty) {
-        throw new StateError('No contact found with ID $conceptID');
+        throw new StateError('No actor found with ID $actorID');
       }
 
-      return _rowToConcept(rows.first);
+      return _rowToActor(rows.first);
     });
   }
 
@@ -39,59 +41,64 @@ WHERE
   Future<Iterable<Model.Actor>> list() {
     String sql = '''
 SELECT 
-  id, name, description 
+  id, name, role,type, description 
 FROM 
-  concepts''';
+  concepts
+WHERE 
+  type = 'actor' 
+''';
 
     return _connection
         .query(sql)
-        .then((Iterable rows) => rows.map(_rowToConcept));
+        .then((Iterable rows) => rows.map(_rowToActor));
   }
 
   /**
    *
    */
-  Future<Model.Actor> create(Model.Concept concept) {
+  Future<Model.Actor> create(Model.Actor actor) {
     String sql = '''
 INSERT INTO 
-  concepts (name, description) 
-VALUES
-  (@name, @description)
-RETURNING 
-  id''';
+  concepts (name, role, description, type)
+SELECT 
+   @name, @role, @description, 'actor'
+WHERE NOT EXISTS 
+  (SELECT 1 FROM concepts WHERE name=@name)
+RETURNING id;''';
 
-    Map parameters = {'name': concept.type, 'description': concept.description};
+    Map parameters = {'name': actor.type, 'role' : actor.role,
+      'description': actor.description};
 
-    print(sql);
-    print(parameters);
     return _connection.query(sql, parameters).then(
         (Iterable rows) => rows.length == 1
-            ? (concept..id = rows.first.id)
-            : new Future.error(new StateError('Not completed')));
+            ? (actor..id = rows.first.id)
+            : new Future.error(new StateError('Not completed (already defined)')));
   }
 
   /**
    *
    */
-  Future<Model.Actor> update(Model.Actor concept) {
+  Future<Model.Actor> update(Model.Actor actor) {
     String sql = '''
 UPDATE
   concepts
 SET
   name = @name, 
+  role = @role,
   description = @description 
 WHERE
   id = @id''';
 
     Map parameters = {
-      'id': concept.id,
-      'name': concept.type,
-      'description': concept.description
+      'id': actor.id,
+      'role' : actor.role,
+      'name': actor.type,
+      'description': actor.description
     };
 
     return _connection.execute(sql, parameters).then(
         (int rowsAffected) => rowsAffected == 1
-            ? concept
+            ? actor
             : new Future.error(new StateError('Not completed')));
   }
 
@@ -104,7 +111,7 @@ DELETE FROM
   concepts
 WHERE
   id = @id''';
-    Map parameters = {'id': conceptID};
+    Map parameters = {'id': actorID};
 
     return _connection.execute(sql, parameters).then(
         (int rowsAffected) => rowsAffected == 1
@@ -112,7 +119,3 @@ WHERE
             : new Future.error(new StateError('Not completed')));
   }
 }
-
-_rowToActor(var row) => new Model.Actor(row.name)
-  ..description = row.description
-  ..id = row.id;

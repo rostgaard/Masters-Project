@@ -1,9 +1,6 @@
 part of tcc.service.database;
 
-//INSERT INTO concepts (name, description)
-//       SELECT 'test1', ''
-//       WHERE NOT EXISTS (SELECT id FROM concepts WHERE name='test1')
-//       RETURNING id;
+
 
 class UseCase {
 
@@ -21,32 +18,36 @@ class UseCase {
   Future<Model.UseCase> get(int useCaseID) {
     String sql = '''
 SELECT 
-  use_case.id AS id, 
-  use_case.name AS name,
+  use_case.id          AS id, 
+  use_case.name        AS name,
   scenario,
   extensions,
+  preconditions,
+  postconditions,
   use_case.description AS description,
-  actor.name AS actor_name,
-  role.name AS actor_role
+  actor.id             AS actor_id,
+  actor.name           AS actor_name,
+  actor.role           AS actor_role,
+  actor.description    AS actor_description
 FROM 
   use_cases use_case
 JOIN 
-  actor_roles role 
-ON
-  use_case.primary_role_id = role.id
-JOIN 
-  actors actor
-ON role.actor_id = actor.id
+  concepts actor 
+ON 
+  actor.id = primary_role_id 
+AND 
+  actor.type = 'actor'
 WHERE
   use_case.id = @useCaseID
 ''';
 
     Map parameters = {'useCaseID': useCaseID};
 
-    return _connection.query(sql, parameters).then((Iterable rows) =>
-      rows.isEmpty
-      ? new Future.error (new StateError('No use case found with ID $useCaseID'))
-      : _rowToUseCase(rows.first));
+    return _connection.query(sql, parameters).then(
+        (Iterable rows) => rows.isEmpty
+            ? new Future.error(
+                new StateError('No use case found with ID $useCaseID'))
+            : _rowToUseCase(rows.first));
   }
 
   /**
@@ -58,6 +59,8 @@ SELECT
   use_case.id AS id, 
   use_case.name AS name,
   scenario,
+  preconditions,
+  postconditions,
   extensions,
   use_case.description AS description,
   actor.name AS actor_name,
@@ -84,57 +87,83 @@ WHERE
    */
   Future<Model.UseCase> create(Model.UseCase useCase) {
     String sql = '''
-INSERT INTO use_cases (name, primary_role_id, scenario, extensions, description)
-VALUES ('Transfer call', 1, '[]', '[]', 'Transfer an inbound call'),
-       ('Send message', 2, '[]', '[]', 'Send a message to an employee');
-
+INSERT INTO 
+  use_cases 
+   (name, primary_role_id, scenario, extensions, 
+    description, preconditions, postconditions)
+VALUES 
+  (@name, @actor_id, @scenario, @extensions, 
+   @description, @preconditions, @postconditions)
+RETURNING 
+  id
 ''';
 
-    Map parameters = {'name': concept.type, 'description': concept.description};
+    Map parameters = {
+      'name': useCase.name,
+      'actor_id': useCase.primaryActor.id,
+      'scenario': JSON.encode(useCase.scenario.toJson()),
+      'extensions': JSON.encode(useCase.extensions
+          .map((ext) => ext.toJson())
+          .toList(growable: false)),
+      'preconditions': JSON.encode(useCase.preconditions.toJson()),
+      'postconditions': JSON.encode(useCase.postconditions.toJson()),
+      'description': useCase.description
+    };
 
-    print(sql);
-    print(parameters);
     return _connection.query(sql, parameters).then(
         (Iterable rows) => rows.length == 1
-            ? (concept..id = rows.first.id)
-            : new Future.error(new StateError('Not completed')));
+            ? (useCase..id = rows.first.id)
+            : new Future.error(
+                new StateError('Not completed: rowsAffected ${rows.length}')));
   }
 
   /**
-   *
+   * Update an exisiting use case in the database.
    */
-  Future<Model.Actor> update(Model.Actor concept) {
+  Future<Model.UseCase> update(Model.UseCase useCase) {
     String sql = '''
 UPDATE
-  concepts
+  use_cases
 SET
-  name = @name, 
+  name = @name,
+  primary_role_id = @actor_id,
+  scenario = @scenario,
+  extensions = @extensions, 
+  preconditions = @preconditions,
+  postconditions = @postconditions,
   description = @description 
 WHERE
   id = @id''';
 
     Map parameters = {
-      'id': concept.id,
-      'name': concept.type,
-      'description': concept.description
+      'id' : useCase.id,
+      'name': useCase.name,
+      'actor_id': useCase.primaryActor.id,
+      'scenario': JSON.encode(useCase.scenario.toJson()),
+      'extensions': JSON.encode(useCase.extensions
+          .map((ext) => ext.toJson())
+          .toList(growable: false)),
+      'preconditions': JSON.encode(useCase.preconditions.toJson()),
+      'postconditions': JSON.encode(useCase.postconditions.toJson()),
+      'description': useCase.description
     };
 
     return _connection.execute(sql, parameters).then(
         (int rowsAffected) => rowsAffected == 1
-            ? concept
+            ? useCase
             : new Future.error(new StateError('Not completed')));
   }
 
   /**
    *
    */
-  Future remove(int actorID) {
+  Future remove(int useCaseID) {
     String sql = '''
 DELETE FROM 
-  concepts
+  use_cases
 WHERE
   id = @id''';
-    Map parameters = {'id': conceptID};
+    Map parameters = {'id': useCaseID};
 
     return _connection.execute(sql, parameters).then(
         (int rowsAffected) => rowsAffected == 1
