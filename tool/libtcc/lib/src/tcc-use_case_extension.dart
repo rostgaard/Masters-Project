@@ -24,6 +24,15 @@ class UseCaseExtension {
     });
   }
 
+  /**
+   * Serialization function
+   */
+  Map toJson() => {
+    Key.extensionOf : extensionOf.toJson(),
+    Key.returnsTo   : returnsTo.toJson(),
+    Key.entries     : entries
+  };
+
   @override
   String toString() =>
 '''

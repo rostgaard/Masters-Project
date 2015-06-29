@@ -25,6 +25,9 @@ abstract class Key {
   static const String scenario = 'scenario';
   static const String extensions = 'extensions';
   static const String body = 'body';
+  static const String extensionOf = 'extensionOf';
+  static const String returnsTo = 'returnsTo';
+  static const String entries = 'entries';
 }
 
 abstract class Label {

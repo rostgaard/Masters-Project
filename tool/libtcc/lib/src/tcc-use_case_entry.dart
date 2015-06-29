@@ -17,6 +17,16 @@ class UseCaseEntry {
 
   UseCaseEntry(this.text);
 
+  UseCaseEntry.fromMap(Map map) {
+    id = map[Key.id];
+    text = map[Key.value];
+  }
+
+  /**
+   * Decode factory.
+   */
+  static UseCaseEntry decode (Map map) => new UseCaseEntry.fromMap(map);
+
   Set<Definition> involvedDefinitions(Definitions definitions) {
     Set<Definition> involved = new Set();
     String decomposed = text.toLowerCase();

@@ -1,6 +1,7 @@
 part of libtcc.base;
 
 class UseCase {
+  int id;
   String name;
   Actor primaryActor;
   String description = 'No description provided';
