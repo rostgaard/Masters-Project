@@ -11,7 +11,8 @@ diagrams = uc2_test_config.pdf \
            3rd_iteration_meta_model.pdf \
            initial_model.pdf \
            framework_example.pdf \
-           test_case_ui.pdf
+           test_case_ui.pdf \
+           concept2_use_case_meta_model.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
