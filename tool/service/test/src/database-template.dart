@@ -27,7 +27,7 @@ void testDatabaseTemplate() {
      */
     test('create', () {
       Model.TestTemplate template =
-          new Model.TestTemplate()
+          new Model.TestTemplate.empty()
           ..name = 'Test'
           ..description = 'A tests'
           ..body = 'main() { [%TESTCASES%]]';
@@ -50,7 +50,7 @@ void testDatabaseTemplate() {
      */
     test('get', () {
       Model.TestTemplate template =
-          new Model.TestTemplate()
+          new Model.TestTemplate.empty()
           ..name = 'Test'
           ..description = 'A tests'
           ..body = 'main() { [%TESTCASES%]]';
@@ -73,7 +73,7 @@ void testDatabaseTemplate() {
      */
     test('remove', () {
       Model.TestTemplate template =
-          new Model.TestTemplate()
+          new Model.TestTemplate.empty()
           ..name = 'Test'
           ..description = 'A tests'
           ..body = 'main() { [%TESTCASES%]]';
@@ -97,7 +97,7 @@ void testDatabaseTemplate() {
      */
     test('update', () {
       Model.TestTemplate template =
-          new Model.TestTemplate()
+          new Model.TestTemplate.empty()
           ..name = 'Test'
           ..description = 'A tests'
           ..body = 'main() { [%TESTCASES%]]';
