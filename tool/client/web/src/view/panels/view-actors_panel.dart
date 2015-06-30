@@ -23,13 +23,13 @@ class ActorsPanel implements Panel {
   }
 
   _render() {
-    _service.getUseCases().then((Iterable<String> ucNames) {
-      _service.getUseCase(ucNames.first).then((libtcc.AnalyzedUseCase uc) {
-        _actorsView.actors = uc.involvedActors;
-
-_root.append (_actorsView.element);
-      });
-    });
+//    _service.getUseCases().then((Iterable<libtcc.UseCase> ucs) {
+//      _service.getUseCase(ucNames.first).then((libtcc.AnalyzedUseCase uc) {
+//        _actorsView.actors = uc.involvedActors;
+//
+//_root.append (_actorsView.element);
+//      });
+//    });
 
 
   }

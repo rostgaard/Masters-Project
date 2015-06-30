@@ -18,9 +18,11 @@ class UI {
   final model.UINotification _uiNotificationModel = new model.UINotification();
 
   /// Controllers
+  controller.Actor _actorController;
   controller.Config _configController;
   controller.Concept _conceptController;
   controller.Template _templateController;
+  controller.UseCase _useCaseController;
 
 
   /// Panels
@@ -42,11 +44,12 @@ class UI {
     _configController = new controller.Config(_service, _configModel, _uiNotificationModel);
     _conceptController = new controller.Concept(_service, _uiNotificationModel);
     _templateController = new controller.Template(_service, _uiNotificationModel);
+    _useCaseController = new controller.UseCase(_service, _uiNotificationModel);
 
     _actorsPanel = new ActorsPanel(querySelector('section#actors'), _configController, _service);
     _conceptsPanel = new ConceptsPanel(querySelector('section#concepts'), _conceptController);
     _testsPanel = new TestsPanel(querySelector('section#tests'), _configController, _service);
-    _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _configController, _service);
+    _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _useCaseController, _conceptController, _actorController);
     _goalsPanel = new GoalsPanel(querySelector('section#goals'), _configController, _service);
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);
     _templatesPanel = new TemplatesPanel(querySelector('section#templates'), _templateController);
@@ -57,6 +60,7 @@ class UI {
 
 
   void _observers () {
+
     _popup= new Popup(_uiNotificationModel);
 
     _menu.selectItem.listen((MenuItem itemSelected) {
@@ -119,6 +123,7 @@ class UI {
 //  }
 
   void render() {
+    _menu._useCases.click();
 //    _service.getDummyUseCase().then((libtcc.UseCase uc) {
 //      addUseCase(uc);
 //    });

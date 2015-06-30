@@ -5,9 +5,7 @@ class Concepts {
   UListElement element = new UListElement();
   final controller.Concept _conceptController;
 
-  Concepts (Iterable<libtcc.Definition> definitions, this._conceptController) {
-    Iterable<libtcc.Concept> concepts = definitions.map((libtcc.Definition def) => def.concept);
-
+  Concepts (Iterable<libtcc.Concept> concepts, this._conceptController) {
     _render (concepts);
   }
 

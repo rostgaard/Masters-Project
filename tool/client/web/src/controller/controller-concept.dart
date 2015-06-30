@@ -7,7 +7,7 @@ class Concept {
 
   final libtcc.TestCaseService _service;
   final model.UINotification _uiNotification;
-  final Logger log = new Logger ('$libraryName.Concept');
+  final Logger _log = new Logger ('$libraryName.Concept');
 
   /**
    * Default constructor.
@@ -48,7 +48,7 @@ class Concept {
    *
    */
   void _logAndNotify (String message, error, StackTrace) {
-    log.severe(message, error, StackTrace);
+    _log.severe(message, error, StackTrace);
     _uiNotification.addError('$message. Got: $error');
   }
 }

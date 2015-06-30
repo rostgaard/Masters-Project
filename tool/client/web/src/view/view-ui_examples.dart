@@ -59,10 +59,9 @@ class UIExamples extends Panel {
     ]);
 
     bucDefinitions = new libtcc.Definitions([
-      new libtcc.Definition(
-          new libtcc.Actor.withRole('Receptionist', 'Receptionist')),
-      new libtcc.Definition(new libtcc.Actor('User')),
-      new libtcc.Definition(new libtcc.Concept.withRole('Message', 'message'))
+      new libtcc.Actor.withRole('Receptionist', 'Receptionist'),
+      new libtcc.Actor('User'),
+      new libtcc.Concept.withRole('Message', 'message')
     ]);
 
     buc1 = new libtcc.UseCase('some use case')
@@ -89,7 +88,7 @@ class UIExamples extends Panel {
     _markActorButton.onClick.listen((_) {
       if (_hasSelectedText) {
         this.bucDefinitions
-            .add(new libtcc.Definition(new libtcc.Actor(_selectedText)));
+            .add(new libtcc.Actor(_selectedText));
         _render();
       }
     });
@@ -97,7 +96,7 @@ class UIExamples extends Panel {
     _markConceptButton.onClick.listen((_) {
       if (_hasSelectedText) {
         this.bucDefinitions
-            .add(new libtcc.Definition(new libtcc.Concept(_selectedText)));
+            .add(new libtcc.Concept(_selectedText));
 
         _render();
       }
@@ -146,8 +145,7 @@ int main () {
     ];
 
     _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
-      Iterable<libtcc.Definition> definitions = concepts.map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children.add(new Concepts(definitions, _conceptController).element);
+      _definitions.children.add(new Concepts(concepts, _conceptController).element);
     });
 
     String testBody = libtcc.useCasesToCode(buc1, bucDefinitions, template);

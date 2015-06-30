@@ -53,7 +53,6 @@ class TemplatesPanel implements Panel {
       if (tplId != _templateId) {
         _templateController.get(tplId).then(_renderTemplate);
       }
-
     });
 
     _addButton.onClick.listen((_) {

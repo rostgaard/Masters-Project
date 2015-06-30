@@ -11,15 +11,37 @@ class UseCase {
   /**
    *
    */
+  Future<libtcc.UseCase> get (int ucID) => this._service.getUseCase(ucID)
+    .catchError(_logAndNotify);
+
+  /**
+   *
+   */
   Future<Iterable<libtcc.UseCase>> list () => this._service.getUseCases()
     .catchError(_logAndNotify);
 
   /**
    *
    */
-  Future<libtcc.Configuration> update (libtcc.AnalyzedUseCase useCase) =>
+  Future<libtcc.Configuration> create (libtcc.UseCase useCase) =>
+    this._service.createUseCase(useCase)
+    .then((_) => _notify ('Use case "${useCase.name}" created.'))
+    .catchError(_logAndNotify);
+
+  /**
+   *
+   */
+  Future<libtcc.Configuration> update (libtcc.UseCase useCase) =>
     this._service.updateUseCase(useCase)
-    .then((_) => _notify ('Use case updated.'))
+    .then((_) => _notify ('Use case "${useCase.name}" updated.'))
+    .catchError(_logAndNotify);
+
+  /**
+   *
+   */
+  Future remove (libtcc.UseCase useCase) =>
+    this._service.removeUseCase(useCase)
+    .then((_) => _notify ('Use case "${useCase.name}" removed.'))
     .catchError(_logAndNotify);
 
   /**

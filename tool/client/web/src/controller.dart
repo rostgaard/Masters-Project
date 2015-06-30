@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 
 import 'model.dart' as model;
 
+part 'controller/controller-actor.dart';
 part 'controller/controller-concept.dart';
 part 'controller/controller-config.dart';
 part 'controller/controller-template.dart';
