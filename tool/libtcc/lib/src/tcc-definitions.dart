@@ -1,13 +1,13 @@
 part of libtcc.base;
 
-class Definitions extends IterableBase<Definition> {
+class Definitions extends IterableBase<Concept> {
 
-  final Set<Definition> _definitions;
+  final Set<Concept> _concepts;
 
-  Iterator get iterator => _definitions.iterator;
+  Iterator get iterator => _concepts.iterator;
 
-  Definitions (Iterable<Definition> definitions) :
-    _definitions = new Set<Definition>()..addAll (definitions);
+  Definitions (Iterable<Concept> concepts) :
+    _concepts = new Set<Concept>()..addAll (concepts);
 
   /**
    * Very inefficient parser returns a list of components.
@@ -17,8 +17,12 @@ class Definitions extends IterableBase<Definition> {
 
   }
 
-  void add (Definition definition) {
-    this._definitions.add(definition);
+  void add (Concept concept) {
+    this._concepts.add(concept);
+  }
+
+  void addAll (Iterable<Concept> concepts) {
+    this._concepts.addAll(concepts);
   }
 
 }

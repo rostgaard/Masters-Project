@@ -1,5 +1,8 @@
 part of libtcc.base;
 
+/**
+ * Class representing a use case.
+ */
 class UseCase {
   int id;
   String name;
@@ -12,25 +15,8 @@ class UseCase {
   UseCaseBlock postconditions = new UseCaseBlock.empty();
   List<Actor> stakeholders = [];
 
+  /// The extensions of the use case.
   List<UseCaseExtension> extensions = [];
-
-  UseCase(this.name);
-
-  UseCase.fromMap (Map map) {
-
-  }
-
-  Map toJson() => {
-    Key.name : name,
-    Key.primaryActor : primaryActor,
-    Key.description : description,
-    Key.scenario : _scenario,
-    Key.preconditions : preconditions,
-    Key.postconditions : postconditions,
-    Key.stakeholders : stakeholders,
-    Key.extensions : extensions
-  };
-
 
   UseCaseBlock get scenario => _scenario;
   set scenario (UseCaseBlock block) {
@@ -44,7 +30,55 @@ class UseCase {
   }
 
   /**
-   *
+   * Default constructor.
+   */
+  UseCase(this.name);
+
+  /**
+   * Default deserializing constructor.
+   */
+  UseCase.fromMap (Map map) {
+    Iterable<UseCaseEntry> mappedPreconditions =
+        (map[Key.preconditions] as Iterable).map(UseCaseEntry.decode);
+
+    Iterable<UseCaseEntry> mappedPostconditions =
+        (map[Key.postconditions] as Iterable).map(UseCaseEntry.decode);
+
+    Iterable<UseCaseEntry> mappedScenario =
+        (map[Key.scenario] as Iterable).map(UseCaseEntry.decode);
+
+    id = map[Key.id];
+    name = map[Key.name];
+    primaryActor = new Actor.fromMap(map[Key.primaryActor]);
+    description = map[Key.description];
+    preconditions = new UseCaseBlock(mappedPreconditions);
+    postconditions = new UseCaseBlock(mappedPostconditions);
+   _scenario = new UseCaseBlock(mappedScenario);
+
+  }
+
+  /**
+   * Serialization function.
+   */
+  Map toJson() => {
+    Key.id : id,
+    Key.name : name,
+    Key.primaryActor : primaryActor,
+    Key.description : description,
+    Key.scenario : _scenario,
+    Key.preconditions : preconditions,
+    Key.postconditions : postconditions,
+    Key.stakeholders : stakeholders,
+    Key.extensions : extensions
+  };
+
+  /**
+   * Decoder factory.
+   */
+  static decode (Map map) => new UseCase.fromMap(map);
+
+  /**
+   * Returns the entries that lead down to the node [uce].
    */
   Iterable<UseCaseEntry> pathDownto(UseCaseEntry uce) =>
     []..addAll(_scenario.takeWhile((uce1) => uce != uce1))
@@ -123,16 +157,13 @@ class UseCase {
     return values;
   }
 
-
+  /**
+   * Basic string representation. Mostly for debug purposes.
+   */
   @override
   String toString() =>
-    '''
-Preconditions
-  $preconditions
-Scenario
-  $scenario
-Extensions
-  $extensions
-Postconditions
-''';
+    'Preconditions: $preconditions \n'
+    'Scenario: $scenario \n'
+    'Extensions: $extensions \n'
+    'Postconditions: $postconditions';
 }

@@ -110,8 +110,8 @@ AnalyzedUseCase useCase1 = new AnalyzedUseCase('Use case 1')
   ]);
 
 
-definitionToDeclaration (Definition def) =>
-  '${def.concept.type} ${normalize(def.role)}';
+definitionToDeclaration (Concept concept) =>
+  '${concept.type} ${normalize(concept.role)}';
 
 useCaseEntryToCode(UseCaseEntry e, Definitions defs) {
   String arguments = e.involvedDefinitions(defs).map(definitionToDeclaration).join(', ');

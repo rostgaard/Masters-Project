@@ -10,6 +10,66 @@ class TestCaseService {
   Concept _mapToConcept(Map map) => new Concept.fromMap(map);
   Iterable<Map> _mapsToConcept(Iterable<Map> maps) => maps.map(_mapToConcept);
 
+  /**
+   * Gets use case
+   */
+  Future<UseCase> getUseCase(int useCaseID) {
+    Uri uri = Uri.parse('${this._host}/usecase/$useCaseID');
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(UseCase.decode);
+  }
+
+  /**
+   * Lists use cases.
+   */
+  Future<Iterable<UseCase>> getUseCases() {
+    Uri uri = Uri.parse('${this._host}/usecase');
+
+    Iterable<UseCase> decodeList (Iterable<Map> maps ) =>
+        maps.map(UseCase.decode);
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(decodeList);
+  }
+
+  /**
+   * Create use case.
+   */
+  Future<UseCase> createUseCase(UseCase useCase) {
+    Uri uri = Uri.parse('${this._host}/usecase');
+
+    return this._backend
+        .post(uri, JSON.encode(useCase))
+        .then(JSON.decode)
+        .then(UseCase.decode);
+  }
+
+  /**
+   * Update use case.
+   */
+  Future<UseCase> updateUseCase(UseCase useCase) {
+    Uri uri = Uri.parse('${this._host}/usecase/${useCase.id}');
+
+    return this._backend
+        .put(uri, JSON.encode(useCase))
+        .then(JSON.decode)
+        .then(UseCase.decode);
+  }
+
+  /**
+   * Remove use case.
+   */
+  Future removeUseCase(UseCase useCase) {
+    Uri uri = Uri.parse('${this._host}/usecase/${useCase.id}');
+
+    return this._backend.delete(uri);
+  }
+
 
   /**
    * Gets template.
@@ -63,7 +123,7 @@ class TestCaseService {
   }
 
   /**
-   * Remoce template.
+   * Remove template.
    */
   Future removeTemplate(TestTemplate template) {
     Uri uri = Uri.parse('${this._host}/template/${template.id}');
@@ -138,7 +198,8 @@ class TestCaseService {
   /**
    * Gets [AnalyzedUseCase].
    */
-  Future<AnalyzedUseCase> getUseCase(String name) {
+  @deprecated
+  Future<AnalyzedUseCase> getAnalyzedUseCase(String name) {
     Uri uri = Uri.parse('${this._host}/usecase/$name');
 
     return this._backend
@@ -149,7 +210,8 @@ class TestCaseService {
   /**
    * Gets all [AnalyzedUseCase] names.
    */
-  Future<Iterable<String>> getUseCases() {
+  @deprecated
+  Future<Iterable<String>> getAnalyzedUseCases() {
     Uri uri = Uri.parse('${this._host}/usecase');
 
     return this._backend.get(uri).then(JSON.decode);
@@ -158,6 +220,7 @@ class TestCaseService {
   /**
    * Gets dummy [AnalyzedUseCase].
    */
+  @deprecated
   Future<AnalyzedUseCase> getDummyUseCase() {
     Uri uri = Uri.parse('${this._host}/dummy');
 

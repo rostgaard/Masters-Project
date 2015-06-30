@@ -12,7 +12,9 @@ class Concept {
   String description = '';
   String role = '';
 
-  Concept(this.type);
+  Concept(this.type) {
+    role = type;
+  }
 
   Concept.fromMap(Map map) {
     id = map.containsKey(Key.id) ? map[Key.id] : id;

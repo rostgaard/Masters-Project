@@ -27,13 +27,13 @@ class UseCaseEntry {
    */
   static UseCaseEntry decode (Map map) => new UseCaseEntry.fromMap(map);
 
-  Set<Definition> involvedDefinitions(Definitions definitions) {
-    Set<Definition> involved = new Set();
+  Set<Concept> involvedDefinitions(Definitions definitions) {
+    Set<Concept> involved = new Set();
     String decomposed = text.toLowerCase();
 
-    definitions.forEach((Definition def) {
+    definitions.forEach((Concept def) {
       ///TODO: make def.role
-      String definition = def.concept.type.toLowerCase();
+      String definition = def.type.toLowerCase();
       if (decomposed.contains(definition)) {
         involved.add(def);
       }
