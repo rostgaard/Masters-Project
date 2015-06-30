@@ -47,45 +47,110 @@
 
         <section id="use-cases" class="content">
           <nav class="use-case">
-            <div class="pure-menu  pure-menu-horizontal pure-menu-scrollable">
-              <ul class="pure-menu-list">
-              </ul>
-            </div>
-         </nav>
+            <label for="use-case-selector">Current template</label>
+            <select id="use-case-selector">
+            </select>
 
-          <ul class="list"></ul>
-          <button class="add">Add</button>
-          <button class="get-selection">Show selection</button>
+          </nav>
+
+          <div class="pure-g">
+            <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+              <h2>Edit</h2>
+              <hr />
+              <label for="use-case-edit-name">Name: </label>
+              <input id="use-case-edit-name" type="text" value="..."/>
+              <label for="use-case-edit-description">Description: </label>
+              <input id="use-case-edit-description" type="text" value="..."/>
+              <input id="use-case-edit-id" type="hidden" value="0"/>
+              <button class="pure-button save" disabled>Save</button>
+              <button class="pure-button create">New</button>
+
+              <div class="pure-g">
+
+                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+                  <div class="use-case-content">
+                    <h2>Preconditions</h2>
+                    <div class="use-case-edit-preconditions"></div>
+                    <h2>Postconditions</h2>
+                    <div class="use-case-edit-postconditions"></div>
+                    <h2>Scenario</h2>
+                    <div class="use-case-edit-scenario"></div>
+                  </div>
+                </div>
+
+                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+                  <h2>Toolbox</h2>
+                  <button class="mark-actor pure-button">
+                    <i class="fa fa-user"></i> Actor
+                  </button>
+                  <button class="mark-concept pure-button">
+                    <i class="fa fa-car"></i> Concept
+                  </button>
+                  <br />
+
+                  <select class="actor-role">
+                    <option>Test actor role</option>
+                  </select>
+
+                  <button class="mark-actor-role pure-button">
+                    <i class="fa fa-user-secret"></i> Actor role
+                  </button>
+                  <br />
+
+                  <select class="concept-role">
+                    <option>Test concept role</option>
+                  </select>
+
+                  <button class="mark-concept-role pure-button">
+                    <i class="fa fa-taxi"></i> Concept role
+                  </button>
+
+                  <div class="pure-g">
+                    <div class="use-case pure-u-1-2"></div>
+                    <div class="definitions pure-u-1-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="definitions pure-u-1-2" style="border: 1px solid #ccc">
+              <h2>Preview</h2>
+              <hr />
+              <div class="use-case-representation"></div>
+            </div>
+
+          </div>
         </section>
 
         <!-- Activities panel -->
 
         <section id="actors" class="content" hidden>
-            <fieldset>
-              <legend>Add new actor</legend>
+          <fieldset>
+            <legend>Add new actor</legend>
 
-          <input type="text" id="input-new-actor-name" placeholder="Name"></input><br>
-          <input type="text" id="input-new-actor-role" placeholder="Role"></input><br>
-          <input type="text" id="input-new-actor-description" placeholder="Description"></input>
+            <input type="text" id="input-new-actor-name" placeholder="Name"></input><br>
+            <input type="text" id="input-new-actor-role" placeholder="Role"></input><br>
+            <input type="text" id="input-new-actor-description" placeholder="Description"></input>
 
-          <button class="pure-button-primary pure-button create" disabled>Create</button>
-       </fieldset>
+            <button class="pure-button-primary pure-button create" disabled>Create</button>
+          </fieldset>
         </section>
 
         <!-- Concepts panel -->
 
         <section id="concepts" class="content" hidden>
           <ul class="list"></ul>
-            <fieldset>
-              <legend>Add new concept</legend>
+          <fieldset>
+            <legend>Add new concept</legend>
 
-          <input type="text" id="input-new-concept-name" placeholder="Name"></input><br>
-          <input type="text" id="input-new-concept-role" placeholder="Role"></input><br>
-          <input type="text" id="input-new-concept-description" placeholder="Description"></input>
+            <input type="text" id="input-new-concept-name" placeholder="Name"></input><br>
+            <input type="text" id="input-new-concept-role" placeholder="Role"></input><br>
+            <input type="text" id="input-new-concept-description" placeholder="Description"></input>
 
-          <button class="pure-button-primary pure-button create" disabled>Create</button>
-       </fieldset>
-                <div class="definitions"></div>
+            <button class="pure-button-primary pure-button create" disabled>Create</button>
+          </fieldset>
+          <div class="definitions"></div>
 
         </section>
 
@@ -104,7 +169,7 @@
               <ul class="pure-menu-list">
               </ul>
             </div>
-         </nav>
+          </nav>
           <ul class="list"></ul>
           <button class="add">Add</button>
         </section>
@@ -118,19 +183,19 @@
         <!-- Templates panel -->
 
         <section id="templates" class="content" hidden>
-           <nav class="template">
-             <label for="template-selector">Current template</label>
-             <select id="template-selector">
-             </select>
-             <button class="pure-button save" disabled>Save</button>
-             <button class="pure-button create">New</button>
-            </nav>
-        <label for="template-edit-name">Name: </label>
-        <input id="template-edit-name" type="text" value="..."/>
-        <label for="template-edit-description">Description: </label>
-        <input id="template-edit-description" type="text" value="..."/>
-        <input id="template-edit-id" type="hidden" value="0"/>
-        <textarea id="template-edit"></textarea>
+          <nav class="template">
+            <label for="template-selector">Current template</label>
+            <select id="template-selector">
+            </select>
+            <button class="pure-button save" disabled>Save</button>
+            <button class="pure-button create">New</button>
+          </nav>
+          <label for="template-edit-name">Name: </label>
+          <input id="template-edit-name" type="text" value="..."/>
+          <label for="template-edit-description">Description: </label>
+          <input id="template-edit-description" type="text" value="..."/>
+          <input id="template-edit-id" type="hidden" value="0"/>
+          <textarea id="template-edit"></textarea>
         </section>
 
         <section id="configuration" class="content" hidden>
@@ -149,7 +214,7 @@
           <br />
 
           <select>
-           <option>stuff</option>
+            <option>stuff</option>
           </select>
 
           <button class="mark-actor-role pure-button">
@@ -158,17 +223,17 @@
           <br />
 
           <select>
-           <option>stuff</option>
+            <option>stuff</option>
           </select>
 
           <button class="mark-concept-role pure-button">
             <i class="fa fa-taxi"></i> Concept role
           </button>
 
-            <div class="pure-g">
-                <div class="use-case pure-u-1-2"></div>
-                <div class="definitions pure-u-1-2"></div>
-              </div>
+          <div class="pure-g">
+            <div class="use-case pure-u-1-2"></div>
+            <div class="definitions pure-u-1-2"></div>
+          </div>
         </section>
 
       </div>
