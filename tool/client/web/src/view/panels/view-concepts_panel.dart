@@ -57,9 +57,7 @@ class ConceptsPanel implements Panel {
    */
   _render() {
     _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
-      Iterable<libtcc.Definition> definitions = concepts
-          .map((libtcc.Concept concept) => new libtcc.Definition(concept));
-      _definitions.children = [new Concepts(definitions, _conceptController).element];
+      _definitions.children = [new Concepts(concepts, _conceptController).element];
     });
   }
 

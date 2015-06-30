@@ -33,6 +33,8 @@ class UseCasesPanel implements Panel {
   ButtonElement get _markActorButton => _root.querySelector('.mark-actor');
   ButtonElement get _markConceptButton => _root.querySelector('.mark-concept');
 
+  SelectElement get _conceptRoleSelector => _root.querySelector('select.concept-role');
+
   DivElement get _scenarioElement => _root.querySelector('.use-case-edit-scenario');
 
   int get _useCaseId => int.parse(_useCaseIdInput.value);
@@ -176,8 +178,18 @@ class UseCasesPanel implements Panel {
 
     _conceptController.list().then((Iterable<libtcc.Concept> concepts) {
       definitions = new libtcc.Definitions(concepts);
+      _conceptRoleSelector.children = concepts.map(_conceptToOptionElement).toList();
     });
   }
+
+  /**
+   *
+   */
+  OptionElement _conceptToOptionElement(libtcc.Concept concept) =>
+      new OptionElement()
+      ..text = concept.type
+      ..value = concept.id.toString()
+      ..onClick.listen(print);
 
   /**
    *

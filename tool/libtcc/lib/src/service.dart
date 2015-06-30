@@ -11,6 +11,66 @@ class TestCaseService {
   Iterable<Map> _mapsToConcept(Iterable<Map> maps) => maps.map(_mapToConcept);
 
   /**
+   * Gets actor
+   */
+  Future<Actor> getActor(int actorID) {
+    Uri uri = Uri.parse('${this._host}/usecase/$actorID');
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(Actor.decode);
+  }
+
+  /**
+   * Lists actors.
+   */
+  Future<Iterable<Actor>> getActors() {
+    Uri uri = Uri.parse('${this._host}/actor');
+
+    Iterable<UseCase> decodeList (Iterable<Map> maps ) =>
+        maps.map(Actor.decode);
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(decodeList);
+  }
+
+  /**
+   * Create actor.
+   */
+  Future<UseCase> createActor(Actor actor) {
+    Uri uri = Uri.parse('${this._host}/actor');
+
+    return this._backend
+        .post(uri, JSON.encode(actor))
+        .then(JSON.decode)
+        .then(Actor.decode);
+  }
+
+  /**
+   * Update actor.
+   */
+  Future<Actor> updateActor(Actor actor) {
+    Uri uri = Uri.parse('${this._host}/actor/${actor.id}');
+
+    return this._backend
+        .put(uri, JSON.encode(actor))
+        .then(JSON.decode)
+        .then(Actor.decode);
+  }
+
+  /**
+   * Remove actor.
+   */
+  Future removeActor(Actor actor) {
+    Uri uri = Uri.parse('${this._host}/actor/${actor.id}');
+
+    return this._backend.delete(uri);
+  }
+
+  /**
    * Gets use case
    */
   Future<UseCase> getUseCase(int useCaseID) {
@@ -227,27 +287,6 @@ class TestCaseService {
     return this._backend
         .get(uri)
         .then((String response) => new AnalyzedUseCase.fromJson(JSON.decode(response)));
-  }
-
-  /**
-   * Gets all [Actor].
-   */
-  Future<Iterable<Actor>> getActors() {
-    Uri uri = Uri.parse('${this._host}/actor');
-
-    return this._backend.get(uri).then(JSON.decode).then(
-        (Iterable<Map> maps) => maps.map((Map map) => new Actor.fromMap(map)));
-  }
-
-  /**
-   * Gets [Actor].
-   */
-  Future<Actor> getActor(String name) {
-    Uri uri = Uri.parse('${this._host}/actor/$name');
-
-    return this._backend
-        .get(uri)
-        .then((String response) => new Actor.fromMap(JSON.decode(response)));
   }
 
   /**

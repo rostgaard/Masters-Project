@@ -15,6 +15,11 @@ class Actor extends Concept {
   factory Actor.fromMap(Map map) =>
       new Actor.withRole(map[Key.type], map[Key.role]);
 
+  /**
+   * Decoder factory
+   */
+  static Actor decode (Map map) => new Actor.fromMap(map);
+
   @override
   String toString() =>
       '${this.role.isNotEmpty ? ' ${this.role}' : '??' } (${this.type})';

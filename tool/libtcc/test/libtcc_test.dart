@@ -12,24 +12,6 @@ import '../example/libtcc.dart';
 import 'package:libtcc/libtcc.dart';
 
 void main() {
-  group('Database.Template', () {
-
-    setUp(() {
-       Database;
-    });
-
-    test('First Test', () {
-      expect(tc.name, equals('test'));
-    });
-
-    test('First Test', () {
-      expect(tc.name, equals('test'));
-    });
-
-  });
-
-
-
 
   //testBaseUseCase();
 }

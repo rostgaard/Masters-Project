@@ -1,54 +1,68 @@
 part of tcc.service.controller;
 
+/**
+ * Request handlers responsible for fetching and manipulating Actor objects.
+ */
 class Actor {
 
-  String _jsonStorePath = '/tmp/json';
+  final Database.Actor _actorStore;
 
-  shelf.Response dummy (shelf.Request request) {
+  Actor(this._actorStore);
 
-    return new shelf.Response.ok (JSON.encode(Model.useCase1));
+  /**
+   *
+   */
+  Future<shelf.Response> get(shelf.Request request) {
+    final int actorID =
+        int.parse(shelf_route.getPathParameter(request, 'id'));
+
+    return _actorStore.get(actorID).then(
+        (Model.Actor actor) => new shelf.Response.ok(JSON.encode(actor)));
   }
 
-  Future<shelf.Response> get (shelf.Request request) {
-    int conceptID = int.parse(shelf_route.getPathParameter(request, 'id'));
-
-    return new shelf.Response.ok (JSON.encode('{}'));
+  /**
+   *
+   */
+  Future<shelf.Response> list(shelf.Request request) {
+    return _actorStore.list().then((Iterable<Model.Actor> actor) =>
+        new shelf.Response.ok(JSON.encode(actor.toList(growable: false))));
   }
+  /**
+   *
+   */
+  Future<shelf.Response> create(shelf.Request request) {
+    return request.readAsString().then((String content) {
+      Model.Actor actor = new Model.Actor.fromMap(JSON.decode(content));
 
-  shelf.Response list (shelf.Request request) {
-    List<IO.FileSystemEntity> files = new IO.Directory ('$_jsonStorePath').listSync();
-
-    String result = JSON.encode(files.map((IO.FileSystemEntity f) =>
-      f.path.substring(_jsonStorePath.length+1,f.path.length-5)).toList());
-
-    return new shelf.Response.ok (result);
-  }
-
-  Future<shelf.Response> create (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
-
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-    file.createSync();
-
-
-    return request.readAsString().then((String body) {
-      file.writeAsStringSync(body);
-      return new shelf.Response.ok ('ok');
+      return _actorStore.create(actor).then((Model.Actor actor) =>
+          new shelf.Response.ok(JSON.encode(actor)));
     });
   }
 
-  Future<shelf.Response> update (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+  /**
+   *
+   */
+  Future<shelf.Response> update(shelf.Request request) {
+    final int actorID =
+        int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
+    return request.readAsString().then((String content) {
+      Model.Actor actor = new Model.Actor.fromMap(JSON.decode(content))
+        ..id = actorID;
 
-    return request.readAsString().then(file.writeAsString).then((_) => new shelf.Response.ok ('ok'));
+      return _actorStore.update(actor).then((Model.Actor actor) =>
+          new shelf.Response.ok(JSON.encode(actor)));
+    });
   }
 
-  Future<shelf.Response> remove (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
+  /**
+   *
+   */
+  Future<shelf.Response> remove(shelf.Request request) {
+    final int actorID =
+        int.parse(shelf_route.getPathParameter(request, 'id'));
 
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-    return  file.delete().then((_) => new shelf.Response.ok ('ok'));
+    return _actorStore.remove(actorID).then(
+        (Model.Actor actor) => new shelf.Response.ok(JSON.encode({})));
   }
 }

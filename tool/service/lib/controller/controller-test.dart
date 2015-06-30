@@ -17,16 +17,18 @@ class Test {
 
   shelf.Response update (shelf.Request request) => throw new UnimplementedError();
 
+  /**
+   * TODO: Add definitionStore.
+   */
   Future<shelf.Response> generate (shelf.Request request) {
     final int ucID = int.parse(shelf_route.getPathParameter(request, 'id'));
     final int tplID = int.parse(shelf_route.getPathParameter(request, 'tplid'));
 
-    return this._useCaseStore.get(ucID).then((UseCase uc) =>
+    return this._useCaseStore.get(ucID).then((Model.UseCase uc) =>
       this._templateStore.get(tplID)
-      .then((Template tpl) {
+      .then((Model.TestTemplate tpl) {
 
-
-      return new shelf.Response.ok (libtcc.useCasesToCode(buc1, defs, template));
+      return new shelf.Response.ok (Model.useCasesToCode(uc, null, tpl.body));
     }));
 
 
