@@ -56,30 +56,29 @@ WHERE
   Future<Iterable<Model.UseCase>> list() {
     String sql = '''
 SELECT 
-  use_case.id AS id, 
-  use_case.name AS name,
+  use_case.id          AS id, 
+  use_case.name        AS name,
   scenario,
+  extensions,
   preconditions,
   postconditions,
-  extensions,
   use_case.description AS description,
-  actor.name AS actor_name,
-  role.name AS actor_role
+  actor.id             AS actor_id,
+  actor.name           AS actor_name,
+  actor.role           AS actor_role,
+  actor.description    AS actor_description
 FROM 
   use_cases use_case
 JOIN 
-  actor_roles role 
-ON
-  use_case.primary_role_id = role.id
-JOIN 
-  actors actor
-ON role.actor_id = actor.id;
-WHERE
-  use_case.id = @useCaseID
+  concepts actor 
+ON 
+  actor.id = primary_role_id 
+AND 
+  actor.type = 'actor'
 ''';
     return _connection
         .query(sql)
-        .then((Iterable rows) => rows.map(_rowToConcept));
+        .then((Iterable rows) => rows.map(_rowToUseCase));
   }
 
   /**

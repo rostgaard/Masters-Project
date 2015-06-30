@@ -20,43 +20,33 @@ class UseCase {
   /**
    * Retrieve a list of available use cases
    */
-  shelf.Response list (shelf.Request request) =>
+  Future<shelf.Response> list (shelf.Request request) =>
     _usecaseStore.list().then(_okJSONIterableResponse);
 
   /**
    * Create a new use case.
    */
-  Future<shelf.Response> create (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
-
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-    file.createSync();
-
-
-    return request.readAsString().then((String body) {
-      file.writeAsStringSync(body);
-      return new shelf.Response.ok ('ok');
-    });
-  }
+  Future<shelf.Response> create (shelf.Request request) =>
+    request.readAsString()
+    .then(JSON.decode)
+    .then(Model.UseCase.decode)
+    .then(_usecaseStore.create)
+    .then(_okJSONResponse);
 
   /**
    * Update an existing use case
    */
-  Future<shelf.Response> update (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
-
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-
-    return request.readAsString().then(file.writeAsString).then((_) => new shelf.Response.ok ('ok'));
-  }
+  Future<shelf.Response> update (shelf.Request request) =>
+      request.readAsString()
+      .then(JSON.decode)
+      .then(Model.UseCase.decode)
+      .then(_usecaseStore.update)
+      .then(_okJSONResponse);
 
   /**
    * Remove an existing use case.
    */
-  Future<shelf.Response> remove (shelf.Request request) {
-    String name = shelf_route.getPathParameter(request, 'name');
-
-    IO.File file = new IO.File ('$_jsonStorePath/$name.json');
-    return  file.delete().then((_) => new shelf.Response.ok ('ok'));
-  }
+  Future<shelf.Response> remove (shelf.Request request) =>
+      _usecaseStore.remove(int.parse(shelf_route.getPathParameter(request, 'id')))
+      .then(_okJSONEmptyResponse);
 }

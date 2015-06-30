@@ -63,7 +63,7 @@ void testDatabaseUseCase() {
     });
 
     /**
-     * Test fetching a single concept from the database.
+     * Test fetching a single use case from the database.
      */
     test('get', () {
 
@@ -73,7 +73,7 @@ void testDatabaseUseCase() {
            ..extensions = []
           ..postconditions = new Model.UseCaseBlock([])
           ..preconditions = new Model.UseCaseBlock([])
-          ..primaryActor = (new Model.Actor.withRole('Admin', 'admin')..id = 1)
+          ..primaryActor = (new Model.Actor.withRole('Admin', 'admin')..id = 2)
           ..scenario = new Model.UseCaseBlock([])
           ..stakeholders = [];
 
@@ -99,29 +99,28 @@ void testDatabaseUseCase() {
 
       }));
     });
-//
-//    /**
-//     * Test deleting a single concept from the database.
-//     */
-//    test('remove', () {
-//      Model.Concept concept =
-//          new Model.Concept.withRole('Test', 'A Concept')
-//          ..description = 'Some concept';
-//
-//      return conceptDB.create(concept)
-//          .then((Model.Concept createdConcept) =>
-//        conceptDB.remove(createdConcept.id));
-//    });
-//
-//    /**
-//     * Test deleting a single concept from the database.
-//     */
-//    test('list', () {
-//      return conceptDB.list()
-//          .then((Iterable<Model.Concept> concepts) =>
-//              expect (concepts, isNotEmpty));
-//    });
-//
+
+    /**
+     * Test removel of a single concept from the database.
+     */
+    test('removal', () {
+
+      Model.UseCase useCase =
+          new Model.UseCase('A use case meant for removal test')
+           ..description = 'Another use case'
+           ..extensions = []
+          ..postconditions = new Model.UseCaseBlock([])
+          ..preconditions = new Model.UseCaseBlock([])
+          ..primaryActor = (new Model.Actor.withRole('Admin', 'admin')..id = 2)
+          ..scenario = new Model.UseCaseBlock([])
+          ..stakeholders = [];
+
+      log.info('Creating new usecase.');
+      return useCaseDB.create(useCase)
+          .then((Model.UseCase createdUsecase) =>
+              useCaseDB.remove(createdUsecase.id));
+    });
+
     /**
      * Test updating a concept from the database.
      */
@@ -132,7 +131,7 @@ void testDatabaseUseCase() {
            ..extensions = []
           ..postconditions = new Model.UseCaseBlock([])
           ..preconditions = new Model.UseCaseBlock([])
-          ..primaryActor = (new Model.Actor.withRole('Admin', 'admin')..id = 1)
+          ..primaryActor = (new Model.Actor.withRole('User', 'user')..id = 1)
           ..scenario = new Model.UseCaseBlock([])
           ..stakeholders = [];
 

@@ -52,6 +52,7 @@ Model.UseCase _rowToUseCase(var row) {
     ..description = row.actor_description;
 
  return new Model.UseCase(row.name)
+     ..id = row.id
     ..scenario = new Model.UseCaseBlock(scenario)
     ..primaryActor = primaryActor
     ..description = row.description;

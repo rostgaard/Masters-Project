@@ -26,5 +26,6 @@ const String libraryName = 'tcctool.router';
 final Logger log = new Logger (libraryName);
 
 _okJSONResponse (var value) => new shelf.Response.ok (JSON.encode(value));
+_okJSONEmptyResponse (var value) => new shelf.Response.ok (JSON.encode({}));
 _okJSONIterableResponse (Iterable value) =>
   new shelf.Response.ok (JSON.encode(value.toList(growable: false)));
