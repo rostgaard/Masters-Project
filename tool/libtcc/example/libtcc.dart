@@ -55,9 +55,9 @@ UseCaseBlock block1 =
 
 Definitions bucDefinitions =
   new Definitions ([
-    new Definition (new Actor.withRole('Receptionist', 'Receptionist')),
-    new Definition (new Actor('User')),
-    new Definition (new Concept.withRole('Message', 'message'))
+    new Actor.withRole('Receptionist', 'Receptionist'),
+    new Actor('User'),
+    new Concept.withRole('Message', 'message')
     ]);
 
 UseCase buc1 = new UseCase('some use case')

@@ -29,7 +29,7 @@ int main () {
 
 
   Definitions defs = new
-      Definitions([new Definition(new Actor('Receptionist'))..role = 'receptionist']);
+      Definitions([new Actor.withRole('Receptionist', 'receptionist')]);
 
 
   print (useCasesToCode(buc1, defs, template));

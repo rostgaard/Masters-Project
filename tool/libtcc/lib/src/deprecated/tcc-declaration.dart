@@ -18,3 +18,15 @@ class Declaration {
   @override
   bool operator ==(Declaration other) => this.iden == other.iden;
 }
+
+// Mappings of type 'hints' to classes.
+final Map<String, String> classMap = {'message': 'Message'};
+
+String lookupClass(String className) {
+if (!classMap.containsKey(className)) {
+ throw new ArgumentError(
+     'Class $className not found in classMap, consider adding a mapping.');
+}
+
+return classMap[className];
+}
