@@ -2,7 +2,111 @@
 %lead-in
 The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.
 
+%TODO add MVC to glossary.
+Everything is built up as a layered model-view-control (MVC), that share a common library of models, utilities and interfaces.
+%TODO what does the layer mean?
+
 %identities of objects.
 
+\subsection{Client}
 
 \section{Example translation}
+%TODO enter the use case.
+
+\begin{lstlisting}[frame=single,style=usecase, caption=Use case example revisited, label=lst:uc-simple-example-revisited]
+Scenario:
+  Receptionist types in message
+  Receptionist sends message
+  Receptionist marks state as ready 
+Preconditions:
+  The receptionist is created
+  The receptionist is logged in
+Postconditions:
+  The message is stored
+  The receptionist is ready to handle the next call
+\end{lstlisting}
+%TODO verify that we have dropped the "action" concept in design concept 3.
+
+\begin{lstlisting}[frame=single,style=usecase, caption=Use case example with its different parts highlighted, label=lst:uc-simple-example-highlighted-revisited]
+Scenario:
+  @\color{orange} Receptionist@ types in @\color{blue}{message}@
+  @\color{orange} Receptionist@ sends @\color{blue}message@
+  @\color{orange} Receptionist@ marks state as ready
+Preconditions:
+  The @\color{orange}receptionist@ is created
+  The @\color{orange}receptionist@ is logged in
+Postconditions:
+  The @\color{blue}message@ is stored
+  The @\color{orange}receptionist@ is ready to handle the next call
+\end{lstlisting} 
+
+\begin{lstlisting}[style=Dart, caption=Example of generated code without a template applied concept,label={lst:generated-test-code-example}]
+
+void preconditions(Receptionist receptionist) {
+  the_receptionist_is_created(receptionist);
+  the_receptionist_is_logged_in(receptionist);
+}
+
+void postconditions(Receptionist receptionist, Message message) {
+  the_message_is_stored(message);
+  the_receptionist_is_ready_to_handle_the_next_call(receptionist);
+}
+
+void scenario(Receptionist receptionist, Message message) {
+  preconditions(receptionist, message);
+  receptionist_types_in_message(receptionist, message);
+  receptionist_sends_message(receptionist, message);
+  receptionist_marks_state_as_ready (receptionist)  
+  postconditions(receptionist, message);
+}
+
+\end{lstlisting}
+
+
+\begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:generated-test-code-example}]
+UserService userService = new UserService(...);
+MessageService messageService = new MessageService(...);
+DummyMessageFactory messageFactory = new DummyMessageFactory(...);
+  
+void the_receptionist_is_created(Receptionist receptionist) {
+  try (userService.get(receptionist.user.id) {}
+  catch (NotFoundException e) {
+    throw new AssertionFailure("Receptionist " + 
+                                receptionist + 
+                               " not created");
+  }
+}
+
+/* Later steps will fail if the receptionist is not logged in. */
+void the_receptionist_is_logged_in(receptionist) {
+   assume("the_receptionist_is_logged_in");
+}
+
+void the_message_is_stored(Message message) {
+  Message fetchedMessage = messagService.get(message.id);
+  expect (fetchedMessage, equals (message));
+}
+
+void the_receptionist_is_ready_to_handle_the_next_call(Receptionist r) {
+  expect (r.state, equals(ReceptionistState.Idle);
+}
+
+void postconditions(Receptionist receptionist, Message message) {
+  the_message_is_stored(message)
+  the_receptionist_is_ready_to_handle_the_next_call(receptionist);
+}
+
+void receptionist_types_in_message(Receptionist r, Message message) {
+  // Generate() takes a Receptionist parameter - signifies author.
+  message = messageFactory.generate(r);
+}
+
+void receptionist_sends_message(receptionist, message) {
+  messageService.send(message);
+}
+
+void receptionist_marks_state_as_ready(receptionist) {
+  userService.changeState(receptionist.user);
+} 
+
+\end{lstlisting}
