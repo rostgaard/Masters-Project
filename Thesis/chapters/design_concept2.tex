@@ -8,74 +8,64 @@ The procedure of the concept is to define actors and concepts beforehand, and th
 \caption{Use case editor UI mockup}
 \label{fig:use_case_editor_mockup}
 \end{figure}A user interface mock-up is shown in figure \ref{fig:use_case_editor_mockup}. In the top of the screen is tab selector that navigates the selected use case. In the selected use case panel, we can see the main scenario (the selected tab), where the list use case entries are shown. The selected entry is ``Receptionist send Message'', which is also shown in the bottom of the user interface where it can be edited. The available actors and concepts are shown on the right side of the user interface. The pre- and postconditions are part of the user interface, but is included in the meta model discussion.\\\\
-This concept was not chosen, due to the significantly increased workload that it involved, and the added complexity. The concept and its corresponding meta model was simplified, and was refined for the next concept.
+The component/structure concept had the big advantage, that it was a good fit for -- and aided the development of -- the meta model. This concept was not chosen, due to the significantly increased workload that it involved, and the added complexity. The concept and its corresponding meta model was simplified, and was refined for the next concept.
 
 \subsection{Meta model}
-This section contains a brief discussion of a meta model that could be used for translating use cases into test cases in this concept. The discussion is supported by the graphical model depicted in figure \ref{fig:meta_model}, which show the concepts that are being discussed.
-
+This section contains a brief discussion of a meta model that could be used for translating use cases into test cases in this concept. The discussion is supported by the high-level graphical model depicted in figure \ref{fig:concept2_use_case_meta_model}, which show the concepts that are being discussed.\\\\
 \begin{figure}[h]
   \centering
- 
   \includegraphics[scale=0.72]{\imgdir concept2_use_case_meta_model}
-  \caption{Intermediate meta model for use case representation along with tests}
-  \label{fig:use_case_meta_model}
-\end{figure}
+  \caption{Partial meta model for creating use cases models in concept 2}
+  \label{fig:concept2_use_case_meta_model}
+\end{figure}The central point of the meta model is the use case. It is composed of stakeholders and a primary actor, pre- and post-conditions, use case entries (the Entry class) and a number of extensions. The primary actor is mostly for information purposes, as the Actor class (which models the domain actor) is also contained within the entries. The Entry class model the use case's entries, and are not very flexible as they expect a use case entry to consist of an actor, a target and an action. The target may be either a domain actor or a domain concept.\\
+The extensions are treated as lists of use case entries as well as the main scenario. In addition; they have extension points as well as optional return points to use cases. These map to the formulations where an actor returns to a specific entry in the main scenario -- for example ``user returns to 2.'' -- in extensions. The pre- and postconditions are modeled as predicate classes, that ensures that some property must hold for an associated concept.
 
-The central point of the meta model is the use case. It is composed of stakeholders and a primary actor, pre- and post-conditions, use case entries (the Entry class) and a number of extensions. The primary actor is mostly for information purposes, as the Actor class (which models the domain actor) is also contained within the entries. The Entry class model the use case's entries, and are not very flexible as they expect a use case entry to consist of an actor, a target and an action. The target may be either a domain actor or a domain concept.\\
-The extensions are treated as lists of use case entries as well as the main scenario. In addition; they have extension points as well as optional return
-The pre- and postconditions are treated as en
-
-%TODO update meta model.
-
-% What you cannot do, when having two actors, is specify the direction of the action.
-
-for now, we take a look at the ``Main success scenario'' and see that, broadly speaking, each use case action involves one actor performing an action, possibly affecting a target object -- which could be another actor. For the purpose of generating tests, it is not important that actors may target other actors though their actions, and this association is therefore left out of the meta model.\\\\
-Postconditions are -- in this model -- defined to be predicates. This is because they share the common trait that they must be true, for the given expression to be true. In our case, the postcondition ``Receptionist is ready for next call'' states the actor receptionist that is participating in this use case, must be in a specific state when the last statement of the use case is done. A postcondition should refer to an actor, target or action previously defined in the use case to avoid redundant mapping. The predicate itself can be some sort of quantifiable strict logic such as ``Message has recipients'', or could as an extension be defined as the more loose ``Message should have recipients'', which should map to a warning in the generated tests, rather than an error.
-
-
-\\\\
-Within the definition mapping, the mapping class denotes the relation between either a predicate and a predicate expression, or a statement (indirectly by the actor, action, target composition). The mapping is uniquely defined by mapping by its composition of an actor, an action and a target, as it should be safe to assume that ``The contact accepts the call'' means the same no matter which use case it appears in. Each mapping will imply a requirement on a resource, which can be any actor or target. The are basically constraints stating the minimum functionality the test framework\footnote{Domain-specific scaffolding code that needs to be written by hand} should have to make the generated test code runnable. These resources could, in test code frameworks, be provided by factory classes or object pools.\\\\
-Tests are the output of a sequence of mappings, that has a state which is then defined by the mappings that originally defined the test. The test will also have references to the predicate expressions that are outputted by mappings as well.
-
-
-
-Pre and post-conditions are operations that work on expressions rather than statements
-
-Alternate scenarios are not yet covered.
-
-\subsection{Meta model}
-
-\begin{figure}[h]
+\subsection{Mapping to application domain}
+In order to map the models produced with the tool, we need to translate them to models usable by the ``test mapping domain''. Figure \ref{fig:concept2_use_case_mapping} shows the conceptual model of how a meta model supporting this domain could look like. The discussion in this section will go into too much depth with the meta model, as it has not been chosen as implementation model. There may also be inaccuracies in it, for that exact reason.
+\begin{figure}[!htbp]
   \centering
- 
-  \includegraphics[scale=0.72]{img/use_case_mapping}
-  \caption{Use case mapping}
-  \label{fig:use_case_mapping}
-\end{figure}
+  \includegraphics[scale=0.72]{img/concept2_use_case_mapping}
+  \caption{Concept 2 use case mapping}
+  \label{fig:concept2_use_case_mapping}
+\end{figure}It specifies, like the meta model in figure \ref{fig:concept2_use_case_meta_model}, that the use case consists of an ordered list of entries, where actions consist of; one or more actors, one verb describing the action and one target for the action (object for verb). It also contains the corresponding associations to predicates (pre- and postconditions) and actors. But, unlike the simpler model for building the use case models, it is extended with additional classes, needed to construct models suitable for test generation. The mapping process is expected to be done by a developer, and could be realized by a textual test mapping language, discussed later in this section.\\\\
+In the application domain, we have a set of domain actor, and domain concepts. The actors from the use case domain may be mapped to domain actors, acting in a specific role. In our system -- for example -- a ``contact'' actor may act as the ``callee'' in some use cases, which effectively is a role. A domain actor needs to specialized by application domain actor classes, that needs to be mostly coded by hand, but could be stubbed out by the tool. The wrapper class has the purpose of covering the domain concepts, functionality-wise. It will supply a set of methods, available for the developer to map to use case actions -- hence the association to the action class.\\
+Predicates are treated as functional expressions, that link to a matcher which must be realized (in code) by a function that returns a boolean value, based on input. For instance, quantifications such as ``greater than'' and ``equals'' are examples of matchers.\\\\
+One thing that proved useful, was the parameters of the test class. Basically, to be able to specify which domain concepts should be part of the signature of the test function. An example would be that a test function involving a receptionist actor, would need to have the signature \texttt{exampleTest(Receptionist r)}, or similar. The basic is just that the involved concepts, needs to be supplied to the test function from the test support framework.
+\subsection{Mapping language}
+In order to define the mappings from the requirement concept in the meta model, the concept of a mapping language emerged. While the language never left the conceptual state, it is described in this section for completeness.\\\\
+The aspect of the mapping language is that of the actor. It is conceptually the same as a recipe for a holder-class (class as i object-oriented programming) that knows about every interface that it needs to access, and every resources that needs to be provided to it.\\\\
+The example language shown in figure \ref{lst:mapping_language_concept} illustrates how a language like that could look like. The example uses indentions to indicate ownerships. The label ``Receptionist:'' indicates that the mappings and properties below is owned by that actor. The requirements -- which could translate to class fields -- are listed (new-line separated) below the ``requires:'' keyword. the ``maps:'' keyword translates to provided methods (as those from the figure \ref{fig:concept2_use_case_mapping}). The methods have a signature, and a function body that should translate into a class method with the supplied body.
+\newpage
+\begin{lstlisting}[caption=example language for mapping concepts,label={lst:mapping_language_concept}]:
+Receptionist:
+  requires:
+    MessageContentGenerator messageContentGenerator
+    ReceptionistState currentState = ReceptionistState.Unknown
+  
+  provides:
+    changeState (ReceptionistState rs) -> currentState = rs
+  
+  maps:
+    sends_message (Message msg) -> msg.enqueue()
 
-\section{Mapping manually}
-Within a use case there are some bits of implicit knowledge that we need to extract. To begin with, we observe that for the use cases in figure \ref{fig:uc1} and \ref{fig:uc2}, there are domain actors involved.
+    types_in (Message msg) -> 
+      msg.content = messageContentGenerator.next().content
+    
+    returns_to (ReceptionistState newState) -> this.changeState (newState)
 
-Each involved domain actor will then be mapped to a wrapper class that represents the domain object, and could possibly extend a class from the implemented code base.
+  properties:
+    is_ready -> receptionistState == ready
+\end{lstlisting}
 
-In order to get the actor object to perform actions, we need to map the actions in the use case to some functions associated with the actor class. These functions could be a direct link to a method that is part of the main codebase which is tested against, a new method written specifically for this purpose - or a macro function that combines functionality from different domain concepts in a single functions.
-
-Whenever there is a mention of an object (a target of an action) which could be, for instance, a message object we assume that its the same object that is tracked during the entire use case. So, from use case 2, we have ``Receptionist sends the message via the system'' in the main success scenario and ``Message is stored and ready for dispatching'' in the postconditions.
-
-So, summing up, we have in this model a very strict view on single use case entries:
-\begin{itemize}
-  \item This use case consists of an ordered list of actions, where actions consist of
-  \begin{itemize}
-	\item One or more actors
-	\item One verb describing the action
-	\item One target for the action (object for verb)
-  \end{itemize}
-\end{itemize}
-If we 
-
-
-One of the problems with this solution is that you also need to specify who is performing the action, and who is the target.
 \subsection{Evaluation}
+%TODO finish this section
+One of the problems with this solution is that you also need to specify who is performing the action, and who is the target.
+
 It was too far from acutally writing the use cases. Having to decompose the use case before acutally wiritinh it is not very user friendly. 
 A big problem with this approach is that it could quickly lead to artificial or too technical jargon in use cases, which is generally a bad idea as it alienates the customer \cite{christel1992}.
 %TODO What are the good parts?
+
+% What you cannot do, when having two actors, is specify the direction of the action.
+The predicates provided little, or no value and could be written in the mapping code very easily without the need to include them in the meta model.
+
+The problem with the mapping language is that is came very close to a programming class, and it felt very much like re-inventing object-oriented programming classes. The very big benefit of having a mapping language, was that the meta model of could be linked to that of our use cases, and provide a much better analysis of the use case translation. Like, which mappings were missing and such.
