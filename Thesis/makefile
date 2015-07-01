@@ -1,5 +1,4 @@
-diagrams = uc2_test_config.pdf \
-           first_generation_class_structure.pdf \
+diagrams = first_generation_class_structure.pdf \
            support-tools-recepionist-example.pdf \
            component_diagram.pdf \
            system-state-machine-relations.pdf \
@@ -12,7 +11,9 @@ diagrams = uc2_test_config.pdf \
            initial_model.pdf \
            framework_example.pdf \
            test_case_ui.pdf \
-           concept2_use_case_meta_model.pdf
+	   concept2_example_object.pdf \
+           concept2_use_case_meta_model.pdf \
+	   concept2_use_case_mapping.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
