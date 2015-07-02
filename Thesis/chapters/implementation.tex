@@ -1,12 +1,17 @@
 \chapter{Implementation}
 %lead-in
 The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.
+%\section{Current implementation}
+% tcc-tool is a client/server architecture with a share library.
+
 
 %TODO add MVC to glossary.
 Everything is built up as a layered model-view-control (MVC), that share a common library of models, utilities and interfaces.
 %TODO what does the layer mean?
 
 %identities of objects.
+%Concept 2 remainders are left in the source three, and my be studied for reference.
+%TODO The actions proved no actual value without the mapping language, and was removed from the implementation.
 
 \subsection{Client}
 
@@ -63,7 +68,7 @@ void scenario(Receptionist receptionist, Message message) {
 \end{lstlisting}
 
 
-\begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:generated-test-code-example}]
+\begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:example-template-methods}]
 UserService userService = new UserService(...);
 MessageService messageService = new MessageService(...);
 DummyMessageFactory messageFactory = new DummyMessageFactory(...);
@@ -110,3 +115,5 @@ void receptionist_marks_state_as_ready(receptionist) {
 } 
 
 \end{lstlisting}
+
+\section{Testing}
