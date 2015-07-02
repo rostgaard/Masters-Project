@@ -43,7 +43,7 @@ The other approach is to do it on the go by outlining concepts as stubs whenever
 \section{Test case state}
 A test consists of three basic steps; setup, run and teardown. Setup and teardown is different from pre- and postcondition in that they are unrelated to the test itself, they merely make sure that objects are initialized with right values and, in general, are in the state that the test expects.
 
-There needs to be an executable domain model programmed, not necessarily complete, but the concepts covered in the use cases should at least be there. So for \ref{fig:uc2}. We need at least a class representing the actor ``Receptionist'', and a class representing a message. The actions performed by the actor could then either be class methods, or simply functions taking the primary actor (or more exact; classes of the actor), as an argument.
+There needs to be an executable domain model programmed, not necessarily complete, but the concepts covered in the use cases should at least be there. So for the use case ``Send message to contact'' (see appendix \ref{appendix:use-cases}). We need at least a class representing the actor ``Receptionist'', and a class representing a message. The actions performed by the actor could then either be class methods, or simply functions taking the primary actor (or more exact; classes of the actor), as an argument.
 
 \label{sec:test_case_state}
 
@@ -67,14 +67,6 @@ void use_case_1 (Receptionist receptionist) {
    Matcher.is_true (is_idle (receptionist));
 }
 \end{lstlisting}
-
-\begin{figure}
-  \centering
- 
-  \includegraphics[scale=0.65]{img/uc2_test_config}
-  \caption{object diagram depicting the configuration of use case 2}
-  \label{fig:uc2_object_diagram}
-\end{figure}
 
 \section{Targeted requirements}
 We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
@@ -125,14 +117,14 @@ This section discusses a programming model and possible system designs that supp
 
 \subsection{Environment}
 \textbf{!Unfinished!}\\
-Executing the use case can be considered a long function call-chain. Each new function call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages. See section \ref{sec:test_framework_programming} for a discussion on these frameworks.\\\\
+Executing the use case can be considered a long function call-chain. Each new function call passes along the current global state onto the next procedure. This method of passing along the state is a common pattern is interpreters and compilers, where the global state is referred to as "the environment". In our test-case compiler we adopt this approach. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case. These procedures should run regardless of exceptions raised within the call-chain, but respond to them. This behavior is identical to the functionality seen in "teardown" functions in test framework for programming languages.\\\\
 The environment should contain the current state within the scope of test currently running. By state is meant any objects created or modified during the test.
 The expression of a use case that consists of $n$ statements then becomes: 
 \begin{equation}
 Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env
 \end{equation}
 The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation.
-%TODO This is conceptually a monad.
+%TODO This is (maybe) conceptually a monad.
 %\texttt{matcher expression} ($s$)
 
 %\begin{algorithmic}
@@ -144,6 +136,7 @@ The expression function is applied to the statement, then the result is applied 
 %    \EndIf
 %\EndIf
 %\end{algorithmic}
+%TODO the requirements to the state is inferred by the used concepts.
 
 \subsection{Mapping entries}
 Any use case statement may be mapped to an assumption, an error or an assumption.
@@ -168,7 +161,7 @@ Back edges can occur, and this raised the bar, as it introduces loops.
 \end{description}
 
 
-
+%TODO there are problems with duplicate words; table table.
 
 %TODO Integrate and finalize notes below.
 
