@@ -58,14 +58,16 @@ Receptionist:
 \end{lstlisting}
 
 \subsection{Evaluation}
-%TODO finish this section
-One of the problems with this solution is that you also need to specify who is performing the action, and who is the target.
+The concept outlined in this section was implemented on a prototype-basis -- without the mapping language or a user interface. The concept quickly proved infeasible of several reasons.
+\begin{itemize}
+  \item In order to create a use case, you first had to define every component of the use case. This work-flow is quite cumbersome, and increases the work-load of creating use cases significantly. Having to decompose the use case before actually writing it is not very user friendly and shifts the focus from use case writing, to \emph{ad-hoc} modeling.
+  
+  \item A speculated problem with this approach is that the rigid structure of having the actor-action-object constraint could quickly lead to artificial use case that fitted the tool, rather than the problem domain. As it would be very close to the implementation, it was also speculated that terms from it would find its way back into the requirements. This would lead to a too technical jargon in use cases. This is generally a bad idea as it alienates the customer \cite{christel1992}.
 
-It was too far from acutally writing the use cases. Having to decompose the use case before acutally wiritinh it is not very user friendly. 
-A big problem with this approach is that it could quickly lead to artificial or too technical jargon in use cases, which is generally a bad idea as it alienates the customer \cite{christel1992}.
-%TODO What are the good parts?
+  \item The predicates provided little, or no value and could be written in the mapping code very easily without the need to include them in the meta model.
 
-% What you cannot do, when having two actors, is specify the direction of the action.
-The predicates provided little, or no value and could be written in the mapping code very easily without the need to include them in the meta model.
+  \item The problem with the mapping language is that is came very close to a programming class, and it felt very much like re-inventing object-oriented programming classes. The very big benefit of having a mapping language, was that the meta model of could be linked to that of our use cases, and provide a much better analysis of the use case translation. Like, which mappings were missing and such.
 
-The problem with the mapping language is that is came very close to a programming class, and it felt very much like re-inventing object-oriented programming classes. The very big benefit of having a mapping language, was that the meta model of could be linked to that of our use cases, and provide a much better analysis of the use case translation. Like, which mappings were missing and such.
+\end{itemize}
+There were some good concepts that proved useful in the next concept. Mainly, the idea of inferring knowledge about \emph{who} (domain actors) is performing an action and \emph{what} (domain concepts) is being targeted. This is very useful information when we need to extract information about what the resource requirements for the tests should be. The idea of pre-defining some of the concepts and actor for the use cases to share is also carried on to the next concept.
+
