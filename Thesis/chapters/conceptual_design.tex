@@ -1,5 +1,9 @@
 \chapter{Conceptual design}
-This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. This discussion is started on the conceptual level with the aspects and interests of the different stakeholders. The goal is reach a good a point where we get better domain-awareness in our tests, and are able to automate the generation of them. The constraint for not going after the optimum is added meta-model complexity.\\\\
+\label{chap:conceptual_design}
+This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain.\\\\
+The goal is identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests, and supports tests generation from them.
+The concept should be designed to support loose structure, but still provide enough information test generation and basic requirement analysis.
+% The constraint for not going after the optimum is added meta-model complexity.\\\\
 \begin{figure}[!htbp]
 \centering
 
@@ -24,18 +28,17 @@ This chapter is contains a discussion on the design of the different aspects of 
 \end{figure}By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable model will hopefully emerge.
 
 \section{Interpreting use cases}
-Before we try to build up a concept that translates use cases, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
+While formalized use case models exist\cite{klimek2010formal}, they mostly focus on model checking and semantics. While this is indeed in important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\\\\
+Instead we focus on the minimal structure, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
 \begin{quote}
 ``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
 \end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is commonly stated is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\\\\
 So, in essence; use cases expresses \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario.
-%TODO define use case entries, actors and concepts.
 %IN SUMMARY; How much information can you acutally derive from a use case?
-%A use case scenario should always terminate.
 
 This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
 
-The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description in schema form in figure \ref{fig:uc1}. \\\\
+The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description that can be seen in appendix \ref{appendix:use-cases}. \\\\
 The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
 
 
@@ -46,13 +49,26 @@ The second use case is, in a sense, embedded in the first one as it part of the 
 %REMEMBER TO TAKE INTO ACCOUNT <INCLUDE> use cases -- Basically extensions
 Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
 Postconditions can be defined to be predicates
-%TODO introduce domain concept along with domain actor.
 
-\section{Brainstorming}
-Whenever there is a new use case, a change to an existing use case, or simply a definition, the system should try to generate tests from the new information. If this step fails it is likely due to insufficient concept mappings. From here, a software engineer must manually map individual definitions to system macro-functionality or, possibly the use case could be linked to an existing manually written test, if the generation step is not possible for some reason. A mockup of a user interface is shown in figure \ref{fig:use_case_editor_mockup}.
 
-% Something about generating partially-automated tests, where the system sets up everything for the customer and then notifies them about the next steps they have to take to move the test forward.
 
+Use case model terminology.
+\begin{description}
+  \item[Use case:]
+  \item[Scenario:]
+  \item[Entries:] Every step in the main scenario is composed of a entry. The entry may be decomposed into smaller components or just be a text, based on which level of detail we want. 
+  \item[Extensions:]
+  \item[Preconditions:]
+  \item[Postconditions:]  
+  \item[Domain actors:]
+  \item[Domain concepts:]
+\end{description}
+
+Identified constraint in regards to test generation.
+\begin{description}
+  \item[Entries:] Every entry in a use case scenario is modeled as a synchronous self-contained action.
+  \item[Termination:] A use case scenario should always terminate.
+\end{description}
 
 \input{chapters/design_concept1}
 \input{chapters/design_concept2}
@@ -79,8 +95,6 @@ Whenever there is a new use case, a change to an existing use case, or simply a 
 
 Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
 
-%\section{Current implementation}
-% tcc-tool is a client/server architecture with a share library.
 
 
-
+%TODO Overall generation concept. A test needs to be supplied with some resources as input.
