@@ -48,25 +48,20 @@ There exist already methods and tools that extend the formalization of requireme
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
-
-% ranges
-%\draw (4,3.5) node{{\scriptsize Test parameters}};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-% nominal speed
 
-\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
-\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
-\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
 
-% Psis
-\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+% Project dot
+\draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
 
 \end{tikzpicture}
-\label{fig:project_parameter_plot}
 \caption{Project parameters and key points}
+\label{fig:project_parameter_plot}
 \end{figure}
 
 %TODO Define Domain-awareness and add explanation of the above graphic.

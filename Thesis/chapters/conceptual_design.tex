@@ -8,38 +8,20 @@ This chapter is contains a discussion on the design of the different aspects of 
 % horizontal axis
 \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
 
-% ranges
-%\draw (4,3.5) node{{\scriptsize Test parameters}};
-
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-% nominal speed
 
-\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, minimum size=0.3cm, label=above:Project] {}; %label
-\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
-\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
 
-% Optimum
-\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
+
+% Project
+\draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, minimum size=0.3cm, label=above:Project] {}; 
 
 \end{tikzpicture}
-\label{fig:project_parameter_plot_project}
 \caption{Finding a good trade-off between domain-awareness and automation}
-\end{figure}By discussing a number of different conceptual designs, their benefits and disadvantages, a suitable model will emerge. The basic design guidelines are;
-\begin{itemize}
-  \item Easy integration into existing processes
-  \item Enough structure to generate tests without having to explicitly state everything.
-\end{itemize}
-
-can suggests a model that is optimized to support loose structure, but still provide a enough information test generation and basic requirement analysis. %TODO introduce the concept of requirement analysis.
-%TODO Every entry in a use case scenario is modeled as a synchronous action.
-
-\section{Glossary}
-%TODO merge this glossary, or put it into appendix.
-\begin{description}
-  \item[Requirement analysis:] Requirement analysis, for the purpose of this project, meant as a concept that uses some the information stored in the requirements to check it for validity, ambiguity and provide alternative representations. An example of an alternative representation is that a set of use cases becomes a use a use case diagram, just on a different abstraction level.
-
-\end{description}
+\label{fig:project_parameter_plot_project}
+\end{figure}By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable model will hopefully emerge.
 
 \section{Interpreting use cases}
 Before we try to build up a concept that translates use cases, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;

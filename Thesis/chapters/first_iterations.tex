@@ -10,29 +10,18 @@ This section also covers the motivation and scoping for the tests and test tools
 % horizontal axis
 \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
 
-% ranges
-%\draw (4,3.5) node{{\scriptsize Test parameters}};
-
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-% nominal speed
 
-\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
-\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,label=above:1st iteration] {}; %label
-\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,label=above:1st iteration] {};
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
 
-% Optimum
-\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
-
+% Project
+\draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
 \end{tikzpicture}
-\label{fig:project_parameter_plot_1st_iteration}
 \caption{First iteration focused mainly on automation. The dark red dot highlights the 1st iteration}
+\label{fig:project_parameter_plot_1st_iteration}
 \end{figure}
-\section{Glossary}
-This section contains a brief glossary of the terms introduced in this chapter.
-\begin{description}
-  \item[CRUD:] Abbreviation of \textbf{C}reate, \textbf{R}ead \textbf{U}pdate and \textbf{D}elete is an acronym denoting the four primitives operation of persistent data storage. An interface for persistent storage may expose all or a subset of these primitives.
-\end{description}
 
 \section{Motivation and scope}
 During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but no longer behaved as it should.\\
@@ -108,23 +97,18 @@ We soon realized that doing individual mapping for every line was tedious, time 
 % horizontal axis
 \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
 
-% ranges
-%\draw (4,3.5) node{{\scriptsize Test parameters}};
-
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-% nominal speed
 
-\draw (2.5,1.5) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; %label
-\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {}; %label
-\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,  label=above:2nd iteration] {}; %label
+\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
+\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=dkred,minimum size=0.3cm ,  label=above:2nd iteration] {};
 
-% Optimum
-\draw (5,3) node[circle,fill,inner sep=1pt,label=above:Optimum] {}; %label
+% Project
+\draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
 
 \end{tikzpicture}
-\label{fig:project_parameter_plot_2nd_iteration}
 \caption{Second iteration involved manually writing up the use case tests while linking it to the domain model, but didn't include any automation}
+\label{fig:project_parameter_plot_2nd_iteration}
 \end{figure}We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument. The second iteration it highlighted in figure \ref{fig:project_parameter_plot_2nd_iteration}. It is built during the course this thesis, and is thus considered an auxiliary part of it.
 
 \subsection{Sharing domain model knowledge}
