@@ -33,46 +33,25 @@ Instead we focus on the minimal structure, and build our way up from there. But,
 \begin{quote}
 ``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
 \end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is commonly stated is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\\\\
-So, in essence; use cases expresses \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario.
-%IN SUMMARY; How much information can you acutally derive from a use case?
-
-This section tries to extracts an abstract interpretation of a use case through a brief study of two use cases. The goal is to come up with a meta-model of use cases that captures the essentials of the informally written use case, and allow us to map the concepts from it to an abstract syntax so that test code may be generated from it.
-
-The first use case is a basic phone call forwarding session that goes though a receptionist. The use case is described from the receptionist's point of view, as this is the scope of the main case study system. The use case has a detailed description that can be seen in appendix \ref{appendix:use-cases}. \\\\
-The second use case is, in a sense, embedded in the first one as it part of the extensions of that use case. This will be covered later on. The use case covers a ``send message'' session typically done by having the receptionist actor transcribe a spoken message along with caller information (name, company, ...) onto a set of text input fields that then can be assembled to a message. This message is then handed over to the system that may enqueued it for later delivery -- or send it immediately, depending on implementation.
-
-
-\section{Requirement-to-test process}
-%Definition dictionary
-% Remember that an actor has a set of goals, which he/she wants to realize through the system. Actor can be  primary (typically people) or supporting (provides service or information) - passive.
-% A good goal has a verb/noun combination.
-%REMEMBER TO TAKE INTO ACCOUNT <INCLUDE> use cases -- Basically extensions
-Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
-Postconditions can be defined to be predicates
-
-
-
-Use case model terminology.
+So, in essence; use cases expresses \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario. An overview of the terms used for the remainder of the thesis is shown below.
 \begin{description}
-  \item[Use case:]
-  \item[Scenario:]
+  \item[Use case:] The use case as a whole. Contains -- as a minimum -- a primary actor, which signifies to aspect of the use case, and a scenario. The use case represents a high-level goal that the primary actor wants to achieve.
+  \item[Scenario:] The scenario is the list of steps (entries) that the primary actor needs to go through in order achieve the use case goal.
   \item[Entries:] Every step in the main scenario is composed of a entry. The entry may be decomposed into smaller components or just be a text, based on which level of detail we want. 
-  \item[Extensions:]
-  \item[Preconditions:]
-  \item[Postconditions:]  
-  \item[Domain actors:]
-  \item[Domain concepts:]
+  \item[Extensions:] Extensions are alternate scenarios that branch out of the original scenario. 
+  \item[Preconditions:] A list of predicates that needs to be true for the first step in the use case to be accessible.
+  \item[Postconditions:] A list of predicates that needs to be true in order to make use case goal succeed, after the steps in the scenario (possibly including the extensions), have been performed.
+  \item[Actors:] May be considered primary or supporting, as is typically a human performing a role in the system, but may also be another system that provides provides a service or information. An actor has a set of goals, which he/she wants to realize through the system. A good goal has a verb/noun combination, which is a good rule of thumb. when writing.
+  \item[Concepts:] Concepts are general terms that are usually part of the meta model for the system under development. Basically, most terms that can be interacted with in the system under development count as concept. In our example system, a ``call'' is considered a concept.
 \end{description}
-
-Identified constraint in regards to test generation.
-\begin{description}
-  \item[Entries:] Every entry in a use case scenario is modeled as a synchronous self-contained action.
-  \item[Termination:] A use case scenario should always terminate.
-\end{description}
-
+This use case representation is used in the next section, where three use case editor concepts are presented.
 \input{chapters/design_concept1}
 \input{chapters/design_concept2}
 \input{chapters/design_concept3}
+
+\section{Additional concepts}
+Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
+Postconditions can be defined to be predicates
 
 \begin{figure}[ht]
 \centering
