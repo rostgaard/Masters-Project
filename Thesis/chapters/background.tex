@@ -30,7 +30,7 @@ Continuous integration is a methodology, that u
  to Test-driven development.
 
 
-\section{Tests glossary}
+\section{Tests terminology}
 In this section brief glossary from the test domain
 \begin{description}
   \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
@@ -44,8 +44,8 @@ In this section brief glossary from the test domain
 \begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.6]{\imgdir sor-model}
-  \label{fig:sor-model}
   \caption{Stimuli-organism-response model. Used -- for instance -- in psychology, but is analogous black-box testing}
+  \label{fig:sor-model}
 \end{figure}
 
 \section{Case study system}
@@ -194,17 +194,10 @@ An example of a generated sequence diagram is shown in figure \ref{fig:sequence_
 By letting Jenkins CI automatically re-deploy the software stack and, run our acceptance test (along with a number of integration tests) every time the is any change to the code base, we both strengthen the confidence of the correctness (according to specification) of the software stack, and verify that no regressions arise. The continuous integration server can be reached at \url{http://ci.bitstack.dk/}
 
 
-\subsection{Causality and tests}
+\subsection{Causality in tests}
+%TODO Move to tests section.
 \todo[inline]{stub section}
 Defining for the tests system what valid transitions are, by creating state machines, and then store object state transitions, we can substantiate that no objects within the system will break causality -- at least in the situations elaborated in the use cases.
-
-\subsection{Tools}
-\todo[inline]{stub section, PJSUA-wrapper, PhonIO, libESL}
-
-
-\subsubsection{UI testing}
-\todo[inline]{Put to further work}
-It is planned to expand the testing with use case playback from the user interface. A basic framework has been built using the Selenium project\footnote{http://www.seleniumhq.org/}.
 
 \subsection{Revisioning}
 \todo[inline]{This may belong somewhere else.}
@@ -214,6 +207,9 @@ It is planned to expand the testing with use case playback from the user interfa
 \caption{Development model}
 \label{fig:git_branching}
 \end{figure}
+
+\section{Summary}
+
 
 %TODO Note:
 %Motivation for chosen methodoligy
