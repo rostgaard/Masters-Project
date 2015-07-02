@@ -30,6 +30,7 @@ Testing the system as a whole can be done in two ways; either by providing a com
 The second way you can test a system as whole, is to test a deployed instance of the system. But before anything could be tested, we needed to decide what to test.
 
 \subsection{Test specification}
+\label{sec:1st-iteration-test-specification}
 %TODO Note; the motivation for using the activity diagram, was that is was very simple for the customer to relate to -- without being distracted by the more specific level of use cases. I.e. not much "what happens if".
 %TODO Another motivation for creating the tests, and focusing on this actor is that the functionality of this actor is business-breaking if stuff goes wrong.
 \begin{figure}[h]
@@ -46,7 +47,7 @@ In order to automate this, we estimated that every statement, or line, in the us
 Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\\
 In the scripting environment, we then outlined the domain actors (such as caller and receptionists). External resources were also needed, and was provided by the main system via services interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\\\\
 The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code chunks. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
-\begin{figure}[!h]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.60\textwidth]{\imgdir initial_model}
 \caption{Class diagram outlining the composition of the initial test-generation model}
@@ -127,9 +128,9 @@ This section explains the processes of befitting from the models and interface o
 \noindent
 The framework is a set of passive classes that is divided, into the following categories (and code libraries). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
-  \item[Models:] Every model of the framework is supplied with methods that returns a DTO (Data Transfer Object) representation of the object
-  \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD operations, and and ``enqueue'' that puts a message into a delivery queue.
-  \item[Service:] These classes use the framework model DTO deserialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
+  \item[Models:] Every model of the framework is either part of the domain model, or closely related to a concept in it. Each class that is meant to be distributed is provided with serialization and de-serialization methods for use in the service layer.
+  \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD operations (see appendix \ref{appendix:glossary}), and and ``enqueue'' that puts a message into a delivery queue.
+  \item[Service:] These classes provide client classes (services from the client point of view), that exposes methods for remote procedure calls. the clients use  use the framework model de-serialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
   \item[Database:] Database access layer. Contains every SQL query functions. The functions casts from database queries to domain objects that may be serialized for transport to remote clients via -- for instance -- HTTP.
   \item[Resource:] Encoding library that turns objects into a REST-resource identifiers. Used to abstract away the Uri encodings on both the client and the server.
 \end{description}
@@ -157,7 +158,7 @@ Resources a quite a broad term, but specifically in our test tools, resources ar
 \end{figure}There are three different specializations of resource pools in our current implementation of the test tools. These cover a broad variety of scenarios, and should be sufficient for most implementations.
 \begin{description}
   \item[Bounded pool:] A Bounded pool hold resources that are limited in the system. For example, our system holds a limited number of configured receptionist actors, and when that last one is allocated, there is no way of acquiring more. The only way to get around it is to manually lower the required number of actors required for a test or add more receptionist actors.
-  \item[Unbounded pool:] Any resource that conceptually infinite, it realized by a bounded pool. By infinite is meant either a resource that may be shared (allocated multiple times), or a resource that easy to replicate. For instance, an object that is created from a template.
+  \item[Unbounded pool:] Any resource that conceptually without an upper bound, it may be realized by a bounded pool. It is either a resource that may be shared (allocated multiple times), or a resource that easy to replicate. For instance, an object that is created from a template.
   \item[Randomizer:] The randomizer is a sort of bastard-concept we introduced in order to spice our tests up with some random inputs. It constructs new random object upon each allocate call, but may be both bounded and unbounded in nature.
 \end{description}
 These concepts are reused in the next iteration of the tests, which is the refined tests-generation tool.
