@@ -37,3 +37,6 @@ clean_diagrams:
 
 %.pdf:
 	make -C img $@
+
+todo_count:
+	grep -nir TODO chapters | wc -l
