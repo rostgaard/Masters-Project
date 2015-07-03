@@ -13,7 +13,8 @@ diagrams = first_generation_class_structure.pdf \
            test_case_ui.pdf \
 	   concept2_example_object.pdf \
            concept2_use_case_meta_model.pdf \
-	   concept2_use_case_mapping.pdf
+	   concept2_use_case_mapping.pdf \
+           event-stack-to-state-machine.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
