@@ -82,14 +82,15 @@ Example; in the use case it is stated that a call is hung up and a callee awaits
 
 \chapter{Protocol specification}
 %TODO taken at 2015-06-29
-Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests.
+Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests. Text within curly brackets -- \{\} denote named request parameters.
+\begin{description}
+  \item[\texttt{GET /actor:}] Retrieve the list of actors currently defined.
+  \item[\texttt{POST /actor:}] Create a new actor. The actor object is passed in the request body.
+  \item[\texttt{GET /actor/\{id\}:}] Retrieve a single actor, identified by \texttt{id}.
+  \item[\texttt{PUT /actor/\{id\}:}] Update a single actor, identified by \texttt{id}. The actor object is passed in the request body.
+  \item[\texttt{DELETE /actor/\{id\}:}] Remove a single actor (un-define), identified by \texttt{id}.
+\end{description}
 \begin{verbatim}
-[FINE] tcctool.router: GET	->	/actor
-[FINE] tcctool.router: GET	->	/dummy
-[FINE] tcctool.router: GET	->	/actor/{id}
-[FINE] tcctool.router: PUT	->	/actor/{id}
-[FINE] tcctool.router: POST	->	/actor/{name}
-[FINE] tcctool.router: DELETE	->	/actor/{name}
 [FINE] tcctool.router: GET	->	/concept
 [FINE] tcctool.router: GET	->	/concept/{id}
 [FINE] tcctool.router: PUT	->	/concept/{id}
