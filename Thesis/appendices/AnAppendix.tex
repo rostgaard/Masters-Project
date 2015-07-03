@@ -43,8 +43,42 @@ Example; in the use case it is stated that a call is hung up and a callee awaits
 
 \input{use_case_2}
 
-%\chapter{Tests}
-%TODO table of tests. Expected values and actual values.
+\chapter{Test results}
+%TODO Add the tests to jenkins.
+%TODO extend this, and implement more tests.
+\section{Database}
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{ | l | r | r | }
+   \hline
+   Test            & Expected value & Actual value \\ \hline
+   Actor create    & OK             & OK           \\
+   Actor get       & OK             & OK           \\
+   Actor remove    & OK             & OK           \\
+   Actor list      & OK             & OK           \\
+   Actor update    & OK             & OK           \\
+   Concept create  & OK             & OK           \\ 
+   Concept get     & OK             & OK           \\
+   Concept remove  & OK             & OK           \\
+   Concept list    & OK             & OK           \\
+   Concept update  & OK             & OK           \\
+   Config save     & OK             & OK           \\
+   Config load     & OK             & OK           \\
+   Template create & OK             & OK           \\
+   Template get    & OK             & OK           \\
+   Template remove & OK             & OK           \\
+   Template list   & OK             & OK           \\
+   Template update & OK             & OK           \\
+   UseCase create  & OK             & OK           \\
+   UseCase get     & OK             & OK           \\
+   UseCase removal & OK             & OK           \\
+   UseCase update  & OK             & OK           \\
+   \hline
+\end{tabular}
+\caption{Test results for database tests}
+\label{tab:test-results-database}
+\end{table}
+
 
 \chapter{Protocol specification}
 %TODO taken at 2015-06-29
