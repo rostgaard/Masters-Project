@@ -34,7 +34,7 @@ clean: clean_diagrams
 generate_diagrams: $(diagrams)
 
 clean_diagrams:
-	rm $(addprefix img/, $(diagrams))
+	-rm $(addprefix img/, $(diagrams))
 
 %.pdf:
 	make -C img $@
