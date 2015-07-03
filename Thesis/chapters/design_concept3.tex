@@ -1,6 +1,4 @@
-\section{Concept 3 - Trade-off}
-%Same concept as a ritch-text editor. Select and make bold.
-
+\section{Concept 3 - Hinting tool}
 \begin{figure}[!htbp]
   \centering
   \subbottom[Actors tab\label{sfig:customer-ui-mockup-actors}]{%
@@ -11,27 +9,27 @@
   \subbottom[Definitions tab\label{sfig:customer-ui-mockup-definitions}]{%
     \includegraphics[width=0.49\linewidth]{\imgdir customer-ui-mockup-definitions}}
   \caption{Mock-up screens of the customer user interface.}
+  \label{fig:concept3-mockup-screens}
 \end{figure}
-\begin{figure}[!htbp]
+\noindent The third concept is a hybrid between the first second concept introduced in this chapter. It is place -- functionality-wise -- somewhere in between. It kept the ability to predefine actors and concepts, but didn't enforce when they should be defined. The use cases were kept as text-only entries that could be analyzed using the defined actors and concept at any point -- after they are written. The basics of the concept is ``type hinting'' or ``visually annotating'', as it will derive actor types an concepts from the use cases, using text-matching. From these type hints, the tool would then be able know which resources should be provided to tests in the test generation step. The concept is implemented as the current prototype.\\\\
+Figure \ref{fig:concept3-mockup-screens} outline the screens expected in a user interface of realizing this concept. The first tab of mock-up -- depicted in figure \ref{sfig:customer-ui-mockup-actors} -- show an overview of the actors defined. Currently, only the ``User'' actor is defined, and this actor has some associations and capabilities, that are extracted from the definitions created, and use cases that the user partakes in. The next tab, which is depicted in figure \ref{sfig:customer-ui-mockup-use-cases}, show the selected use case with the different parts highlighted. One color for actors, one for actions, one for objects. Figure \ref{sfig:customer-ui-mockup-definitions} show a tab that contains the current definitions. A definition is the representation of meta-model concept in a particular role. This definition needs a unique name, which should correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a imported to the declarations.
 
-\subsection{Example use case translation}
-The purpose of this section is explain of the translation process by an example.
-This section takes starts from a use case description, and tries to go through the steps needed to convert it into an acceptance tests. The use case used in this text is simplified and contain only the basics needed for interpreting and translating the use case. It is shown in verbatim text seen in listing \ref{lst:uc-simple-example}. It contains three lists; the main scenario, the postconditions and the preconditions. Each of these lists are simple text strings with no significant meaning.
+\subsection{Hinting process}
+The purpose of this section is explain of the hinting process through an example. The section takes starts from a use case description, and tries to go through the steps needed to convert it into an acceptance tests. The use case used in this text is simplified and contain only the basics needed for interpreting and translating the use case. It is shown in verbatim text seen in listing \ref{lst:uc-simple-example}, and does not illustrate any user interface specific details. It contains three lists; the main scenario, the postconditions and the preconditions. Each of these lists are simple text strings.
+
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example, label=lst:uc-simple-example]
 Scenario:
   Receptionist types in message
   Receptionist sends message
   Receptionist marks state as ready 
 Preconditions:
-  The receptionist is created
   The receptionist is logged in
 Postconditions:
   The message is stored
   The receptionist is ready to handle the next call
 \end{lstlisting}
 The first thing we need to do to translate this example, is that we identify the domain concept contained within the list entries in the text. In this case, we here observe that it includes the concept ``message'' a ``receptionist'' actor. additionally; some interaction between the message and the actor, which we define as actions.\\
-In listing \ref{lst:uc-simple-example-highlighted} we have highlighted the different parts of the use case, using an orange color for actors, green for actions, blue for domain concepts, and a dark red for attributes. Using this highlight, it illustrates the abstract interpretation and the interaction between the different part very well. It also reveals very clearly which archetype (actor, concept \dots) each of the different parts should have. 
-\todo[inline]{More elaborate text here}.
+In listing \ref{lst:uc-simple-example-highlighted} we have highlighted the different parts of the use case, using an orange color for actors, green for actions, blue for domain concepts, and a dark red for attributes. Using this highlight, it illustrates the abstract interpretation and the interaction between the different part very well. In this case, the actor role names match their domain actor names, but it is important to note that the participating actors (and concepts), participate in a role -- rather than as an actor. The role of definitions are also illustrated in the domain model later on.
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example with its different parts highlighted, label=lst:uc-simple-example-highlighted]
 Scenario:
   @\color{orange} Receptionist@ @\color{dkgreen}{types in}@ @\color{blue}{message}@
@@ -43,52 +41,27 @@ Postconditions:
   The @\color{blue}message@ @\color{dkred}is stored@
   The @\color{orange}receptionist@ @\color{dkred}is ready@ to handle the next call
 \end{lstlisting} 
-Based upon the information in listing \ref{lst:uc-simple-example-highlighted}, we could create an abstract interpretation that generates a test that looks like listing \ref{lst:uc2_example_test_code}.
-Each of the concepts in this example is mapped to a class, that could likely be stubbed out automatically by the test tool.\\\\
-Given the amount of information in (and markup of) the use cases, we can easily generate code such as the one shown in listing \ref{lst:uc2_example_test_code}. But these functions are still very high-level, and doesn't assert anything about the system being tested. To do this, we need to fill in the methods used on our receptionist and message object.
-\begin{lstlisting}[caption=Suggestion of generated test case,label={lst:uc2_example_test_code}]
-boolean test (receptionist, message) {
+Based upon the information in listing \ref{lst:uc-simple-example-highlighted}, we extract the components from the tests and translate it into test code that could look like listing \ref{lst:uc2_example_test_code}. In the tests, each of the concepts in the example is mapped to a class, that is given an object identifier. In this case, we have the ``Receptionist'' and ``Message'' classes that have the identifiers ``receptionist'' and ``message'' -- respectively.\\\\
+Given the amount of information in (and definitions of) the use cases, we can easily generate code such as the one shown in listing \ref{lst:uc2_example_test_code}. But these functions are still very high-level, and doesn't assert anything about the system being tested. To do this, we need to fill in the methods used on our receptionist and message object. The methods will act as mappings. The mappings are -- in this conceptual model -- meant to be written manually by a developer. Most of the code can probably be generated as stubs. The next sections goes through the test function, discusses the individual parts in more detail, and suggests conceptual implementation mappings by classifying them.
+\begin{lstlisting}[style=Dart, caption=Suggested structure of generated test case,label={lst:uc2_example_test_code}]
+boolean usecase_test (Receptionist receptionist, Message message) {
+  // Preconditions
+  expect (receptionist.is_logged_in(), true);
+
   // Scenario
   receptionist.types_in (message);
   receptionist.sends (message);
   receptionist.marks_state (idle);
   
   // Postcondition
-  return
-    message.is_stored() AND
-    receptionist.is_ready();
+  expect (message.is_stored(), true);
+  expect (receptionist.is_ready(), true);
 }
 \end{lstlisting}
-Going through the test case, from the top, we can see that the \texttt{receptionist.types\_in~(message)} method operates on the receptionist actor call, and requires knowledge of the ``message'' domain concept. Furthermore, we known from the domain analysis that \emph{is not part} of the use case, that the action of typing in a message is actually a creation of message. So, before being able to test it, we need some way of simulating the message creation and -- more concretely -- fill in the actual message content. Conceptually, this is some sort of content generator. A concrete implementation could be a simply ``dummy object'' or an object that is initialized with random content. Once the message object is mapped to a content generation function, we will be able to fully generate the test. The content generation function would probably still need to be hand coded, as this is example data.\\\\
-The next statement; \texttt{receptionist.sends (message)} can be classified as a store function. It takes the argument ``message'' and makes it available for other actors to access later on, by storing it persistently. This is typically done using a database or file store. By mapping a message to a message store, we can remap an ``enqueue'' method of the message object, which needs to have a notion of where it is, or should be stored. This is realized by having a ``messageStore'' interface which is a service interface object that, can actually be originating directly from the code base of the system under test.\\\\
-The final statement in the scenario is \texttt{receptionist.returns\_to (ready\_state)}. This is actually a mutation function that alters the state of the receptionist actor. This state change could be global and should then  be updated multiple places, which then leads to additional ``state-store'' dependencies. Here, we also note that there is a concept of a ready\_state this is an explicit state change that could, possibly be linked to a state machine contained within the receptionist actor object.\\\\
-The final thing done in the tests, is the postconditions. In this case, we treat the postcondition as a boolean attribute of the concept which it refers to. The general assumption is that pre- and postconditions are expressions that must always be true, and must refer to a concept previously referred to in the scenario. So for the \texttt{receptionist.is\_ready()} predicate we can map it to the internal state of the receptionist being equal to the ``ready'' state.\\\\
-The mapping can be described in a textual language such as shown in listing \ref{lst:mapping_language_concept} where we initially state the domain concept name -- which is in this case Receptionist -- and the requirements, properties and mappings it has, plus which functionality it provides. The requirements are which other domain concepts are needed by this one. The properties are the boolean properties that are used in predicates and the ``provides'' section are functions that are either used as internal auxiliary functions, or exported functions that other concepts may use.
-%Prior to running the tests, the two objects ``message'' and ``receptionist'' needs to be initialized.
-%The question is then how much more needs to be added. Can we use some stereotyping to increase the semantics of the annotated use cases? Such as 'storage' for message, and 'actor' for receptionist.
-%So last question; who does what, and how much can be automated?
-%The first part of the job; typing in the use cases is a manual process that should be done in close cooperation with -- and preferably by -- the stakeholder involved in the use case. So a use case involving an accountant actor should be typed by a accountant representative expected to be using the system, once finished.
-
-\begin{lstlisting}[caption=example language for mapping concepts,label={lst:mapping_language_concept}]:
-Receptionist:
-  requires:
-    MessageContentGenerator messageContentGenerator
-    ReceptionistState currentState = ReceptionistState.Unknown
-  
-  provides:
-    changeState (ReceptionistState rs) -> currentState = rs
-  
-  maps:
-    sends_message (Message msg) -> msg.enqueue()
-    types_in (Message msg) -> msg.content = messageContentGenerator.next().content
-    returns_to (ReceptionistState newState) -> this.changeState (newState)
-
-  properties:
-    is_ready -> receptionistState == ready
-\end{lstlisting}
-The mappings are, in this conceptual model, alias functions to ``real methods'' already provided in the code base of the software under tests, or to functions of other domain concepts. This is probably not feasible in praxis, and will probably be a programing code template instead.
-
-\begin{lstlisting}[caption=Pseudo code representing Receptionist domain actor,label={lst:code_for_receptionist_domain_actor}]
+Prior to running the test function, the test environment (covered in \ref{sec:test-environment}) needs to supply the objects ``message'' and ``receptionist'' pre-initialized. This makes them a very explicit part of the resource dependencies to the test, and should be added to the signature of the test function. The dependencies are extracted from the resources requirements of the test function block.\\\\
+The second thing that needs to be done is to add the preconditions. Having tagged the types and the property of that must hold, we can translate the precondition into an ``expect'' expression.\\\\
+Next of the test, the statement \texttt{receptionist.types\_in~(message)} is a method that belongs to the receptionist actor, and requires knowledge of the ``message'' domain concept. The action of typing in a message is conceptually the creation of message object, and classifies as a creation function. So, to be able to make meaning of the test, we need some way of simulating the message creation. This infers the need for a content generator mechanism. A concrete implementation could be a simply fixed ``dummy object'' or an object that is generated with content from a randomized pool. In the pseudo-code in listing \ref{lst:code_for_receptionist_domain_actor} a MessageContentGenerator is associated with the Receptionist class as a basic class field.
+\begin{lstlisting}[style=Dart, caption=Pseudo code representing Receptionist domain actor,label={lst:code_for_receptionist_domain_actor}]
 class Receptionist {
    MessageContentGenerator messageContentGenerator= ...;
    ReceptionistState receptionistState = ...;
@@ -115,8 +88,12 @@ class Receptionist {
   }
 }
 \end{lstlisting}
-
-\begin{lstlisting}[caption=Pseudo code representing Message domain concept,label={lst:code_for_domain_concept}]
+The next statement in listing \ref{lst:uc2_example_test_code}; \texttt{receptionist.sends (message)} can be classified as a store function. It takes the argument ``message'' and makes it available for other actors to access later on, by storing it persistently. This is typically done using a database or file store. By sending a message to a message store, we can delegate the action to an ``enqueue'' method of the message object, which needs to have a notion of where it is, or should be stored. This is realized by having a ``messageStore'' interface which is a service interface object that, can actually be originating directly from the code base of the system under test.\\\\
+The final statement in the scenario is \texttt{receptionist.returns\_to (ready\_state)}. This is actually a mutation function that alters the state of the receptionist actor. This state change could be global and should then  be updated multiple places, which then leads to additional ``state-store'' dependencies. Here, we also note that there is a concept of a ready\_state this is an explicit state change that could, possibly be linked to a state machine contained within the receptionist actor object.\\\\
+The final thing done in the tests, is the postconditions, which are translated to expressions corresponding to preconditions.\\\\
+An open question that was raised during the development of this concept is; how much extra information can we add. Can we use some extra classifiers to increase the test generators understanding of the annotated use cases? For example; if we were to add a ``persistent concept'' annotation to message, would it improve test generation?\\\\
+The pseudo code for the ``Message'' class is shown in listing \ref{lst:code_for_domain_concept} for completeness, and will not be discussed in detail.
+\begin{lstlisting}[style=Dart, caption=Pseudo code representing Message domain concept,label={lst:code_for_domain_concept}]
 class Message {
   RESTMessageClient messageStore = ...;
   
@@ -129,18 +106,6 @@ class Message {
   }
 }
 \end{lstlisting}
-
-\begin{figure}
- \includegraphics[scale=0.45]{\imgdir uc2_test_config}
- \caption{Object diagram showing the use case as mapped test}
-\end{figure}
-The function mappings are done in the current solution, by manually writing up the logic needed in a support library, that in many situations reuse the framework directly. For instance, for every service, we have made a client class that, similar to RMI or WSDL handles all the low-level serialization and deserialization work. 
-
-\includegraphics[scale=0.9]{img/3rd_iteration_meta_model}
-\centering
-\caption{Meta model of the third concept}
-\label{fig:3rd_iteration_meta_model}
-\end{figure}
-
-\subsection{Definition}
-A definition is textual description of a concept which may be -- for instance -- an actor, role or action. This description is then given a unique name, that may correspond to a concept already found in the domain model. The domain model, if defined beforehand, could also be thought to be a part of the built-in declarations.
+\subsection{Evaluation}
+There is a lot of manual work associated with this process, as the only help you will receive from the conversion tools, are method stubs. This, however provides programmers with good guidelines on what the method should do. The lowered value compared to the second concept is, that we no longer have a complete view -- from the use case tool -- of the test model. On the other hand, in this concept, developers can write the tests using a general purpose language that they should be more comfortable with, rather than a mapping which must be learned first.\\\\
+This concept is -- as previously mentioned -- implemented in the current prototype of the tool. The form is, however not identical to the concept introduced here, but simplified further, which we shall also see in the next chapter.
