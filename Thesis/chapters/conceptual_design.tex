@@ -3,7 +3,6 @@
 This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain.\\\\
 The goal is identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests, and supports tests generation from them.
 The concept should be designed to support loose structure, but still provide enough information test generation and basic requirement analysis.
-% The constraint for not going after the optimum is added meta-model complexity.\\\\
 \begin{figure}[!htbp]
 \centering
 
@@ -28,6 +27,10 @@ The concept should be designed to support loose structure, but still provide eno
 \end{figure}By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable model will hopefully emerge.
 
 \section{Interpreting use cases}
+In order to help the computer make more sense of our use cases, we need to define to it what a use case is. But since a use case is neither strictly defined nor standardized anywhere, we need to pick a suitable representation.
+To help us extract some machine-understandable structure of use cases, we assume that we are working on ideal, well-formed use cases. This abstracts some of away the informal ambiguity, which is notoriously omnipresent in requirements, and will aid us when we try to derive what is needed from use cases in order to generate executable tests from them.\\\\
+One of the The first problem we need to solve is the level of use case writing, and template -- as there are many way of writing use cases.\\\\
+We have decided on using a use case template\cite{larman2005} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model. The main focus are concepts which provide useful information to generate tests from.\\\\
 While formalized use case models exist\cite{klimek2010formal}, they mostly focus on model checking and semantics. While this is indeed in important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\\\\
 Instead we focus on the minimal structure, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
 \begin{quote}
@@ -49,31 +52,3 @@ This use case representation is used in the next section, where three use case e
 \input{chapters/design_concept2}
 \input{chapters/design_concept3}
 
-\section{Additional concepts}
-Given the loose structure of the use case concept, we believe it is sufficient to treat preconditions as simply other use cases. A more elaborate motivation for this can be found in section \ref{sec:test_case_state}.\\\\
-Postconditions can be defined to be predicates
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.7\textwidth]{\imgdir event-stack-to-state-machine}
-\caption{Concept; validate event stack using life-cycle state machines.}
-\label{fig:event-stack-to-state-machine}
-\end{figure}
-%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
-
-\begin{figure}[ht]
-\centering
-\begin{drawstack}
-  % Within the environment, draw stack elements with \cell{...}
-  \cell{lock}
-  \cell{unlock}
-\end{drawstack}
-\caption{Event stack}
-\label{fig:event-stack-example}
-\end{figure}
-
-Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
-
-
-
-%TODO Overall generation concept. A test needs to be supplied with some resources as input.
