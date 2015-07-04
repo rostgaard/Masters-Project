@@ -1,4 +1,15 @@
 \chapter{Implementation}
+%TODO The capabilties (actions) were eventually dropped, as they provided little or no value.
+Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
+%TODO Describe the normalize function.
+
+\section{Template}
+The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool.
+
+The placeholder is contained within a comment, so template files can still be parsed and complied before the generation step.
+
+
+%TODO Overall generation concept. A test needs to be supplied with some resources as input.
 %lead-in
 The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.
 %\section{Current implementation}
@@ -16,6 +27,7 @@ Everything is built up as a layered model-view-control (MVC), that share a commo
 \subsection{Client}
 
 \section{Example translation}
+
 %TODO enter the use case.
 
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example revisited, label=lst:uc-simple-example-revisited]
