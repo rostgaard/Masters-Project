@@ -8,7 +8,7 @@ This section also covers the motivation and scoping for the tests and test tools
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -19,7 +19,7 @@ This section also covers the motivation and scoping for the tests and test tools
 % Project
 \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
 \end{tikzpicture}
-\caption{First iteration focused mainly on automation. The dark red dot highlights the 1st iteration}
+\caption{First iteration focused mainly on generation. The dark red dot highlights the 1st iteration}
 \label{fig:project_parameter_plot_1st_iteration}
 \end{figure}
 
@@ -41,7 +41,7 @@ The second way you can test a system as whole, is to test a deployed instance of
 \end{figure}
 
 In order to derive a which cases should be tested, we -- in a figurative sense --  tore apart an activity diagram and created use cases from them. Then added the missing parts with the help of a representative from customer of the system. Once we had the use cases as a list of actions and alternatives, we had a manuscript that we needed to replay to assert functionality of the system.\\
-In order to automate this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
+In order to generate test from this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
 
 \subsection{Mappings}
 Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\\
@@ -147,7 +147,7 @@ So, to perform tests from a use case perspective, we needed to add more domain-a
 \end{figure}The extended component diagram in figure \ref{fig:component_diagram_with_tests} depicts how the supporting test tools fit into the overall architecture of the system. It re-uses the REST interfaces (exposed in the shared framework) and controls phones via the library mentioned before. By reusing the model and interface classes from framework, a lot of test code is reduced significantly.
 \subsection{Resource pools}
 \label{ssec:resource-pools}
-A crucial component that was added to the tests tools were the resource pool. This component has also been found to be important in automation, but this is covered later on.\\
+A crucial component that was added to the tests tools were the resource pool. This component has also been found to be important in generation, but this is discussed later on.\\
 Tests require resources as part of their test harness -- resources that are available to them prior to the test body -- need to get these from somewhere. For this purpose we defined the abstract component ``resource pool''. For those familiar with manual memory management from -- for example -- the C programming language, will recognize the pattern of explicitly allocating and deallocating resources from the \texttt{malloc/free} system calls. This system is almost identical, however it manage no hold memory blocks -- it manages resources.\\
 Resources a quite a broad term, but specifically in our test tools, resources are pre-configured actors; domain objects -- such as user and reception data. Before a test can run, it needs to specify which resources it needs to be able to complete. For instance; a test involving a caller dialing a reception -- handled by a receptionist, needs a caller and reception actor, and reception data. These will be allocated from three separate resource pools that must be available before starting the tests.\\\\
 \begin{figure}[!htbp]
