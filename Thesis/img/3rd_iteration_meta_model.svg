@@ -7,10 +7,10 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="4.696228in"
+   width="4.3316445in"
    stroke-miterlimit="10"
    font-weight="normal"
-   viewBox="0 0 450.8379 311.90679"
+   viewBox="0 0 415.83789 311.90679"
    height="3.2490289in"
    font-style="normal"
    font-size="12"
@@ -48,9 +48,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="0.82218177"
-     inkscape:cx="726.02639"
-     inkscape:cy="67.337903"
+     inkscape:zoom="0.58137031"
+     inkscape:cx="489.43355"
+     inkscape:cy="166.08846"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="1"
@@ -64,11 +64,11 @@
       <linearGradient
          spreadMethod="pad"
          id="linearGradient1"
-         y2="204"
-         y1="168"
-         x2="427"
+         y2="295"
+         y1="259"
+         x2="434"
          gradientUnits="userSpaceOnUse"
-         x1="287">
+         x1="294">
         <stop
            id="stop9"
            offset="0%"
@@ -83,11 +83,11 @@
       <linearGradient
          spreadMethod="pad"
          id="linearGradient2"
-         y2="295"
-         y1="259"
+         y2="204"
+         y1="168"
          x2="427"
          gradientUnits="userSpaceOnUse"
-         x1="294">
+         x1="287">
         <stop
            id="stop14"
            offset="0%"
@@ -218,9 +218,9 @@
          id="linearGradient9"
          y2="351"
          y1="315"
-         x2="470"
+         x2="435"
          gradientUnits="userSpaceOnUse"
-         x1="434">
+         x1="399">
         <stop
            id="stop49"
            offset="0%"
@@ -258,10 +258,10 @@
      clip-path="url(#clipPath1)"
      id="text89"
      style="font-weight:normal;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(498.0797,-46.280299)" />
+     transform="translate(592.4777,-81.754233)" />
   <rect
-     x="290"
-     y="171"
+     x="297"
+     y="262"
      clip-path="url(#clipPath1)"
      width="140"
      height="36"
@@ -269,8 +269,8 @@
      style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <rect
-     x="287"
-     y="168"
+     x="294"
+     y="259"
      clip-path="url(#clipPath1)"
      width="140"
      height="36"
@@ -278,8 +278,8 @@
      style="font-weight:bold;font-size:medium;fill:url(#linearGradient1);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <rect
-     x="287"
-     y="168"
+     x="294"
+     y="259"
      clip-path="url(#clipPath1)"
      width="140"
      height="36"
@@ -288,11 +288,65 @@
      transform="translate(-22.162109,-89.093216)" />
   <line
      clip-path="url(#clipPath1)"
+     x1="294"
+     x2="434"
+     y1="277"
+     y2="277"
+     id="line105"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)" />
+  <line
+     clip-path="url(#clipPath1)"
+     x1="294"
+     x2="434"
+     y1="286"
+     y2="286"
+     id="line107"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)" />
+  <text
+     font-style="italic"
+     x="310"
+     space="preserve"
+     y="272.21039"
+     clip-path="url(#clipPath1)"
+     id="text109"
+     style="font-style:italic;font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)">DecomposedStep</text>
+  <rect
+     x="290"
+     y="171"
+     clip-path="url(#clipPath1)"
+     width="140"
+     height="36"
+     id="rect111"
+     style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)" />
+  <rect
+     x="287"
+     y="168"
+     clip-path="url(#clipPath1)"
+     width="140"
+     height="36"
+     id="rect113"
+     style="font-weight:bold;font-size:medium;fill:url(#linearGradient2);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)" />
+  <rect
+     x="287"
+     y="168"
+     clip-path="url(#clipPath1)"
+     width="140"
+     height="36"
+     id="rect115"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)" />
+  <line
+     clip-path="url(#clipPath1)"
      x1="287"
      x2="427"
      y1="186"
      y2="186"
-     id="line105"
+     id="line117"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <line
@@ -301,71 +355,17 @@
      x2="427"
      y1="195"
      y2="195"
-     id="line107"
-     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)" />
-  <text
-     x="294.5"
-     space="preserve"
-     y="181.2104"
-     clip-path="url(#clipPath1)"
-     id="text109"
-     style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)">DecomposedEntries</text>
-  <rect
-     x="297"
-     y="262"
-     clip-path="url(#clipPath1)"
-     width="133"
-     height="36"
-     id="rect111"
-     style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)" />
-  <rect
-     x="294"
-     y="259"
-     clip-path="url(#clipPath1)"
-     width="133"
-     height="36"
-     id="rect113"
-     style="font-weight:bold;font-size:medium;fill:url(#linearGradient2);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)" />
-  <rect
-     x="294"
-     y="259"
-     clip-path="url(#clipPath1)"
-     width="133"
-     height="36"
-     id="rect115"
-     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)" />
-  <line
-     clip-path="url(#clipPath1)"
-     x1="294"
-     x2="427"
-     y1="277"
-     y2="277"
-     id="line117"
-     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)" />
-  <line
-     clip-path="url(#clipPath1)"
-     x1="294"
-     x2="427"
-     y1="286"
-     y2="286"
      id="line119"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <text
-     font-style="italic"
-     x="303.5"
+     x="299"
      space="preserve"
-     y="272.21039"
+     y="181.2104"
      clip-path="url(#clipPath1)"
      id="text121"
-     style="font-style:italic;font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)">DecomposedEntry</text>
+     style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-22.162109,-89.093216)">DecomposedSteps</text>
   <rect
      x="318"
      y="94"
@@ -412,13 +412,13 @@
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <text
-     x="327"
+     x="329.5"
      space="preserve"
      y="104.2104"
      clip-path="url(#clipPath1)"
      id="text133"
      style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-22.162109,-89.093216)">UseCaseEntry</text>
+     transform="translate(-22.162109,-89.093216)">UseCaseStep</text>
   <rect
      x="164"
      y="94"
@@ -694,7 +694,7 @@
      style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)">Actor</text>
   <rect
-     x="437"
+     x="402"
      y="318"
      clip-path="url(#clipPath1)"
      width="36"
@@ -703,7 +703,7 @@
      style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <rect
-     x="434"
+     x="399"
      y="315"
      clip-path="url(#clipPath1)"
      width="36"
@@ -712,7 +712,7 @@
      style="font-weight:bold;font-size:medium;fill:url(#linearGradient9);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <rect
-     x="434"
+     x="399"
      y="315"
      clip-path="url(#clipPath1)"
      width="36"
@@ -722,8 +722,8 @@
      transform="translate(-22.162109,-89.093216)" />
   <line
      clip-path="url(#clipPath1)"
-     x1="434"
-     x2="470"
+     x1="399"
+     x2="435"
      y1="333"
      y2="333"
      id="line203"
@@ -731,15 +731,15 @@
      transform="translate(-22.162109,-89.093216)" />
   <line
      clip-path="url(#clipPath1)"
-     x1="434"
-     x2="470"
+     x1="399"
+     x2="435"
      y1="342"
      y2="342"
      id="line205"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <text
-     x="438"
+     x="403"
      space="preserve"
      y="328.21039"
      clip-path="url(#clipPath1)"
@@ -764,7 +764,7 @@
   <line
      clip-path="url(#clipPath1)"
      x1="294"
-     x2="433"
+     x2="399"
      y1="333"
      y2="333"
      id="line213"
@@ -1131,14 +1131,14 @@
      style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <path
-     d="m 434,315 0,18"
+     d="m 294,333 0,0"
      clip-path="url(#clipPath1)"
      id="path319"
      inkscape:connector-curvature="0"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
      transform="translate(-22.162109,-89.093216)" />
   <path
-     d="m 294,333 0,0"
+     d="m 399,333 0,0"
      clip-path="url(#clipPath1)"
      id="path321"
      inkscape:connector-curvature="0"
