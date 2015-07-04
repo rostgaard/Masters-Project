@@ -66,7 +66,15 @@ In this section brief glossary from the problem domain is provided to cover the 
 %Use case definition: An event that describes behaviors and it's written from a user's perspective.
 
 \end{description}
-This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.\\\\
+This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
+%TODO the section below is copy-pasted and should be checked and elaborated.
+\section{Targeted requirements}
+We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
+\begin{description}
+  \item[Manage calls:] Being able to technically handle calls by performing receive, park, transfer and hangup action.
+  \item[Process calls:] Being able to process calls in the context of a dialed reception. This involves having access to data about the reception and its contacts. Being able to dial them, or send them a message.
+  \item[Manage message:] Being able to send out messages to contacts, view and resend existing messages.
+\end{description}
 
 \section{Business model and existing system}
 The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually.\\\\
