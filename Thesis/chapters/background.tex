@@ -191,30 +191,8 @@ class Sequence_Diagram (Test_Case):
 \section{Testing}
 
 \subsubsection{Acceptance testing}
-%TODO: STUB, explain CI beforehand.
-An example of a generated sequence diagram is shown in figure \ref{fig:sequence_diagram_example}.
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.5\textwidth]{\imgdir sequence_diagram_example}
-\caption{Eksempel på sekvensdiagram}
-\label{fig:sequence_diagram_example}
-\end{figure}
+%TODO STUB, explain CI beforehand.
 By letting Jenkins CI automatically re-deploy the software stack and, run our acceptance test (along with a number of integration tests) every time the is any change to the code base, we both strengthen the confidence of the correctness (according to specification) of the software stack, and verify that no regressions arise. The continuous integration server can be reached at \url{http://ci.bitstack.dk/}
-
-
-\subsection{Causality in tests}
-%TODO Move to tests section.
-\todo[inline]{stub section}
-Defining for the tests system what valid transitions are, by creating state machines, and then store object state transitions, we can substantiate that no objects within the system will break causality -- at least in the situations elaborated in the use cases.
-
-\subsection{Revisioning}
-\todo[inline]{This may belong somewhere else.}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.5\textwidth]{\imgdir git_branching}
-\caption{Development model}
-\label{fig:git_branching}
-\end{figure}
 
 \section{Summary}
 
