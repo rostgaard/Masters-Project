@@ -1,8 +1,9 @@
 \chapter{Implementation}
 %TODO The capabilties (actions) were eventually dropped, as they provided little or no value.
+%TODO Umet conditions (pre- and postconditions) should be handled by writing a code block that throws an error. Could simply be an expect.
 Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
 %TODO Describe the normalize function.
-
+%TODO Describe the technique as well. (The Mapping process).
 \section{Template}
 The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool.
 
@@ -129,3 +130,8 @@ void receptionist_marks_state_as_ready(receptionist) {
 \end{lstlisting}
 
 \section{Testing}
+
+\section{Summary}
+The implementation is on a prototype stage and contains some open ends.
+
+The use case-as-precondtions could be implemented via a carried environmen.. (explained somewhat in design).
