@@ -1,8 +1,11 @@
 \chapter{First iterations}
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
-This section describes the first and second iteration of the test generation tool. The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second refinement was done as part of this thesis, and was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{ssec:openreception_framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\\
-This section also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined. The first iteration of the project focused primarily on automating the generation of test, and is highlighted in the plot in figure \ref{fig:project_parameter_plot_1st_iteration}.
+
+This section provides anecdotal background that supports use case tool concept discussed in chapter \ref{chap:conceptual_design}.It describes the first and second iteration of the test generation tool in order to support the identified need to a third iteration.\\\\
+The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second iteration was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{ssec:openreception_framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\\\\
+This chapter also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined. The first iteration of the project focused primarily on automating the generation of test, and is highlighted in the plot in figure \ref{fig:project_parameter_plot_1st_iteration}.\\\\
+The second iteration was done as part of this thesis, to create the supporting test tools needed for test generation.
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
@@ -23,8 +26,11 @@ This section also covers the motivation and scoping for the tests and test tools
 \label{fig:project_parameter_plot_1st_iteration}
 \end{figure}
 
-\section{Motivation and scope}
-During the development of the system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but no longer behaved as it should.\\
+\section{Original project}
+This section is provided as reference, and documents our original motivation and scope for the first version of our use-case tests. The first iteration focused on generating use case tests from requirements -- without mapping it to the domain model. The first iteration is highlighted in figure \ref{fig:project_parameter_plot_1st_iteration} that emphasize this relation.
+It had a slightly different scope, but the concept of ``requirement as tests'' is the same.
+\subsection{Motivation and scope}
+During the development of the OpenReception system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but with incorrect system behavior.\\
 Is was mainly the high level of asynchronism of the system, and low level of control with the PBX that made feature regressions a daily pain. Unit tests were of little, or no use, as we were basically writing and testing components, without knowing if they belonged in the system, or not. For this problem; the solution of applying a test-driven development methods seemed very suitable, but we wanted to raise the abstraction level a bit further, and start directly from requirements and test the system as a whole.\\\\
 Testing the system as a whole can be done in two ways; either by providing a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In our case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX and IP-telephony domain, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.
 The second way you can test a system as whole, is to test a deployed instance of the system. But before anything could be tested, we needed to decide what to test.
@@ -79,7 +85,7 @@ class Sequence_Diagram (Test_Case):
 \end{lstlisting}
 
 \noindent
-The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre- and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\\\\
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.25\textwidth]{\imgdir first_generation_class_structure}
@@ -96,7 +102,7 @@ We soon realized that doing individual mapping for every line was tedious, time 
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -162,5 +168,16 @@ Resources a quite a broad term, but specifically in our test tools, resources ar
   \item[Randomizer:] The randomizer is a sort of bastard-concept we introduced in order to spice our tests up with some random inputs. It constructs new random object upon each allocate call, but may be both bounded and unbounded in nature.
 \end{description}
 These concepts are reused in the next iteration of the tests, which is the refined tests-generation tool.
+
+\subsection{Actor classes}
+A thing that was added to the test support tools in the second iteration, was the actor classes. These classes contained the high-level functions that an actor was able to perform. These actions were either a direct link -- or very close related to -- the actions performed by the actor in the use cases. Actor object would also know about which service interfaces they would require. In figure \ref{fig:support-tools-recepionist-example} we see a Receptionist actor that needs to store messages. This leads to a dependency on the RESTMessageStore via a RESTMessageClient instance. The receptionist is now able to provide method calls that include ``Message'' objects belonging to a RESTMessageStore by delegating the calls to that.
+\begin{figure}
+ \centering
+ \includegraphics[scale=0.60]{\imgdir support-tools-recepionist-example}
+ \caption{support-tools-recepionist-example}
+ \label{fig:support-tools-recepionist-example}
+\end{figure}
+
+
 
 %TODO add some snibblets of framwork content.
