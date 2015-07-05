@@ -14,7 +14,8 @@ diagrams = first_generation_class_structure.pdf \
 	   concept2_example_object.pdf \
            concept2_use_case_meta_model.pdf \
 	   concept2_use_case_mapping.pdf \
-           event-stack-to-state-machine.pdf
+           event-stack-to-state-machine.pdf \
+           use_case_creation_activity_diagram.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
