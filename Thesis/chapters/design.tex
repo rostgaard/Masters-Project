@@ -2,10 +2,8 @@
 This chapter documents the major design decisions in the process of building a tool that supports the hinting tool concept from \ref{chap:conceptual_design}. It focuses on building models that enable translations from the use case representations to tests -- focusing on broad test coverage.
 
 \section{Meta model}
-This section discusses an evolved and simplified version of the meta model introduced in chapter \ref{chap:conceptual_design}.\\\\
-A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. 
-%TODO Cover use case steps and blocks.
-The predicates have been turned into simple use
+This section discusses an evolved and simplified version of the meta model introduced in chapter \ref{chap:conceptual_design}, and covers the changes that happened when the model transitioned from concept to design.\\\\
+A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. The predicates that signified the pre- and postcondition have been turned into simple use blocks, which effectively means that the mapper needs to explicitly break the execution within the conditional steps, in the case of an unmet condition.
 \begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.9]{img/3rd_iteration_meta_model}
