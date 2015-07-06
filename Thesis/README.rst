@@ -2,8 +2,8 @@
 LaTeX sources for thesis
 ========================
 
-This thesis is based upon Laursen's XeLaTeX thesis template, which can be found
-at bitbucket.org <https://bitbucket.org/_laursen/laursens-xelatex-thesis-template/>`_.
+This thesis is based upon Laursen's XeLaTeX thesis template, which can be found at the 
+`repository at bitbucket.org <https://bitbucket.org/_laursen/laursens-xelatex-thesis-template/>`_.
 
 Most of this readme is from the readme included in the template mentioned above,
 but adjusted to fit my needs.
@@ -59,7 +59,7 @@ If using TextMate simply press "⌘R".
 Remember to run Biblatex too.
 
 TexStudio
---------
+---------
 Open preferences and set
 
 * Under "Editor" set "Editor Font Encoding" to "UFT8"
