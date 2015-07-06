@@ -4,6 +4,13 @@
 Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
 %TODO Describe the normalize function.
 %TODO Describe the technique as well. (The Mapping process).
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.7]{\imgdir layered-mvc}
+  \caption{Layered model-view-control architecture}
+  \label{fig:layered-mvc}
+\end{figure}
+
 \section{Template}
 The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool.
 
@@ -130,8 +137,13 @@ void receptionist_marks_state_as_ready(receptionist) {
 \end{lstlisting}
 
 \section{Testing}
+% A use case returns a outputstate which is composed by an outputlog (log messages). A list of assumptions or an error. An error is for when an expectation failed, or a system error occured. Assumptions are for use case entries that are mapped to assumption statements.
+
+\section{Protocol}
+On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled. A complete protocol specification is shown in appendix \ref{appendix:protocol}.
+
 
 \section{Summary}
 The implementation is on a prototype stage and contains some open ends.
 
-The use case-as-precondtions could be implemented via a carried environmen.. (explained somewhat in design).
+The use case-as-precondtions could be implemented via a carried environment.. (explained somewhat in design).
