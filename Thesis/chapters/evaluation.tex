@@ -1,4 +1,5 @@
 \chapter{Evaluation}
+%TODO something about the moving taget (mainly how does injecting change look like, and how does it scale in this process?
 This section evaluates and discusses the implementations from the thesis so far, establishing some quantifiable goals while discussing the general feasibility of the approach. It both raises some issues that needs to be solved before in order to improve the method, and explains some of the side-benefits that followed the approach. 
 \section{Parallelism}
 \label{sec:parallelism}
@@ -137,3 +138,6 @@ For this evaluation, it means that our requirements may be better suited for acc
 %TODO It motivates the question; what does this use case step mean in the system - from an interface point of view.
 \section{Summary}
 The TDD study also showed that tdd approaches do produce higher quality software, so the extra time spend \emph{may} be worthwhile.
+
+%Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
+%Test cases may further introduce dependencies, such as messageStore
