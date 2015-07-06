@@ -127,17 +127,16 @@ The expression function is applied to the statement, then the result is applied 
 
 \subsection{Test case environment}
 \label{sec:test_case_state}
-In order to run the tests, we need to supply them with some input values, which are the actors and domain concept that they need to operate on. These values are inferred by the definitions added to the use case model by the writer of the use case. So a use case that involves a ``Bookkeeper'' actor needs a pre-built object of that type handed to it by the test environment.\bigskip
+In order to run the tests, we need to supply them with some input values, which are the actors and domain concept that they need to operate on. These values are inferred by the definitions added to the use case model by the writer of the use case. So a use case that involves a ``Bookkeeper'' actor needs a pre-built object of that type handed to it by the test environment.\medskip
 
-\noindent Typical test runners use a test model that consist of three basic steps; setup, run and teardown. Setup and teardown are different from pre- and postcondition in that they are unrelated to the test itself. They merely make sure that objects are initialized with right values and, are in the state that the test expects.
+\noindent Typical test runners use a test model that consist of three basic steps; setup, run and teardown. Setup and teardown are different from pre- and postcondition in that they are unrelated to the test itself. They merely make sure that objects are initialized with right values and, are in the state that the test expects. This fits the need of having to input values to test quite nicely.\medskip
 
-There needs to be an executable domain model programmed, not necessarily complete, but the concepts covered in the use cases should at least be there. So for the use case ``Send message to contact'' (see appendix \ref{appendix:use-cases}). We need at least a class representing the actor ``Receptionist'', and a class representing a message. The actions performed by the actor could then either be class methods, or simply functions taking the primary actor (or more exact; classes of the actor), as an argument.
+\noindent Assuming that the actor and concept classes that map to the domain model is programmed, we may use these test runners (or harness) as scaffolding for our test, providing them with the necessary inputs. So -- for instance -- for the use case ``Send message to contact'' (see appendix \ref{appendix:use-cases}). We need, beforehand, at least a class representing the actor ``Receptionist'', and a class representing a message. Initialization and de-initialization of these object can then be done by the setup and teardown function of the test runner -- respectively.\medskip
 
-How do we define which objects are currently in the test harness? In our implementation, we have made a configuration file that, potentially could be auto-generated from a description of which domain types the objects have, what their internal data is, and when they need to be present.
+\noindent The next ovious question is then; how do we define which objects be available for the test harness? In the test case system, we have made a configuration file that outlines which actors are available, and simply added the data to initial state of the developed system. Another approach, could be to turn the creation of resources needed by tests into a use case itself, and feed the output of that generated test into the next test. This approach is covered in more detail in the next chapter.
 
 \subsection{System state}
 \label{ssec:system-state}
-%TODO relate this to preconditions.
 If we assume that the use cases are self-contained\cite{larman2005} in the way that every action and alternative, for a given actor, may be put into a single (large) use case, then it should also be possible to treat use cases as functions that operate on a global system state.\bigskip
 
 \noindent Use cases may also specify some expectations to the system state. This is what is defined as preconditions. If we, however, maintain a system state analogy, we may model use case executions as a set of mutation functions that affect the global system state.\bigskip
