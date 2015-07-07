@@ -20,3 +20,16 @@ Each involved domain actor will then be mapped to a wrapper class that represent
 In order to get the actor object to perform actions, we need to map the actions in the use case to some functions associated with the actor class. These functions could be a direct link to a method that is part of the main codebase which is tested against, a new method written specifically for this purpose - or a macro function that combines functionality from different domain concepts in a single functions.
 
 Whenever there is a mention of an object (a target of an action) which could be, for instance, a message object we assume that its the same object that is tracked during the entire use case. So, from use case 2, we have ``Receptionist sends the message via the system'' in the main success scenario and ``Message is stored and ready for dispatching'' in the postconditions.
+
+\subsection{Detecting logic errors in use cases}
+When doing an
+\begin{description}
+  \item[Skipping actions may be prohibited:] Should it be possible to jump ahead in the use case?
+  \item[Primary actor must participate:] The primary actor is important, as this is the stakeholder that defines the perspective and scope of the test. The primary is the person that starts the use case via an active action, or receives a start signal from another actor -- the system for instance. The primary actor must also be part of the main scenario, and an analysis error should occur if this is not the case.
+
+\end{description}
+\subsection{Capabilites of an actor}
+If we were to add additional domain knowledge to the use cases, then we would also be able to extract capabilities easily.
+%yada yada, use case example: actor does something to some other thing
+% it means the the actor can do something to some other thing.
+
