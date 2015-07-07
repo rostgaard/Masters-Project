@@ -141,3 +141,4 @@ The TDD study also showed that tdd approaches do produce higher quality software
 
 %Test case; when does it end? in our case, the message-sending archtecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is merely an enqueuer. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large.
 %Test cases may further introduce dependencies, such as messageStore
+The number of paths generated quickly makes this procedure fail. Additional heuristics, such as strict design guidelines for use case writing -- espcially in regards to decomposition and relation to each other -- needs to be applied before it can be applied to larger systems.
