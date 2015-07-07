@@ -1,37 +1,12 @@
-
-%TODO more on this story. Something that leads to the discovery of a structure and pattern of use cases and tests. ALSO IMPORTANT; Add general section on tests (background and exisiting solutions) - and how this solution wishes to improve it.
-
 \chapter{Background}
-%TODO review this section and make it fit with next one.
-This chapter provides the historical background and motivation for the idea that eventually became the topic of this thesis. It also gives a brief overview of the design and implementation of the case study system used in this thesis.
-
-.. provides a brief introduction to software testing, test-driven development and how these relate to, and differ from this project.
+pattern of use cases and tests.
+This chapter provides a brief introduction to software testing, test-driven development and how these relate to, and differ from this project. It also provides the historical background and motivation for the idea that eventually became the topic of this thesis. It also gives a brief overview of the design and implementation of the case study system used in this thesis, why we chose to perform the tests on the level that we did, and a brief overview on how it was done. This overview is continued in the next chapter.
 
 \section{Software testing}
+In software engineering, continuous testing is one of the most effective weapons against software bugs. Many efforts have been made on automating test generation and test execution, and to enforce rigorous manual test writing by developers. This chapter outlines some of the basic concepts handled in this thesis, and discusses the application and similarities to the approach in this thesis, of them.
 
-\subsection{Test-driven development}
-A development methodology that emerged around the millennium, and have been looking very promising, is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[scale=0.6]{\imgdir test-driven-development-flow}
-\caption{Basic work-flow of test-driven development}
-\label{fig:test-driven-development-flow}
-\end{figure}Some of the arguments for using test-driven development is that it enables continuous regression testing. It focuses strongly on building the object and components that are needed rather than the ones that are thought to be needed. And it also lowers the gap between component design, and feedback.\cite{george2003}. By feedback is meant developer feedback -- whether the component works or not.\\
-Test-driven development, in its nature, encourages code to be written testable. If a test is written prior to the code, then -- obviously -- the code written will be testable, or it will not pass the tests that originated it. This often means better code reuse and smaller, more loosely coupled components. This is probably due to the fact that when you write tests, it is often the case that you repeat some actions over and over again.\\\\
-In this thesis, the methodology used is similar to the one found in test-driven development, in the way that you \emph{can} build tests from your use cases before the implementation. But unlike test-driven development it does dictate a specific point in development process where you should add the tests.\\
-Instead it focuses on a tool-assisted generation of tests scopes to achieve a very broad coverage of requirements. So basically, it gives you the outline of what to test, and which domain concepts are needed for the test.
-
-\subsection{Continuous integration}
-Continuous integration is a methodology, that u
-
- that supplements
-
- to Test-driven development.
-
-
-\section{Tests terminology}
-In this section brief glossary from the test domain
+\subsection{Testing terminology}
+The terminology described here is provided, either because the term is used in the thesis, or for completeness -- i.e. black-box/white-box testing.
 \begin{description}
   \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
   \item[White-box test:] A white-box test treats the system as a transparent box where all the internals are known. From these known internals, tests can be written to take a specific code path within the component under test. Unit tests are an example of a white-box test, as it tests the known internals of the unit. In the case study system, white-box tests are used to verify API's and system functionality -- effectively testing multiple API's in a single test.
@@ -39,7 +14,7 @@ In this section brief glossary from the test domain
   \item[Unit test:] Is a detailed test of a single unit in the system. While the size of the unit is not strictly defined, a unit is typically a single file or class in software systems. A unit test is a white-box test that focus on broad test coverage.
   \item[Integration test:] Is a test that treats a component, or set of components as a combined entity, and tests it as a black-box system. Integration testing is linked to functional requirements, but may also refer to non-functional requirements, such as behavior under load -- which is known is stress-testing.
   \item[Test harness:] An artificial environment that surrounds a test, supplying it with the resources and API's it needs. An example of a resource could be a database layer that supplies the test with the objects it needs. The harness does not need to provide real objects, but is free to return mock objects to the test, rather than having to deal with actually connecting to a database.
-  \item[Acceptance test:] Test system as it should work %  is a test conducted to determine if the requirements of a specification or contract are met. It
+  \item[Acceptance test:] An acceptance test is a test conducted to determine if the requirements of a specification or contract are met. If the contract specified that a ship that could float was to be built, the acceptance test would be to put it in the water and see if floats. If so; the acceptance test was a success.
 \end{description}
 \begin{figure}[!htbp]
   \centering
@@ -47,11 +22,29 @@ In this section brief glossary from the test domain
   \caption{Stimuli-organism-response model. Used -- for instance -- in psychology, but is analogous black-box testing}
   \label{fig:sor-model}
 \end{figure}
+\subsection{Test-driven development}
+A development methodology that emerged around the millennium, and have been looking very promising, is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.\medskip
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.6]{\imgdir test-driven-development-flow}
+\caption{Basic work-flow of test-driven development}
+\label{fig:test-driven-development-flow}
+\end{figure}
+\noindent Some of the arguments for using test-driven development is that it enables continuous regression testing. It focuses strongly on building the object and components that are needed rather than the ones that are thought to be needed. And it also lowers the gap between component design, and feedback.\cite{george2003}. By feedback is meant developer feedback -- whether the component works or not.\smallskip
+
+\noindent Test-driven development, in its nature, encourages code to be written testable. If a test is written prior to the code, then -- obviously -- the code written will be testable, or it will not pass the tests that originated it. This often means better code reuse and smaller, more loosely coupled components. This is probably due to the fact that when you write tests, it is often the case that you repeat some actions over and over again.\medskip
+
+\noindent In this thesis, the methodology used is similar to the one found in test-driven development, in the way that you \emph{can} build tests from your use cases before the implementation. But unlike test-driven development it does dictate a specific point in development process where you should add the tests.\\
+Instead it focuses on a tool-assisted generation of tests scopes to achieve a very broad coverage of requirements. So basically, it gives you the outline of what to test, and which domain concepts are needed for the test.
+
+\subsection{Continuous integration}
+Continuous integration is a methodology, that that supplements test-driven development quite well. In essence, it is an automated service that continously runs tests on code, or produce new artifact (binaries) from it. This is done either periodically, (nightly, weekly, monthly) or triggered whenever developer makes a change to the code base.
 
 \section{Case study system}
-Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\\\\
-The three entrepreneurs were in the business of ``reception hosting''. About one year after, the first conceptual prototype emerged, and by the end of 2013, an alpha version of the product was ready to be tested and hardened for production use. However, due to the high level of asynchronism, and low level of explicit coordination -- which was by design -- regressions became an increasing problem. And when the requirements also started to change, a dire need for automated, and usage-oriented testing became evident.
+% Make a point on why this section is in the thesis. IT EVALUATES THE VALUE OF THE SYSTEM AS USE CASE SYSTEM.
+Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\medskip
 
+\noindent The three entrepreneurs were in the business of ``reception hosting''. About one year after, the first conceptual prototype emerged, and by the end of 2013, an alpha version of the product was ready to be tested and hardened for production use. However, due to the high level of asynchronism, and low level of explicit coordination -- which was by design -- regressions became an increasing problem. And when the requirements also started to change, a dire need for automated, and usage-oriented testing became evident.
 
 \subsection{Problem domain glossary}
 In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
@@ -68,7 +61,7 @@ In this section brief glossary from the problem domain is provided to cover the 
 \end{description}
 This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
 %TODO the section below is copy-pasted and should be checked and elaborated.
-\section{Targeted requirements}
+\subsection{Targeted requirements}
 We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
 \begin{description}
   \item[Manage calls:] Being able to technically handle calls by performing receive, park, transfer and hangup action.
@@ -76,9 +69,10 @@ We've chosen to focus on the requirements that involves core features from the R
   \item[Manage message:] Being able to send out messages to contacts, view and resend existing messages.
 \end{description}
 
-\section{Business model and existing system}
-The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually.\\\\
-Throughout the last ten years, they have used a COTS\footnote{Commercial Off The Shelf} system for this task, that is now showing its age. The system handles phone call routing, call handling (playing greetings and Interactive Voice Response (IVR) menus), presents reception information, manages call routing plans and reception information.
+\subsection{Business model and existing system}
+The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually.\medskip
+
+\noindent Throughout the last ten years, they have used a COTS\footnote{Commercial Off The Shelf} system for this task, that is now showing its age. The system handles phone call routing, call handling (playing greetings and Interactive Voice Response (IVR) menus), presents reception information, manages call routing plans and reception information.
 \begin{figure}[!hbpt]
 \centering
 \includegraphics[width=0.8\textwidth]{\imgdir frontdesk-client-ui}
@@ -87,24 +81,23 @@ Throughout the last ten years, they have used a COTS\footnote{Commercial Off The
 \end{figure}
 The system is proprietary and abandoned by the developers and is still affected by open bugs and issues. Furthermore, the customers of Responsum are expressing an increasing interest in integrating their own system with the Responsum's system. An example of an integration could be calendar synchronization to lower the manual workload of their service agents.
 
-\section{Replacement system}
-This section gives a short introduction to the system, its architecture and design and the development process that ultimately motivated the test approach, that is the topic of this thesis.\\\\
+\subsection{Replacement system}
+This section gives a short introduction to the system, its architecture and design and the development process that ultimately motivated the test approach, that is the topic of this thesis.\medskip
 \begin{figure}[!hbpt]
 \centering
 \includegraphics[width=0.8\textwidth]{\imgdir openreception-client-ui}
 \caption{Screenshot of the receptionist frontend of the replacement system}
 \label{fig:openreception-client-ui}
-\end{figure}OpenReception web-based software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide then with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\\ This component-oriented design has also helped the testing process, as it enabled individual components to be tested and verified independently of the others. A screenshot of the receptionist client of the replacement system can be seen in figure \ref{fig:openreception-client-ui}.
+\end{figure}
+\noindent OpenReception web-oriented software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide then with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\\ This component-oriented design has also helped the testing process, as it enabled individual components to be tested and verified independently of the others. A screenshot of the receptionist client of the replacement system can be seen in figure \ref{fig:openreception-client-ui}.
 
-\section{Project scope}
-The fundamental requirements for the system originates directly from the fact, that is is supposed to be a drop-in replacement of an existing system. It should therefore, as a bare minimum, mirror the features of the existing system.\\
+\subsection{Project scope}
+%TODO more on this story. Something that leads to the discovery of a structure and The fundamental requirements for the system originates directly from the fact, that is is supposed to be a drop-in replacement of an existing system. It should therefore, as a bare minimum, mirror the features of the existing system.\\
 However, the current system has been in production for over ten years and lessons-learned has taught the customer how the system should be improved. Another thing that had to be considered, was the fact that the current system had proven it's stability. Despite being far from perfect, it was certainly usable and provided the technical means for the customer to keep the gears of their business model oiled.
-
-%TODO maybe add a list of requirements.
 %TODO features broke all the time, when was the system done?, Jenkins was introduced ...
 %Use cases are stored in a wiki.
 
-\section{Chosen architecture}
+\subsection{Chosen architecture}
 Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault. The component diagram in figure \ref{fig:component_diagram} shows the architecture, and also gives away some hints about which components are critical, and which are not. Basically, the most critical path is the one that originates from the ``Receptionist Client'' and ends in the ``SIP trunk'' component. These components are considered soft real-time components and are essential for an operation. Fallout of any of these components means direct financial loss for the customer. Fallout of any of the other components (except for SIP Phone, which is actually part of the critical path mentioned above) are tolerated in the design, and the stateless nature of REST (see section \ref{sec:rest}) enables us to maintain caches that can supply clients with the data they need for handling calls.
 
 %Something about fault handling, and about not knowning the "failure space"
@@ -116,25 +109,27 @@ Being that the existing system was considered stable, and critical infrastructur
 \label{fig:component_diagram}
 \end{figure}
 
-\section{Implementation}
+\subsection{Implementation}
 \todo[inline]{Add nice introduction here}
 \subsection{Fault tolerance}
 Fault tolerance is built into the system, by first decomposing the system into a lot of smaller parts, reduce the amount the amount of communication (in particular; two-way communication) needed for the system to function, at least partially.
 
 \subsection{Stateless architecture}
 \label{sec:rest}
-We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It is a client/server protocol that bases itself upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.\\
-Automated system testing is also simplified quite a bit, when you don't need to take into account a protocol state.
+We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It is a client/server protocol that bases itself upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.\smallskip
+
+\noindent Automated system testing is also simplified quite a bit, when you don't need to take into account a protocol state.
 
 \subsection{Loose coupling of components} 
-In order to minimize the damage of a component failing, we have further atomized the REST API's that we created into smaller services, each responsible for only handling one single task. This is what is, informally, defined as the ``bulkhead pattern''. Originating from naval vessel floating compartments, that was composed of several individual bulkheads. These bulkheads could then be closed off, in case of a leakage in one of them. A parallel to software engineering is to divide your application into separate operating system processes that can be terminated if they start to leak memory, consume excessive amounts of CPU time, or merely lock up. Sometimes, killing worker processes is used as a preemptive method of assuring that processes are kept under control. The Apache HTTPD web server uses this strategy by maximizing the number of requests\footnote{http://httpd.apache.org/docs/2.2/mod/worker.html} a worker process may serve before being terminated and replaced.\\
-In our architecture, we have divided the database operations, dialplan generation, CDR\footnote{Call Detail Records: records of call duration and other information used for invoicing} into dedicated servers, that may be replaced -- even while in production.
+In order to minimize the damage of a component failing, we have further atomized the REST API's that we created into smaller services, each responsible for only handling one single task. This is what is, informally, defined as the ``bulkhead pattern''. Originating from naval vessel floating compartments, that was composed of several individual bulkheads. These bulkheads could then be closed off, in case of a leakage in one of them. A parallel to software engineering is to divide your application into separate operating system processes that can be terminated if they start to leak memory, consume excessive amounts of CPU time, or merely lock up. Sometimes, killing worker processes is used as a preemptive method of assuring that processes are kept under control. The Apache HTTPD web server uses this strategy by maximizing the number of requests\footnote{http://httpd.apache.org/docs/2.2/mod/worker.html} a worker process may serve before being terminated and replaced.\smallskip
+
+\noindent In our architecture, we have divided the database operations, dialplan generation, CDR\footnote{Call Detail Records: records of call duration and other information used for invoicing} into dedicated servers, that may be replaced -- even while in production.
 
 \subsection{Reactive application}
 \label{ssec:server_notifications}
 As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the optimal way we could get the client interface to respond to system events in real-time. It ultimately also became an important component in testing, as we could use it as a mean to validate causal relationship of actions and events (for instance; a hangup action on a phone would lead to a hangup event notification).\todo{. maybe add a reference to the causality section}
 
-\section{Testing strategy}
+\subsection{Testing strategy}
 \label{sec:background-testing-strategy}
 %NOTE This one is moved from first-iterations chapter.
 As development progressed, it became increasingly difficult and time consuming to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and signal an idle state to system. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.
@@ -154,60 +149,19 @@ Furthermore, we wanted to automate this using a continuous integration service t
 
 \subsection{Level of testing}
 \label{ssec:level-of-testing}
-We chose path of assuming everything worked and, thus,  built tests from the perspective of how it should work. So we basically treated the system as a block-box system and abstract away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. These ``robots'' acted as clients and connected to the \textbf{REST-Data}, \textbf{REST-Call}, \textbf{REST-SIP} interfaces from figure \ref{fig:component_diagram}.\\\\
+We chose path of assuming everything worked and, thus,  built tests from the perspective of how it should work. So we basically treated the system as a block-box system and abstract away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. These ``robots'' acted as clients and connected to the \textbf{REST-Data}, \textbf{REST-Call}, \textbf{REST-SIP} interfaces from figure \ref{fig:component_diagram}.
 
 \subsection{Coverage of testing}
-In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist_workflow}). From this, we could assert that every ``happy path'' use case was covered, by covering every path of the activity diagram.
+In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist_workflow}). From this, we could assert that every path of the activity diagram was covered.
 
 \subsection{Generation of tests}
-To make sure that all paths were covered, every activity node got labeled. Any unique path through the activity diagram should then correspond to a use case, but more importantly; be realized by a test. To achieve this, we constructed a set of tools that, among other things contained the ``robots'' discussed briefly in section \ref{ssec:level-of-testing}.
+To make sure that all paths were covered, every activity node got labeled. Any unique path through the activity diagram should then correspond to a use case, but more importantly; be realized by a test. To achieve this, we constructed a set of tools that, among other things contained the ``robots'' discussed briefly in section \ref{ssec:level-of-testing}.\medskip
 
-\todo{.\\ This listing should probably be moved to a later chapter.}
-\begin{lstlisting}[language=Python, caption=Example of a generated test, label=fig:python_test]
-
-# Inherit Test_Case class from forward_call generalization.
-from forward_call import Test_Case
-
-class Sequence_Diagram (Test_Case):
-  def test_Run (self):
-    try:
-      Incoming_Call_ID = self.Request_Customer_Call ()
-      Outgoing_Call_ID = self.Receptionist_Places_Call 
-                               (Number = self.Callee.extension)
-      self.Callee_Receives_Call ()
-      self.Receptionist_Hears_Dialtone ()
-      self.Callee_Accepts_Call ()
-      self.Receptionist_Hangs_Up (Call_ID = Outgoing_Call_ID)
-      self.Callee_Receives_Hang_Up()
-      self.Teardown ()
-    except:
-      self.Teardown () # Cleanup processes started
-      raise            # Re-raise exception so that 
-                       # test fails after we cleaned up
-\end{lstlisting}
-
-\todo[inline]{Mostly notes and stubs from hereon}.
-
-\section{Testing}
-
-\subsubsection{Acceptance testing}
-%TODO STUB, explain CI beforehand.
-By letting Jenkins CI automatically re-deploy the software stack and, run our acceptance test (along with a number of integration tests) every time the is any change to the code base, we both strengthen the confidence of the correctness (according to specification) of the software stack, and verify that no regressions arise. The continuous integration server can be reached at \url{http://ci.bitstack.dk/}
+\noindent By letting a continuous integration service automatically re-deploy the software stack and, run our acceptance test (along with a number of integration tests) every time the is any change to the code base, we both strengthen the confidence of the correctness (according to specification) of the software stack, and verify that no regressions arise. The continuous integration server can be found at \url{http://ci.bitstack.dk/}
 
 \section{Summary}
+The high level of modularization, and low coupling of components made the system easily testable. Most components could be be tested individually, and some of them emulated. The modularization effectively also led to many well-defined interfaces, which is the basic premise for black-box testing. The project, in itself, is quite suitable for a case study system, from a testing perspective.\medskip
 
+\noindent The use cases of the system are, however, not very complex and may not be able to expose scalability issues in the tool. The already developed ``robot'' programs are, on the other hand, very suitable for building controllable ``robot-actor'' for use in generated tests.\medskip
 
-%TODO Note:
-%Motivation for chosen methodoligy
-%  Buttom-up may lead to over-engineering overly-contstrained solution due to lack of overview.
-%  Thus trying to find the optimal general solution has a big risk of trying to reshape your problem to a good solution.
-%  Top-down may lead to under-engineering, leaving the tool useless for anything but the one purpose that sparked the development.
-
-%TODO Aim/analogy for a useful tool
-%  An analogy for a good solution would be the servo steering found in most modern cars. It drastically lowers the amount of force
-%  required for turning the steering wheel, by letting a servo motor aid in turning the wheels in the direction indicated by the driver.
-%  It enables average strengthed driver to operate very large vehicles. Some, that would otherwise be impossible to steer by hand.
-%  This, however, removes the "feel" of the road-grip that some drivers prefer - so that would be the tradeoff here.
-%  Nevertheless, the solution is good because it does not get in the way, but merely passively aids the driver so he/she does not have  to think about it.
-%  It also means that we now have an applicable abstraction level for controlling vehicle direction; the steering wheel - regardless of   vehicle size. Implementation details hidden.
-%Likewise, a good software tool should aid the user, and provide minimal abstruction (and hinder unintended destruction)
+\noindent Prior to the conceival of the idea for this thesis, the test concept described above was implemented and part of our development. And during the writing of this thesis, a second iteration was written, in order to aid the tool for this thesis. These iterations are described in the next chapter.
