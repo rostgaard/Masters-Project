@@ -1,42 +1,42 @@
 \chapter{Implementation}
-%TODO The capabilties (actions) were eventually dropped, as they provided little or no value.
-%TODO Umet conditions (pre- and postconditions) should be handled by writing a code block that throws an error. Could simply be an expect.
-Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
-%TODO Describe the normalize function.
-%TODO Describe the technique as well. (The Mapping process).
+This chapter describe the tool that was implemented as part of this thesis, to enable the generation of tests from use cases. The chapter provides a high-level architectural view of the test system, and an example on how a use case goes from description to test.\medskip
+As already mentioned in chapter \ref{ch:design}, the actions of users were eventually dropped, as they provided little or no value in test. This will become more evident, when an example of a generated test is shown.
+
+\section{Architecture}
+The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
 \begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.7]{\imgdir layered-mvc}
-  \caption{Layered model-view-control architecture}
+  \caption{Layered model-view-control architecture with test backend}
   \label{fig:layered-mvc}
 \end{figure}
+\noindent The distributed model is built around a layered model-view-control (MVC), that uses a dedicated test backend. Our backend built upon the Dart unittest library configured for junit xml output, the Jenkins continuous integration server, and Git revision control system. Git is used, first and foremost, to control revisions, but also as a test code distribution system. The Jenkins server will se a change in the Git repository, update to this version, and trigger a new build. Being that the tests output junit-format xml documents, Jenkins can parse this and provide detailed reports on success/failure output, run-times, and historical data.\medskip
 
-\section{Template}
-The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool.
+\noindent The layered MVC introduced above, is a model commonly used in web programming. It is illustrated in figure \ref{fig:layered-mvc}, and is a method for maintaining the MVC paradigm, in a distributed system. In it's simplicity, it has a service interface that provide an API. This API delegates to an internal controller, that is allowed to modify the model. This model is only stored on by the service, but may be retrieved (or even pushed) to a client's model via a representation, which then becomes the service's view. The client's model is pushed to a local view, which is a user interface, that may send change requests to its local controller that delegates it to the controller of the service.\medskip
 
-The placeholder is contained within a comment, so template files can still be parsed and complied before the generation step.
+\noindent The client and the server share their code-base around a library package that contain (meta model) models, serialization/de-serialization tools, and the (use case) translation tools. The translation can, thus be done either by the client, or the server.
 
+\section{Use case translation}
+This section contains the a description of the different implemented components needed to support the use case to test translation.
 
+\subsection{Test templates}
+Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
+
+\noindent The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and complied before the generation step, enabling them to be verified prior to use.\medskip
+The templates are the mapping link between use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
+
+\subsection{Actor classes}
 %TODO Overall generation concept. A test needs to be supplied with some resources as input.
 %lead-in
-The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.
-%\section{Current implementation}
-% tcc-tool is a client/server architecture with a share library.
+%TODO Umet conditions (pre- and postconditions) should be handled by writing a code block that throws an error. Could simply be an expect.
 
-
-%TODO add MVC to glossary.
-Everything is built up as a layered model-view-control (MVC), that share a common library of models, utilities and interfaces.
-%TODO what does the layer mean?
-
+\subsection{Normalization of roles and steps}
 %identities of objects.
 %Concept 2 remainders are left in the source three, and my be studied for reference.
 %TODO The actions proved no actual value without the mapping language, and was removed from the implementation.
 
-\subsection{Client}
-
 \section{Example translation}
-
-%TODO enter the use case.
+This section goes through the steps associated with creating tests from use cases in this implementation. The example is done, disregarding the concrete user interface details, which can instead be found in the handbook in appendix \ref{appendix:handbook}
 
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example revisited, label=lst:uc-simple-example-revisited]
 Scenario:
@@ -133,8 +133,15 @@ void receptionist_sends_message(receptionist, message) {
 void receptionist_marks_state_as_ready(receptionist) {
   userService.changeState(receptionist.user);
 } 
-
 \end{lstlisting}
+
+\section{Writing mapper function}
+Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
+%TODO Describe the normalize function.
+%TODO Describe the technique as well. (The Mapping process).
+
+
+%TODO mention why mapping actions are no longer relevant.
 \subsection{Running the analysis}
 Having a set of definitions, we can detect actors and concepts from textually analysing the text of every UseCaseEntry object. The analysis is quite simple, and merely looks for occurrences of the definition by comparing strings.
 
