@@ -6,6 +6,7 @@ Minors:
  - Add comments to all source code files.
  - Add copyright and author headers to all source code files.
  - Rename use case entry to use case step.
+ - Check that the terminology is the same throughout the thesis - i.e. developed system.
 
 Tool:
   - Change the template placeholder to a comment.
