@@ -1,0 +1,31 @@
+%!TEX root = ../Thesis.tex
+\chapter{Protocol specification}
+%TODO taken at 2015-06-29
+Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests. Text within curly brackets -- \{\} denote named request parameters.
+\begin{description}
+  \item[\texttt{GET /actor:}] Retrieve the list of actors currently defined.
+  \item[\texttt{POST /actor:}] Create a new actor. The actor object is passed in the request body.
+  \item[\texttt{GET /actor/\{id\}:}] Retrieve a single actor, identified by \texttt{id}.
+  \item[\texttt{PUT /actor/\{id\}:}] Update a single actor, identified by \texttt{id}. The actor object is passed in the request body.
+  \item[\texttt{DELETE /actor/\{id\}:}] Remove a single actor (un-define), identified by \texttt{id}.
+\end{description}
+\begin{verbatim}
+[FINE] tcctool.router: GET	->	/concept
+[FINE] tcctool.router: GET	->	/concept/{id}
+[FINE] tcctool.router: PUT	->	/concept/{id}
+[FINE] tcctool.router: POST	->	/concept
+[FINE] tcctool.router: DELETE	->	/concept/{id}
+[FINE] tcctool.router: GET	->	/template
+[FINE] tcctool.router: POST	->	/template
+[FINE] tcctool.router: GET	->	/template/{tplid}
+[FINE] tcctool.router: PUT	->	/template{tplid}
+[FINE] tcctool.router: GET	->	/usecase
+[FINE] tcctool.router: GET	->	/usecase/{id}
+[FINE] tcctool.router: PUT	->	/usecase/{id}
+[FINE] tcctool.router: POST	->	/usecase/{id}
+[FINE] tcctool.router: DELETE	->	/usecase/{id}
+[FINE] tcctool.router: POST	->	/usecase/{id}/testsfromtemplate/{tplid}/
+[FINE] tcctool.router: POST	->	/test/{tid}/analyze
+[FINE] tcctool.router: GET	->	/configuration
+[FINE] tcctool.router: PUT	->	/configuration
+\end{verbatim}
