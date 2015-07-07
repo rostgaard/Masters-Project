@@ -135,6 +135,13 @@ void receptionist_marks_state_as_ready(receptionist) {
 } 
 
 \end{lstlisting}
+\subsection{Running the analysis}
+Having a set of definitions, we can detect actors and concepts from textually analysing the text of every UseCaseEntry object. The analysis is quite simple, and merely looks for occurrences of the definition by comparing strings.
+
+%\section{Test framework}
+% You need to write a test framework containing object pools, factory classes aso.
+%\subsection{Exploiting injected semantics}
+%How may we benefit from additional semantics? We can identify rubbish postconditions, such as predicates that involve objects that are either not modified in the statements, or simply never referenced.
 
 \section{Testing}
 % A use case returns a outputstate which is composed by an outputlog (log messages). A list of assumptions or an error. An error is for when an expectation failed, or a system error occured. Assumptions are for use case entries that are mapped to assumption statements.
@@ -142,6 +149,8 @@ void receptionist_marks_state_as_ready(receptionist) {
 \section{Protocol}
 On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled. A complete protocol specification is shown in appendix \ref{appendix:protocol}.
 
+\section{Initial state}
+The initial state of the test support tools are provided by a global setup and teardown function that encapsulates the entire pool of tests.
 
 \section{Summary}
 The implementation is on a prototype stage and contains some open ends.
