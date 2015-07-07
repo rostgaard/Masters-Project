@@ -1,3 +1,21 @@
+\chapter{Misfits}
+
+\section{Event stack validation concept}
+\label{appendix:event-stack-validation}
+\subsection{Causality in tests}
+%TODO review and merge with section below.
+Defining for the tests system what valid transitions are, by creating state machines, and then store object state transitions, we can substantiate that no objects within the system will break causality -- at least in the situations elaborated in the use cases.
+
+A concept that was coined in parallel with the three concepts above -- which is not exclusively related to use cases -- but more validation in general, is the stack-replay concept. It is neither implemented, nor designed further than this concept.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{\imgdir event-stack-to-state-machine}
+\caption{Concept; validate event stack using life-cycle state machines.}
+\label{fig:event-stack-to-state-machine}
+\end{figure}
+%\section{Object tracking} NOTE: Maybe something about object lifecycles (and statemachines for them) here.
+Example; in the use case it is stated that a call is hung up and a callee awaits this event. The lifeline of the call is however not tracked and to be able to properly assert the true state of this, the code macro needs to into account this lifeline and reflect on which assertions hold for every stakeholder that has knowledge of the call. % TODO: Elaborate the example and explain that a phone call is a good example because it has an A and B-leg and potentially a system that tracks its state.
+
 %was in conceptual design.
 
 \section{Brainstorming}
