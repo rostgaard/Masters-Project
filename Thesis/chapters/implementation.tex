@@ -17,23 +17,43 @@ The implementation is done in a client/server architecture. It consists of a thr
 \noindent The client and the server share their code-base around a library package that contain (meta model) models, serialization/de-serialization tools, and the (use case) translation tools. The translation can, thus be done either by the client, or the server.
 
 \section{Use case translation}
-This section contains the a description of the different implemented components needed to support the use case to test translation.
+This section contains the a description of the different implemented components and utilities needed to support the use case to test translation.
 
 \subsection{Test templates}
 Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
 
-\noindent The templates are quite simple. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and complied before the generation step, enabling them to be verified prior to use.\medskip
+\noindent The templates are implemented in a simple form. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and complied before the generation step, enabling them to be verified prior to use.\medskip
 The templates are the mapping link between use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
 
 \subsection{Actor classes}
 %TODO Overall generation concept. A test needs to be supplied with some resources as input.
 %lead-in
 %TODO Umet conditions (pre- and postconditions) should be handled by writing a code block that throws an error. Could simply be an expect.
-
-\subsection{Normalization of roles and steps}
-%identities of objects.
-%Concept 2 remainders are left in the source three, and my be studied for reference.
 %TODO The actions proved no actual value without the mapping language, and was removed from the implementation.
+
+\subsection{Definition}
+
+\subsection{Normalization of use case steps}
+To be able to make a use case step into a function call, we need to normalize it to a string that follows the general conventions of function call in programming languages (and specific for Dart, as this is our target language). We also need to be able to recognize identical steps in different use cases. It gives us the following constraints for a normalization function.
+\begin{itemize}
+  \item Programming conventions must be followed. This means no spaces in function identifier, no redeclaration of function identifiers with different parameter set, and no identifiers must start with a number.
+  \item Function should be deterministic. So given the an specific input, it always produces the same output.
+  \item Not specifically a constraint; but a good function should produce human-readable output.
+\end{itemize}
+The normalization described above, could be realized by a good hashing algorithm -- prefixed by a constant string to avoid prefixed numbers in identifiers. This, however would collide with our desire to have human-readable functions. The implementation ended up doing the following:
+\begin{itemize}
+  \item Replace all non-allowed characters with underscores.
+  \item Prefix the functions with an underscore
+  \item Transform the every character in the string of step to lower case
+\end{itemize}
+A function identifier for ``Receptionist answers call'' then becomes:
+\begin{verbatim}
+  _receptionist_answers_call
+\end{verbatim}
+One thing that is needed for a function \emph{call}, are the function parameters. These are supplied by the definitions associated with the use case. So, given that the set of definitions contain the ``receptionist'' and ``call', the signature of the function would look like this:
+\begin{verbatim}
+  _receptionist_answers_call (receptionist, call)
+\end{verbatim}
 
 \section{Example translation}
 This section goes through the steps associated with creating tests from use cases in this implementation. The example is done, disregarding the concrete user interface details, which can instead be found in the handbook in appendix \ref{appendix:handbook}
@@ -137,7 +157,6 @@ void receptionist_marks_state_as_ready(receptionist) {
 
 \section{Writing mapper function}
 Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
-%TODO Describe the normalize function.
 %TODO Describe the technique as well. (The Mapping process).
 
 
