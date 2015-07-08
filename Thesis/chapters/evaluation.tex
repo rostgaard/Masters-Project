@@ -1,6 +1,16 @@
 \chapter{Evaluation}
 %TODO something about the moving taget (mainly how does injecting change look like, and how does it scale in this process?
-This section evaluates and discusses the implementations from the thesis so far, establishing some quantifiable goals while discussing the general feasibility of the approach. It both raises some issues that needs to be solved before in order to improve the method, and explains some of the side-benefits that followed the approach. 
+This section evaluates and discusses the implementations from the thesis so far, establishing some quantifiable goals while discussing the general feasibility of the approach. It both raises some issues that needs to be solved before in order to improve the method, and explains some of the side-benefits that followed the approach.
+
+\section{Challenges}
+As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
+
+\section{General usefulness}
+%TODO VERY IMPORTANT, as this gives the motivation for filling the thesis with crap about OpenReception project and architecture.
+The process described in this thesis, fit quite nicely into the OpenReception project. Is it a coincidence that the architecture described in chapter \ref{ch:background} fit very nicely. Another thing, is that the use cases -- in general -- are quite simple. This can also be seen in appendix \ref{appendix:use-cases}. The scope of the OpenReception project has not been to provide a complex usage model, but rather the opposite. The target businesses for the product, focus on low average call-handling time and, thus, will try to keep the use cases simple -- in that effort.\\\\
+Other development projects, that have more complex use cases, may experience...
+
+
 \section{Parallelism}
 \label{sec:parallelism}
 A section on multiple actors and race conditions. How do you create a use case that contains multiple simultaneous instances of actors that perform the same action synchronously? Basically asserting parallel properties.\todo{.\\turn this into a real section}\\\\
@@ -24,14 +34,11 @@ Making the keyword refer in 2. refer to the previous entry, 1. This feature is n
 %\section{Applicablity to different methodologies} See http://en.wikipedia.org/wiki/Requirements_analysis
 % Waterfall, Prototype model, Incremental, Iterative, V-Model, Spiral, Scrum, Cleanroom, RAD ...
 
+
 \subsection{Side benefits}
 %One of the major benefits is that it makes other black-box tests easier, as we can re-use components from the framework.
-
-% Further work
-%  - Misuse case
-%  - Validating event chain against a state machine (automaton).
-%  - Executable activity diagrams - knieke2010 
 % Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
+
 Writing integration tests is definitely a lot easier. Writing up tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated.
 \begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
   static void pickupAllocatedCall(Receptionist receptionist, 
@@ -132,7 +139,7 @@ But, alas, it is too early to tell. More research is needed.
 %Use interfaces a objects.
 
 \section{Caveats}
-The system and test system has been developed by the same group of people, which have also played a large role in the use cases creation and refinement process. This is problematic when the general applicability of the approach presented in this thesis needs to be evaluated. Having the same people work on requirements, implementation and tests lead to a unified understanding of the system as a whole, and a very short path from requirement change, to implementation change. While this is generally a good thing, it does not scale to larger projects, and important domain-specific details may unknowingly go undocumented, as everyone has a common understanding of how things work overall. The problem with this, is also that requirements may have an ``artificial feel'', in the way that they reflect the actual workings of the system under development, rather than the intended workings.\\\\
+The case study system and test system has been developed by the same group of people, which have also played a large role in the use cases creation and refinement process. This is problematic when the general applicability of the approach presented in this thesis needs to be evaluated. Having the same people work on requirements, implementation and tests lead to a unified understanding of the system as a whole, and a very short path from requirement change, to implementation change. While this is generally a good thing, it does not scale to larger projects, and important domain-specific details may unknowingly go undocumented, as everyone has a common understanding of how things work overall. The problem with this, is also that requirements may have an ``artificial feel'', in the way that they reflect the actual workings of the system under development, rather than the intended workings.\\\\
 For this evaluation, it means that our requirements may be better suited for acceptance-test-writing than others, trying the same approach. It can however be argued, that as any (good) requirement should be testable\cite{hull2010requirements}, then it shouldn't matter significantly how the project groups are structured.
 
 %TODO It motivates the question; what does this use case step mean in the system - from an interface point of view.
