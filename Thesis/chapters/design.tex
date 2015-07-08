@@ -156,6 +156,7 @@ So, the \emph{accountant creates invoice} effectively has a precondition that is
 \noindent This model is useful to consider when programming the test support tools, and may even be supported by a concept, such as the event stack validation described in appendix \ref{appendix:event-stack-validation}, where the states and transitions are logged, and replayed through a set of state machines. But, for the majority of implementations, it should be considered a programming model. Using this model, developers may also chose to build their precondition mappings as other use cases.
 
 \subsection{Simulating error conditions}
+\label{ssec:simulating-error-conditions}
 Use cases may branch out and go to alternatives actions. These branches signify that an error has occurred, and may be difficult to emulate. Injecting faults in systems to see how they respond to it, is a field of study on its own. For this purpose, some of the error scenarios could be described as use cases. That is, a sequence of steps that lead up to the error, and how the actor experiencing the error must handle it. Simulating error conditions outside of the control of the developed system may be impossible by a mapper. One possible solution is to use add an assumption here, and merely treat the event or decision as having occurred. An assumption is a no-operation statement that, in some way, must notify the test runner about the assumption that was made. Maybe just by injecting a message into a log stream.
 
 \section{Evaluation}
