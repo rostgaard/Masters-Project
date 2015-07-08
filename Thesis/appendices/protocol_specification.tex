@@ -2,6 +2,8 @@
 \chapter{Protocol specification}
 \label{appendix:protocol}
 %TODO taken at 2015-06-29
+On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled.
+
 Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests. Text within curly brackets -- \{\} denote named request parameters.
 \begin{description}
   \item[\texttt{GET /actor:}] Retrieve the list of actors currently defined.
