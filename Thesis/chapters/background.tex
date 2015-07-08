@@ -1,5 +1,5 @@
 \chapter{Background}
-pattern of use cases and tests.
+\label{ch:background}
 This chapter provides a brief introduction to software testing, test-driven development and how these relate to, and differ from this project. It also provides the historical background and motivation for the idea that eventually became the topic of this thesis. It also gives a brief overview of the design and implementation of the case study system used in this thesis, why we chose to perform the tests on the level that we did, and a brief overview on how it was done. This overview is continued in the next chapter.
 
 \section{Software testing}
@@ -23,6 +23,7 @@ The terminology described here is provided, either because the term is used in t
   \label{fig:sor-model}
 \end{figure}
 \subsection{Test-driven development}
+\label{ssec:test-driven-development}
 A development methodology that emerged around the millennium, and have been looking very promising, is test-driven development. I focuses on -- as the name would also implicate -- tests before anything else. The basic work-flow is to first write tests, then refactor the code base of the system under development until the test passes. Then, to make sure the refactored code does not break existing functionality, all the previously written tests must be run. This work-flow is illustrated in the flow chart shown in \ref{fig:test-driven-development-flow}.\medskip
 \begin{figure}[!htbp]
 \centering
@@ -41,6 +42,7 @@ Instead it focuses on a tool-assisted generation of tests scopes to achieve a ve
 Continuous integration is a methodology, that that supplements test-driven development quite well. In essence, it is an automated service that continously runs tests on code, or produce new artifact (binaries) from it. This is done either periodically, (nightly, weekly, monthly) or triggered whenever developer makes a change to the code base.
 
 \section{Case study system}
+\label{sec:case-study-system}
 % Make a point on why this section is in the thesis. IT EVALUATES THE VALUE OF THE SYSTEM AS USE CASE SYSTEM.
 Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\medskip
 
