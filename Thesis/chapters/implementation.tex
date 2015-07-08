@@ -1,6 +1,9 @@
 \chapter{Implementation}
 This chapter describe the tool that was implemented as part of this thesis, to enable the generation of tests from use cases. The chapter provides a high-level architectural view of the test system, and an example on how a use case goes from description to test.\medskip
-As already mentioned in chapter \ref{ch:design}, the actions of users were eventually dropped, as they provided little or no value in test. This will become more evident, when an example of a generated test is shown.
+
+\noindent As already mentioned in chapter \ref{ch:design}, the actions of users were eventually dropped, as they provided little or no value in test. This will become more evident, when an example of a generated test is shown.\medskip
+
+\noindent The protocol specification for the implementation is shown in appendix \ref{appendix:protocol}, test results for it can be found in appendix \ref{appendix:tests}, and the database schema is located in appendix \ref{appendix:database-schema}. The handbook, written from the point of view of the user interface, can be found in appendix \ref{appendix:handbook}.
 
 \section{Architecture}
 The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
@@ -17,7 +20,9 @@ The implementation is done in a client/server architecture. It consists of a thr
 \noindent The client and the server share their code-base around a library package that contain (meta model) models, serialization/de-serialization tools, and the (use case) translation tools. The translation can, thus be done either by the client, or the server.
 
 \section{Use case translation}
-This section contains the a description of the different implemented components and utilities needed to support the use case to test translation.
+This section contains the a description of the different implemented components and utilities needed to support the use case to test translation, and details of the use case details as well.\medskip
+
+\noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}), and potentially an error. Errors arise when an expectation failed, or a system error occurs and are fatal for the test run -- i.e. the run will at the point where the error occurred. Assumptions are for use case entries that are mapped to assumption statements, and are non-fatal.
 
 \subsection{Test templates}
 Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
@@ -25,20 +30,18 @@ Test templates are, in this thesis, hand-written source code files that are miss
 \noindent The templates are implemented in a simple form. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and complied before the generation step, enabling them to be verified prior to use.\medskip
 The templates are the mapping link between use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
 
-\subsection{Actor classes}
-%TODO Overall generation concept. A test needs to be supplied with some resources as input.
-%lead-in
-%TODO Umet conditions (pre- and postconditions) should be handled by writing a code block that throws an error. Could simply be an expect.
-%TODO The actions proved no actual value without the mapping language, and was removed from the implementation.
+\subsection{Actor and concept classes}
+Actor classes represent a domain actor, and should be able support the behavior that is expected from an actor of that type. The classes will be hand-written by a developer, but the functionality that is needed, may be inferred by the use case steps involving the actor/concept and the actions it performs.
 
 \subsection{Definition}
+Definitions are mappings from use case roles -- which are simple string identifiers -- to actor, or concept types. Definitions are stored in a global definition set that may be reused by different use cases. The definitions are used to determine which actor and concept types that should be part of the signature of; both the individual use case steps, but also the signature of the use case path functions.
 
 \subsection{Normalization of use case steps}
 To be able to make a use case step into a function call, we need to normalize it to a string that follows the general conventions of function call in programming languages (and specific for Dart, as this is our target language). We also need to be able to recognize identical steps in different use cases. It gives us the following constraints for a normalization function.
 \begin{itemize}
   \item Programming conventions must be followed. This means no spaces in function identifier, no redeclaration of function identifiers with different parameter set, and no identifiers must start with a number.
   \item Function should be deterministic. So given the an specific input, it always produces the same output.
-  \item Not specifically a constraint; but a good function should produce human-readable output.
+  \item Not specifically a constraint; but a the function should -- if at all possible -- produce human-readable output to make it easier to trace generated code.
 \end{itemize}
 The normalization described above, could be realized by a good hashing algorithm -- prefixed by a constant string to avoid prefixed numbers in identifiers. This, however would collide with our desire to have human-readable functions. The implementation ended up doing the following:
 \begin{itemize}
@@ -56,7 +59,9 @@ One thing that is needed for a function \emph{call}, are the function parameters
 \end{verbatim}
 
 \section{Example translation}
-This section goes through the steps associated with creating tests from use cases in this implementation. The example is done, disregarding the concrete user interface details, which can instead be found in the handbook in appendix \ref{appendix:handbook}
+This section goes through the steps associated with creating tests from use cases in this implementation. The example is done, disregarding the concrete user interface details, which can instead be found in the handbook in appendix \ref{appendix:handbook}.\medskip
+
+\noindent The example reuses the use case from the 3rd concept section (\ref{sec:3rd-iteration}), that is also repeated in figure \ref{lst:uc-simple-example-revisited} for convenience.
 
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example revisited, label=lst:uc-simple-example-revisited]
 Scenario:
@@ -70,7 +75,7 @@ Postconditions:
   The message is stored
   The receptionist is ready to handle the next call
 \end{lstlisting}
-%TODO verify that we have dropped the "action" concept in design concept 3.
+As mentioned earlier, the modeling of an ``action'' was dropped because it provided no real value in test generation. With this ignored, the highlighting of actors (orange) and concepts (blue) -- done by the use case writer -- will look like listing \ref{lst:uc-simple-example-highlighted-revisited}, and lead to two declarations; one declaration of the role of ``receptionist'' actor of type ``receptionist'', and a domain concept role of a ``message'' of type ``message''. The concrete user interface will have containers that signify where pre- and postconditions and main scenario, effectively giving us the composition and structure of the use case.
 
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example with its different parts highlighted, label=lst:uc-simple-example-highlighted-revisited]
 Scenario:
@@ -84,7 +89,7 @@ Postconditions:
   The @\color{blue}message@ is stored
   The @\color{orange}receptionist@ is ready to handle the next call
 \end{lstlisting} 
-
+When the declarations are in place, we can pass the structured use case, along with them to the generator. It will perform normalization on the steps (and actor roles), in order to build a test that does not break the syntax of the programming language. Listing \ref{lst:generated-test-code-example} show the generated code with normalizations applied. A thing to note, is the function signature for the generated functions includes every concept and actor that is used within their bodies. This is done to support chaining model presented back in section \ref{ssec:step-execution}. The code generated here is clearly not runnable, as the called functions is not declared. We need to write up a template that we can place the functions in.
 \begin{lstlisting}[style=Dart, caption=Example of generated code without a template applied concept,label={lst:generated-test-code-example}]
 
 void preconditions(Receptionist receptionist) {
@@ -107,7 +112,9 @@ void scenario(Receptionist receptionist, Message message) {
 
 \end{lstlisting}
 
+\noindent Listing \ref{lst:example-template-methods} show the template that supports the generated use case from listing \ref{lst:generated-test-code-example}. 
 
+The unmet condition is handled here by writing a code block that throws an \texttt{AssertionFailure}. 
 \begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:example-template-methods}]
 UserService userService = new UserService(...);
 MessageService messageService = new MessageService(...);
@@ -153,32 +160,24 @@ void receptionist_sends_message(receptionist, message) {
 void receptionist_marks_state_as_ready(receptionist) {
   userService.changeState(receptionist.user);
 } 
+
+/*[USE-CASE-PLACEHOLDER]*/
 \end{lstlisting}
 
-\section{Writing mapper function}
-Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
-%TODO Describe the technique as well. (The Mapping process).
+%TODO Verify that this is needed.
+%\section{The mapping process}
+%Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
 
-
-%TODO mention why mapping actions are no longer relevant.
 \subsection{Running the analysis}
 Having a set of definitions, we can detect actors and concepts from textually analysing the text of every UseCaseEntry object. The analysis is quite simple, and merely looks for occurrences of the definition by comparing strings.
 
-%\section{Test framework}
-% You need to write a test framework containing object pools, factory classes aso.
-%\subsection{Exploiting injected semantics}
-%How may we benefit from additional semantics? We can identify rubbish postconditions, such as predicates that involve objects that are either not modified in the statements, or simply never referenced.
-
-\section{Testing}
-% A use case returns a outputstate which is composed by an outputlog (log messages). A list of assumptions or an error. An error is for when an expectation failed, or a system error occured. Assumptions are for use case entries that are mapped to assumption statements.
-
-\section{Protocol}
-On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled. A complete protocol specification is shown in appendix \ref{appendix:protocol}.
-
-\section{Initial state}
+\subsection{Initial state}
 The initial state of the test support tools are provided by a global setup and teardown function that encapsulates the entire pool of tests.
+
 
 \section{Summary}
 The implementation is on a prototype stage and contains some open ends.
 
 The use case-as-precondtions could be implemented via a carried environment.. (explained somewhat in design).
+
+In the test support tools written for the test case system, we make heavy use of resource pools and object factories to supply the tests with the, quite large, resource blocks that they need.
