@@ -42,4 +42,4 @@ clean_diagrams:
 	make -C img $@
 
 todo_count:
-	grep -nir TODO chapters | wc -l
+	@grep -nir TODO chapters | wc -l
