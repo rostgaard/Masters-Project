@@ -112,26 +112,33 @@ void scenario(Receptionist receptionist, Message message) {
 
 \end{lstlisting}
 
-\noindent Listing \ref{lst:example-template-methods} show the template that supports the generated use case from listing \ref{lst:generated-test-code-example}. 
+\noindent Listing \ref{lst:example-template-methods} show the template that supports the generated use case from listing \ref{lst:generated-test-code-example}. Initially, we require some services, so we instantiate a client for them. The specifics of passing the configuration to them is omitted in this example for simplicity.\medskip
 
-The unmet condition is handled here by writing a code block that throws an \texttt{AssertionFailure}. 
+\noindent The first mapped function elaborates the behavior of the statement ``receptionist is created''. This means, in our implementation, that the receptionist actor's user is known by the user service. If not, the test should fail. The unmet condition is here handled here by writing a code block that uses the \texttt{fail} function provided by the test framework. It simply makes the entire test fail, with message passed as parameter.\medskip
+
+\noindent In the test support tools of the case study system, the receptionist actor is automatically logged in, prior to running the tests. This means that we can safely assume, that this actor is logged in. Nevertheless, we may explicitly state it for the log using ``assume''. (listing \ref{lst:example-template-methods} l. 16).\medskip
+
+\noindent In order to simulate the creation of a ``Message'' object, we have instantiated a MockMessageFactory, which is actually an unbounded resource pool (see section \ref{ssec:resource-pools}). The factory will return a constructed ``Message'' object, ready for use in the sending step.\medskip
+
+\noindent The step ``the\_message\_is\_stored'' uses the MessageService to re-retrieve the message saved in the main scenario. In order to do so, it uses an \texttt{expect} function, that is part of the test framework. A thing to note, is that equality must be defined for the \texttt{equals} matcher to work.\medskip
+
+
+\noindent The use case placeholder is located at very bottom of the template, and will contain the generated code from listing \ref{lst:generated-test-code-example}, once this template is applied to the use case.
 \begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:example-template-methods}]
 UserService userService = new UserService(...);
 MessageService messageService = new MessageService(...);
-DummyMessageFactory messageFactory = new DummyMessageFactory(...);
+MessageFactory messageFactory = new MockMessageFactory(...);
   
 void the_receptionist_is_created(Receptionist receptionist) {
   try (userService.get(receptionist.user.id) {}
   catch (NotFoundException e) {
-    throw new AssertionFailure("Receptionist " + 
-                                receptionist + 
-                               " not created");
+    fail("Receptionist " + receptionist + " not created");
   }
 }
 
 /* Later steps will fail if the receptionist is not logged in. */
 void the_receptionist_is_logged_in(receptionist) {
-   assume("the_receptionist_is_logged_in");
+   assume("The receptionist is logged in by the test tools");
 }
 
 void the_message_is_stored(Message message) {
@@ -141,11 +148,6 @@ void the_message_is_stored(Message message) {
 
 void the_receptionist_is_ready_to_handle_the_next_call(Receptionist r) {
   expect (r.state, equals(ReceptionistState.Idle);
-}
-
-void postconditions(Receptionist receptionist, Message message) {
-  the_message_is_stored(message)
-  the_receptionist_is_ready_to_handle_the_next_call(receptionist);
 }
 
 void receptionist_types_in_message(Receptionist r, Message message) {
@@ -163,21 +165,29 @@ void receptionist_marks_state_as_ready(receptionist) {
 
 /*[USE-CASE-PLACEHOLDER]*/
 \end{lstlisting}
+As we see from the listings; both the generated, and written code is quite readable, and encourages decomposition into small and intuitive steps. It may be desirable to have a common set of utility functions that are shared among use cases, and to move some of the function to the belonging actor to build a more object-oriented set of test support tools.\medskip
 
-%TODO Verify that this is needed.
-%\section{The mapping process}
-%Some basics on the procedure; take every line of the use case and not every concept and actor used. Then speculate on the realization of this. Which components should be involved, and which other actors. Depending on the concrete architecture, these components may be services, larger program components (such as Java packages), or even sub-functions.
+\noindent The initial state of the test support tools are provided by a global setup and teardown function that encapsulates the entire pool of tests.\medskip
 
-\subsection{Running the analysis}
-Having a set of definitions, we can detect actors and concepts from textually analysing the text of every UseCaseEntry object. The analysis is quite simple, and merely looks for occurrences of the definition by comparing strings.
+\noindent Generated tests are source code files meant to be compiled an run by a test runner. This means that they may be added to the same source code management (SCM) system, as the test tools for easy distribution. If the SCM system also supports revision management, then requirement changes that lead to regeneration of tests, will be evident in -- and traceable from -- the revision log.
+\section{Technical details}
+The client, server and library is built using the web-oriented programming language Dart. It is optionally typed and class-oriented. It was originally meant as a replacement for the popular JavaScript as a natively supported browser scripting language via a virtual machine, built into the browser, like with JavaScript. This effort has recently been abandoned in favor of a cross-compilation to JavaScript instead.\medskip
 
-\subsection{Initial state}
-The initial state of the test support tools are provided by a global setup and teardown function that encapsulates the entire pool of tests.
+\noindent One of the big advantages of Dart is that it supports both web-client and server-side development, and hereby also code sharing between server and client. It has a built-in package manager with many component with everything, ranging from markdown visualization library to database bindings.\medskip
 
+\noindent This service of the tool makes use of a HTTP-server and router package called ``shelf'', which handles all of the low-level work associated with server programming. Focus can then be placed on writing API response handlers instead.\medskip
+
+\noindent Persistent storage is done in a PostgreSQL database, via the response handlers. The schema is quite simple, and most of the tables focus on storing encoded objects, rather than enforcing database constraints. A latter implementation would most likely have these constrains. But during development it has been convenient to be able to focus on the model, rather than database design, when the -- inevitable -- changes to the design occurred.\medskip
+
+\noindent The client is web-based and uses some HTML5 features for presentation -- the notification API\footnote{\url{http://www.w3.org/TR/notifications/}}, just to name one. It is built around the model-view-control (figure \ref{fig:layered-mvc}), and has no external dependencies, other than the service. Once compiled to JavaScript, it should be able to run on every modern browser.
 
 \section{Summary}
-The implementation is on a prototype stage and contains some open ends.
+While the mappings here were done to a specific domain, the concepts of mapping to actors, concepts, mock objects and interfaces should be applicable for most system. Most test frameworks (junit, testNG and others) should also have built-in matcher functionalities, such as \texttt{expect} and \texttt{fail}. If not, simple if-else statement and thrown named exceptions will yield roughly the same result.\medskip
 
-The use case-as-precondtions could be implemented via a carried environment.. (explained somewhat in design).
+\noindent The mapping procedure is simple, and can be done in whichever IDE or editor a developer prefers. The task of writing a single step function that performs one specific (high-level) task is easily distributed, as there shouldn't be shared state between the steps -- other than the one they forward.\medskip
 
-In the test support tools written for the test case system, we make heavy use of resource pools and object factories to supply the tests with the, quite large, resource blocks that they need.
+\noindent The definition sets, from which we can detect actors and concepts from textually analyzing the text of every use case step, is -- at best -- a pragmatic solution. The simple analysis of looking for occurrences of the definition string by comparing strings, may result in ambiguity, in normalized and defined strings.\medskip
+
+\noindent In the test support tools written for the test case system, we make heavy use of resource pools and object factories to supply the tests with the, quite large, resource blocks that they need.\medskip
+
+\noindent The implementation contains open ends, a rough user interface, and although tested (appendix \ref{appendix:tests}) should be considered conceptual prototype not suitable for deployment.
