@@ -119,11 +119,13 @@ We soon realized that doing individual mapping for every line was tedious, time 
 \end{figure}We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument. The second iteration it highlighted in figure \ref{fig:project_parameter_plot_2nd_iteration}. It is built during the course this thesis, and is thus considered an auxiliary part of it.
 
 \subsection{Sharing domain model knowledge}
+\label{ssec:openreception-framework}
 During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. We could now, fairly easy, by re-using the domain classes and interfaces from the framework build tests that with a higher domain awareness than the previous iteration.\\
 This section explains the processes of befitting from the models and interface of the framework for a third application: Namely testing. 
 
 \subsection{Framework content}
-\label{ssec:openreception_framework}
+\label{ssec:openreception-framework-content}
+
 \begin{figure}[!htbp]
 \includegraphics[scale=0.65]{\imgdir framework_example}
 \centering
