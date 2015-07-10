@@ -42,10 +42,13 @@ Requirement maintenance is usually a time-consuming and tedious task with little
 %The methodology used in the tool development attacks from two angles. First one is bottom-up, and the other is top-down. The bottom is to take an existing system where a rudimentary \emph{ad-hoc} implementation is used, and try to extract some of the good usage, and implementation patterns from it. The top-down approach is to very broadly define the abstract concepts needed to make this entire project feasible, through a number of different concepts. Ideally, a design that is realizable within the. The intended effect of choosing this approach is that it tries to keep things applicable, while being guided by an academic scope.
 
 \section{Project}
+%TODO STATE THE HYPOTHESIS!
 \begin{itemize}
   \item Requirements are a moving target
   \item Requirements are decoupled from implementation
 \end{itemize}
+Doing this will provide a mean to fight this that is \emph{feasible}, in the sense that is does not increase the number of extra man-hours spend on development significantly, and is scalable. 
+
 \subsection{Overall concept}
 In addition any activities already in place within the development of a software product (code writing, reviews, stakeholder meetings), a few more needs to be added for the different stakeholders to support use case test generation.\medskip
 
@@ -58,8 +61,9 @@ Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram in
 \caption{Use case creation with different actors}
 \label{fig:use_case_creation_activity_diagram}
 \end{figure}
-\noindent The basic idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability, and try to avoid bad requirements. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\\\\
-These questions should -- preferably -- be answered by the customer of the system, and mapped to actual functionality that may then be tested with regards to the behavior described in the requirements. So, in essence, the very basic use case; ``Administrator creates a new user'' with the postcondition ``The new user is created in the system'' should result in a test that, in some way, performs the ``add user'' action of the Administrator actor, and then verifies it against the postconditions. Ideally; with an appropriate level of detail provided in the use cases, and a grain of automated (and manual) mapping to domain concepts will enable automatic generation of acceptance tests. These can then be combined with a continuous integration service that runs the tests and reports results to developers.\medskip
+\noindent The basic idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability, and try to avoid bad requirements. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\medskip
+
+\noindent These questions should -- preferably -- be answered by the customer of the system, and mapped to actual functionality that may then be tested with regards to the behavior described in the requirements. So, in essence, the very basic use case; ``Administrator creates a new user'' with the postcondition ``The new user is created in the system'' should result in a test that, in some way, performs the ``add user'' action of the Administrator actor, and then verifies it against the postconditions. Ideally; with an appropriate level of detail provided in the use cases, and a grain of automated (and manual) mapping to domain concepts will enable automatic generation of acceptance tests. These can then be combined with a continuous integration service that runs the tests and reports results to developers.\medskip
 
 \noindent The project will use the requirements from an existing system as a case study and formalize the structure of these, so that test generation from them is possible. During this process, we will investigate how to structure requirements so that we can generate tests directly from them and map implementation to requirements. Ideally, we want to identify general patterns and constraints in the structure/formalism introduced to our requirements in the case study, to be able to apply them to other projects. But in general, we will investigate to which extent this idea can be applied, and try to implement a translation tool that is able to translate a representation of a use cases into a tests case.\medskip
 
