@@ -11,11 +11,6 @@ The process described in this thesis, fit quite nicely into the case study syste
 
 \noindent Other development projects, that have more complex use cases or interfaces, may experience larger complexity in writing mapping functions that realize their use case.
 
-\subsection{Challenges}
-%TODO finalize this section
-As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
-
-
 \section{Impact of changes}
 This section tries to uncover the relative additional workload of this approach, from a requirement or implementation change perspective. Changes, thus, discussed from these two points of view.
 
@@ -29,17 +24,21 @@ One of the most relevant question of this project is; how does requirement chang
 \noindent The removal of a requirements or used step mappings may be detected by a good static analysis of the generated source code. It will inform the developer of unused functions, that are suitable for removal.
 
 \subsection{Implementation change}
-An implementation change
-%TODO what happens when you need an extra resource?
-%How much effort is there involved in changing requirements, or implementation.
-%Discuss code change on different levels; interface (component), function or data model.
-%Discuss which impact a use case step change has, and most importantly; does it
+Most implementation changes should be transparent to the tests, and only interfaces changes would really have an impact. As the test support tools from the case study system share the interfaces classes with the implementation, inconsistencies will be detected in a re-compilation of the test case sources. It is therefor important that the test support tools track implementation. In the case study system, this is done by putting an incremented version number on every release of the shared framework (see section \ref{ssec:openreception-framework}). The test runner will upgrade to the latest framework version, prior to building and running, hereby ensuring that the tests work with the latest interfaces.\medskip
 
+\noindent If there is no sharing of interface code between tests and the developed system, it will very challenging and time consuming to keep the tests synchronized with the system. This is discussed further in section \ref{ssec:first-and-second-iteration-differences}.\medskip
 
-\section{Parallelism}
+\noindent Any change to actors or concepts seem unlikely, as they are created solely for the purpose of tests, and should only be changed if the requirements change.
+
+\section{Challenges}
+%TODO finalize this section
+As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
+
+\subsection{Parallelism}
 \label{sec:parallelism}
-A section on multiple actors and race conditions. How do you create a use case that contains multiple simultaneous instances of actors that perform the same action synchronously? Basically asserting parallel properties.\todo{.\\turn this into a real section}\\\\
-We have a use case, where two Receptionist actor battles for the same call. In order to test this, we may wish to describe the scenario like so -- assuming a call is has arrived and is ready for pickup:
+A case that is not able to be covered by this approach, is when a use case contains multiple actors that perform the same action simultaneously.\medskip
+
+\noindent We have a use case, where two Receptionist actor battles for the same call. In order to test this, we may wish to describe the scenario like so -- assuming a call is has arrived and is ready for pickup:
 \begin{enumerate}
  \item Receptionist 1 tries to pickup call
  \item Receptionist 2 tries to pickup call
@@ -59,8 +58,8 @@ Making the keyword refer in 2. refer to the previous entry, 1. This feature is n
 %\section{Applicablity to different methodologies} See http://en.wikipedia.org/wiki/Requirements_analysis
 % Waterfall, Prototype model, Incremental, Iterative, V-Model, Spiral, Scrum, Cleanroom, RAD ...
 
-
-\subsection{Side benefits}
+\section{Benefits}
+\subsection{Side effects}
 %One of the major benefits is that it makes other black-box tests easier, as we can re-use components from the framework.
 % Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
 
@@ -85,6 +84,7 @@ Some may argue that this piece of code maps very nice to a requirement. While it
 Another side benefit from having use cases written as tests -- whether they are generated or not -- gives new developers a good reference point on how the system is intended to work. By reading the class files representing actor and concepts, and how they interface with the system provides a good high-level overview of the general architecture, and how it should be used.
 
 \subsection{Differences between first and second iteration}
+\label{ssec:first-and-second-iteration-differences}
 In the first implementation of the test tools (see section \ref{sec:1st-iteration-test-specification}), there was no shared knowledge of the domain. The tests were written in a different programming language than the main codebase, and interfacing was manual -- even though the test case generation were automated.
 The second iteration also treated tests as an intricate part of the main project, rather than an auxiliary part.
 \begin{figure}[!hbpt]
