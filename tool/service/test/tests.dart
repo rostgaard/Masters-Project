@@ -30,11 +30,11 @@ main() {
       logMessage(record.toString()));
 
   /// Database tests.
-//  testDatabaseActor();
-//  testDatabaseConcept();
-//  testDatabaseConfig();
-//  testDatabaseTemplate();
-//  testDatabaseUseCase();
+  testDatabaseActor();
+  testDatabaseConcept();
+  testDatabaseConfig();
+  testDatabaseTemplate();
+  testDatabaseUseCase();
 
   /// Router tests
   testRouterConcept();
