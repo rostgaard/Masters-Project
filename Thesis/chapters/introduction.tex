@@ -77,8 +77,11 @@ gain better integration of use cases into the development process.
 %This is a Model Driven Engineering (MDE) technique.
 %NOTE the summary of this section should be that we want to look into the value of this in requirement elicitation process, the level of abstraction in the methododogy and discussion on value.
 
-\subsection{Methodology}
-As previously mentioned, 
+\subsection{Case study system}
+This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system.The case study system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements.
+
+\subsection{Outline}
+The development of the case study system coined the idea of test generation from structured use cases, and spawned two implementations, than founded the basis of this project. The first was test generator, built as an auxiliary project, with no direct link to main project, other than the knowledge of which interfaces it exposed, and the serialized data structures it transmitted. It, thus, had a no direct implementation link, and every change in implementation had to propagated manually.\medskip
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -99,11 +102,10 @@ As previously mentioned,
 \caption{Project parameters and key points}
 \label{fig:project_parameter_plot}
 \end{figure}
+\noindent In the second iteration, the generated tests were later manually translated (programming language-wise) into a new set of tests that re-used the implemented code, and added what we defined as ``Domain-awareness''. This was done by, again manually, writing up a set of support tools that tried to mimic the domain model of the case study system. So, any actor or general domain concept would have an appropriate source code class in this tool set. It imported most of the interfaces and model classes from main code base of the case study system, so any implementation change would be propagated to -- or lead to compilation error in -- the test support tools. Having the domain-awareness helped linking requirements to tests, and -- indirectly -- implementation. But the implementation had its flaws.\medskip
 
-%TODO Define Domain-awareness and add explanation of the above graphic.
+\noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests?\medskip
 
-\subsection{Case study system}
-This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system. The system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements.
 
 \section{Related work}
 During the development of the tool and technique 
