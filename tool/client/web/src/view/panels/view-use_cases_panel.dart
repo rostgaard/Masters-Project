@@ -19,6 +19,8 @@ class UseCasesPanel implements Panel {
   /// Rendered use case representation.
   RenderedUseCase useCaseView;
 
+  UseCaseBlock _scenarioView;
+
   /// Use case dropdown selector.
   SelectElement get _useCaseSelector =>
       _root.querySelector('#use-case-selector');
@@ -77,13 +79,9 @@ class UseCasesPanel implements Panel {
     });
   }
 
-
   libtcc.UseCase _harvestUseCase() {
-    Iterable<libtcc.UseCaseEntry> uces =
-        _scenarioElement.querySelectorAll('li').map((LIElement li) =>
-            new libtcc.UseCaseEntry(li.text));
 
-    libtcc.UseCaseBlock scenario = new libtcc.UseCaseBlock(uces);
+    libtcc.UseCaseBlock scenario = new libtcc.UseCaseBlock(_scenarioView.steps);
 
     return new libtcc.UseCase(this._useCaseName)
       ..description = this._useCaseDescriptionInput.value
@@ -142,7 +140,7 @@ class UseCasesPanel implements Panel {
 
     _markActorButton.onClick.listen((_) {
       if (_hasSelectedText) {
-        _actorController.create(new libtcc.Actor(_selectedText));
+          _actorController.create(new libtcc.Actor(_selectedText));
         _render();
       }
     });
@@ -195,15 +193,15 @@ class UseCasesPanel implements Panel {
    *
    */
   _renderUseCase(libtcc.UseCase useCase) {
-    UseCaseBlock scenarioView = new UseCaseBlock(useCase.scenario, definitions);
+    _scenarioView = new UseCaseBlock(useCase.scenario, definitions);
 
-    scenarioView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
+    _scenarioView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
 
     _useCaseId = useCase.id;
     _useCaseName = useCase.name;
     _useCaseDescriptionInput.value = useCase.description;
     useCaseView.activeUseCase = useCase;
-    _scenarioElement.children = [scenarioView.element];
+    _scenarioElement.children = [_scenarioView.element];
   }
 
   /**
