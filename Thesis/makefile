@@ -16,7 +16,8 @@ diagrams = first_generation_class_structure.pdf \
 	   concept2_use_case_mapping.pdf \
            event-stack-to-state-machine.pdf \
            use_case_creation_activity_diagram.pdf \
-           layered-mvc.pdf
+           layered-mvc.pdf \
+           tests-relation-to-implementation.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
