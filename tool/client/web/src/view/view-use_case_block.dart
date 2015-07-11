@@ -7,6 +7,7 @@ class UseCaseBlock {
 
   final DivElement element = new DivElement();
   OListElement _blockList;
+  TextAreaElement _inputArea;
 
   /// Stream for external use.
   StreamController<libtcc.UseCaseBlock> _blockChange = new StreamController<libtcc.UseCaseBlock>();
@@ -17,11 +18,31 @@ class UseCaseBlock {
    * Default constructor.
    */
   UseCaseBlock(libtcc.UseCaseBlock block, libtcc.Definitions definitions) {
-    _blockList = new OListElement()
-      ..children = block.map((libtcc.UseCaseEntry entry) =>
-          _entryToLI (entry, definitions)).toList(growable: false);
+//    _blockList = new OListElement()
+//      ..children = block.map((libtcc.UseCaseEntry entry) =>
+//          _entryToLI (entry, definitions)).toList(growable: false);
 
-    element.children = [_blockList, _addEntryField(block, definitions)];
+    _inputArea = new TextAreaElement()..value =
+        block.map((libtcc.UseCaseEntry entry) => entry.text).join('\n');
+
+    _inputArea.onInput.listen((_) {
+      _blockChange.add(new libtcc.UseCaseBlock (steps));
+    });
+
+    _inputArea.onClick.listen((_) {
+      print (_inputArea.value.substring(_inputArea.selectionStart, _inputArea.selectionEnd));
+    });
+
+    element.children = [_inputArea, _addEntryField(block, definitions)];
+  }
+
+  /**
+   * Returns the use case steps.
+   */
+  Iterable<libtcc.UseCaseEntry> get steps  {
+    Iterable<String> lines = _inputArea.value.split('\n');
+    return lines.map((String text) =>
+        new libtcc.UseCaseEntry(text));
   }
 
   /**
