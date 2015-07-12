@@ -42,12 +42,16 @@ Requirement maintenance is usually a time-consuming and tedious task with little
 %The methodology used in the tool development attacks from two angles. First one is bottom-up, and the other is top-down. The bottom is to take an existing system where a rudimentary \emph{ad-hoc} implementation is used, and try to extract some of the good usage, and implementation patterns from it. The top-down approach is to very broadly define the abstract concepts needed to make this entire project feasible, through a number of different concepts. Ideally, a design that is realizable within the. The intended effect of choosing this approach is that it tries to keep things applicable, while being guided by an academic scope.
 
 \section{Project}
-%TODO STATE THE HYPOTHESIS!
-\begin{itemize}
-  \item Requirements are a moving target
-  \item Requirements are decoupled from implementation
-\end{itemize}
-Doing this will provide a mean to fight this that is \emph{feasible}, in the sense that is does not increase the number of extra man-hours spend on development significantly, and is scalable. 
+This thesis proposes a tool designed for writing use cases coupled with an implementation mapping process. It is meant to provide a link between requirement and implementation through tests generated from structured implementation-mapped requirements. The generated tests will serve as a behavioral-validation mechanism meant for continuously be run against the implementation to assert that requirements are met throughout the evolution of the system under development. The overall concept is illustrated in figure \ref{fig:tests-relation-to-implementation} that show requirements that are linked to artifacts from the implemented system, such as model classes in interfaces.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{\imgdir tests-relation-to-implementation}
+\caption{Concept of mapping from requirements to implementation}
+\label{fig:tests-relation-to-implementation}
+\end{figure}
+
+\noindent Doing this will provide a general methodology for mapping requirements to implementation -- and vise versa -- that is \emph{feasible}. Feasible in the sense that is does not increase the number of extra man-hours spend on development significantly and scalable. 
+
 
 \subsection{Overall concept}
 In addition any activities already in place within the development of a software product (code writing, reviews, stakeholder meetings), a few more needs to be added for the different stakeholders to support use case test generation.\medskip
@@ -104,13 +108,13 @@ The development of the case study system coined the idea of test generation from
 \end{figure}
 \noindent In the second iteration, the generated tests were later manually translated (programming language-wise) into a new set of tests that re-used the implemented code, and added what we defined as ``Domain-awareness''. This was done by, again manually, writing up a set of support tools that tried to mimic the domain model of the case study system. So, any actor or general domain concept would have an appropriate source code class in this tool set. It imported most of the interfaces and model classes from main code base of the case study system, so any implementation change would be propagated to -- or lead to compilation error in -- the test support tools. Having the domain-awareness helped linking requirements to tests, and -- indirectly -- implementation. But this implementation was not without its flaws.\medskip
 
-\noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests? The idea of combining the test generation with domain-awareness could be the solution to these problems. Figure \ref{fig:project_parameter_plot} shows the parameters that we design after, and how the different implementations a located in this space.
-%TODO Make a more elegant ending.
+\noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests? The idea of combining the test generation with domain-awareness would allow for a mapping between requirements in implementation that enable changes in either to be propagated to the other. Figure \ref{fig:project_parameter_plot} shows the parameters that we design after, and how the different implementations a located in this space. The figure will be repeated throughout the thesis to indicate where in this space the current section operate.
 
 \section{Related work}
 During the development of the tool and technique 
 Using model checking techniques to generate tests from requirements\cite{gargantini1999using}
 Usually mappings between requirement and implementation is non-existing. But when a mapping exists, it is usually implemented by an ad-hoc notation system, such as comments that link to source code files or integration tests. There exist systems that control the requirement traceability, but these tools usually target the safety-critical software market and are, thus, not really suited for mainstream development.\\%TODO Reference
 
-\todo[inline]{Stub section below.}
 There exist already methods and tools that extend the formalization of requirements, but there seems to be a lack of motivation for applying them. This lack of motivation is found in multiple stakeholders; programmers and customers.
+
+%TODO The guy that takes derives requirements from clear-text descriptions.
