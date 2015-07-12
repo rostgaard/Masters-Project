@@ -16,6 +16,7 @@ Within the realm of software engineering, there exists a realm of requirement en
 \section{Problem statement}
 %TODO Overall problem. Provide a that enables tests to generated from structured use cases, without enforcing too many constraints on use case creation.
 %The usability use cases are conditioned by their ease of use.
+%TODO How to structure the use cases? Thiss is facilitated in the conceptual designs
 Given the high rate of software project failures\cite{verner2008} \cite{charette2005}, and the general widespread requirement/implementation mismatch, we treat requirements and as incomplete and continuously evolving.
 During the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. And often it also affects the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\bigskip
 
@@ -44,7 +45,9 @@ This thesis proposes a tool designed for writing use cases coupled with an imple
 \label{fig:tests-relation-to-implementation}
 \end{figure}
 
-\noindent Doing this will provide a general methodology for mapping requirements to implementation -- and vise versa -- that is \emph{feasible}. Feasible in the sense that is does not increase the number of extra man-hours spend on development significantly and scalable. 
+\noindent Doing this will provide a general methodology for mapping requirements to implementation -- and vise versa -- that is \emph{feasible}. Feasible in the sense that is does not increase the number of extra man-hours spend on development significantly and scalable.\medskip
+
+\noindent Some systems may be more testable than others, and the meaning of the design of the system is facilitated through a discussion of the case study system (section \ref{ssec:case-study-system-intro}).
 
 
 \subsection{Overall concept}
@@ -70,6 +73,7 @@ Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram in
 \noindent The tool we want to build here aims in usage to be integrated in an existing development procedure, with a low learning curve that enables a broad range of programmers to gain better integration of use cases into the development process.
 
 \subsection{Case study system}
+\label{ssec:case-study-system-intro}
 This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system.The case study system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements.
 
 \subsection{Outline}
@@ -99,10 +103,12 @@ The development of the case study system coined the idea of test generation from
 \noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests? The idea of combining the test generation with domain-awareness would allow for a mapping between requirements in implementation that enable changes in either to be propagated to the other. Figure \ref{fig:project_parameter_plot} shows the parameters that we design after, and how the different implementations a located in this space. The figure will be repeated throughout the thesis to indicate where in this space the current section operate.
 
 \section{Related work}
-John Rushby\cite{rushby2008automated} proposes that tests can be generated from requirements, \emph{if} these are already in an executable form, commonly found in model based software engineering. He identifies that there is a problem with loops in models as well. In the project from this thesis, the requirements are not executable, but merely text that is explicitly mapped to implementation.\medskip
+This section contains a brief overview of the related works, founded during the background research phase of this project.\medskip
+
+\noindent John Rushby\cite{rushby2008automated} proposes that tests can be generated from requirements, \emph{if} these are already in an executable form, commonly found in model based software engineering. He identifies that there is a problem with loops in models as well. In the project from this thesis, the requirements are not executable, but merely text that is explicitly mapped to implementation.\medskip
 
 \noindent Angelo Gargantini et al. proposes model checking techniques to generate tests from requirements\cite{gargantini1999using}. The scope of this, however, appears to be mostly on software cost reductions in the field of safety-critical software, and is too formal in nature to mainstream software development.\medskip
 
 \noindent A, not strictly related, but very interesting concept that may support this project, is a textual analysis with the purpose of building up an initial conceptual (domain) model for use in the early development stages\cite{kop2010natural}. This would aid our project with a mapping suggestions, based on an analysis of what is written in the use cases.\medskip
 
-\noindent In summary: There exist already methods and tools that support the formalization or structuring of requirements, but there seems to be a lack of motivation for applying them widely. The scope of them are either model-based software engineering, or safety-critical systems. The scope of this project is to provide an approach that is applicable in a wider array development environments -- without restrictions on software engineering paradigm, or target system market. It would, however, \empth{not} be suitable for safety-critical systems as it is very informal.
+\noindent In summary: There exist already methods and tools that support the formalization or structuring of requirements, but there seems to be a lack of motivation for applying them widely. The scope of them are either model-based software engineering, or safety-critical systems. The scope of this project is to provide an approach that is applicable in a wider array development environments -- without restrictions on software engineering paradigm, or target system market. It would however \emph{not} be suitable for safety-critical systems as it is very informal.
