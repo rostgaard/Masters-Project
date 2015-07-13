@@ -118,7 +118,7 @@ void scenario(Receptionist receptionist, Message message) {
 
 \noindent In the test support tools of the case study system, the receptionist actor is automatically logged in, prior to running the tests. This means that we can safely assume, that this actor is logged in. Nevertheless, we may explicitly state it for the log using ``assume''. (listing \ref{lst:example-template-methods} l. 16).\medskip
 
-\noindent In order to simulate the creation of a ``Message'' object, we have instantiated a MockMessageFactory, which is actually an unbounded resource pool (see section \ref{ssec:resource-pools}). The factory will return a constructed ``Message'' object, ready for use in the sending step.\medskip
+\noindent In order to simulate the creation of a ``Message'' object, we have instantiated a MockMessageFactory, which is a factory resource pool (see section \ref{ssec:resource-pools}). The factory will return a constructed ``Message'' object, ready for use in the sending step.\medskip
 
 \noindent The step ``the\_message\_is\_stored'' uses the MessageService to re-retrieve the message saved in the main scenario. In order to do so, it uses an \texttt{expect} function, that is part of the test framework. A thing to note, is that equality must be defined for the \texttt{equals} matcher to work.\medskip
 
