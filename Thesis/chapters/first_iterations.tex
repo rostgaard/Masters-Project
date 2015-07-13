@@ -2,14 +2,18 @@
 \label{chapter:first-iterations}
 %Purpose is to provide anecdotal background for the theoretical descussion.
 %First implementation focused on the generation, second focused on the domain.
+% It derives concepts and technical "how not to do it"'s from a walkthrough of the iterations.
+%TODO NOTE; This is acutally implementation mapping.
+This section provides anecdotal background that supports use case tool concept discussed in chapter \ref{chap:conceptual_design}.It describes the initial and second iteration of the test generation tool in order to define which parameters the third implementation (the project of this thesis) should -- and shouldn't -- be optimized by.\medskip
 
-This section provides anecdotal background that supports use case tool concept discussed in chapter \ref{chap:conceptual_design}.It describes the first and second iteration of the test generation tool in order to support the identified need to a third iteration.\medskip
+\noindent The first iteration was developed using a simple form of code generation. It was a simple experiment that proved itself useful enough to refine. The second iteration was linked directly to the shared model and interface classes of the system that was exposed in common framework (section \ref{ssec:openreception-framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\medskip
 
-\noindent The first iteration was developed using code generation as an experiment that proved itself useful enough to refine. The second iteration was linked directly to the shared domain model and interfaces of the system that was exposed in common framework (section \ref{ssec:openreception-framework}). The second iteration created a common ground for the requirements translation project, as many of the actors and concepts that we need to map to is provided to us by it (section \ref{ssec:supporting-test-tools}).\medskip
-
-\noindent This chapter also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined. The first iteration of the project focused primarily on automating the generation of test, and is highlighted in the plot in figure \ref{fig:project_parameter_plot_1st_iteration}.\medskip
+\noindent This chapter also covers the motivation and scoping for the tests and test tools. Later on, it explains how it was implemented and refined. The first iteration of the project focused primarily on enabling the generation of test.\medskip
 
 \noindent The second iteration was done as part of this thesis, to create the supporting test tools needed for test generation.
+
+\section{Original project}
+This section is provided as reference, and documents our original motivation and scope for the first version of our use-case tests. The first iteration focused on generating use case tests from requirements -- without mapping it to the domain model. The first iteration is highlighted in figure \ref{fig:project_parameter_plot_1st_iteration} that emphasize this relation. \medskip
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
@@ -30,21 +34,17 @@ This section provides anecdotal background that supports use case tool concept d
 \label{fig:project_parameter_plot_1st_iteration}
 \end{figure}
 
-\section{Original project}
-This section is provided as reference, and documents our original motivation and scope for the first version of our use-case tests. The first iteration focused on generating use case tests from requirements -- without mapping it to the domain model. The first iteration is highlighted in figure \ref{fig:project_parameter_plot_1st_iteration} that emphasize this relation.
-It had a slightly different scope, but the concept of ``requirement as tests'' is the same.
 \subsection{Motivation and scope}
-During the development of the OpenReception system, little or no unit tests had prevailed. This  was primarily caused by the very high fluctuation in application architecture, design and implementation. None of the developers were familiar with the development of telephony applications, and lessons-learned frequently affected both design and implementation and quickly made whatever unit tests that was created, obsolescent. Far too much time was spent on refactoring code that, compiled fine, but with incorrect system behavior.\medskip
+During the stabilizing of the case study system system, the high level of asynchronism of the system, and low level of control with the PBX that made feature regressions a daily pain. Unit tests were of little, or no use, as we were basically writing and testing components, without knowing if they belonged in the system, or not. For this problem; the solution of applying a test-driven development methods seemed very suitable, but we wanted to raise the abstraction level a bit further, and start directly from requirements and test the system as a whole.\medskip
 
-\noindent Is was mainly the high level of asynchronism of the system, and low level of control with the PBX that made feature regressions a daily pain. Unit tests were of little, or no use, as we were basically writing and testing components, without knowing if they belonged in the system, or not. For this problem; the solution of applying a test-driven development methods seemed very suitable, but we wanted to raise the abstraction level a bit further, and start directly from requirements and test the system as a whole.\medskip
+\noindent Testing a complete system can basically be done in two ways; either by providing a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires, or by testing a deployed instance of a system. In our case, the option of emulating the interface of an entire PBX wasn't really a solution for our problem. Basically, if we knew the exact behavior of the PBX and IP-telephony domain, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.\medskip
 
-\noindent Testing the system as a whole can be done in two ways; either by providing a complete test environment (sometimes called ``test harness'') that emulates the behavior of the interfaces that the component under test requires. In our case, the option of emulating the interface of an entire PBX wasn't really solution for our problem. Basically, if we knew the exact behavior of the PBX and IP-telephony domain, then we would just build the logic to handle it. The best solution we could think of, was to include the PBX as a required -- and included -- component for the component tests.
-The second way you can test a system as whole, is to test a deployed instance of the system. But before anything could be tested, we needed to decide what to test.
+\noindent We wanted to add requirement-level tests, and decided on writing up use cases, instead of the requirements document that existed prior. This document contained a very verbose description on how the case study system was supposed to behave, along with screen-shots of the old system.
 
 \subsection{Test specification}
 \label{sec:1st-iteration-test-specification}
-%TODO Note; the motivation for using the activity diagram, was that is was very simple for the customer to relate to -- without being distracted by the more specific level of use cases. I.e. not much "what happens if".
-%TODO Another motivation for creating the tests, and focusing on this actor is that the functionality of this actor is business-breaking if stuff goes wrong.
+From the requirement document mentioned earlier, activity diagrams -- such as the on in figure \ref{fig:activity_diagram_receptionist} were created. These were very useful communication tool for deriving use cases. When manually walking through the paths with a representative from the customer of the system, the use cases could be derived from their description of what would happen at a given step -- and what shouldn't. Then added the missing parts with the help of a of the system. The motivation for using the activity diagram, was that is was very simple for the customer to relate to -- without being distracted by the more specific level of use cases. I.e. not much ``what happens if'', that could then be covered in-depth in a dedicated discussion in each activity. \medskip
+
 \begin{figure}[h]
 \includegraphics[scale=0.8]{\imgdir receptionist_workflow}
 \centering
@@ -52,16 +52,14 @@ The second way you can test a system as whole, is to test a deployed instance of
 \label{fig:activity_diagram_receptionist}
 \end{figure}
 
-In order to derive a which cases should be tested, we -- in a figurative sense --  tore apart an activity diagram and created use cases from them. Then added the missing parts with the help of a representative from customer of the system. Once we had the use cases as a list of actions and alternatives, we had a manuscript that we needed to replay to assert functionality of the system.\medskip
-
-\noindent In order to generate test from this, we estimated that every statement, or line, in the use case could be mapped to a block of manually written source. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
+\noindent To be able to generate test from this, we decided that every statement, or line, in the use case could be mapped to a block of manually written source code block. So, basically, if we had an action that was ``Receptionist dials extension of contact'', we would have a corresponding re-usable function that performed this action. We named this ``the use-case oriented scripting environment'', and used it to write up tests of the system that originated directly from the requirements.
 
 \subsection{Mappings}
 Every use case statement was analyzed, and concepts and actors were extracted from them, effectively giving us the minimal requirements for which objects (programming objects) that needed to participate in the test.\medskip
 
-\noindent In the scripting environment, we then outlined the domain actors (such as caller and receptionists). External resources were also needed, and was provided by the main system via services interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\medskip
+\noindent In the scripting environment, we then outlined the domain actors (such as caller and receptionists). When external resources were needed, they were provided by the main system (under test) via service interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\medskip
 
-\noindent The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code chunks. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
+\noindent The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code block. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.60\textwidth]{\imgdir initial_model}
@@ -69,9 +67,9 @@ Every use case statement was analyzed, and concepts and actors were extracted fr
 \label{fig:first_generation_model}
 \end{figure}
 \begin{description}
-  \item[Visualization:] A graphical presentation of the use case in the form of a sequence diagram. In our specific case, we used a tool called seqdiag, and an example of the input is shown is shown in listing \ref{lst:seqdiag_code_example}. The main concept of this was to provide convenient overview of how, and when, the interaction between the actors happened.
-  \item[Documentation:] In the OpenReception project, every bit of the documentation lives in a Wiki which is formatted using Markdown. This meant that we could link the source documents associated with use case to the use cases themselves. Generation of use case documentation in the Wiki was using these document fragments.
-  \item[Testing] The final, and most significant part of the system, was the ability to generate use case tests from the actual use cases. This meant that we needed to describe every action in the use case as bit of code and then patch it together using the list of actions, pre- and postconditions provided in the use case descriptions. An example of an assembled is shown in listing \ref{lst:example_python_output}.
+  \item[Visualization:] A graphical presentation of the use case in the form of a sequence diagram. In our specific case, we used a tool called seqdiag, and an example of the input is shown is shown in listing \ref{lst:seqdiag_code_example}. The main concept of this was to provide convenient overview of how, and when, the interaction between the actors happened, and thee full realization within the system.
+  \item[Documentation:] In the OpenReception project, every bit of the documentation lives in a Wiki which is formatted using Markdown. This meant that we could link the Markdown sources to these documents, that was associated with use case to the use cases themselves. Generation of use case documentation in the Wiki was then using these document sources to keep documentation in sync with the use cases.
+  \item[Testing] The final, and most significant part of the system, was the ability to generate use case tests from the actual use cases. This meant that we needed to describe every action in the use case as block of code and then patch it together using the list of actions, pre- and postconditions provided in the use case descriptions. An example of an assembled test is shown in listing \ref{lst:example_python_output}.
 \end{description}
 \noindent
 A class diagram showing the relations between the different components in our initial use case translator is shown in figure \ref{fig:first_generation_model}. It depicts the association between the different types of code fragments, and how they are related to a use case model.
@@ -94,7 +92,7 @@ class Sequence_Diagram (Test_Case):
 \end{lstlisting}
 
 \noindent
-The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code chunk complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a framework. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre- and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\medskip
+The observant reader will probably already have noticed that this code cannot stand by itself. For instance, the \texttt{self.Receptionist\_Dial\_Contact()} statement references a method found within its own class\footnote{For those unfamiliar with Python, \texttt{self} is a reference to the current object instance, similar to the \texttt{this} keyword in Java.}. In order to keep the code block complexity low, we decided to abstract a lot of the complexity into macro functions that were provided to the use case through a \textbf{test support framework}. Each use case was given it's own programming class that then provided these macro function via class members. Each class would then need to be self-contained and also provide setup/teardown functions, and setup pre- and postconditions. The setup and teardown functions were defined as begin technical prerequisites, whereas the pre- and postcondition functions were for setting up the use case prerequisites and would, thus, map to the use case pre- and postconditions.\medskip
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.25\textwidth]{\imgdir first_generation_class_structure}
@@ -104,7 +102,12 @@ The observant reader will probably already have noticed that this code cannot st
 \noindent Programing-wise, this was done by adding the needed macro methods required by the use cases to an abstract superclass that represented the overall use case. Each path, or variant, would then be an extension of this superclass. A simplified class diagram illustrating this is shown in figure \ref{fig:first_generation_class_structure}, where you can see that every variant (path of an extension) of a use case may reuse methods from its superclass. Each use case variant must also supply the abstract methods \texttt{run}, \texttt{Precondition} and \texttt{Postcondition} to fulfill the interface.\medskip
 
 \noindent Missing methods, or problems in generated code were identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.
-\newpage
+
+\subsection{Summary}
+The generation of tests from use case descriptions proved itself to be a useful concept, but was very time-consuming in its current form. The main disadvantage was that it became a very decoupled ``project within the project''. Every use case now lived in a separate form with three different files that needed to kept in sync every time a change occurred. The sequence diagrams provided no value for the customer, and limited value for the developers working on the system.\smallskip
+
+\noindent The idea of giving each use case step an identity, for generating their test function signatures, lived on in the next iterations.
+
 \section{Second iteration}
 We soon realized that doing individual mapping for every line was tedious, time consuming and error-prone. Especially due to the fact that a lot of implicit knowledge was needed to perform the manual mapping. An example of this would be to reference a person object in an a scenario action, assuming that it was previously declared in an earlier macro.\medskip
 \begin{figure}[!htbp]
@@ -124,78 +127,88 @@ We soon realized that doing individual mapping for every line was tedious, time 
 \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
 
 \end{tikzpicture}
-\caption{Second iteration involved manually writing up the use case tests while linking it to the domain model, but didn't include any automation}
+\caption{Second iteration involved manually writing up the use case tests while linking it to the domain model, but didn't include any generation}
 \label{fig:project_parameter_plot_2nd_iteration}
 \end{figure}
-\noindent We thought that if we injected additional domain knowledge into the test framework, would reduce the number of errors associated in mapping the tests manually. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument. The second iteration it highlighted in figure \ref{fig:project_parameter_plot_2nd_iteration}. It is built during the course this thesis, and is thus considered an auxiliary part of it.
+\noindent We thought that by linking the requirements to implemented classed into the test framework we could inject additional domain knowledge into the tests. Hopefully it would reduce the work-load associated with mapping the tests manually, as in the first iteration. Specifically, by moving our macro methods to the appropriate class -- in an object-oriented fashion -- would enable reuse. For example when a sentence states that a receptionist actor hangs up a call, we add a ``hangup'' method to the  ``Receptionist'' class that takes a ``Call'' object as an argument. The second iteration is highlighted in figure \ref{fig:project_parameter_plot_2nd_iteration}. It is built during the course this thesis, and is thus considered an auxiliary part of it.
 
 \subsection{Sharing domain model knowledge}
 \label{ssec:openreception-framework}
-During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. We could now, fairly easy, by re-using the domain classes and interfaces from the framework build tests that with a higher domain awareness than the previous iteration.\medskip
+During the evolution of the software, platform, language and architecture changes eventually landed us in a space where we had the opportunity to use the same programming language both on the sever and the client. We wanted to exploit this initially by sharing the model classes between the server and client, but it soon evolved into a larger framework, also covering interfaces and REST resource definitions. We could now, by re-using the domain classes and interfaces from the framework, build tests that with a higher domain awareness than the previous iteration.\medskip
 
-\noindent This section explains the processes of befitting from the models and interface of the framework for a third application: Namely testing. 
+\noindent This section explains the processes of using the models and interface of the framework for a third application: Namely testing. By exposing these interfaces and model classes to the tests, we had our link directly to the implementation.
 
 \subsection{Framework content}
 \label{ssec:openreception-framework-content}
-
-\begin{figure}[!htbp]
-\includegraphics[scale=0.65]{\imgdir framework_example}
-\centering
-\caption{Example of the framework class structure}
-\label{fig:framework_example}
-\end{figure}
-%TODO mention above figure.
 \noindent
-The framework is a set of passive classes that is divided, into the following categories (and code libraries). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
+The framework is a set of library-level classes that is divided, into the following categories (and code packages). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
   \item[Models:] Every model of the framework is either part of the domain model, or closely related to a concept in it. Each class that is meant to be distributed is provided with serialization and de-serialization methods for use in the service layer.
   \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD operations (see appendix \ref{appendix:glossary}), and and ``enqueue'' that puts a message into a delivery queue.
-  \item[Service:] These classes provide client classes (services from the client point of view), that exposes methods for remote procedure calls. the clients use  use the framework model de-serialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
+  \item[Client:] These classes provide client classes (services from the client point of view), that exposes methods for remote procedure calls. the clients use  use the framework model de-serialization methods to automatically build typed objects on the client side. This eliminates the hassle of having to deal with low-level encoding and decoding. It enables the clients to work directly on the domain objects via the supplied service interfaces.
   \item[Database:] Database access layer. Contains every SQL query functions. The functions casts from database queries to domain objects that may be serialized for transport to remote clients via -- for instance -- HTTP.
   \item[Resource:] Encoding library that turns objects into a REST-resource identifiers. Used to abstract away the Uri encodings on both the client and the server.
 \end{description}
-The framework served an important purpose in writing the code that modeled the actor behavior needed in the acceptance tests that we wrote.
+\begin{figure}[!htbp]
+\includegraphics[scale=0.65]{\imgdir framework_example}
+\centering
+\caption{Example of the framework interface class structure}
+\label{fig:framework_example}
+\end{figure}
+\noindent The framework served an important purpose in writing the code that modeled the actor behavior needed in the acceptance tests that we wrote. An example of a class configuration the framework is shown in figure \ref{fig:framework_example}. The framework exposes the ``RESTMessage'' interface that is used by the ``RESTMessageClient'' class. The latter class is used by both the client user interfaces, the tests that we write, and the servers. The server-side database layer realize the ``MessageStore'' interface to enable easy delegation of client requests to the database, and enables integration tests to be re-used -- but that is different story entirely.
+
 \subsection{Supporting test tools}
 \label{ssec:supporting-test-tools}
-In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A black box test of a system -- in general -- requires external stimuli in order to produce a result.\medskip
+In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A box test of a system -- in general -- requires external stimuli in order to produce a result.\medskip
 
-\noindent So, to perform tests from a use case perspective, we needed to add more domain-awareness to our test environment. We did this writing up classes that corresponded to a caller, callee and receptionist actor and aggregated the needed client interfaces and concepts. Most of this was provided by the framework (see section \ref{ssec:openreception-framework}), such as the user and reception information. But, we also wanted to perform actual phone calls whenever a use case stated that this was what happened. We developed a small software phone, that could be integrated into, into and controlled by, our test tools. On top of that, an abstraction library was created -- PhonIO\footnote{https://github.com/Bitstackers/Phonio}. This library abstracted away the specifics of a phone, exposing just a general interface. This allowed us to scale up tests a lot easier, as we could just add additional soft-phones. It also allowed us to use the tests tools to both assert the functionality of a physical deployment (with hardware phones), and the functionality of an automated test-deployment (using soft-phones). The test system also supplies causality-checkers, such as ``wait-for'' methods that expects a specific event to occur within a bounded time-span.\medskip
+\noindent So, to perform tests from a use case perspective, we needed to add more domain-awareness to our test environment. We did this writing up classes for use case actors that corresponded to a caller, callee and receptionist actor and aggregated the needed client interfaces and concepts. Most of this was provided by the framework (see section \ref{ssec:openreception-framework}), such as the user and reception information. But, we also wanted to perform actual phone calls whenever a use case stated that this was what happened. We developed a small software phone, that could be integrated into, into and controlled by, our test tools. On top of that, an abstraction library was created -- PhonIO\footnote{https://github.com/Bitstackers/Phonio}. This library provided just the basic functionality (dial, hangup, \dots) of a phone, exposing a general interface. This allowed us to scale up tests a lot easier, as we could just add additional soft-phones. It also allowed us to use the tests tools to both assert the functionality of a physical deployment (with hardware phones), and the functionality of an automated test-deployment (using soft-phones). The test system also supplies causality-checkers, such as ``wait-for'' methods that expects a specific event to occur within a bounded time-span.\medskip
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.90\textwidth]{\imgdir component_diagram_with_tests}
 \caption{Component diagram -- extended with tests}
 \label{fig:component_diagram_with_tests}
-\end{figure}The extended component diagram in figure \ref{fig:component_diagram_with_tests} depicts how the supporting test tools fit into the overall architecture of the system. It re-uses the REST interfaces (exposed in the shared framework) and controls phones via the library mentioned before. By reusing the model and interface classes from framework, a lot of test code is reduced significantly.
+\end{figure}The extended component diagram in figure \ref{fig:component_diagram_with_tests} depicts how the supporting test tools fit into the overall architecture of the system. It re-uses the REST interfaces (REST-Data and REST-Call) (exposed in the shared framework) and controls phones via the library mentioned before. By reusing the model and interface classes from framework, a lot of test code is reduced significantly.
 \subsection{Resource pools}
 \label{ssec:resource-pools}
-\noindent A crucial component that was added to the tests tools were the resource pool. This component has also been found to be important in generation, but this is discussed later on.\medskip
+\noindent A crucial component that was added to the tests tools is the resource pool. This component has also been found to be important in generation, but this is discussed later on.\medskip
 
-\noindent Tests require resources as part of their test harness -- resources that are available to them prior to the test body -- need to get these from somewhere. For this purpose we defined the abstract component ``resource pool''. For those familiar with manual memory management from -- for example -- the C programming language, will recognize the pattern of explicitly allocating and deallocating resources from the \texttt{malloc/free} system calls. This system is almost identical, however it manage no hold memory blocks -- it manages resources.\medskip
+\noindent Tests require resources as part of their test harness -- resources that are available to them prior to the test body -- need to get these from somewhere. For this purpose we defined the abstract component ``resource pool''. For those familiar with manual memory management from -- for example -- the C programming language, will recognize the pattern of explicitly allocating and deallocating resources from the \texttt{malloc/free} system calls. This system is analogous, but does not manage memory blocks -- it manages resources.\medskip
 
-\noindent Resources a quite a broad term, but specifically in our test tools, resources are pre-configured actors; domain objects -- such as user and reception data. Before a test can run, it needs to specify which resources it needs to be able to complete. For instance; a test involving a caller dialing a reception -- handled by a receptionist, needs a caller and reception actor, and reception data. These will be allocated from three separate resource pools that must be available before starting the tests.\medskip
+\noindent Resources are quite a broad term, but specifically in our test tools, resources are pre-configured actors; domain objects -- such as user and reception data. Before a test can run, it needs to specify which resources it needs to be able to complete. For instance; a test involving a caller, dialing a reception -- handled by a receptionist, needs a caller and reception actor, and reception data (stored within a reception object). These will be allocated from three separate resource pools that must be available before starting the tests.\medskip
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.50\textwidth]{\imgdir resource_pool}
+\includegraphics[width=0.30\textwidth]{\imgdir resource_pool}
 \caption{Abstract resource pools with specializations}
 \label{fig:resource_pool}
 \end{figure}There are three different specializations of resource pools in our current implementation of the test tools. These cover a broad variety of scenarios, and should be sufficient for most implementations.
 \begin{description}
-%TODO cleanup this according to feedback.
   \item[Bounded pool:] A Bounded pool hold resources that are limited in the system. For example, our system holds a limited number of configured receptionist actors, and when that last one is allocated, there is no way of acquiring more. The only way to get around it is to manually lower the required number of actors required for a test or add more receptionist actors.
-  \item[Unbounded pool:] Any resource that conceptually without an upper bound, it may be realized by a bounded pool. It is either a resource that may be shared (allocated multiple times), or a resource that easy to replicate. For instance, an object that is created from a template.
-  \item[Randomizer:] The randomizer is a sort of bastard-concept we introduced in order to spice our tests up with some random inputs. It constructs new random object upon each allocate call, but may be both bounded and unbounded in nature.
+  \item[Factory:] Any resource that conceptually without an upper bound, may be realized by a bounded pool. It is either a resource that may be shared (allocated multiple times), or a resource that easy to replicate. For instance, an object that is created from a template.
 \end{description}
 These concepts are reused in the next iteration of the tests, which is the refined tests-generation tool.
 
 \subsection{Actor classes}
-A thing that was added to the test support tools in the second iteration, was the actor classes. These classes contained the high-level functions that an actor was able to perform. These actions were either a direct link -- or very close related to -- the actions performed by the actor in the use cases. Actor object would also know about which service interfaces they would require. In figure \ref{fig:support-tools-recepionist-example} we see a Receptionist actor that needs to store messages. This leads to a dependency on the RESTMessageStore via a RESTMessageClient instance. The receptionist is now able to provide method calls that include ``Message'' objects belonging to a RESTMessageStore by delegating the calls to that.
-\begin{figure}
+Another thing that was added to the test support tools in the second iteration, was the actor classes. These classes contained the high-level functions that an actor was able to perform. These actions were either a direct link -- or very close related to -- the actions performed by the actor in the use cases. Actor object would also know about which service interfaces they would require. In figure \ref{fig:support-tools-recepionist-example} we see a Receptionist actor that needs to store messages. This leads to a dependency on the RESTMessageStore via a RESTMessageClient instance. The receptionist is now able to provide method calls that include ``Message'' objects belonging to a RESTMessageStore by delegating the calls to that.
+\begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.60]{\imgdir support-tools-recepionist-example}
  \caption{support-tools-recepionist-example}
  \label{fig:support-tools-recepionist-example}
 \end{figure}
 
+\section{Summary}
+In this section we have identified a number of concepts that have support the implementation mapping.
+\begin{description}
+  \item[Actor classes:] Wrapper classes that represents domain actors. Provides the basic macro-functions that realize actions the actor performs in a use case step.
+   item[Concept classes:] The classes that represent non-actor domain concepts. For the most parts, these classes were already located in the framework supporting the case study system.
+  \item[Resource pools:] A convenient abstraction of filling the need for various actors or concept in tests.
+  \item[(Domain) framework:] The supporting models and interfaces. Interfaces are exposed for a server to realize, and a client -- which includes tests -- to use.
+  \item[Test support framework:] The supporting library that contains the actor and concept wrapper classes, resource pools, and utility functions that tests may require.
+\end{description}
+%TODO HOW NOT TO DO IT!!
+The framework provided excellent support for the tests, enabling the use case tests to be converted quite easily. The conversion process was quite easy, as most of the models and interfaces were now provided for us, and the writing up of actor classes a matter of creating the appropriate associations to these.
+The concept a test support framework was introduced.
 
+We saw that the integration level matters; we need to be able reuse the interface code to make this remotely feasible.
 
-%TODO add some snibblets of framwork content.
+Two supporting framework functions had been identified; domain framework.
