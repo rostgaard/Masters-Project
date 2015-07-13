@@ -44,10 +44,9 @@ Continuous integration is a methodology, that that supplements test-driven devel
 
 \section{Case study system}
 \label{sec:case-study-system}
+The case study system is briefly discussed in this section to provide an overview of the functionality and implementation of it. This serves as an introduction to the ``suitability'' of the system design as system under test.
 % Make a point on why this section is in the thesis. IT EVALUATES THE VALUE OF THE SYSTEM AS USE CASE SYSTEM.
-Back in the fall of 2011, a physicist, an electrical engineer a systems programmer, three entrepreneurs and a software engineering student founded a small business. I was created to solve one grave problem that the entrepreneurs had; their current software system was becoming a larger and larger annoyance to them due to lack of upgrades and existing bugs that was never going to be fixed. The latter was due to the fact that the company supporting it, went bankrupt. Thus, a plan was laid to re-engineer a system that would serve as a drop-in replacement for their current one -- only this time as an open source system, so that at least there was a possibility to hand over support contracts to other suppliers, avoided their previous vendor lock-in.\medskip
-
-\noindent The three entrepreneurs were in the business of ``reception hosting''. About one year after, the first conceptual prototype emerged, and by the end of 2013, an alpha version of the product was ready to be tested and hardened for production use. However, due to the high level of asynchronism, and low level of explicit coordination -- which was by design -- regressions became an increasing problem. And when the requirements also started to change, a dire need for automated, and usage-oriented testing became evident.
+The case study system started its life back in the fall of 2011. It was created to  serve as a drop-in replacement for their current call-center system, or more specifically ``reception hosting''. About one year after, the first conceptual prototype emerged, and by the end of 2013, an alpha version of the product was ready to be tested and stabilized for production use. However, due to the high level of asynchronism, and low level of explicit coordination -- which was by design -- requirement regressions became an increasing problem. And when the requirements also started to change, a dire need for automated, and usage-oriented testing became evident.
 
 \subsection{Problem domain glossary}
 In this section brief glossary from the problem domain is provided to cover the basic terminology used in the use cases.
@@ -56,16 +55,16 @@ In this section brief glossary from the problem domain is provided to cover the 
   \item[Contact:] A person or group known to the system -- i.e. previously created with contact details such as phone numbers and email addresses.
   \item[Receptionist:] A user in the system able to handle incoming calls by forwarding them or taking a message.
   \item[Caller:] Anyone who dials a phone number handled by the system. They are not known by the system \textit{a priory}, but the system \textit{may} store previously entered data that serves as a cache.
-  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities phone queues, Interactive Voice Response (IVR) menus and transfers to either local extension, or external extension. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
+  \item[PBX:] Private Branch Exchange. A local phone switchboard with built-in logic that determines the flow and destination of a phone call based on dial-plans. Common PBX's capabilities include call queues, Interactive Voice Response (IVR) menus and transfers to either local -- or external -- extensions. A PBX can be either a special-purpose hardware device, or a software implementation running on regular general-purpose PC hardware. These are referred to as hard- and soft-PBX's, respectively.
   \item[Dial-plan:] A decision system that decides what to with a call from a set of rules, such as ``if the time of day is after 17 o' clock, send to voice mail'', or ``if the callee extension is +45 1234 5678'', put the call straight trough to manager's extension''. The concrete syntax is, of course closer to a programming language, and largely dependent on which PBX is used.
 % \item[Domain concept] are usually also present in the mapping, and are usually mapped directly to a class.
 %Use case definition: An event that describes behaviors and it's written from a user's perspective.
 
 \end{description}
 This glossary is incomplete, with regards to the domain model, but should be sufficient background for interpreting the following use cases.
-%TODO the section below is copy-pasted and should be checked and elaborated.
+
 \subsection{Targeted requirements}
-We've chosen to focus on the requirements that involves core features from the Receptionist actor point of view. These are, on a high level;
+The (simplified) requirements to the case study system, that involves the ``receptionist'' actor point of view are:
 \begin{description}
   \item[Manage calls:] Being able to technically handle calls by performing receive, park, transfer and hangup action.
   \item[Process calls:] Being able to process calls in the context of a dialed reception. This involves having access to data about the reception and its contacts. Being able to dial them, or send them a message.
@@ -73,7 +72,7 @@ We've chosen to focus on the requirements that involves core features from the R
 \end{description}
 
 \subsection{Business model and existing system}
-The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually.\medskip
+The customer -- the Danish business Responsum -- sells what is called a hosted reception service. Their primary customer segment are other businesses -- both large and small. They employ a number of receptionists that answer phone calls on behalf of these businesses. They perform receptionist tasks as though they were physically located on the premises of those businesses, and have access to a lot of employee data, such as employee information, phone numbers and calendars. This information is continuously maintained by a number of service agents, usually by transferring data between systems manually. In other words, the customer was a specialized call-center, with quite unique needs.\medskip
 
 \noindent Throughout the last ten years, they have used a COTS\footnote{Commercial Off The Shelf} system for this task, that is now showing its age. The system handles phone call routing, call handling (playing greetings and Interactive Voice Response (IVR) menus), presents reception information, manages call routing plans and reception information.
 \begin{figure}[!hbpt]
@@ -94,17 +93,10 @@ This section gives a short introduction to the system, its architecture and desi
 \end{figure}
 \noindent OpenReception web-oriented software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide then with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\\ This component-oriented design has also helped the testing process, as it enabled individual components to be tested and verified independently of the others. A screenshot of the receptionist client of the replacement system can be seen in figure \ref{fig:openreception-client-ui}.
 
-\subsection{Project scope}
-%TODO more on this story. Something that leads to the discovery of a structure and The fundamental requirements for the system originates directly from the fact, that is is supposed to be a drop-in replacement of an existing system. It should therefore, as a bare minimum, mirror the features of the existing system.\\
-However, the current system has been in production for over ten years and lessons-learned has taught the customer how the system should be improved. Another thing that had to be considered, was the fact that the current system had proven it's stability. Despite being far from perfect, it was certainly usable and provided the technical means for the customer to keep the gears of their business model oiled.
-%TODO features broke all the time, when was the system done?, Jenkins was introduced ...
-%Use cases are stored in a wiki.
-
 \subsection{Chosen architecture}
+%TODO explain the architeture/implementation maybe the component diagram.
 Being that the existing system was considered stable, and critical infrastructure, the replacement system was designed with simplicity, and high fault resilience in mind. This means that we tried to provide fall-back mechanisms for most of the system rather than over-eagerly handle every potential fault. The component diagram in figure \ref{fig:component_diagram} shows the architecture, and also gives away some hints about which components are critical, and which are not. Basically, the most critical path is the one that originates from the ``Receptionist Client'' and ends in the ``SIP trunk'' component. These components are considered soft real-time components and are essential for an operation. Fallout of any of these components means direct financial loss for the customer. Fallout of any of the other components (except for SIP Phone, which is actually part of the critical path mentioned above) are tolerated in the design, and the stateless nature of REST (see section \ref{sec:rest}) enables us to maintain caches that can supply clients with the data they need for handling calls.
 
-%Something about fault handling, and about not knowning the "failure space"
-%TODO add explanation of the figure, the components and the interfaces.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
@@ -112,29 +104,23 @@ Being that the existing system was considered stable, and critical infrastructur
 \label{fig:component_diagram}
 \end{figure}
 
-\subsection{Implementation}
-\todo[inline]{Add nice introduction here}
-\subsection{Fault tolerance}
-Fault tolerance is built into the system, by first decomposing the system into a lot of smaller parts, reduce the amount the amount of communication (in particular; two-way communication) needed for the system to function, at least partially.
-
 \subsection{Stateless architecture}
 \label{sec:rest}
-We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any comity) techonology for building Web-connected API's. It is a client/server protocol that bases itself upon some very simple principles that enables high scalabilty by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.\smallskip
+We are, like many others contemporary developers, using REST \footnote{(\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer)}. It is a reasonably new, and non-standardized (by any committee) technology for building Web-connected API's. It is a client/server protocol that bases itself upon some very simple principles that enables high scalability by it's stateless design, This stateless design enables API providers to partition and cache their resources better, as they do not need to synchronize across partitions.\smallskip
 
 \noindent Automated system testing is also simplified quite a bit, when you don't need to take into account a protocol state.
 
 \subsection{Loose coupling of components} 
-In order to minimize the damage of a component failing, we have further atomized the REST API's that we created into smaller services, each responsible for only handling one single task. This is what is, informally, defined as the ``bulkhead pattern''. Originating from naval vessel floating compartments, that was composed of several individual bulkheads. These bulkheads could then be closed off, in case of a leakage in one of them. A parallel to software engineering is to divide your application into separate operating system processes that can be terminated if they start to leak memory, consume excessive amounts of CPU time, or merely lock up. Sometimes, killing worker processes is used as a preemptive method of assuring that processes are kept under control. The Apache HTTPD web server uses this strategy by maximizing the number of requests\footnote{http://httpd.apache.org/docs/2.2/mod/worker.html} a worker process may serve before being terminated and replaced.\smallskip
+In order to minimize the damage of a component failing, we have divided the REST API into smaller services, each responsible for only handling one single task. This is what is, informally, defined as the ``bulkhead pattern''. Originating from naval vessel floating compartments, that was composed of several individual bulkheads. These bulkheads could then be closed off, in case of a leakage in one of them. A parallel to software engineering is to divide your application into separate operating system processes that can be terminated if they start to leak memory, consume excessive amounts of CPU time, or merely lock up. Sometimes, killing worker processes is used as a preemptive method of assuring that processes are kept under control. The Apache HTTPD web server uses this strategy by maximizing the number of requests\footnote{http://httpd.apache.org/docs/2.2/mod/worker.html} a worker process may serve before being terminated and replaced.\smallskip
 
-\noindent In our architecture, we have divided the database operations, dialplan generation, CDR\footnote{Call Detail Records: records of call duration and other information used for invoicing} into dedicated servers, that may be replaced -- even while in production.
+\noindent In our architecture, we have divided the database operations, dialplan generation, CDR\footnote{Call Detail Records: records of call duration and other information used for invoicing} into dedicated servers, that may be replicated and replaced -- even in a live production environment.
 
 \subsection{Reactive application}
 \label{ssec:server_notifications}
-As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the optimal way we could get the client interface to respond to system events in real-time. It ultimately also became an important component in testing, as we could use it as a mean to validate causal relationship of actions and events (for instance; a hangup action on a phone would lead to a hangup event notification).\todo{. maybe add a reference to the causality section}
+As an extension of the the stateless client/server architecture, a server notification-push pattern has also been added. This enables us make the user interface reactively update to global state changes, rather than having to poll for these changes periodically. It was the optimal way we could get the client interface to respond to system events in real-time. It ultimately also became an important component in testing, as we could use it as a mean to validate causal relationship of actions and events (for instance; a hangup action on a phone would lead to a hangup event notification).
 
 \subsection{Testing strategy}
 \label{sec:background-testing-strategy}
-%NOTE This one is moved from first-iterations chapter.
 As development progressed, it became increasingly difficult and time consuming to verify the correctness of the implementation by manually running the acceptance tests, which basically involved; performing an incoming call via a phone, picking up the call via the system, accept the call on another phone and then perform the actual use case scenario. This could, for example, be to forward the call and signal an idle state to system. Other issues with this manual approach was that is was time-consuming and was easy to perform in an incorrect order, thus leading to false negatives in test runs. Clearly the project could benefit from investing time in scripting the setup and tearing down of the state which was need to perform the manual tests.
 During the progression of the project, it became more and more clear to us that we were constrained by two parameters, in regards to testing:
 \begin{itemize}
@@ -147,15 +133,15 @@ During the progression of the project, it became more and more clear to us that 
 \caption{Labeled activity diagram of the basic workflow of a receptionist}
 \label{fig:receptionist_workflow}
 \end{figure}
-Being that the system consisted of a number of loosely coupled components, some of them not under our control, we decided to focus on writing up black-box tests focusing on verifying the behavior of the individual components, or multiple connected components.
+As system consisted of a number of loosely coupled components, and some of them were not under our control, we decided to focus on writing up black-box tests focusing on verifying the behavior of the individual components, or multiple connected components.
 Furthermore, we wanted to automate this using a continuous integration service that could run our tests for us, and provide us with reports on regressions, or identified bugs. But first, a proper level of testing had to be chosen.
 
 \subsection{Level of testing}
 \label{ssec:level-of-testing}
-We chose path of assuming everything worked and, thus,  built tests from the perspective of how it should work. So we basically treated the system as a block-box system and abstract away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. These ``robots'' acted as clients and connected to the \textbf{REST-Data}, \textbf{REST-Call}, \textbf{REST-SIP} interfaces from figure \ref{fig:component_diagram}.
+The tests were built from the perspective of how the system was meant to work. We basically treated the system as a block-box system and abstracted away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. These ``robots'' acted as clients and connected to the \textbf{REST-Data}, \textbf{REST-Call}, \textbf{REST-SIP} interfaces from figure \ref{fig:component_diagram}.
 
 \subsection{Coverage of testing}
-In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist_workflow}). From this, we could assert that every path of the activity diagram was covered.
+In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist_workflow}). From this, we could assert that which paths of the activity diagram were covered.
 
 \subsection{Generation of tests}
 To make sure that all paths were covered, every activity node got labeled. Any unique path through the activity diagram should then correspond to a use case, but more importantly; be realized by a test. To achieve this, we constructed a set of tools that, among other things contained the ``robots'' discussed briefly in section \ref{ssec:level-of-testing}.\medskip
@@ -165,6 +151,6 @@ To make sure that all paths were covered, every activity node got labeled. Any u
 \section{Summary}
 The high level of modularization, and low coupling of components made the system easily testable. Most components could be be tested individually, and some of them emulated. The modularization effectively also led to many well-defined interfaces, which is the basic premise for black-box testing. The project, in itself, is quite suitable for a case study system, from a testing perspective.\medskip
 
-\noindent The use cases of the system are, however, not very complex and may not be able to expose scalability issues in the tool. The already developed ``robot'' programs are, on the other hand, very suitable for building controllable ``robot-actor'' for use in generated tests.\medskip
+\noindent The use cases of the system are, however, not very complex and may not be able to expose scalability issues in the tool. The already developed ``robot'' programs are, on the other hand, very suitable for building controllable ``robot-actor'' for use in supporting the functionality of the generated tests.\medskip
 
-\noindent Prior to the conceival of the idea for this thesis, the test concept described above was implemented and part of our development. And during the writing of this thesis, a second iteration was written, in order to aid the tool for this thesis. These iterations are described in the next chapter.
+\noindent Prior to the conceival of the idea for this thesis, the test concept described above was implemented and part of our development. And during the writing of this thesis, a second iteration was written, in order to aid the tool for this thesis. These iterations are described in the next chapter, which covers the first two iterations of the test generation tools.
