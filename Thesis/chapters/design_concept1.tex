@@ -1,12 +1,18 @@
 \section{Concept 1 - Markdown editor}
-One of the earliest concepts for a tool to aid use case structuring, was an editor that used a markup language that enabled the user to tag specific words as keywords using a special syntax -- such as surrounding text with parentheses, or other significant characters. The concept was dropped in an early state, but is documented for completeness, and to reference some of the ideas introduced by it later on.\\\\
+The first concept for a tool that aided use case structuring, was an editor that used a markup language that enabled the use case writer to tag specific words as keywords using a special syntax -- such as surrounding text with parentheses, or other significant characters. The concept was dropped in an early state, but is documented for completeness, and to reference some of the ideas introduced by it later on.\medskip
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.70\textwidth]{\imgdir markdown_ui_mockup}
   \caption{Crude mock-up of a user interface using a markup language for writing use cases.}
 \label{fig:markdown_ui_mockup}
-\end{figure}The benefit that was hoped to gain from this procedure was that both the use case, and the extra data needed to generate tests, was stored in the same textual representation.
-\subsection{Evaluation}
-This concept was only implemented as an experimental prototype model without user interface, and proved too loose in structure to be able to implement within the time frame of this Thesis. The main problem was that it effectively required a domain-specific language to be able to support the structure needed for test generation. The creation of a domain-specific language was considered out of scope, and a too large task that would dominate the project, taking focus from the actual task.\\\\
-Figure \ref{fig:markdown_ui_mockup} crudely shows how the user interface was planned to look like. Left part of the UI shows a structured textual representation of a use case. The middle part was reserved for graphical representations of the use case, which could be sequence diagrams or activity diagrams, and the right panel is for ``use case analysis'', which is associations that will become evident during a use case analysis. For example, ``user sends email'' implicitly states an association between ``user'' and ``email'. The tool was meant a online Wiki-like tool that enabled collaboration. The concept of markup language was dropped in favor of a more strict component/structure editor concept, and the idea of clear-text analysis was not revisited again before the third concept.
+\end{figure}
+\noindent The benefit that was hoped to gain from this procedure was that both the use case, and the extra data needed to generate tests, was stored in the same textual representation.\medskip
+
+\noindent This concept was only implemented as an experimental prototype model without user interface, and proved too loose in structure to be able to implement within the time frame of this Thesis. The main problem was that it effectively required a domain-specific language to be able to support the structure needed for test generation. The creation of a domain-specific language was considered out of scope, and a too large task that would dominate the project, taking focus from the actual task.\medskip
+
+\noindent Figure \ref{fig:markdown_ui_mockup} roughly shows how the user interface was planned to look like. Left part of the UI shows a structured textual representation of a use case. The middle part was reserved for graphical representations of the use case, which could be sequence diagrams or activity diagrams, and the right panel is for ``use case analysis'', which is associations that will become evident during a use case analysis. The tool was meant to be backed by a domain model, which were to link the tagged keywords to domain concepts, or domain actors and the actions they performed.\medskip
+
+\noindent For example, ``user sends email'' implicitly states an association between the ``user'' actor and ``email' concept, and the verb ``sends'' is the active action that the actor performs.\medskip
+
+\noindent The tool was meant a online Wiki-like tool that enabled collaboration. The concept of markup language was dropped, as it quickly obfuscated the textual representation of the use cases. To try a different path; a more strict component/structure editor concept was studied, and the idea of clear-text analysis was not revisited again before the third concept.
 
