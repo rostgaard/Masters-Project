@@ -103,7 +103,7 @@ The observant reader will probably already have noticed that this code cannot st
 
 \noindent Missing methods, or problems in generated code were identified by static analysis using the pylint tool\footnote{http://www.pylint.org/}.
 
-\subsection{Summary}
+\subsection{Evaluation}
 The generation of tests from use case descriptions proved itself to be a useful concept, but was very time-consuming in its current form. The main disadvantage was that it became a very decoupled ``project within the project''. Every use case now lived in a separate form with three different files that needed to kept in sync every time a change occurred. The sequence diagrams provided no value for the customer, and limited value for the developers working on the system.\smallskip
 
 \noindent The idea of giving each use case step an identity, for generating their test function signatures, lived on in the next iterations.
@@ -138,10 +138,10 @@ During the evolution of the software, platform, language and architecture change
 
 \noindent This section explains the processes of using the models and interface of the framework for a third application: Namely testing. By exposing these interfaces and model classes to the tests, we had our link directly to the implementation.
 
-\subsection{Framework content}
+\subsection{Domain framework content}
 \label{ssec:openreception-framework-content}
 \noindent
-The framework is a set of library-level classes that is divided, into the following categories (and code packages). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
+The domain framework is a set of library-level classes that is divided, into the following categories (and code packages). It takes care of tedious low-level tasks such as serialization/deserialization object building from databases and Uri encoding. It is divided into the following different parts;
 \begin{description}
   \item[Models:] Every model of the framework is either part of the domain model, or closely related to a concept in it. Each class that is meant to be distributed is provided with serialization and de-serialization methods for use in the service layer.
   \item[Storage:] Abstract interface descriptions. An example is a the interface that dictates which primitives a storage layer for messages must have. In our case, this is CRUD operations (see appendix \ref{appendix:glossary}), and and ``enqueue'' that puts a message into a delivery queue.
@@ -157,7 +157,7 @@ The framework is a set of library-level classes that is divided, into the follow
 \end{figure}
 \noindent The framework served an important purpose in writing the code that modeled the actor behavior needed in the acceptance tests that we wrote. An example of a class configuration the framework is shown in figure \ref{fig:framework_example}. The framework exposes the ``RESTMessage'' interface that is used by the ``RESTMessageClient'' class. The latter class is used by both the client user interfaces, the tests that we write, and the servers. The server-side database layer realize the ``MessageStore'' interface to enable easy delegation of client requests to the database, and enables integration tests to be re-used -- but that is different story entirely.
 
-\subsection{Supporting test tools}
+\subsection{Test support tools}
 \label{ssec:supporting-test-tools}
 In order to perform fully automated end-to-end testing of the system, the framework was not quite enough. A box test of a system -- in general -- requires external stimuli in order to produce a result.\medskip
 
@@ -202,13 +202,13 @@ In this section we have identified a number of concepts that have support the im
   \item[Actor classes:] Wrapper classes that represents domain actors. Provides the basic macro-functions that realize actions the actor performs in a use case step.
    item[Concept classes:] The classes that represent non-actor domain concepts. For the most parts, these classes were already located in the framework supporting the case study system.
   \item[Resource pools:] A convenient abstraction of filling the need for various actors or concept in tests.
-  \item[(Domain) framework:] The supporting models and interfaces. Interfaces are exposed for a server to realize, and a client -- which includes tests -- to use.
-  \item[Test support framework:] The supporting library that contains the actor and concept wrapper classes, resource pools, and utility functions that tests may require.
+  \item[Domain framework:] The supporting models and interfaces. Interfaces are exposed for a server to realize, and a client -- which includes tests -- to use.
+  \item[Test support tools:] The supporting library that contains the actor and concept wrapper classes, resource pools, and utility functions that tests may require.
 \end{description}
-%TODO HOW NOT TO DO IT!!
-The framework provided excellent support for the tests, enabling the use case tests to be converted quite easily. The conversion process was quite easy, as most of the models and interfaces were now provided for us, and the writing up of actor classes a matter of creating the appropriate associations to these.
-The concept a test support framework was introduced.
+The first iteration showed us that the direct relationship to the code base matters. The separate code base that included the use cases quickly grew out of control, even though the code was generated. The sheer amount of work involved in creating the client interfaces and model classes from the case study system \emph{twice} was too much.\medskip
 
-We saw that the integration level matters; we need to be able reuse the interface code to make this remotely feasible.
+\noindent In the second iteration the tools that used the domain framework provided excellent support for the tests, and being that it shared the code base with case study system, most of the models and interfaces were now provided for us, and automatically tracked the changes to the code base.\medskip
 
-Two supporting framework functions had been identified; domain framework.
+\noindent The addition of the test support tools, enabled an abstraction away from the concrete implementation, as it provided the interface for testing the system from the point of view of an actor.\medskip
+
+\noindent Both of the frameworks from this chapter have been identified as essential concepts for test generation, from a use case perspective.
