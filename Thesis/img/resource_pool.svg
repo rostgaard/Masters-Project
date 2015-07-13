@@ -7,10 +7,10 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="3.4739583in"
+   width="2.1614583in"
    stroke-miterlimit="10"
    font-weight="normal"
-   viewBox="0 0 333.49998 151.50001"
+   viewBox="0 0 207.49999 151.50001"
    height="1.578125in"
    font-style="normal"
    font-size="12"
@@ -18,9 +18,9 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="resource_pool.svg"
-   style="font-style:normal;font-weight:normal;font-size:12px;font-family:Dialog;color-interpolation:auto;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto">
+   style="font-style:normal;font-weight:normal;font-size:12px;font-family:Arial;color-interpolation:auto;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto">
   <metadata
-     id="metadata180">
+     id="metadata143">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -40,17 +40,17 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="958"
+     inkscape:window-width="1918"
      inkscape:window-height="1059"
-     id="namedview178"
+     id="namedview141"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="2.0348717"
-     inkscape:cx="170.65773"
-     inkscape:cy="138.46169"
+     inkscape:zoom="1.4388716"
+     inkscape:cx="297.82895"
+     inkscape:cy="1.4011273"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
@@ -85,9 +85,9 @@
          id="linearGradient2"
          y2="309"
          y1="273"
-         x2="297"
+         x2="477"
          gradientUnits="userSpaceOnUse"
-         x1="189">
+         x1="385">
         <stop
            id="stop14"
            offset="0%"
@@ -104,9 +104,9 @@
          id="linearGradient3"
          y2="309"
          y1="273"
-         x2="519"
+         x2="343"
          gradientUnits="userSpaceOnUse"
-         x1="427">
+         x1="273">
         <stop
            id="stop19"
            offset="0%"
@@ -118,30 +118,11 @@
            stop-color="rgb(255,255,218)"
            stop-opacity="1" />
       </linearGradient>
-      <linearGradient
-         spreadMethod="pad"
-         id="linearGradient4"
-         y2="309"
-         y1="273"
-         x2="404"
-         gradientUnits="userSpaceOnUse"
-         x1="322">
-        <stop
-           id="stop24"
-           offset="0%"
-           stop-color="rgb(255,204,153)"
-           stop-opacity="1" />
-        <stop
-           id="stop26"
-           offset="100%"
-           stop-color="rgb(255,255,218)"
-           stop-opacity="1" />
-      </linearGradient>
       <clipPath
          id="clipPath1"
          clipPathUnits="userSpaceOnUse">
         <path
-           id="path29"
+           id="path24"
            d="m 0,-5 1300,0 0,910 L 0,905 0,-5 Z"
            inkscape:connector-curvature="0" />
       </clipPath>
@@ -149,274 +130,269 @@
          id="clipPath2"
          clipPathUnits="userSpaceOnUse">
         <path
-           id="path32"
-           d="M -53.2061,52.6805 955.1979,-735.6858 1500.2793,-38.469 491.8752,749.8973 -53.2061,52.6805 Z"
+           id="path27"
+           d="M -58.0381,28.0978 1196.7981,-224.4615 1371.4192,643.14 116.583,895.6993 -58.0381,28.0978 Z"
            inkscape:connector-curvature="0" />
       </clipPath>
     </defs>
   </defs>
   <text
-     x="125"
+     x="-353"
+     xml:space="preserve"
+     y="-59"
+     clip-path="url(#clipPath2)"
+     id="text35"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Academic Version for Teaching Only</text>
+  <text
+     x="-353"
+     xml:space="preserve"
+     y="-31"
+     clip-path="url(#clipPath2)"
+     id="text37"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Commercial Development is strictly Prohibited</text>
+  <text
+     x="-831"
+     xml:space="preserve"
+     y="332"
+     clip-path="url(#clipPath2)"
+     id="text43"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Academic Version for Teaching Only</text>
+  <text
+     x="-831"
+     xml:space="preserve"
+     y="360"
+     clip-path="url(#clipPath2)"
+     id="text45"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Commercial Development is strictly Prohibited</text>
+  <text
+     x="-388"
+     xml:space="preserve"
+     y="724"
+     clip-path="url(#clipPath2)"
+     id="text55"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Academic Version for Teaching Only</text>
+  <text
+     x="-388"
+     xml:space="preserve"
+     y="752"
+     clip-path="url(#clipPath2)"
+     id="text57"
+     style="font-style:italic;font-size:medium;fill:#dddddd;stroke:none;text-rendering:geometricPrecision"
+     transform="matrix(0.9803408,0.19731173,-0.19731173,0.9803408,-205.05896,-171.5938)">Commercial Development is strictly Prohibited</text>
+  <text
+     x="110"
      space="preserve"
-     y="18.2104"
+     y="17.958"
      font-weight="normal"
      clip-path="url(#clipPath1)"
-     id="text100"
+     id="text79"
      style="font-weight:normal;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
+     transform="translate(-272.5,-160.5)" />
   <rect
      x="297"
      y="164"
      clip-path="url(#clipPath1)"
      width="145"
      height="60"
-     id="rect110"
+     id="rect89"
      style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
+     transform="translate(-272.5,-160.5)" />
   <rect
      x="294"
      y="161"
      clip-path="url(#clipPath1)"
      width="145"
      height="60"
-     id="rect112"
+     id="rect91"
      style="font-weight:bold;font-size:medium;fill:url(#linearGradient1);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
+     transform="translate(-272.5,-160.5)" />
   <rect
      x="294"
      y="161"
      clip-path="url(#clipPath1)"
      width="145"
      height="60"
-     id="rect114"
+     id="rect93"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
+     transform="translate(-272.5,-160.5)" />
   <line
      clip-path="url(#clipPath1)"
      x1="294"
      x2="439"
      y1="179"
      y2="179"
-     id="line116"
+     id="line95"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
+     transform="translate(-272.5,-160.5)" />
   <line
      clip-path="url(#clipPath1)"
      x1="294"
      x2="439"
      y1="188"
      y2="188"
-     id="line118"
+     id="line97"
      style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-188.5,-160.5)" />
-  <g
-     style="font-style:italic;font-size:11px;fill:#000028;stroke:#000028;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     id="g120"
-     font-style="italic"
-     font-size="11"
-     transform="translate(-188.5,-160.5)">
-    <text
-       style="stroke:none"
-       id="text122"
-       clip-path="url(#clipPath1)"
-       y="201.2104"
-       space="preserve"
-       x="297">+aquire() : T</text>
-    <text
-       style="stroke:none"
-       id="text124"
-       clip-path="url(#clipPath1)"
-       y="213.2104"
-       space="preserve"
-       x="297">+release( resource : T )</text>
-    <text
-       style="font-weight:bold;fill:#000000;stroke:none"
-       id="text126"
-       space="preserve"
-       font-weight="bold"
-       clip-path="url(#clipPath1)"
-       y="174.2104"
-       x="340">Pool&lt;T&gt;</text>
-    <rect
-       style="fill:#b2b2b2;stroke:none"
-       id="rect128"
-       height="36"
-       width="108"
-       clip-path="url(#clipPath1)"
-       y="276"
-       x="192" />
-    <rect
-       style="fill:url(#linearGradient2);stroke:none"
-       id="rect130"
-       height="36"
-       width="108"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="189" />
-    <rect
-       style="fill:none;stroke:#99795c"
-       id="rect132"
-       height="36"
-       width="108"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="189" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line134"
-       y2="291"
-       y1="291"
-       x2="297"
-       x1="189"
-       clip-path="url(#clipPath1)" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line136"
-       y2="300"
-       y1="300"
-       x2="297"
-       x1="189"
-       clip-path="url(#clipPath1)" />
-  </g>
-  <g
-     style="font-weight:bold;font-size:11px;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     id="g138"
+     transform="translate(-272.5,-160.5)" />
+  <text
+     x="297"
+     space="preserve"
+     y="200.95799"
+     clip-path="url(#clipPath1)"
+     id="text101"
+     style="font-style:italic;font-size:medium;fill:#000028;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)">+aquire() : T</text>
+  <text
+     x="297"
+     space="preserve"
+     y="212.95799"
+     clip-path="url(#clipPath1)"
+     id="text103"
+     style="font-style:italic;font-size:medium;fill:#000028;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)">+release( resource : T )</text>
+  <text
+     x="344"
+     y="173.95799"
+     clip-path="url(#clipPath1)"
      font-weight="bold"
-     font-size="11"
-     transform="translate(-188.5,-160.5)">
-    <text
-       style="stroke:none"
-       id="text140"
-       clip-path="url(#clipPath1)"
-       y="286.21039"
-       space="preserve"
-       x="193.5">UnboundedPool</text>
-    <rect
-       style="fill:#b2b2b2;stroke:none"
-       id="rect142"
-       height="36"
-       width="92"
-       clip-path="url(#clipPath1)"
-       y="276"
-       x="430" />
-    <rect
-       style="fill:url(#linearGradient3);stroke:none"
-       id="rect144"
-       height="36"
-       width="92"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="427" />
-    <rect
-       style="fill:none;stroke:#99795c"
-       id="rect146"
-       height="36"
-       width="92"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="427" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line148"
-       y2="291"
-       y1="291"
-       x2="519"
-       x1="427"
-       clip-path="url(#clipPath1)" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line150"
-       y2="300"
-       y1="300"
-       x2="519"
-       x1="427"
-       clip-path="url(#clipPath1)" />
-    <text
-       style="stroke:none"
-       id="text152"
-       clip-path="url(#clipPath1)"
-       y="286.21039"
-       space="preserve"
-       x="431.5">BoundedPool</text>
-    <rect
-       style="fill:#b2b2b2;stroke:none"
-       id="rect154"
-       height="36"
-       width="82"
-       clip-path="url(#clipPath1)"
-       y="276"
-       x="325" />
-    <rect
-       style="fill:url(#linearGradient4);stroke:none"
-       id="rect156"
-       height="36"
-       width="82"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="322" />
-    <rect
-       style="fill:none;stroke:#99795c"
-       id="rect158"
-       height="36"
-       width="82"
-       clip-path="url(#clipPath1)"
-       y="273"
-       x="322" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line160"
-       y2="291"
-       y1="291"
-       x2="404"
-       x1="322"
-       clip-path="url(#clipPath1)" />
-    <line
-       style="fill:none;stroke:#99795c"
-       id="line162"
-       y2="300"
-       y1="300"
-       x2="404"
-       x1="322"
-       clip-path="url(#clipPath1)" />
-    <text
-       style="stroke:none"
-       id="text164"
-       clip-path="url(#clipPath1)"
-       y="286.21039"
-       space="preserve"
-       x="326">Randomizer</text>
-    <polygon
-       style="fill:none;stroke:#424242"
-       id="polygon166"
-       points="360,228 368,228 364,221 "
-       clip-path="url(#clipPath1)" />
-    <path
-       style="fill:none;stroke:#424242"
-       inkscape:connector-curvature="0"
-       id="path168"
-       clip-path="url(#clipPath1)"
-       d="m 364,228 0,28 -126,0 0,17" />
-    <polygon
-       style="fill:none;stroke:#424242"
-       id="polygon170"
-       points="360,228 368,228 364,221 "
-       clip-path="url(#clipPath1)" />
-    <path
-       style="fill:none;stroke:#424242"
-       inkscape:connector-curvature="0"
-       id="path172"
-       clip-path="url(#clipPath1)"
-       d="m 364,228 0,28 109,0 0,17" />
-    <polygon
-       style="fill:none;stroke:#424242"
-       id="polygon174"
-       points="360,228 368,228 364,221 "
-       clip-path="url(#clipPath1)" />
-    <path
-       style="fill:none;stroke:#424242"
-       inkscape:connector-curvature="0"
-       id="path176"
-       clip-path="url(#clipPath1)"
-       d="m 364,228 0,45" />
-  </g>
+     space="preserve"
+     id="text105"
+     style="font-style:italic;font-weight:bold;font-size:medium;fill:#000000;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)">Pool&lt;T&gt;</text>
+  <rect
+     x="388"
+     y="276"
+     clip-path="url(#clipPath1)"
+     width="92"
+     height="36"
+     id="rect107"
+     style="font-style:italic;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <rect
+     x="385"
+     y="273"
+     clip-path="url(#clipPath1)"
+     width="92"
+     height="36"
+     id="rect109"
+     style="font-style:italic;font-size:medium;fill:url(#linearGradient2);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <rect
+     x="385"
+     y="273"
+     clip-path="url(#clipPath1)"
+     width="92"
+     height="36"
+     id="rect111"
+     style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <line
+     clip-path="url(#clipPath1)"
+     x1="385"
+     x2="477"
+     y1="291"
+     y2="291"
+     id="line113"
+     style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <line
+     clip-path="url(#clipPath1)"
+     x1="385"
+     x2="477"
+     y1="300"
+     y2="300"
+     id="line115"
+     style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <text
+     x="395.5"
+     space="preserve"
+     y="285.95801"
+     clip-path="url(#clipPath1)"
+     id="text119"
+     style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)">BoundedPool</text>
+  <rect
+     x="276"
+     y="276"
+     clip-path="url(#clipPath1)"
+     width="70"
+     height="36"
+     id="rect121"
+     style="font-weight:bold;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <rect
+     x="273"
+     y="273"
+     clip-path="url(#clipPath1)"
+     width="70"
+     height="36"
+     id="rect123"
+     style="font-weight:bold;font-size:medium;fill:url(#linearGradient3);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <rect
+     x="273"
+     y="273"
+     clip-path="url(#clipPath1)"
+     width="70"
+     height="36"
+     id="rect125"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <line
+     clip-path="url(#clipPath1)"
+     x1="273"
+     x2="343"
+     y1="291"
+     y2="291"
+     id="line127"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <line
+     clip-path="url(#clipPath1)"
+     x1="273"
+     x2="343"
+     y1="300"
+     y2="300"
+     id="line129"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <text
+     x="288.5"
+     space="preserve"
+     y="285.95801"
+     clip-path="url(#clipPath1)"
+     id="text131"
+     style="font-weight:bold;font-size:medium;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)">Factory</text>
+  <polygon
+     clip-path="url(#clipPath1)"
+     points="364,221 360,228 368,228 "
+     id="polygon133"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <path
+     d="m 364,228 0,28 67,0 0,17"
+     clip-path="url(#clipPath1)"
+     id="path135"
+     inkscape:connector-curvature="0"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <polygon
+     clip-path="url(#clipPath1)"
+     points="364,221 360,228 368,228 "
+     id="polygon137"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
+  <path
+     d="m 364,228 0,28 -52,0 0,17"
+     clip-path="url(#clipPath1)"
+     id="path139"
+     inkscape:connector-curvature="0"
+     style="font-weight:bold;font-size:medium;fill:none;stroke:#424242;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
+     transform="translate(-272.5,-160.5)" />
 </svg>
