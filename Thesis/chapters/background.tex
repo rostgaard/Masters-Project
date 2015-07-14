@@ -9,13 +9,22 @@ In software engineering, continuous testing is one of the most effective weapons
 \subsection{Testing terminology}
 The terminology described here is provided, either because the term is used in the thesis, or for completeness -- i.e. black-box/white-box testing.
 \begin{description}
+
   \item[Test coverage:] The tests coverage is an indication of how many of the branches system is actually covered by the tests. So, a simple function with a single \emph{if-else} branch, that had a test that covered only the \emph{if} branch would have a coverage of 50\%. If there was also a test for the \emph{else} branch, the coverage would reach 100\%. Test coverage applies to every level of testing, from acceptance tests to unit tests.
+
   \item[White-box test:] A white-box test treats the system as a transparent box where all the internals are known. From these known internals, tests can be written to take a specific code path within the component under test. Unit tests are an example of a white-box test, as it tests the known internals of the unit. In the case study system, white-box tests are used to verify API's and system functionality -- effectively testing multiple API's in a single test.
+
   \item[Black-box test:] Treats the system as an unknown entity which responds to external stimuli. Nothing is known about the internals of the entity, and by by applying the stimuli, the entity will respond -- hopefully -- in the expected way. The Stimuli-organism-response (figure \ref{fig:sor-model}), which is used areas such as behavioral psychology, graphically depicts the concept very well.
+
   \item[Unit test:] Is a detailed test of a single unit in the system. While the size of the unit is not strictly defined, a unit is typically a single file or class in software systems. A unit test is a white-box test that focus on broad test coverage.
+
   \item[Integration test:] Is a test that treats a component, or set of components as a combined entity, and tests it as a black-box system. Integration testing is linked to functional requirements, but may also refer to non-functional requirements, such as behavior under load -- which is known is stress-testing.
+
   \item[Test harness:] An artificial environment that surrounds a test, supplying it with the resources and API's it needs. An example of a resource could be a database layer that supplies the test with the objects it needs. The harness does not need to provide real objects, but is free to return mock objects to the test, rather than having to deal with actually connecting to a database.
+
   \item[Acceptance test:] An acceptance test is a test conducted to determine if the requirements of a specification or contract are met. If the contract specified that a ship that could float was to be built, the acceptance test would be to put it in the water and see if floats. If so; the acceptance test was a success.
+  
+  \item[System under test:] The implemented system that is to be tested. Sometimes also referred to in the literature as ``testee''. In this thesis, we are using the case study system (section \ref{sec:case-study-system}) as system under test, but may refer to system under test, in the context of general application of the approach presented in this thesis.
 \end{description}
 \begin{figure}[!htbp]
   \centering
