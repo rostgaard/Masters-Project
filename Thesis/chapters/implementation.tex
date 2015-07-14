@@ -192,3 +192,10 @@ While the mappings here were done to a specific domain, the concepts of mapping 
 \noindent In the test support tools written for the test case system, we make heavy use of resource pools and object factories to supply the tests with the, quite large, resource blocks that they need.\medskip
 
 \noindent The implementation contains open ends, a rough user interface, and although tested (appendix \ref{appendix:tests}) should be considered a conceptual prototype not suitable for deployment.
+
+\subsection{Known bugs and limitations}
+This section documents the identified bugs and errors in the application.
+\begin{description}
+  \item[Textual analysis too primitive.] The current textual analysis is performing raw substring matching on whichever definition is matched first. This means that if you have a definition of ``something'', and add another definition of ``thing'', then the textual analysis will only match one of them. Which one, depends on which one occurs first in the definition set.
+\end{description}
+
