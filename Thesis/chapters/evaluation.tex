@@ -31,6 +31,38 @@ Most implementation changes should be transparent to the tests, and only interfa
 
 \noindent Any change to actors or concepts seem unlikely, as they are created solely for the purpose of tests, and should only be changed if the requirements change.
 
+\section{Benefits}
+
+\subsection{Simple use cases model}
+The structuring of the use cases have been kept simple in order to make it flexible. Instead of just supporting one view of how, for instance, a use step would look like, mere textual representations are used for them. The mappings to the domain models of the system under test are provided by keyword identifications that refer to a domain actor or concept, via a definition. This makes it flexible in two ways: The first is that you do not need to define every actor and/or concept beforehand, but may simply write your use cases -- as use cases -- and add the definitions later. The second benefit is that the simple structure and textual representation makes it easy to export to other platforms, for example documentation.
+
+\subsection{Source code mappings}
+
+
+\subsection{Side effects}
+%One of the major benefits is that it makes other black-box tests easier, as we can re-use components from the framework.
+% Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
+
+Writing integration tests is definitely a lot easier. Writing up tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated, but written by hand, using the test support tools.
+\begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
+  static void pickupAllocatedCall(Receptionist receptionist, 
+                                  Receptionist receptionist2, 
+                                  Customer callee) {
+    String receptionNumber = '12340002';
+    Model.Call allocatedCall;
+    
+    log.info ('Customer ${callee.name} dials ${receptionNumber}');
+    callee.dial (receptionNumber);
+    log.info ('Receptionist ${receptionist.user.name} hunts call.');
+    allocatedCall = receptionist.huntNextCall();
+   
+    expect (receptionist2.pickup(call), throwsA(Forbidden));
+    log.info('Test done');
+  }
+\end{lstlisting}
+Some may argue that this piece of code maps very nice to a requirement. While it may not be entirely possible to completely generated it from one, a requirement can most definitely be derived from the code. The example also captures an error condition, which may be challenging to describe from a use case in sufficient detail so that test generation is possible.\medskip
+
+\noindent Another side benefit from having use cases written as tests -- whether they are generated or not -- gives new developers a good reference point on how the system is intended to work. By reading the class files representing actor and concepts, and how they interface with the system provides a good high-level overview of the general architecture, and how it should be used.
 \section{Challenges}
 %TODO finalize this section
 As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
@@ -66,31 +98,7 @@ A postcondition may read ``The call is assigned to \emph{only} one receptionist'
 \end{enumerate}
 Making the keyword refer in 2. refer to the previous entry, 1. This feature is neither implemented, nor conceptualized further, but included in the discussion as it is a actual problem that was encountered during the development of the 2nd iteration of the tests. There has been developed an \emph{ad-hoc} test that uses the spawn-threads-and-collect method introduced above so there exists a technical solution for the problem.
 
-\section{Benefits}
-\subsection{Side effects}
-%One of the major benefits is that it makes other black-box tests easier, as we can re-use components from the framework.
-% Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
 
-Writing integration tests is definitely a lot easier. Writing up tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated, but written by hand, using the test support tools.
-\begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
-  static void pickupAllocatedCall(Receptionist receptionist, 
-                                  Receptionist receptionist2, 
-                                  Customer callee) {
-    String receptionNumber = '12340002';
-    Model.Call allocatedCall;
-    
-    log.info ('Customer ${callee.name} dials ${receptionNumber}');
-    callee.dial (receptionNumber);
-    log.info ('Receptionist ${receptionist.user.name} hunts call.');
-    allocatedCall = receptionist.huntNextCall();
-   
-    expect (receptionist2.pickup(call), throwsA(Forbidden));
-    log.info('Test done');
-  }
-\end{lstlisting}
-Some may argue that this piece of code maps very nice to a requirement. While it may not be entirely possible to completely generated it from one, a requirement can most definitely be derived from the code. The example also captures an error condition, which may be challenging to describe from a use case in sufficient detail so that test generation is possible.\medskip
-
-\noindent Another side benefit from having use cases written as tests -- whether they are generated or not -- gives new developers a good reference point on how the system is intended to work. By reading the class files representing actor and concepts, and how they interface with the system provides a good high-level overview of the general architecture, and how it should be used.
 
 \section{Metrics}
 This section presents the empiric evidence gathered with the purpose of determining the usefulness, additional workload factor of the approach in this thesis. We also try to determine the significance of the presence of a domain framework, integrated with the main code base. This is done by comparing failure levels for the first two iterations of the requirement translation tool (chapter \ref{chapter:first-iterations}).
