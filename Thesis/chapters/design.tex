@@ -1,6 +1,6 @@
-\chapter{Design}
+\chapter{Analysis}
 \label{ch:design}
-This chapter documents the major design decisions in the process of building a tool that supports the hinting tool concept from \ref{chap:conceptual_design}. It focuses on building models that enable translations from the use case representations to tests -- focusing on broad test coverage.
+This chapter documents the analysis performed. This is done in order to support the major design decisions in the scope of building a tool that supports the hinting tool concept from \ref{chap:conceptual_design}. It focuses on building models that enable translations from the use case representations to tests -- focusing on broad test coverage. This chapter also presents an execution model that is suitable for translating use case steps to executable source code functions.
 
 \section{Meta model}
 \begin{figure}[!htbp]
@@ -11,17 +11,17 @@ This chapter documents the major design decisions in the process of building a t
 \end{figure}
 \noindent This section discusses an evolved and simplified version of the meta model introduced in chapter \ref{chap:conceptual_design}, and covers the changes that happened when the model transitioned from concept to design.\medskip
 
-\noindent A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. The predicates that signified the pre- and postcondition have been turned into simple use blocks, which effectively means that the mapper needs to explicitly break the execution within the conditional steps, in the case of an unmet condition.\medskip
+\noindent A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. The predicates that signified the pre- and postcondition have been turned into simple use blocks. This effectively means that the mapper actor needs write up a function that explicitly break the execution within the conditional steps, in the case of an unmet condition.\medskip
 
-\noindent When performing a translation, every use case step will be broken down into a set of decomposed steps. A decomposed step is an \emph{ordered} list of either a definition or just a text. The decomposition is a reversible process, that will be performed by the use of a definition set. A definition set is the information which added by the use case writer and links domain concepts to use cases. Definitions are used to infer which concepts or actors need to passed to the generated test case functions.
+\noindent When performing a translation, every use case step will be broken down into a set of decomposed steps. A decomposed step is an \emph{ordered} list of either a definition or just a text. The decomposition is a reversible process, that will be performed by the use of a definition set. A definition set is the information which added by the use case writer and links domain concepts to use cases. Definitions are used to infer which concepts or actors need to passed to the generated test case functions, when performing the use case translation.
 
 \section{Translating a use case}
 Once we have built the use case models, translation of a them is a matter determining which paths they contain and translating them to the test function calls. The signatures of the functions are automatically inferred by the concept types linked in definitions.\medskip
 
 \noindent During the design process, three major constraints for use cases -- in regards to test generation -- were defined. 
 \begin{description}
-  \item[Entries:] Every entry in a use case scenario is a synchronous self-contained action. Single steps may mutate the system state
-  \item[Termination:] A use case scenario should always terminate.
+  \item[Entries:] Every entry in a use case scenario is a synchronous self-contained action -- every step must finish before the next start. Single steps may mutate the system state.
+  \item[Termination:] A use case scenario (the main scenario) should always terminate. It should have distinct start and finish. Otherwise it would be impossible to generate tests from it.
   \item[No extensions nesting:] A design decision that simplified the path determination.
 \end{description}
 We treat the use case scenario with extensions as a directed graph -- potentially containing cycles. Every node of the graph represents a use case step and every edge the invocation of the next step. An example of a use case graph is shown in figure \ref{fig:use-case-graph}. It consists of a main scenario, which are all the $s_n$ states (state $s_1$ to $s_5$) and an exit point. The exit point is provided to signify explicit termination for the main scenario -- but especially for use case extensions that never return to the main scenario, but merely terminate the use case. The extension node $e_{3.1}$ represent an extension that this exact behavior.\medskip
@@ -76,31 +76,18 @@ chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
 \end{figure}
 \subsection{Determining paths}
 \label{ssec:use-case-paths}
-A path of a use case is any graph path that traverses the graph from the initial state $s_1$ to the ($exit$) node. In the use case graph in figure \ref{fig:use-case-graph}, we have the following paths - not counting loops.\medskip
+A path of a use case is any graph path that traverses the graph from the initial state $s_1$ to the ($exit$) node. In the simple use case graph in figure \ref{fig:use-case-graph}, we enumerated 11 paths - not counting loops.\medskip
 
-\begin{itemize}
-  \item Main scenario
-  \item Extension 1
-  \item Extension 2
-  \item Extension 3
-  \item Extension 1 and 2
-  \item Extension 1 and 3  
-  \item Extension 2 and 1
-  \item Extension 2 and 3  
-  \item Extension 3 and 3
-  \item Extension 1, 2 and 3
-  \item Extension 2, 1 and 3
-\end{itemize}
-\noindent The basic path of an extension (the one that diverts from the main scenario, and goes straight back to it, once finished can be represented as the union of the path leading in, the path of extension scenario, and the path from the exit point of the extension, to the exit point of the use case (\ref{eqn:exten-base-path}). 
+\noindent The basic path of an extension (the one that diverts from the main scenario, and goes straight back to it, once finished can be represented as the union of the path leading in, the path of extension scenario, and the path from the exit point of the extension, to the exit point of the use case represented as a \emph{ordered} set of nodes (\ref{eqn:exten-base-path}). 
 \begin{equation}
 p_{exten} = \left\lbrace s_1 \dots E_{entry} \right\rbrace \bigcup E_{scenario} \bigcup \left\lbrace E_{entry} \dots exit \right\rbrace
 \label{eqn:exten-base-path}
 \end{equation}
-\noindent Harvesting the additional paths will be a matter of combining the scenario of the use ($E_{scenario}$) with the all the different possible entry and exit paths, as seen in the itemized list above. Efficient algorithms for enumerating all simple paths of a graphs already exist\cite{rubin1978enumerating}, and will not be covered in more detail in this thesis.\medskip
+\noindent Harvesting each additional path ($p_{exten}$) will be a matter of combining the scenario of the use ($E_{scenario}$) with the all the different possible entry and exit paths, as seen in the itemized list above. Efficient algorithms for enumerating all non-cyclic paths of a graphs already exist\cite{rubin1978enumerating}, and will not be covered in more detail in this thesis.\medskip
 
 \noindent Once a list of paths is retrieved, it is possible to convert every path, which is essentially a list of active actions either performed by, or affecting, the primary actor. This list will be translated into a test by converting it into code snibblet, and join them together in a code block that becomes the body of a test function.\medskip
 
-\noindent Up until now, the fact that back edges (edges that go backwards in the directed graph) can occur, has been ignored. These edges raises the bar for identifying unique paths, as it introduces loops. Loops are potentially infinite, and needs to be detected and mapped appropriately.\medskip
+\noindent Until now, the fact that back edges (edges that go backwards in the directed graph) can occur, has been ignored. These edges raises the bar for identifying unique paths, as it introduces loops. Loops are potentially infinite, and needs to be detected and mapped appropriately.\medskip
 
 \noindent The loop detection is quite simple if we disallow nested extensions. In that case, the loop detection can be performed solely by detecting that the return point of the extension is not before the entry point in the main scenario. When a loop is detected in an extension, the extension may be flagged as ``looping''.\medskip
 
@@ -111,18 +98,38 @@ p_{exten} = \left\lbrace s_1 \dots E_{entry} \right\rbrace \bigcup E_{scenario} 
 %TODO mention errors, how to emulate errors. We need to have a use case that describes the exact circumstances under which the error arises.
 This section discussed the individual components of a use case with the perspective of converting it into an executable test. In order to write up functions that implement the generated function block stubs in actual system behavior, a programming model is presented in this section.\medskip
 
-\noindent The programming model builds upon the constrain of having the use case represented as an list ordered list of steps that are unrolled into paths, that represent the different ways a use case can play out. The steps of these paths need to be executed in order.
+\noindent The programming model builds upon the constrain of having the use case represented as an ordered list of steps that are unrolled into paths, that represent the different ways a use case can play out. The steps of these paths need to be executed in order.
 \subsection{Step execution}
 \label{ssec:step-execution}
 \label{sec:use-case-environment}
-Executing a test of given use case path may be considered a long function call-chain. Each new function call passes its computed state onto the next function. This method of passing along the state is a common pattern is interpreters and compilers, where this state is referred to as ``the environment'', and s initially fed into the tests with a list of variable and function definitions -- similar to those our meta model. In our test-case compiler we adopt this concept. One of the large benefits is to have the ability to have an exit procedure that performs state clean upon exit of every use case.\medskip
+Executing a test of given use case path may be considered a long function call-chain. Each new function call passes its computed state onto the next function, which is how variables get passed also. This method of passing along the state is a common pattern is interpreters and compilers, where this state is referred to as ``the environment'', and the state $S_n$ initially fed into the tests with a list of variable and function definitions -- similar to those our meta model. In our test-case compiler we adopt this concept. One of the benefits of this is to have the ability to have an exit procedure that performs state clean upon exit of every use case.\medskip
 
-\noindent An execution of a use case path that consists of $n$ steps could look like the expression in \ref{eqn:path-evaluation}. 
+\noindent An execution of a use case path that consists of $n$ steps could look like the statement in \ref{eqn:path-evaluation}, where every $S_n$, $Precondition$ and $Postcondition$ are all functions taking the mutated environment (the current state) as an argument, returning the environment with the changes they made. Th chain is evaluated right-to-left, and the first function to be called is, thus, the $Precondition$ function.
 \begin{equation}
 Postcondition \rightarrow S_n \rightarrow S_{n-1} \rightarrow \dotsb \rightarrow S_2 \rightarrow S_1 \rightarrow Precondition \rightarrow env
 \label{eqn:path-evaluation}
 \end{equation}
-The expression function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation. For anyone familiar with the concept of monads in functional programming, this concept is quite similar. Here every function carries the state needed by the next function, and forms an execution chain. The model may also be, represented in procedural languages by a list of statements that only operate on input parameters and return their result.
+The function is applied to the statement, then the result is applied to the matcher which then returns a success or failure value depending on the outcome of the evaluation. For anyone familiar with the concept of monads in functional programming, this concept is quite similar. Here every function carries the state needed by the next function, and forms an execution chain. The model may also be, represented in procedural languages by a list of statements that only operate on input parameters and return their result.\medskip
+
+\noindent An application of this, in a concrete syntax, is shown in listing \ref{lst:example_functional_path} that shows the nesting of functions in a use case that merely logs in a user, to log it out again. The change is made to the environment and then passed up the call chain to finally be processed by the \textbf{postcondition} function. This approach is very suitable for functional programming languages, as it functionally pure (assuming each function has no side effects).
+
+\begin{lstlisting}[caption=example language for mapping concepts,label={lst:example_functional_path}]:
+postcondition (
+  user_log_out (
+    user_log_in (
+      precondition (environment)));
+\end{lstlisting}
+
+\noindent Alternatively, this can be in an imperative fashion, using an procedural programming language as shown in listing \ref{lst:example_procedural_path}. The concept of chaining is the same as above, but now the mutated environment is no longer returned, but instead passed implicitly from one statement to the next.
+
+\begin{lstlisting}[caption=example language for mapping concepts,label={lst:example_procedural_path}]:
+precondition (environment);
+user_log_in (environment);
+user_log_out (environment);
+postcondition (environment);
+\end{lstlisting}
+
+\noindent The latter example is the most readable of the two, and the one that maps (visually) the use case steps. It, very explicitly, states which steps are taken for the use case to succeed.
 
 \subsection{Test case environment}
 \label{sec:test_case_state}
@@ -158,6 +165,12 @@ So, the \emph{accountant creates invoice} effectively has a precondition that is
 \subsection{Simulating error conditions}
 \label{ssec:simulating-error-conditions}
 Use cases may branch out and go to alternatives actions. These branches signify that an error has occurred, and may be difficult to emulate. Injecting faults in systems to see how they respond to it, is a field of study on its own. For this purpose, some of the error scenarios could be described as use cases. That is, a sequence of steps that lead up to the error, and how the actor experiencing the error must handle it. Simulating error conditions outside of the control of the developed system may be impossible by a mapper. One possible solution is to use add an assumption here, and merely treat the event or decision as having occurred. An assumption is a no-operation statement that, in some way, must notify the test runner about the assumption that was made. Maybe just by injecting a message into a log stream.
+
+\section{Process overview}
+Write up use cases, in the tool. This process can be supported by using activity diagrams as a base. This is also covered in section \ref{sec:1st-iteration-test-specification}.
+When the use cases are written, they need to be annotated using the hinting tool. Each actor and concept role needs to be marked as their respective types.
+When this is done, a template needs to be created. The template should support the individual functions, and function stubs with the correct signatures could be generated from the use cases -- once annotated.
+The templates serve a mappings from the use cases to the implemented system, and enables the generation of executable tests from the use cases.
 
 \section{Evaluation}
 The path coverage, being a good idea, does not really scale. For every new extension in the use cases, every test need to be regenerated taking into account this extension. If the system had $n$ paths before, adding a new use case extension, adds an exponential number number of new paths -- especially in the presence of loops. This is very impractical in a development environment with continuously evolving requirements, and can make the running of tests -- because of the large amount of them -- so time consuming that result is useless, once it arrives.\\\\

@@ -1,7 +1,7 @@
-\chapter{Evaluation}
+\chapter{Discussion}
 %TODO something about the moving taget (mainly how does injecting change look like, and how does it scale in this process?
 %TODO is this integrateable in an exisiting development process?
-This section evaluates and discusses the implementation from the thesis, establishing some quantifiable goals while discussing the general feasibility of the approach. It both raises some issues that needs to be solved before in order to improve the method, and identifies some of the side-benefits that followed the approach.
+This section discusses and evaluates the implementation from the thesis, establishing some quantifiable goals while discussing the general feasibility of the approach. Also raises some issues that needs to be solved before in order to improve the method, and identifies some of the side-benefits that followed the approach.
 
 
 \section{General usefulness}
@@ -35,6 +35,10 @@ Most implementation changes should be transparent to the tests, and only interfa
 %TODO finalize this section
 As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
 
+\subsection{Scalability}
+\label{sec:scalability}
+
+
 \subsection{Parallelism}
 \label{sec:parallelism}
 A case that is not able to be covered by this approach, is when a use case contains multiple actors that perform the same action simultaneously.\medskip
@@ -52,7 +56,7 @@ A postcondition may read ``The call is assigned to \emph{only} one receptionist'
 
 \noindent A method for solving this, is to add the asynchronism in the mapped test code, but this is a very bad idea. This would lead to very unexpected behavior if requirements change in the specific block. This would lead to treads being spawned, expecting to perform a specific action that no longer existed in the requirements, perhaps deadlocking while waiting for an event to happen -- or change the state of the system that would lead an error later in the test.\medskip
 
-\noindent A better way of solving it, is to add a keyword. For instance \textbf{simultaneously}. So the use case would then read;
+\noindent A better way of solving it, is to add a keyword. For example, the word \textbf{simultaneously}. So the use case would then read;
 \begin{enumerate}
  \item Receptionist 1 tries to pickup call
  \item Receptionist 2 tries to pickup call \textbf{simultaneously}
@@ -65,7 +69,7 @@ Making the keyword refer in 2. refer to the previous entry, 1. This feature is n
 %One of the major benefits is that it makes other black-box tests easier, as we can re-use components from the framework.
 % Treating the system global state enforces a notion within the programmer how the specific activity acutally mutates the global state of the system.
 
-Writing integration tests is definitely a lot easier. Writing up tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated.
+Writing integration tests is definitely a lot easier. Writing up tests that asserts that an edge case is not reached. The code becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated, but written by hand, using the test support tools.
 \begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
   static void pickupAllocatedCall(Receptionist receptionist, 
                                   Receptionist receptionist2, 
@@ -88,30 +92,44 @@ Some may argue that this piece of code maps very nice to a requirement. While it
 
 
 \section{Metrics}
-This section presents the empiric evidence gathered with the purpose of determining the usefulness and additional workload factor of the approach in this thesis.
+This section presents the empiric evidence gathered with the purpose of determining the usefulness, additional workload factor of the approach in this thesis. We also try to determine the significance of level of integration with the main integration by comparing failure levels for the first two iterations of the requirement translation tool (chapter \ref{chapter:first-iterations}).
 \subsection{Differences between first and second iteration}
 \label{ssec:first-and-second-iteration-differences}
-The first data set that is collected, are the graphs from our continuous integration service -- Jenkins -- that present the relative number of failures over time, comparing the two first iterations (chapter \ref{chapter:first-iterations}) of the requirements-as-tests approach. The biggest difference in the two approaches is the fact that one of them shares code with the code base of the developed system, and the other does not. This will, thus, serve as the evaluation point. The two datasets have different number of total tests, which is why the evaluation will be done on the basis of the \emph{relative} number of errors, instead of the absolute.\medskip
+This section compares the average failure (and success) levels of the two iterations of the test support tools.
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{ | l | r | r |}
+   \hline
+   Project          & Avg. success rate & Avg. failure rate \\ \hline
+   First iteration  & 53.4\%            & 46.6\%            \\
+   Second iteration & 97.1\%            & 2.9\%             \\
+   \hline
+\end{tabular}
+\caption{Success/failure rates for the two implementations}
+\label{tab:jenkins-failure-rates}
+\end{table}
+The data set that is collected, are the graphs, and average success/failure rates from our continuous integration service (Jenkins CI). The most signification difference between the two implementations is the fact that one of them shares code with the code base of the developed system, while the other does not. This will, thus, serve as the evaluation point. The two datasets have different number of total tests, which is why the evaluation will be done on the basis of the \emph{relative} failure rate, instead of the absolute. Table \ref{tab:jenkins-failure-rates} document the average success and failure rate of tests. The numbers clearly state that the failure rate of the second implementation is significantly lower than the first. \medskip
 
-\noindent In the first implementation of the test tools (see section \ref{sec:1st-iteration-test-specification}), there was no shared knowledge of the domain. The tests were written in a different programming language than the main code base, and interfacing was manual -- even though the test case generation were automated.\medskip
+\noindent In the first implementation of the test tools (see section \ref{sec:1st-iteration-test-specification}), there was no direct link to implementation code base. The tests were written in a different programming language than the main code base, and the implementation of clients that used the API interfaces were manual and duplicated.\medskip
 \begin{figure}[!hbpt]
 \centering
-\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-1}
+\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-iteration-1}
 \caption{Iteration 1 Jenkins build trend. Blue area is total tests, and red area is failures}
-\label{fig:jenkins-build-trend-interation-1}
+\label{fig:jenkins-build-trend-iteration-1}
 \end{figure}
 
-\noindent Iteration 1 build trend in figure \ref{fig:jenkins-build-trend-interation-1}\footnote{Image quality is low, but as the Jenkins server that ran the test has been \emph{physically} garbage collected, it was the best that could be procured.} show an increasing relative number of errors compared to the second iteration shown in figure \ref{fig:jenkins-build-trend-interation-2}.\medskip
-
-\noindent The second iteration treated tests as an intricate part of the main project, rather than an auxiliary part, and made use if the framework that was built for the application. This, ultimately led to a much lower failure rate, and the correction of errors much faster. First iteration has many longer-running errors, where second iteration typically fixes the error before new errors arise.
-%TODO add conclusive stuff.
+\noindent Iteration 1 build trend in figure \ref{fig:jenkins-build-trend-iteration-1}\footnote{Image quality is low, but as the Jenkins server that ran the test has been \emph{physically} garbage collected, it was the best that could be procured.} show an increasing relative number of errors compared to the second iteration shown in figure \ref{fig:jenkins-build-trend-iteration-2}.\medskip
 
 \begin{figure}[!hbpt]
 \centering
-\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-interation-2}
+\includegraphics[width=1.0\textwidth]{\imgdir jenkins-build-trend-iteration-2}
 \caption{Iteration 2 Jenkins build trend. Blue area is total tests, and red area is failures}
 \label{fig:jenkins-build-trend-interation-2}
 \end{figure}
+
+\noindent The second iteration treated tests as an intricate part of the main project, rather than an auxiliary part, and made use if the framework that was built for the application. This, ultimately led to a much lower failure rate, and the correction of errors much faster. First iteration has many longer-running errors, where second iteration typically fixes the error before new errors arise.\medskip
+
+\noindent By this we conclude that the level of integration with the main code base matters. By sharing language and domain framework, the tests became an intricate part of the development, rather than an axillary part.
 
 \subsection{Workload overhead}
 To be able find a quantitative measure for how much extra work this method is, the number of code lines were enumerated, and support-only files were counted as overhead. Table \ref{tab:loc-metrics}
