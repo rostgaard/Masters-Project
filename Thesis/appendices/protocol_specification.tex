@@ -1,34 +1,55 @@
 %!TEX root = ../Thesis.tex
 \chapter{Protocol specification}
 \label{appendix:protocol}
-%TODO taken at 2015-06-29
-On the interface side, we decided that 2xx series HTTP codes where mapped to normal responses, and 4xx and 5xx to execeptions. 1xx and 3xx series are unused in our stak, and thus, unmapped. But it provides us with a good tool for -- on the client -- to explicitly state which replies should go where, and how they should be handled.
+On the client interface side, we decided that the functions providing these interfaces should return a normal response on 2xx series HTTP codes. 4xx and 5xx would raise an exception. 1xx and 3xx series are unused in our stak, and thus, unmapped.\medskip
 
-Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests. Text within curly brackets -- \{\} denote named request parameters.
+\noindent On the server side: Any interface will return 500 error codes on server errors, and 400 bad request upon bad client requests. The protocol is outlined below. Text within curly brackets -- \{\} denote named request parameters.
 \begin{description}
+
   \item[\texttt{GET /actor:}] Retrieve the list of actors currently defined.
+
   \item[\texttt{POST /actor:}] Create a new actor. The actor object is passed in the request body.
+
   \item[\texttt{GET /actor/\{id\}:}] Retrieve a single actor, identified by \texttt{id}.
+
   \item[\texttt{PUT /actor/\{id\}:}] Update a single actor, identified by \texttt{id}. The actor object is passed in the request body.
+
   \item[\texttt{DELETE /actor/\{id\}:}] Remove a single actor (un-define), identified by \texttt{id}.
+
+  \item[\texttt{GET /concept:}] Retrieve the list of concepts currently defined.
+
+  \item[\texttt{POST /concept:}] Create a new concept. The concept object is passed in the request body.
+
+  \item[\texttt{GET /concept/\{id\}:}] Retrieve a single concept, identified by \texttt{id}.
+
+  \item[\texttt{PUT /concept/\{id\}:}] Update a single concept, identified by \texttt{id}. The actor object is passed in the request body.
+
+  \item[\texttt{DELETE /concept/\{id\}:}] Remove a single concept (un-define), identified by \texttt{id}.
+
+  \item[\texttt{GET /template:}] Retrieve the list of templates currently stored.
+
+  \item[\texttt{POST /template:}] Create a new template. The template object is passed in the request body.
+
+  \item[\texttt{GET /template/\{id\}:}] Retrieve a single template, identified by \texttt{id}.
+
+  \item[\texttt{PUT /template/\{id\}:}] Update a single template, identified by \texttt{id}. The template object is passed in the request body.
+
+  \item[\texttt{DELETE /template/\{id\}:}] Remove a single template, identified by \texttt{id}.
+
+  \item[\texttt{GET /usecase:}] Retrieve the list of use cases currently stored.
+
+  \item[\texttt{POST /usecase:}] Create a new use case. The use case object is passed in the request body.
+
+  \item[\texttt{GET /usecase/\{id\}:}] Retrieve a single use case, identified by \texttt{id}.
+
+  \item[\texttt{PUT /template/\{id\}:}] Update a single use case, identified by \texttt{id}. The use case object is passed in the request body.
+
+  \item[\texttt{DELETE /usecase/\{id\}:}] Remove a single use case, identified by \texttt{id}.
+  
+  \item[\texttt{POST /usecase/\{id\}/testsfromtemplate{}/{tplid}:}] Generate a ste of tests from the usecase identified by \texttt{id}, using the template identified by \texttt{tplid}.
+
+  \item[\texttt{GET /configuration:}] Retrieve the current run-time configuration of the system.
+
+  \item[\texttt{PUT /configuration:}] Update the current run-time configuration of the system. The new configuration object is passed in the request body.
+
 \end{description}
-\begin{verbatim}
-[FINE] tcctool.router: GET	->	/concept
-[FINE] tcctool.router: GET	->	/concept/{id}
-[FINE] tcctool.router: PUT	->	/concept/{id}
-[FINE] tcctool.router: POST	->	/concept
-[FINE] tcctool.router: DELETE	->	/concept/{id}
-[FINE] tcctool.router: GET	->	/template
-[FINE] tcctool.router: POST	->	/template
-[FINE] tcctool.router: GET	->	/template/{tplid}
-[FINE] tcctool.router: PUT	->	/template{tplid}
-[FINE] tcctool.router: GET	->	/usecase
-[FINE] tcctool.router: GET	->	/usecase/{id}
-[FINE] tcctool.router: PUT	->	/usecase/{id}
-[FINE] tcctool.router: POST	->	/usecase/{id}
-[FINE] tcctool.router: DELETE	->	/usecase/{id}
-[FINE] tcctool.router: POST	->	/usecase/{id}/testsfromtemplate/{tplid}/
-[FINE] tcctool.router: POST	->	/test/{tid}/analyze
-[FINE] tcctool.router: GET	->	/configuration
-[FINE] tcctool.router: PUT	->	/configuration
-\end{verbatim}
