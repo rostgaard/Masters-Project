@@ -37,6 +37,8 @@ As already mentioned in chapter \ref{ch:design}, the open issue on path coverage
 
 \subsection{Scalability}
 \label{sec:scalability}
+The number of paths generated quickly makes this procedure fail. Additional heuristics, such as strict design guidelines for use case writing -- espcially in regards to decomposition and relation to each other -- needs to be applied before it can be applied to larger systems.
+
 
 
 \subsection{Parallelism}
@@ -90,7 +92,6 @@ Some may argue that this piece of code maps very nice to a requirement. While it
 
 \noindent Another side benefit from having use cases written as tests -- whether they are generated or not -- gives new developers a good reference point on how the system is intended to work. By reading the class files representing actor and concepts, and how they interface with the system provides a good high-level overview of the general architecture, and how it should be used.
 
-
 \section{Metrics}
 This section presents the empiric evidence gathered with the purpose of determining the usefulness, additional workload factor of the approach in this thesis. We also try to determine the significance of the presence of a domain framework, integrated with the main code base. This is done by comparing failure levels for the first two iterations of the requirement translation tool (chapter \ref{chapter:first-iterations}).
 \subsection{Domain framework significance}
@@ -131,7 +132,9 @@ The data set that is collected, are the graphs, and average success/failure rate
 
 \noindent By this we conclude that the level of integration with the main code base matters. By sharing language and domain framework, the tests became an intricate part of the development, rather than an axillary part and the presence of domain framework is concluded to a critical part of this methodology.
 
-\subsection{Workload overhead - test support tools}
+\section{Workload overhead}
+This section estimates and evaluates the workload associated with the methodology presented in this thesis.
+\subsection{Test support tools}
 To be able find a quantitative measure for how much extra work is involved in writing the test support tools, the number of code lines were enumerated, and support-only files were counted as overhead. Table \ref{tab:loc-metrics} show these metrics.\medskip
 
 \begin{table}[!htbp]
@@ -174,19 +177,19 @@ To be able find a quantitative measure for how much extra work is involved in wr
 
 \noindent The metrics gathered in this section has given good indication of much extra effort is involved in writing test support tools. 28\% extra work is a substantial amount, and too much for a wide adoption as this will also mean an increase in man-hours spent, and a direct cost increase of the project. 
 
-\subsection{Work overhead - test mapping}
-While the mapping functions are in a 1:1 relationship with the number of unique steps in the use cases, it does not stop there. In our case study system, the message-sending architecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, which is only enqueues the message for sending. If the postcondition for our test case had been; "Message is received by contact", then the test-macro function becomes increasingly large, as our test support tools would need some way accessing an email mailbox. The single step of asserting that a message is actually received, can result in hundreds of new lines of code.\medskip
+\subsection{Test mapping}
+While the mapping functions are in a 1:1 relationship with the number of unique steps in the use cases, and if the interfaces and most of the domain models are provided to the tests via a domain framework, then the test mappings should be rather simple. The mapping functions in the use case tests of the case study system are, on average 4-6 lines of code -- including log statements.\medskip
 
-\noindent The example above, is 
+\noindent We do however, also have more complicated tests, which are not part of the use cases. As the message-sending architecture is defined to be a work-queue where the dispatcher is decoupled from the message sending, we need additional support code to check if a message is received. If the postcondition for one our use cases had been; ``Message is received by contact'', then the function the provided this functionality would become quite complex. This is because our test support tools would need some way accessing an email mailbox. The single step of asserting that a message is actually received, would then result in hundreds of new lines of code.\medskip
 
+\noindent The example above is an actual issue that we, in the development of the case study project, had to deal with. As we wanted to have our tests be as close to a deployed scenario as possible, we defined a test (not use case) that sent a message to number of recipients, and checked if the message was there. Other project may face similar challenges with, for instance physical hardware devices, that needs to be in certain state before or after the tests. Interfacing may not be available, and must then then be implemented for the sole purpose of testing.\medskip
+
+\noindent In general; the use tests we have in the case study system are limited to functionalities provided via the domain framework, and no any external systems. This makes the case study system feasible for this methodology, with regards to the test mapping function overhead. The 4-6 lines pr. use case step is not a bit issue, as use case are short and simple. On the other hand, if another system had many external systems that needed to be interfaced with, then the test mappings becomes increasingly large and infeasible.
 
 \section{Sources of error}
 The case study system and test system has been developed by the same group of people, which have also played a large role in the use cases creation and refinement process. This is problematic when the general applicability of the approach presented in this thesis needs to be evaluated. Having the same people work on requirements, implementation and tests lead to a unified understanding of the system as a whole, and a very short path from requirement change, to implementation change. While this is generally a good thing, it does not scale to larger projects, and important domain-specific details may unknowingly go undocumented, as everyone has a common understanding of how things work overall. The problem with this, is also that requirements may have an ``artificial feel'', in the way that they reflect the actual workings of the system under development, rather than the intended workings.\medskip
 
 \noindent For this evaluation, it means that our requirements may be better suited for acceptance-test-writing than others, trying the same approach. It can however be argued, that as any (good) requirement should be testable\cite{hull2010requirements}, then it shouldn't matter significantly how the project groups are structured.
-
-\section{Summary}
-The number of paths generated quickly makes this procedure fail. Additional heuristics, such as strict design guidelines for use case writing -- espcially in regards to decomposition and relation to each other -- needs to be applied before it can be applied to larger systems.
 
 \subsection{Evaluation as test-driven approach}
 The TDD study also showed that tdd approaches do produce higher quality software, so the extra time spend \emph{may} be worthwhile.
