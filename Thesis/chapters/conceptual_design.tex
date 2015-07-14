@@ -1,15 +1,15 @@
 \chapter{Conceptual design}
 \label{chap:conceptual_design}
-This chapter is contains a discussion on the design of the different aspects of the requirement-to-test methodology. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain.\\\\
-The goal is identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests, and supports tests generation from them.
-The concept should be designed to support loose structure, but still provide enough information test generation and basic requirement analysis.
+This chapter contains a discussion on possible designs for use case structuring methods -- with user interface mock-ups. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain. It is assumed that a domain framework (such as the one discussed in \ref{ssec:openreception-framework}) is present, and the \medskip
+
+\noindent The goal is identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests, and supports tests generation from them. The goal is to identify a concept that supports loose structuring of use cases, but still provide enough information to be able to map to the implementation for test generation.\medskip
 \begin{figure}[!htbp]
 \centering
 
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Automation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -22,39 +22,43 @@ The concept should be designed to support loose structure, but still provide eno
 \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, minimum size=0.3cm, label=above:Project] {}; 
 
 \end{tikzpicture}
-\caption{Finding a good trade-off between domain-awareness and automation}
+\caption{Finding a good combination of domain-awareness and generation}
 \label{fig:project_parameter_plot_project}
-\end{figure}By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable model will hopefully emerge.
+\end{figure}
 
-%TODO Aim/analogy for a useful tool
-%  An analogy for a good solution would be the servo steering found in most modern cars. It drastically lowers the amount of force
-%  required for turning the steering wheel, by letting a servo motor aid in turning the wheels in the direction indicated by the driver.
-%  It enables average strengthed driver to operate very large vehicles. Some, that would otherwise be impossible to steer by hand.
-%  This, however, removes the "feel" of the road-grip that some drivers prefer - so that would be the tradeoff here.
-%  Nevertheless, the solution is good because it does not get in the way, but merely passively aids the driver so he/she does not have  to think about it.
-%  It also means that we now have an applicable abstraction level for controlling vehicle direction; the steering wheel - regardless of   vehicle size. Implementation details hidden.
-%Likewise, a good software tool should aid the user, and provide minimal abstruction (and hinder unintended destruction)
+\noindent By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable  working model will be refined. Figure \ref{fig:project_parameter_plot_project} shows the ideal placement of the tool, as something that combines both concepts from the previous chapters.
 
 \section{Interpreting use cases}
-In order to help the computer make more sense of our use cases, we need to define to it what a use case is. But since a use case is neither strictly defined nor standardized anywhere, we need to pick a suitable representation.
-To help us extract some machine-understandable structure of use cases, we assume that we are working on ideal, well-formed use cases. This abstracts some of away the informal ambiguity, which is notoriously omnipresent in requirements, and will aid us when we try to derive what is needed from use cases in order to generate executable tests from them.\\\\
-One of the The first problem we need to solve is the level of use case writing, and template -- as there are many way of writing use cases.\\\\
-We have decided on using a use case template\cite{larman2005} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model. The main focus are concepts which provide useful information to generate tests from.\\\\
-While formalized use case models exist\cite{klimek2010formal}, they mostly focus on model checking and semantics. While this is indeed in important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\\\\
-Instead we focus on the minimal structure, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
+In order to be able to structure use cases, we need to define to it what a use case is. But since a use case is do not have a widely adopted standardized format, we need to pick a suitable representation.\medskip
+
+\noindent While we did find an existing formalized use case model\cite{klimek2010formal}, it focused on model checking and semantics. While this is indeed in important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\medskip
+
+\noindent We have decided on using a use case template\cite{larman2005} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model, which is primary actor definition, well-suited structure for use case steps, and a good structure for building use case alternative and extensions. Examples of use cases using this template can be seen in appendix \ref{appendix:use-cases}.\medskip
+
+We focus on the structure provided by the template, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
 \begin{quote}
 ``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
-\end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is commonly stated is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\\\\
-So, in essence; use cases expresses \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario. An overview of the terms used for the remainder of the thesis is shown below.
+\end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is stated\cite{larman2005} is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\medskip
+
+\noindent So, in essence; use cases express \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario. An overview of the terms used for the remainder of the thesis is shown below.
 \begin{description}
-  \item[Use case:] The use case as a whole. Contains -- as a minimum -- a primary actor, which signifies to aspect of the use case, and a scenario. The use case represents a high-level goal that the primary actor wants to achieve.
+
+  \item[Use case:] Contains -- as a minimum -- a primary actor, which signifies to aspect of the use case, and a scenario. The use case represents a high-level goal that the primary actor wants to achieve.
+
   \item[Scenario:] The scenario is the list of steps (entries) that the primary actor needs to go through in order achieve the use case goal.
-  \item[Entries:] Every step in the main scenario is composed of a entry. The entry may be decomposed into smaller components or just be a text, based on which level of detail we want. 
-  \item[Extensions:] Extensions are alternate scenarios that branch out of the original scenario. 
-  \item[Preconditions:] A list of predicates that needs to be true for the first step in the use case to be accessible.
+
+  \item[Steps:] Every step in the main scenario is composed of a entry. The entry may be decomposed into smaller components or just be a text, based on which level of detail we want. 
+
+  \item[Extensions:] Extensions are alternate scenarios that branch out of the original scenario. They are not meant as use case extensions, but alternate paths that a use case scenario may take.
+
+  \item[Preconditions:] A list of predicates that needs to be true for the first step in the use case to be executed.
+
   \item[Postconditions:] A list of predicates that needs to be true in order to make use case goal succeed, after the steps in the scenario (possibly including the extensions), have been performed.
-  \item[Actors:] May be considered primary or supporting, as is typically a human performing a role in the system, but may also be another system that provides provides a service or information. An actor has a set of goals, which he/she wants to realize through the system. A good goal has a verb/noun combination, which is a good rule of thumb. when writing.
-  \item[Concepts:] Concepts are general terms that are usually part of the meta model for the system under development. Basically, most terms that can be interacted with in the system under development count as concept. In our example system, a ``call'' is considered a concept.
+
+  \item[Actors:] May be considered primary or supporting, as is typically a human performing a role in the system, but may also be another system that provides provides a service or information. An actor has a set of goals, which he/she wants to realize through the system. A good goal has a verb/noun combination, is a the rule of thumb. In the context of a use case, an actor may act in a given role.
+
+  \item[Concepts:] Concepts are general terms that are usually part of the domain model for the system under development. Basically, most terms that can be interacted with in the system under development count as concept. In our example system, a ``call'' is considered a concept.
+
 \end{description}
 This use case representation is used in the next section, where three use case editor concepts are presented.
 \input{chapters/design_concept1}
