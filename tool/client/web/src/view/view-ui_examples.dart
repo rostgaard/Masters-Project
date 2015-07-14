@@ -11,11 +11,11 @@ class UIExamples extends Panel {
   ButtonElement get _markConceptButton => _root.querySelector('.mark-concept');
 
   bool get _hasSelectedText => window.getSelection().rangeCount > 0 &&
-      window.getSelection().getRangeAt(0).cloneContents().innerHtml != '';
+      window.getSelection().getRangeAt(0).cloneContents().text != '';
 
 
   String get _selectedText => _hasSelectedText
-      ? window.getSelection().getRangeAt(0).cloneContents().innerHtml
+      ? window.getSelection().getRangeAt(0).cloneContents().text
       : '';
 
   libtcc.UseCase buc1;
@@ -127,7 +127,7 @@ int main () {
 
     _useCaseBody.children = [
       new HeadingElement.h3()..text = 'Use Case',
-      new UseCaseBlock(buc1.scenario, bucDefinitions).element
+      new UseCaseBlock(buc1.scenario, bucDefinitions, type : 'list').element
     ];
 
     int i = 1;

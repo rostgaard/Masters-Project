@@ -3,16 +3,56 @@ part of tcc.client.view;
 class Actors {
 
   UListElement element = new UListElement();
+  final controller.Actor _actorController;
+
+  Actors (Iterable<libtcc.Actor> actors, this._actorController) {
+    _render (actors);
+  }
+
+  _fetchAndRender() {
+    _actorController.list().then(_render);
+  }
+
+
+  LIElement _toNode (libtcc.Actor actor) {
+    SpanElement label = new SpanElement()
+      ..classes.add('definition')
+      ..text = '${actor.role} (${actor.type})';
+
+   ButtonElement deleteButtton = new ButtonElement()
+     ..text = 'Remove'
+     ..classes.add('delete');
+
+   ButtonElement editButtton = new ButtonElement()
+     ..text = 'Edit'
+     ..classes.add('edit');
+
+   deleteButtton.onClick.listen((_) =>
+       _actorController.remove(actor)
+               .then((_) => _fetchAndRender()));
+
+   editButtton.onClick.listen((_) =>
+       _actorController.remove(actor)
+               .then((_) => _fetchAndRender()));
+
+   return new LIElement()
+    ..children.addAll([deleteButtton, label]);
+
+  }
+
+
+  void _render(Iterable<libtcc.Actor> actors) {
+    element.children = []..addAll(actors.map(_toNode));
+  }
+
 
   set actors (Iterable<libtcc.Actor> newActors) {
     element.children =
         newActors.map(_toNode).toList();
   }
 
-  Actors ();
 
-
-  LIElement _toNode (libtcc.Actor actor) {
+  LIElement _toNodeOld (libtcc.Actor actor) {
     String html = '''
     <div class="actor pure-g">
                 <div class="icon pure-u-1-3">

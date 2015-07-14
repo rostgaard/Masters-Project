@@ -17,10 +17,10 @@ class UseCaseBlock {
   /**
    * Default constructor.
    */
-  UseCaseBlock(libtcc.UseCaseBlock block, libtcc.Definitions definitions) {
-//    _blockList = new OListElement()
-//      ..children = block.map((libtcc.UseCaseEntry entry) =>
-//          _entryToLI (entry, definitions)).toList(growable: false);
+  UseCaseBlock(libtcc.UseCaseBlock block, libtcc.Definitions definitions, {String type : 'list'}) {
+    _blockList = new OListElement()
+      ..children = block.map((libtcc.UseCaseEntry entry) =>
+          _entryToLI (entry, definitions)).toList(growable: false);
 
     _inputArea = new TextAreaElement()..value =
         block.map((libtcc.UseCaseEntry entry) => entry.text).join('\n');
@@ -33,7 +33,14 @@ class UseCaseBlock {
       print (_inputArea.value.substring(_inputArea.selectionStart, _inputArea.selectionEnd));
     });
 
-    element.children = [_inputArea, _addEntryField(block, definitions)];
+    if (type == 'list') {
+      element.children = [  _blockList , _addEntryField(block, definitions)];
+    }
+    else {
+      element.children = [  _inputArea, _addEntryField(block, definitions)];
+    }
+
+
   }
 
   /**

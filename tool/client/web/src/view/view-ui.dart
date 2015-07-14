@@ -41,12 +41,13 @@ class UI {
    */
   UI() {
 
+    _actorController = new controller.Actor(_service, _uiNotificationModel);
     _configController = new controller.Config(_service, _configModel, _uiNotificationModel);
     _conceptController = new controller.Concept(_service, _uiNotificationModel);
     _templateController = new controller.Template(_service, _uiNotificationModel);
     _useCaseController = new controller.UseCase(_service, _uiNotificationModel);
 
-    _actorsPanel = new ActorsPanel(querySelector('section#actors'), _configController, _service);
+    _actorsPanel = new ActorsPanel(querySelector('section#actors'), _actorController);
     _conceptsPanel = new ConceptsPanel(querySelector('section#concepts'), _conceptController);
     _testsPanel = new TestsPanel(querySelector('section#tests'), _configController, _service);
     _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _useCaseController, _conceptController, _actorController);

@@ -23,15 +23,15 @@
           <a class="pure-menu-heading" href="#"><img alt="logo" class="center" src="img/tcc_logo.png"></a>
 
           <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="use-cases pure-menu-link">Use cases</a></li>
             <li class="pure-menu-item"><a href="#" class="actors pure-menu-link">Actors</a></li>
-            <li class="pure-menu-item"><a href="#" class="goals pure-menu-link">Goals</a></li>
+            <li class="pure-menu-item"><a href="#" class="goals pure-menu-link" hidden>Goals</a></li>
             <li class="pure-menu-item"><a href="#" class="concepts pure-menu-link">Concepts</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="#" class="use-cases pure-menu-link">Use cases</a></li>
             <li class="pure-menu-item"><a href="#" class="templates pure-menu-link">Templates</a></li>
             <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
             <li class="pure-menu-item"><a href="#" class="activities pure-menu-link" hidden>Activities</a></li>
             <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
-            <li class="pure-menu-item menu-item-divided"><a href="#" class="ui-examples pure-menu-link">:: Element tests</a></li>
+            <li class="pure-menu-item menu-item-divided"><a href="#" class="ui-examples pure-menu-link" hidden>:: Element tests</a></li>
           </ul>
         </div>
       </nav>
@@ -67,7 +67,7 @@
 
               <div class="pure-g">
 
-                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+                <div class="use-case pure-u-2-3" style="border: 1px solid #ccc">
                   <div class="use-case-content">
                     <h2>Preconditions</h2>
                     <div class="use-case-edit-preconditions"></div>
@@ -78,36 +78,46 @@
                   </div>
                 </div>
 
-                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+                <div class="use-case pure-u-1-3" style="border: 1px solid #ccc">
                   <h2>Toolbox</h2>
-                  <button class="mark-actor pure-button">
-                    <i class="fa fa-user"></i> Actor
-                  </button>
-                  <button class="mark-concept pure-button">
-                    <i class="fa fa-car"></i> Concept
-                  </button>
-                  <br />
-
-                  <select class="actor-role">
-                    <option>Test actor role</option>
-                  </select>
-
-                  <button class="mark-actor-role pure-button">
-                    <i class="fa fa-user-secret"></i> Actor role
-                  </button>
-                  <br />
-
-                  <select class="concept-role">
-                    <option>Test concept role</option>
-                  </select>
-
-                  <button class="mark-concept-role pure-button">
-                    <i class="fa fa-taxi"></i> Concept role
-                  </button>
-
                   <div class="pure-g">
-                    <div class="use-case pure-u-1-2"></div>
-                    <div class="definitions pure-u-1-2"></div>
+
+                    <div class="use-case pure-u-1-2">
+                    </div>
+                    <div class="use-case pure-u-1-2">
+                      <button class="mark-actor pure-button">
+                        <i class="fa fa-user"></i> Actor
+                      </button>
+                      <button class="mark-concept pure-button">
+                        <i class="fa fa-car"></i> Concept
+                      </button>
+                    </div>
+                  </div>
+                  <div class="pure-g">
+
+                    <div class="use-case pure-u-1-2">
+                      <select class="actor-role" style="float: right">
+                        <option>Test actor role</option>
+                      </select>
+                    </div>
+                    <div class="use-case pure-u-1-2">
+                      <button class="mark-actor-role pure-button">
+                        <i class="fa fa-user-secret"></i> Actor role
+                      </button>
+                    </div>
+                  </div>
+                  <div class="pure-g">
+                    <div class="use-case pure-u-1-2">
+                      <select class="concept-role" style="float:right">
+                        <option>Test concept role</option>
+                      </select>
+                    </div>
+                    <div class="use-case pure-u-1-2">
+
+                      <button class="mark-concept-role pure-button">
+                        <i class="fa fa-taxi"></i> Concept role
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -127,7 +137,7 @@
 
         <section id="actors" class="content" hidden>
           <fieldset>
-            <legend>Add new actor</legend>
+            <legend>Add new Actor</legend>
 
             <input type="text" id="input-new-actor-name" placeholder="Name"></input><br>
             <input type="text" id="input-new-actor-role" placeholder="Role"></input><br>
@@ -135,12 +145,13 @@
 
             <button class="pure-button-primary pure-button create" disabled>Create</button>
           </fieldset>
+          <h2>Current definitions</h2>
+          <div class="definitions"></div>
         </section>
 
         <!-- Concepts panel -->
 
         <section id="concepts" class="content" hidden>
-          <ul class="list"></ul>
           <fieldset>
             <legend>Add new concept</legend>
 
@@ -150,6 +161,7 @@
 
             <button class="pure-button-primary pure-button create" disabled>Create</button>
           </fieldset>
+          <h2>Current definitions</h2>
           <div class="definitions"></div>
 
         </section>
@@ -157,8 +169,18 @@
         <!-- Actor goals (Use case diagrams) -->
 
         <section id="goals" class="content" hidden>
-          <ul class="list"></ul>
-          <button class="add">Add</button>
+          <fieldset>
+            <legend>Add new Actor</legend>
+
+            <input type="text" id="input-new-actor-name" placeholder="Name"></input><br>
+            <input type="text" id="input-new-actor-role" placeholder="Role"></input><br>
+            <input type="text" id="input-new-actor-description" placeholder="Description"></input>
+
+            <button class="pure-button-primary pure-button create" disabled>Create</button>
+          </fieldset>
+          <h2>Current definitions</h2>
+          <div class="definitions"></div>
+
         </section>
 
         <!-- Tests panel -->
