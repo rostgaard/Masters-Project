@@ -13,7 +13,7 @@ class Actor extends Concept {
       new Actor(type)..role = role;
 
   factory Actor.fromMap(Map map) =>
-      new Actor.withRole(map[Key.type], map[Key.role]);
+      new Actor.withRole(map[Key.type], map[Key.role])..id = map[Key.id];
 
   /**
    * Decoder factory
