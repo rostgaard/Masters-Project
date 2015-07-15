@@ -21,6 +21,8 @@ abstract class Key {
   static const String action = 'action';
   static const String target = 'target';
   static const String jenkinsUri = 'jenkinsUri';
+  static const String testLocation = 'testLocation';
+  static const String analyzerLocation = 'analyzerLocation';
   static const String primaryActor= 'primaryActor';
   static const String scenario = 'scenario';
   static const String extensions = 'extensions';
@@ -28,6 +30,7 @@ abstract class Key {
   static const String extensionOf = 'extensionOf';
   static const String returnsTo = 'returnsTo';
   static const String entries = 'entries';
+  static const String output = 'output';
 }
 
 abstract class Label {

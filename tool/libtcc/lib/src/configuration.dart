@@ -4,6 +4,8 @@ part of libtcc.base;
 class Configuration {
 
   Uri jenkinsUri = Uri.parse('http://localhost/jenkins');
+  String testLocation = '/home/krc/tests/';
+  String analyzerLocation = '/home/krc/lib/dart/dart-sdk/bin/dartanalyzer';
 
   /**
    *
@@ -19,7 +21,11 @@ class Configuration {
    *
    */
   Configuration.fromMap(Map map) :
-    jenkinsUri = Uri.parse(map[Key.jenkinsUri]);
+    jenkinsUri = Uri.parse(map[Key.jenkinsUri]),
+    testLocation = map[Key.testLocation],
+    analyzerLocation = map[Key.analyzerLocation]
+    ;
+
 
 
   static Configuration decode (Map map) =>
@@ -33,7 +39,10 @@ class Configuration {
    *
    */
   Map get asMap => {
-    Key.jenkinsUri : jenkinsUri.toString()
+    Key.jenkinsUri : jenkinsUri.toString(),
+    Key.testLocation : testLocation,
+    Key.analyzerLocation : analyzerLocation
+
   };
 
 }
