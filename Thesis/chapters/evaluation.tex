@@ -32,6 +32,10 @@ Most implementation changes should be transparent to the tests, and only interfa
 \noindent Any change to actors or concepts seem unlikely, as they are created solely for the purpose of tests, and should only be changed if the requirements change.
 
 \section{Benefits}
+This section presents some of the benefits of using this procedure
+
+\subsection{Requirement/test relationship}
+%TODO Automatically generate tests.
 
 \subsection{Simple use cases model}
 The structuring of the use cases have been kept simple in order to make it flexible. Instead of just supporting one view of how, for instance, a use step would look like, mere textual representations are used for them. The mappings to the domain models of the system under test are provided by keyword identifications that refer to a domain actor or concept, via a definition. This makes it flexible in two ways: The first is that you do not need to define every actor and/or concept beforehand, but may simply write your use cases -- as use cases -- and add the definitions later. The second benefit is that the simple structure and textual representation makes it easy to export to other platforms, for example documentation.
@@ -62,15 +66,18 @@ A thing that was observed during the writeup of the tests using the second itera
 Some may argue that this piece of code maps very nice to a requirement. While it may not be entirely possible to completely generated it from one, a requirement can most definitely be derived from the code. The example also captures an error condition, which may be challenging to describe from a use case in sufficient detail so that test generation is possible.\medskip
 
 \noindent Another side benefit from having use cases written as tests -- whether they are generated or not -- gives new developers a good reference point on how the system is intended to work. By reading the class files representing actor and concepts, and how they interface with the system provides a good high-level overview of the general architecture, and how it should be used.
-\section{Challenges}
-%TODO finalize this section
-As already mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains.
 
+\section{Challenges}
+This section contains some of the challenges faced during the analysis and implementation of the tool.
 \subsection{Scalability}
 \label{sec:scalability}
-The number of paths generated quickly makes this procedure fail. Additional heuristics, such as strict design guidelines for use case writing -- espcially in regards to decomposition and relation to each other -- needs to be applied before it can be applied to larger systems.
+As mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and especially scalability of it, remains. The number of paths generated quickly makes the size of the generated tests very large.\medskip
 
+\noindent In order to overcome this additional heuristics, such as stricter design guidelines for use case writing may be enforced. If the use cases were limited to having a maximum number of extensions, or to be decomposed into several smaller use cases, it would be possible to keep the number of generated tests low.\medskip
 
+\noindent Another angle on this would be to let the use case writer define which paths of the use case that should be selected for test generation. As an alternative to automatic generation, that had to generate a test for every path, it would be focused on the scenarios that are likely to happen when the system under test is in production.\medskip
+
+\noindent As the approach presented in this thesis have not been applied to a system with more complicated use cases, it is difficult to say with certainty that it would not be possible to apply it on that system. It is however, very unlikely -- given the problem stated above -- that it would possible to use it without the heuristics also discussed.
 
 \subsection{Parallelism}
 \label{sec:parallelism}
@@ -182,7 +189,9 @@ To be able find a quantitative measure for how much extra work is involved in wr
 
 \noindent Table \ref{tab:metrics-commit-count} show the number of code commits performed over the last 5 months. It also show how many of these commits that involves the files that are support-only. Calculating the percentage overhead, we arrive at 14.9. However, taking into account the PhonIO library, we again arrive around 28\%. This is a lot higher than the overhead from a larger study of test-driven development methods\cite{george2003}. In this study, they approximate that roughly 16\% more time is spent on development when using test-driven development methods.\medskip
 
-\noindent The metrics gathered in this section has given good indication of much extra effort is involved in writing test support tools. 28\% extra work is a substantial amount, and too much for a wide adoption as this will also mean an increase in man-hours spent, and a direct cost increase of the project. 
+\noindent The metrics gathered in this section has given good indication of much extra effort is involved in writing test support tools. 28\% extra work is a substantial amount, and too much for a wide adoption as this will also mean an increase in man-hours spent, and a direct cost increase of the project.\medskip
+
+The study of test-driven development methods mentioned above also showed that tdd approaches do produce higher quality software, so the extra time spend \emph{may} be worthwhile for some applications that are not cost-driven, but require a higher quality. There are, however, no metrics that support that this methodology produce higher quality software. The only thing that substantiates this claim, is the fact that feature (from a use case perspective) regressions are automatically detected when the
 
 \subsection{Test mapping}
 While the mapping functions are in a 1:1 relationship with the number of unique steps in the use cases, and if the interfaces and most of the domain models are provided to the tests via a domain framework, then the test mappings should be rather simple. The mapping functions in the use case tests of the case study system are, on average 4-6 lines of code -- including log statements.\medskip
@@ -198,27 +207,10 @@ The case study system and test system has been developed by the same group of pe
 
 \noindent For this evaluation, it means that our requirements may be better suited for acceptance-test-writing than others, trying the same approach. It can however be argued, that as any (good) requirement should be testable\cite{hull2010requirements}, then it shouldn't matter significantly how the project groups are structured.
 
-\subsection{Evaluation as test-driven approach}
-The TDD study also showed that tdd approaches do produce higher quality software, so the extra time spend \emph{may} be worthwhile.
 
-In practice; the approach presented in this thesis is a variant of TDD, but injects some elements from MDE and increases the test coverage by automatically generating the tests from use case branches.
-
-%Important bit.
-
-%another note; it was a good experience for me, as a software engineer to be able communicate how I wanted the system to interact internally via tests. It is easier for code-oriented people to relate to code, rather than diagrams and designs.
-
-\subsection{Is if feasible}
-Basically; no. Can it be used? To some extent. The process is nice, but the mapping simply unfolds into a too large state space with a stucture so complex that is impossible for an end-user to specify it, and very hard for a trained professional to elaborate it. It may be feasible once model-based software engineering reaches a level where behavioral model can be applied to domain models, and thus ...
-%As of now, an ad-hoc templating system is in place. A real templating system should be used in a real product.
-The test coverage generation may be of some use, and also requirement changing
-But, alas, it is too early to tell. More research is needed.
-
-
-\subsection{Recommended test framework guidelines}
+%TODO maybe include this?
+%\subsection{Recommended test framework guidelines}
 %Use allocation pools
 %Use interfaces a objects.
 
 
-%TODO The approach may also be used to support a top-down use case driven development approach, that is conceptually similar to test-driven development, in the way that it focuses -- after basic use cases are written -- on the basic functionality of the system from the point of view of a user. Writing the mappings to an implementation, in parallel with writing the implementation 
-%TODO It motivates the question; what does this use case step mean in the system - from an interface point of view.
-%TODO No defect rates have been measured.
