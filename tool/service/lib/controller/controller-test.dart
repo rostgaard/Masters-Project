@@ -26,7 +26,7 @@ class Test {
 
     Model.UseCase uc = await this._useCaseStore.get(ucID);
     Model.TestTemplate tpl = await this._templateStore.get(tplID);
-    Iterable<Concept> concepts = await this._conceptStore.listAll();
+    Iterable<Model.Concept> concepts = await this._conceptStore.listAll();
     Model.Definitions definitions = new Model.Definitions(concepts);
     Model.Configuration config = await this._configStore.load();
 
