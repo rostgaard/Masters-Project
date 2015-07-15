@@ -131,5 +131,5 @@ String useCasesToCode (UseCase uc, Definitions defs, String template) {
 
   });
 
-  return template.replaceAll('[%USECASES]', buf.toString());
+  return template.replaceAll('/*[@USECASES@]*/', buf.toString());
 }

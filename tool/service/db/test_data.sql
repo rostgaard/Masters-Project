@@ -41,9 +41,8 @@ INSERT INTO configuration (client)
 VALUES ('{"jenkinsUri":"http://localhost/jenkins"}');
 
 INSERT INTO templates (name, description, body)
-VALUES ('Basic template', 'A simple test template',
-'
-part of or_test_fw;
+VALUES ('Send message template', 'A simple test template for send message use case',
+'part of or_test_fw;
 
 abstract class SendMessage {
 
@@ -104,7 +103,7 @@ abstract class SendMessage {
     return new Future.value(null);
   }
 
-  [%TESTCASES%]
+  /*[@USECASES@]*/
 
 }');
 
