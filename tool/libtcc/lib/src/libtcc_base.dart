@@ -102,8 +102,11 @@ AnalyzedUseCase useCase1 = new AnalyzedUseCase('Use case 1')
 definitionToDeclaration (Concept concept) =>
   '${concept.type} ${normalize(concept.role)}';
 
+definitionToArgument (Concept concept) =>
+    '${normalize(concept.role)}';
+
 useCaseEntryToCode(UseCaseEntry e, Definitions defs) {
-  String arguments = e.involvedDefinitions(defs).map(definitionToDeclaration).join(', ');
+  String arguments = e.involvedDefinitions(defs).map(definitionToArgument).join(', ');
 
   return '${e.identity} (${arguments})';
 }
@@ -126,7 +129,7 @@ String useCasesToCode (UseCase uc, Definitions defs, String template) {
     buf.write('use_case_${normalize(uc.name)}_path_${offset++}($arguments) {\n');
 
     buf.write('  ');
-    buf.write (e.map((e1) => useCaseEntryToCode(e1, defs)).join('\n    '));
+    buf.write (e.map((e1) => useCaseEntryToCode(e1, defs)).join(';\n    '));
     buf.write('\n  }\n');
 
   });

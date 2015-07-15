@@ -3,23 +3,23 @@ part of tcc.client.view;
 class RenderedUseCase {
   final Element _root;
 
-  final HeadingElement _name = new HeadingElement.h1();
+  final HeadingElement _name = new HeadingElement.h2();
   final ParagraphElement _description = new ParagraphElement();
   final OListElement _scenario = new OListElement();
   final UListElement _preconditions = new UListElement();
   final UListElement _postconditions = new UListElement();
   final OListElement _extensions = new OListElement();
 
-  final HeadingElement _scenarioLabel = new HeadingElement.h2()
+  final HeadingElement _scenarioLabel = new HeadingElement.h3()
     ..text = 'Scenario';
 
-  final HeadingElement _preconditionLabel = new HeadingElement.h2()
+  final HeadingElement _preconditionLabel = new HeadingElement.h3()
     ..text = 'Preconditions';
 
-  final HeadingElement _postconditionLabel = new HeadingElement.h2()
+  final HeadingElement _postconditionLabel = new HeadingElement.h3()
     ..text = 'Postconditions';
 
-  final HeadingElement _extensionsLabel = new HeadingElement.h2()
+  final HeadingElement _extensionsLabel = new HeadingElement.h3()
     ..text = 'Extensions';
 
   DivElement get element => new DivElement()

@@ -55,6 +55,18 @@ class UseCase {
   /**
    *
    */
+  Future<libtcc.GeneratedTest> generateTest(int useCaseId, int templateId) =>
+    _service
+      .generateTest(useCaseId, templateId)
+      .whenComplete(() => _notify('Test generated.'))
+      .catchError((error, stackTrace) =>
+          _logAndNotify('Failed to remove', error, stackTrace));
+
+
+
+  /**
+   *
+   */
   void _notify(String message) {
     _uiNotification.addInfo(message);
   }

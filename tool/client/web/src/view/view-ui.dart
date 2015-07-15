@@ -49,7 +49,7 @@ class UI {
 
     _actorsPanel = new ActorsPanel(querySelector('section#actors'), _actorController);
     _conceptsPanel = new ConceptsPanel(querySelector('section#concepts'), _conceptController);
-    _testsPanel = new TestsPanel(querySelector('section#tests'), _configController, _service);
+    _testsPanel = new TestsPanel(querySelector('section#tests'), _useCaseController, _templateController);
     _useCasesPanel = new UseCasesPanel(querySelector('section#use-cases'), _useCaseController, _conceptController, _actorController);
     _goalsPanel = new GoalsPanel(querySelector('section#goals'), _configController, _service);
     _configPanel = new ConfigPanel(querySelector('section#configuration'), _configController,_configModel);

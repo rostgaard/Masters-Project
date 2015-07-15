@@ -15,7 +15,9 @@ class TestCase {
   /**
    * Default constructor.
    */
-  TestCase();
+  TestCase() {
+   _render();
+  }
 
   /**
    * Replace the selected [RenderedUseCase] with [uc].
@@ -24,6 +26,13 @@ class TestCase {
     _name.text = uc.name;
     _description.text = uc.description;
     _code.text = libtcc.toTestCase(uc);
+  }
+
+  /**
+   *
+   */
+  _render () {
+
   }
 
   /**

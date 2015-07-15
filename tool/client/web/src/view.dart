@@ -35,3 +35,20 @@ part 'view/view-use_case_block.dart';
 abstract class Panel {
   void _select();
 }
+
+/**
+ *
+ */
+OptionElement _useCaseToOptionElement(libtcc.UseCase useCase) =>
+  new OptionElement()
+  ..text = useCase.name
+  ..value = useCase.id.toString();
+
+/**
+ *
+ */
+OptionElement _templateToOptionElement(libtcc.TestTemplate template) =>
+  new OptionElement()
+  ..text = template.name
+  ..value = template.id.toString();
+

@@ -31,7 +31,7 @@
             <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
             <li class="pure-menu-item"><a href="#" class="activities pure-menu-link" hidden>Activities</a></li>
             <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
-            <li class="pure-menu-item menu-item-divided"><a href="#" class="ui-examples pure-menu-link" hidden>:: Element tests</a></li>
+            <li class="pure-menu-item menu-item-divided"><a href="#" class="ui-examples pure-menu-link">Test preview</a></li>
           </ul>
         </div>
       </nav>
@@ -69,11 +69,13 @@
 
                 <div class="use-case pure-u-2-3" style="border: 1px solid #ccc">
                   <div class="use-case-content">
-                    <h2>Preconditions</h2>
+                    <h3>Primary actor</h3>
+                    <div class="use-case-edit-primary-actor"></div>
+                    <h3>Preconditions</h3>
                     <div class="use-case-edit-preconditions"></div>
-                    <h2>Postconditions</h2>
+                    <h3>Postconditions</h3>
                     <div class="use-case-edit-postconditions"></div>
-                    <h2>Scenario</h2>
+                    <h3>Scenario</h3>
                     <div class="use-case-edit-scenario"></div>
                   </div>
                 </div>
@@ -133,7 +135,7 @@
           </div>
         </section>
 
-        <!-- Activities panel -->
+        <!-- Actors panel -->
 
         <section id="actors" class="content" hidden>
           <fieldset>
@@ -186,14 +188,18 @@
         <!-- Tests panel -->
 
         <section id="tests" class="content" hidden>
-          <nav class="use-case">
-            <div class="pure-menu  pure-menu-horizontal pure-menu-scrollable">
-              <ul class="pure-menu-list">
-              </ul>
-            </div>
-          </nav>
-          <ul class="list"></ul>
-          <button class="add">Add</button>
+          <label for="test-use-case-selector">Use case</label>
+          <select id="test-use-case-selector"></select>
+
+          <label for="test-template-selector">Template</label>
+          <select id="test-template-selector"></select>
+
+          <button class="generate button-secondary">Generate</button>
+          <h3>Analysis output</h3>
+          <div id="test-generation-output" style="max-height: 300px; overflow: auto"></div>
+          <h3>Test generation output</h3>
+          <div id="test-generation-body"></div>
+
         </section>
 
         <!-- Activities panel -->

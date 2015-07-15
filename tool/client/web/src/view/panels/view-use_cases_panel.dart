@@ -20,6 +20,8 @@ class UseCasesPanel implements Panel {
   RenderedUseCase useCaseView;
 
   UseCaseBlock _scenarioView;
+  UseCaseBlock _preconditionView;
+  UseCaseBlock _postconditionView;
 
   /// Use case dropdown selector.
   SelectElement get _useCaseSelector =>
@@ -38,6 +40,8 @@ class UseCasesPanel implements Panel {
   SelectElement get _conceptRoleSelector => _root.querySelector('select.concept-role');
 
   DivElement get _scenarioElement => _root.querySelector('.use-case-edit-scenario');
+  DivElement get _preconditionsElement => _root.querySelector('.use-case-edit-preconditions');
+  DivElement get _postconditionsElement => _root.querySelector('.use-case-edit-postconditions');
 
   int get _useCaseId => int.parse(_useCaseIdInput.value);
   set _useCaseId (int id) => _useCaseIdInput.value = id.toString();
@@ -82,10 +86,14 @@ class UseCasesPanel implements Panel {
   libtcc.UseCase _harvestUseCase() {
 
     libtcc.UseCaseBlock scenario = new libtcc.UseCaseBlock(_scenarioView.steps);
+    libtcc.UseCaseBlock preconditions = new libtcc.UseCaseBlock(_preconditionView.steps);
+    libtcc.UseCaseBlock postconditions = new libtcc.UseCaseBlock(_postconditionView.steps);
 
     return new libtcc.UseCase(this._useCaseName)
       ..description = this._useCaseDescriptionInput.value
-      ..scenario = scenario;
+      ..scenario = scenario
+      ..preconditions = preconditions
+      ..postconditions = postconditions;
   }
 
   /**
@@ -194,22 +202,20 @@ class UseCasesPanel implements Panel {
    */
   _renderUseCase(libtcc.UseCase useCase) {
     _scenarioView = new UseCaseBlock(useCase.scenario, definitions);
+    _preconditionView = new UseCaseBlock(useCase.preconditions, definitions);
+    _postconditionView = new UseCaseBlock(useCase.postconditions, definitions);
 
     _scenarioView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
+    _preconditionView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
+    _postconditionView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
 
     _useCaseId = useCase.id;
     _useCaseName = useCase.name;
     _useCaseDescriptionInput.value = useCase.description;
     useCaseView.activeUseCase = useCase;
     _scenarioElement.children = [_scenarioView.element];
+    _preconditionsElement.children = [_preconditionView.element];
+    _postconditionsElement.children = [_postconditionView.element];
   }
 
-  /**
-   *
-   */
-  OptionElement _useCaseToOptionElement(libtcc.UseCase useCase) =>
-    new OptionElement()
-    ..text = useCase.name
-    ..value = useCase.id.toString()
-    ..onClick.listen(print);
 }

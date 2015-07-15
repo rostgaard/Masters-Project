@@ -11,6 +11,18 @@ class TestCaseService {
   Iterable<Map> _mapsToConcept(Iterable<Map> maps) => maps.map(_mapToConcept);
 
   /**
+   * Generate a test from a template.
+   */
+  Future<GeneratedTest> generateTest (int useCaseId, int templateId) {
+    Uri uri = Uri.parse('${this._host}/usecase/$useCaseId/generate/$templateId');
+
+    return this._backend
+        .get(uri)
+        .then(JSON.decode)
+        .then(GeneratedTest.decode);
+  }
+
+  /**
    * Gets actor
    */
   Future<Actor> getActor(int actorID) {

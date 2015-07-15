@@ -21,6 +21,22 @@ class UseCaseEntry {
   /**
    *
    */
+  String _decomposedHtml(libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
+    String decomposed = entry.text.toLowerCase();
+
+    definitions.forEach((libtcc.Concept concept) {
+      String definition = concept.type.toLowerCase();
+
+      decomposed =
+          decomposed.replaceAll(definition, _toElement(concept).outerHtml);
+    });
+
+    return decomposed;
+  }
+
+  /**
+   *
+   */
   LIElement _decompose(
       libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
     ButtonElement deleteButton = new ButtonElement()
@@ -51,21 +67,12 @@ class UseCaseEntry {
       });
 
     LIElement element = new LIElement();
-    String decomposed = entry.text.toLowerCase();
+    String decomposed = _decomposedHtml(entry, definitions);
 
-    definitions.forEach((libtcc.Concept concept) {
-      String definition = concept.type.toLowerCase();
-      if (decomposed.contains(definition)) {
-        print(_toElement(concept).outerHtml.toString());
-      }
-
-      decomposed =
-          decomposed.replaceAll(definition, _toElement(concept).outerHtml);
-    });
+    ParagraphElement text = new ParagraphElement()..appendHtml(decomposed)..style.display = 'inline';
 
     return element
-      ..children.addAll([upButton, downButton, deleteButton])
-      ..appendHtml(decomposed);
+      ..children.addAll([upButton, downButton, deleteButton, text]);
   }
 
   /**

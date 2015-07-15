@@ -47,9 +47,9 @@ class UseCaseBlock {
    * Returns the use case steps.
    */
   Iterable<libtcc.UseCaseEntry> get steps  {
-    Iterable<String> lines = _inputArea.value.split('\n');
-    return lines.map((String text) =>
-        new libtcc.UseCaseEntry(text));
+    Iterable<Element> lines = _blockList.querySelectorAll('li p');
+    return lines.map((Element li) =>
+        new libtcc.UseCaseEntry(li.text));
   }
 
   /**

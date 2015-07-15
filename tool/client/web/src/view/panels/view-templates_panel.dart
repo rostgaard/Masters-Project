@@ -111,12 +111,4 @@ class TemplatesPanel implements Panel {
     _editArea.text = template.body;
   }
 
-  /**
-   *
-   */
-  OptionElement _templateToOptionElement(libtcc.TestTemplate template) =>
-    new OptionElement()
-    ..text = template.name
-    ..value = template.id.toString()
-    ..onClick.listen(print);
 }

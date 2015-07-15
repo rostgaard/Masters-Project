@@ -9,8 +9,8 @@ class GeneratedTest {
    * Deserializing constructor.
    */
   GeneratedTest.fromMap(Map map) {
-    this.testBody = map[Key.body];
-    this.analysisOutput = map[Key.output];
+    testBody = map[Key.body];
+    analysisOutput = map[Key.output];
   }
 
   /**

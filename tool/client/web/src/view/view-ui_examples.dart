@@ -121,7 +121,7 @@ import domain_model;
 int main () {
 }
 
-[%USECASES]
+/*[@USECASES@]*/
 ''';
 
 
@@ -150,7 +150,6 @@ int main () {
 
     String testBody = libtcc.useCasesToCode(buc1, bucDefinitions, template);
     PreElement tests = new PreElement()..text = testBody;
-
 
     _definitions.children.add(tests);
   }
