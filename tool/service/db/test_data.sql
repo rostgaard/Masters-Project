@@ -33,8 +33,9 @@ INSERT INTO concepts (type, name, role, description)
 VALUES ('concept', 'message', 'Message', 'A message'),
        ('concept', 'call', 'Call', 'A call');
 
+
 INSERT INTO use_cases (name, primary_role_id, scenario, extensions, description)
-VALUES ('Transfer call', 1, '[{"id" : 1, "value" : "User does something."}]', '[]', 'Transfer an inbound call'),
+VALUES ('Transfer call', 1, '[{"id":1,"value":"Receptionist picks up call"},{"id":2,"value":"Receptionist gives greeting"},{"id":3,"value":"Receptionist looks up employee"},{"id":4,"value":"Receptionist select specific employee"},{"id":5,"value":"Receptionist dials contact"},{"id":6,"value":"Receptionist initiates transfer"}]', '[{"extensionOf":{"id":3,"value":"Receptionist looks up employee"},"returnsTo":{"id":5,"value":"Receptionist dials contact"},"entries":[{"id":1,"value":"Receptionist searches for employee"}]},{"extensionOf":{"id":3,"value":"Receptionist looks up employee"},"returnsTo":{"id":3,"value":"Receptionist looks up employee"},"entries":[{"id":1,"value":"Receptionist searches for employee"}]}]', 'Transfer an inbound call'),
        ('Send message', 2, '[]', '[]', 'Send a message to an employee');
 
 INSERT INTO configuration (client)
