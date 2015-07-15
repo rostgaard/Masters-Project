@@ -112,7 +112,8 @@ class UseCasesPanel implements Panel {
           (_useCaseSelector.options[_useCaseSelector.selectedIndex].value);
 
       if (ucid != _useCaseId) {
-        _useCaseController.get (ucid).then(_renderUseCase);
+        _useCaseController.get (ucid)
+          .then((libtcc.UseCase uc) => _renderUseCase(uc, decompose : false));
       }
     });
 
@@ -140,7 +141,6 @@ class UseCasesPanel implements Panel {
     _markActorButton.disabled = !_hasSelectedText;
     _markConceptButton.disabled = !_hasSelectedText;
     _root.onClick.listen((_) {
-      print( window.getSelection().rangeCount);
       _markActorButton.disabled = !_hasSelectedText;
       _markConceptButton.disabled = !_hasSelectedText;
     });
@@ -200,10 +200,10 @@ class UseCasesPanel implements Panel {
   /**
    *
    */
-  _renderUseCase(libtcc.UseCase useCase) {
-    _scenarioView = new UseCaseBlock(useCase.scenario, definitions);
-    _preconditionView = new UseCaseBlock(useCase.preconditions, definitions);
-    _postconditionView = new UseCaseBlock(useCase.postconditions, definitions);
+  _renderUseCase(libtcc.UseCase useCase, {bool decompose : true}) {
+    _scenarioView = new UseCaseBlock(useCase.scenario, definitions, decompose: decompose);
+    _preconditionView = new UseCaseBlock(useCase.preconditions, definitions, decompose: decompose);
+    _postconditionView = new UseCaseBlock(useCase.postconditions, definitions, decompose: decompose);
 
     _scenarioView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));
     _preconditionView.onBlockChange.listen((_) => _useCaseChanged.add(_harvestUseCase()));

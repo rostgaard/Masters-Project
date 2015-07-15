@@ -13,14 +13,13 @@ class UseCaseBlock {
   StreamController<libtcc.UseCaseBlock> _blockChange = new StreamController<libtcc.UseCaseBlock>();
   Stream<libtcc.UseCaseBlock> get onBlockChange => _blockChange.stream;
 
-
   /**
    * Default constructor.
    */
-  UseCaseBlock(libtcc.UseCaseBlock block, libtcc.Definitions definitions, {String type : 'list'}) {
+  UseCaseBlock(libtcc.UseCaseBlock block, libtcc.Definitions definitions, {String type : 'list' , bool decompose : true}) {
     _blockList = new OListElement()
       ..children = block.map((libtcc.UseCaseEntry entry) =>
-          _entryToLI (entry, definitions)).toList(growable: false);
+          _entryToLI (entry, definitions, decompose :decompose)).toList(growable: false);
 
     _inputArea = new TextAreaElement()..value =
         block.map((libtcc.UseCaseEntry entry) => entry.text).join('\n');
@@ -55,8 +54,8 @@ class UseCaseBlock {
   /**
    * Convenience method for converting a [libtcc.UseCaseEntry] to [LIElement]
    */
-  LIElement _entryToLI (libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
-    UseCaseEntry view = new UseCaseEntry(entry, definitions)
+  LIElement _entryToLI (libtcc.UseCaseEntry entry, libtcc.Definitions definitions, {bool decompose : false}) {
+    UseCaseEntry view = new UseCaseEntry(entry, definitions, decompose : decompose)
         ..onEntryChange.listen((_) => _blockChange.add(harvestBlock()));
 
     return view.element;
@@ -70,7 +69,7 @@ class UseCaseBlock {
     DivElement body = new DivElement();
     ButtonElement addButton = new ButtonElement()..text = 'Add';
     InputElement input = new InputElement(type: 'text')..placeholder =
-        'Use case entry';
+        'Add step';
 
     addButton.onClick.listen((_) {
       libtcc.UseCaseEntry entry = new libtcc.UseCaseEntry(input.value);

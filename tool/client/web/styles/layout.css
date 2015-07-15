@@ -62,7 +62,19 @@ button .secondary {
   border-radius: 4px;
 }
 
-.button-success {
+.tiny-edit-button {
+  font-size: 65%;
+  padding: 0.0em 0.3em;
+  border-radius: 0px;
+  background: white;
+  border: 1px solid grey;
+  color:black;
+  text-shadow: 0px;
+  margin:0px;
+}
+
+.save, .button-success {
+  color : white;
             background: rgb(28, 184, 65); /* this is a green */
         }
 

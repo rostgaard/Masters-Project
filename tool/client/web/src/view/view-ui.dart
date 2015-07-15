@@ -75,7 +75,7 @@ class UI {
           break;
 
         case MenuItem.tests:
-          _select(_testsPanel, 'Tests');
+          _select(_testsPanel, 'Generate tests');
           break;
 
         case MenuItem.useCases:

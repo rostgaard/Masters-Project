@@ -28,10 +28,10 @@
             <li class="pure-menu-item"><a href="#" class="concepts pure-menu-link">Concepts</a></li>
             <li class="pure-menu-item pure-menu-selected"><a href="#" class="use-cases pure-menu-link">Use cases</a></li>
             <li class="pure-menu-item"><a href="#" class="templates pure-menu-link">Templates</a></li>
-            <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Tests</a></li>
+            <li class="pure-menu-item"><a href="#" class="tests pure-menu-link">Generate tests</a></li>
             <li class="pure-menu-item"><a href="#" class="activities pure-menu-link" hidden>Activities</a></li>
             <li class="pure-menu-item menu-item-divided"><a href="#" class="configuration pure-menu-link">Configuration</a></li>
-            <li class="pure-menu-item menu-item-divided"><a href="#" class="ui-examples pure-menu-link">Test preview</a></li>
+            <li class="pure-menu-item menu-item-divided" hidden><a href="#" class="ui-examples pure-menu-link">Test preview</a></li>
           </ul>
         </div>
       </nav>
@@ -47,14 +47,14 @@
 
         <section id="use-cases" class="content">
           <nav class="use-case">
-            <label for="use-case-selector">Current template</label>
+            <label for="use-case-selector">Current use case</label>
             <select id="use-case-selector">
             </select>
 
           </nav>
 
           <div class="pure-g">
-            <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
+            <div class="use-case pure-u-3-4" style="border: 1px solid #ccc">
               <h2>Edit</h2>
               <hr />
               <label for="use-case-edit-name">Name: </label>
@@ -67,7 +67,7 @@
 
               <div class="pure-g">
 
-                <div class="use-case pure-u-2-3" style="border: 1px solid #ccc">
+                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
                   <div class="use-case-content">
                     <h3>Primary actor</h3>
                     <div class="use-case-edit-primary-actor"></div>
@@ -80,7 +80,7 @@
                   </div>
                 </div>
 
-                <div class="use-case pure-u-1-3" style="border: 1px solid #ccc">
+                <div class="use-case pure-u-1-2" style="border: 1px solid #ccc">
                   <h2>Toolbox</h2>
                   <div class="pure-g">
 
@@ -126,7 +126,7 @@
             </div>
 
 
-            <div class="definitions pure-u-1-2" style="border: 1px solid #ccc">
+            <div class="definitions pure-u-1-4" style="border: 1px solid #ccc">
               <h2>Preview</h2>
               <hr />
               <div class="use-case-representation"></div>
@@ -227,8 +227,20 @@
         </section>
 
         <section id="configuration" class="content" hidden>
-          <label for="configuration-jenkins-url" >Jenkins URL</label>
-          <input id="configuration-jenkins-url"  type="text">
+  <table>
+    <tr>
+      <td align="right"><label for="configuration-jenkins-url" >Jenkins URL: </label></td>
+      <td align="left"><input id="configuration-jenkins-url"  type="text"></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="configuration-test-path" >Stored tests path: </label></td>
+      <td align="left"><input id="configuration-test-path"  type="text"></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="configuration-analyzer-path" >Analyzer path: </label></td>
+      <td align="left"><input id="configuration-analyzer-path" type="text"></td>
+    </tr>
+  </table>
           <button class="save">Save</button>
         </section>
 

@@ -13,9 +13,10 @@ class UseCaseEntry {
   /**
    *
    */
-  UseCaseEntry(libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
+  UseCaseEntry(libtcc.UseCaseEntry entry, libtcc.Definitions definitions, {bool decompose: true}) {
     _entry = entry;
-    element = _decompose(entry, definitions);
+    element = _decompose(entry, definitions, decompose : decompose);
+
   }
 
   /**
@@ -38,8 +39,9 @@ class UseCaseEntry {
    *
    */
   LIElement _decompose(
-      libtcc.UseCaseEntry entry, libtcc.Definitions definitions) {
+      libtcc.UseCaseEntry entry, libtcc.Definitions definitions, {bool decompose: true}) {
     ButtonElement deleteButton = new ButtonElement()
+      ..classes.add('tiny-edit-button')
       ..text = 'X'
       ..onClick.listen((_) {
         this.element.remove();
@@ -47,6 +49,7 @@ class UseCaseEntry {
       });
 
     ButtonElement upButton = new ButtonElement()
+      ..classes.add('tiny-edit-button')
       ..text = '↑'
       ..onClick.listen((_) {
         if (this.element != this.element.parent.children.first) {
@@ -57,6 +60,7 @@ class UseCaseEntry {
       });
 
     ButtonElement downButton = new ButtonElement()
+      ..classes.add('tiny-edit-button')
       ..text = '↓'
       ..onClick.listen((_) {
         if (this.element != this.element.parent.children.last) {
@@ -69,10 +73,17 @@ class UseCaseEntry {
     LIElement element = new LIElement();
     String decomposed = _decomposedHtml(entry, definitions);
 
-    ParagraphElement text = new ParagraphElement()..appendHtml(decomposed)..style.display = 'inline';
+    ParagraphElement par = new ParagraphElement()..style.display = 'inline';
+
+    if (decompose) {
+      par.appendHtml(decomposed);
+    }
+    else {
+      par.text = entry.text;
+    }
 
     return element
-      ..children.addAll([upButton, downButton, deleteButton, text]);
+      ..children.addAll([upButton, downButton, deleteButton, par]);
   }
 
   /**
