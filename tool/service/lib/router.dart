@@ -47,7 +47,7 @@ Future<shelf_route.Router> setupRouter() {
     Controller.Concept conceptController = new Controller.Concept(conceptStore);
     Controller.Config configController = new Controller.Config(configStore);
     Controller.Test testController =
-        new Controller.Test(usecaseStore, templateStore);
+        new Controller.Test(usecaseStore, templateStore, conceptStore, configStore);
     Controller.UseCase useCaseController = new Controller.UseCase(usecaseStore);
     Controller.TestTemplate testTemplateController =
         new Controller.TestTemplate(templateStore);
@@ -72,7 +72,7 @@ Future<shelf_route.Router> setupRouter() {
       ..put('/usecase/{id}', useCaseController.update)
       ..post('/usecase', useCaseController.create)
       ..delete('/usecase/{id}', useCaseController.remove)
-      ..post('/usecase/{id}/generate/{tplid}/', testController.generate)
+      ..get('/usecase/{id}/generate/{tplid}', testController.generate)
       ..post('/test/{tid}/analyze', testController.analyse)
       ..get('/configuration', configController.get)
       ..put('/configuration', configController.save);

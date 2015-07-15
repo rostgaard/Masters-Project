@@ -56,6 +56,21 @@ WHERE
   /**
    *
    */
+  Future<Iterable<Model.Concept>> listAll() {
+    String sql = '''
+SELECT 
+  id, name, role,type, description 
+FROM 
+  concepts''';
+
+    return _connection
+        .query(sql)
+        .then((Iterable rows) => rows.map(_rowToConcept));
+  }
+
+  /**
+   *
+   */
   Future<Model.Concept> create(Model.Concept concept) {
     String sql = '''
 INSERT INTO 

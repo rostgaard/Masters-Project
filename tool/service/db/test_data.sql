@@ -38,11 +38,13 @@ VALUES ('Transfer call', 1, '[{"id" : 1, "value" : "User does something."}]', '[
        ('Send message', 2, '[]', '[]', 'Send a message to an employee');
 
 INSERT INTO configuration (client)
-VALUES ('{"jenkinsUri":"http://localhost/jenkins"}');
+VALUES ('{"jenkinsUri":"http://localhost/jenkins",
+          "testLocation" : "/home/krc/tests/",
+          "analyzerLocation" : "/home/krc/lib/dart/dart-sdk/bin/dartanalyzer"}');
 
 INSERT INTO templates (name, description, body)
 VALUES ('Send message template', 'A simple test template for send message use case',
-'part of or_test_fw;
+'import or_test_fw;
 
 abstract class SendMessage {
 
