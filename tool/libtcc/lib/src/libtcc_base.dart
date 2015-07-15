@@ -15,6 +15,7 @@ part 'tcc-actor.dart';
 part 'tcc-use_case.dart';
 part 'tcc-concept.dart';
 part 'tcc-definitions.dart';
+part 'tcc-generated_test.dart';
 part 'tcc-key.dart';
 part 'tcc-test_template.dart';
 part 'tcc-user_goal.dart';
