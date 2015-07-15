@@ -1,3 +1,5 @@
+tool/service/makefile.setup
+
 Thesis/*.pdf
 Thesis/Thesis.glo
 Thesis/Thesis.ist
