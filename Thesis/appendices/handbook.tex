@@ -1,6 +1,8 @@
 \chapter{Handbook}
 \label{appendix:handbook}
-This appendix is a handbook of the use-case writing and test generation tool implemented in the context of this thesis. The handbook presents the software through a number of screenshots, and an explanation on how to write a use case, and generate a test for it. This handbook covers the client interfaces, but makes reference to the server. For more details, see chapter \ref{chapter:implementation}.\medskip
+This appendix contains a handbook of the use-case writing and test generation tool implemented in the context of this thesis. The handbook presents the software through a number of screenshots and an explanation on how to write a use case -- and how to generate a test for it. This handbook covers the client interfaces, but makes reference to the server. For more details, see chapter \ref{chapter:implementation}.
+
+\section{General usage}
 
 \begin{figure}[!htbp]
   \centering
@@ -16,7 +18,7 @@ This appendix is a handbook of the use-case writing and test generation tool imp
 \label{fig:screenshot-concepts}
 \end{figure}
 
-\noindent Figure \ref{fig:screenshot-actors} shows the user interface, currently navigated to the ``Actors'' panel. The left side of the interface show the navigation options. The ``Actors'' panel has the possibility to a new actor definition. In order to do this, the actor must be named and given a role. The description is optional, and the actor definition will be created, once the ``Create'' button is pressed. An existing definitions may be removed from the list below by pressing the ``Remove'' button to the left of it. \medskip
+\noindent Figure \ref{fig:screenshot-actors} show the user interface, currently navigated to the ``Actors'' panel. The left side of the interface show the navigation options. The ``Actors'' panel has the possibility to a new actor definition. In order to do this, the actor must be named and given a role. The description is optional and the actor definition will be created, once the ``Create'' button is pressed. An existing definition may be removed from the list below by pressing the ``Remove'' button to the left of it. \medskip
 
 \begin{figure}[!htbp]
   \centering
@@ -27,11 +29,11 @@ This appendix is a handbook of the use-case writing and test generation tool imp
 
 \noindent The next navigation option is the ``Concepts'' panel. This panel is equivalent to the ``Actors'' panel in functionality, and we refer to this section for usage information. A screenshot of the ``Concepts'' panel is shown it figure \ref{fig:screenshot-concepts}.\medskip
 
-\noindent The ``Use cases'' panels (figure \ref{fig:screenshot-use-cases}) contains a number of different components. The topmost one is the ``Current use case'' selector, which is a drop-down that will change the current use case. The remainder of the panel is split into an ``Edit'' region, and a ``Preview'' region. The ``Edit'' region allows editing of a use case, such as name or description change, or modification of the scenario, pre- and postconditions. Each step may be modified by the navigation buttons to the left of the list item. The up arrow moves the step up in the list, the down arrow moves it down. The ``x'' removes the step from the use case. New steps can be added via the associated input field and add button. \medskip 
+\noindent The ``Use cases'' panel (figure \ref{fig:screenshot-use-cases}) contains a number of different components. The topmost one is the ``Current use case'' selector, which is a drop-down that will change the current use case. The remainder of the panel is split into an ``Edit'' region and a ``Preview'' region. The ``Edit'' region allows editing of a use case, such as name or description change or modification of the scenario, pre- and postconditions. Each step may be modified by the navigation buttons to the left of the list item. The up arrow moves the step up in the list, the down arrow moves it down. The ``x'' removes the step from the use case. New steps can be added via the associated input field and the add button. \medskip 
 
 \noindent The middle panel is the toolbox, its sole purpose is to be able to quickly mark selected text as either concepts or actors, or one of them in a specific role.\medskip
 
-\noindent The rightmost panel is review of the structure of the current use case, it updates on changes, so there is a live feedback on how the use case looks like -- without the formatting tools.\medskip
+\noindent The rightmost panel is a review of the structure of the current use case, it updates on changes, so there is a live feedback on how the use case looks like -- without the formatting tools.\medskip
 
 \begin{figure}[!htbp]
   \centering
@@ -40,7 +42,7 @@ This appendix is a handbook of the use-case writing and test generation tool imp
 \label{fig:screenshot-screenshot-generate-tests}
 \end{figure}
 
-\noindent The ``Generate tests'' panels (figure \ref{fig:screenshot-screenshot-generate-tests}) provides a tool for converting a specific use case to a test, using a template and the provided definitions (actors and concepts). When the panel is initially selected, only the use case, template selector and ``Generate'' button is visible. When a use case and template is selected and the ``Generate''  button is pressed, a request to generate the tests will be sent to server, which then will generate and analyze the generated test and return it along with the analysis output. This output will be displayed below the selectors and button, and the generated test case right below the analysis output.\medskip
+\noindent The ``Generate tests'' panels (figure \ref{fig:screenshot-screenshot-generate-tests}) provides a tool for converting a specific use case to a test, using a template and the provided definitions (actors and concepts). When the panel is initially selected, only the use case, template selector and ``Generate'' button is visible. When a use case and template is selected and the ``Generate''  button is pressed, a request to generate the tests will be sent to server, which then will generate and analyze the generated test and return it along with the analysis output. This output will be displayed below the selectors and button and the generated test case right below the analysis output.\medskip
 
 \begin{figure}[!htbp]
   \centering
@@ -58,4 +60,7 @@ This appendix is a handbook of the use-case writing and test generation tool imp
 \label{fig:screenshot-configuration}
 \end{figure}
 
-\noindent The last panel in the tool is the ``Configuration'' panel. It provides access to the server-side configuration, such as location of the binary used for analyzing the generated test code. It allows for changing the path where the server should store the generated test files. This location should be one where test support tools are also located. The final option is the Uri location of the continuous integration service, which is currently unused. A screenshot of the ``Configuration'' panel is shown in figure \ref{fig:screenshot-configuration}.
+\noindent The last panel in the tool is the ``Configuration'' panel. It provides access to the server-side configuration, such as location of the binary used for analyzing the generated test code. It allows for changing the path where the server should store the generated test files. This location should be one where test support tools are also located. The final option is the URI location of the continuous integration service, which is currently unused. A screenshot of the ``Configuration'' panel is shown in figure \ref{fig:screenshot-configuration}.
+
+\section{Installation}
+Please refer to the README.md files in the source code directories the most up-to-date version of the installation procedure.
