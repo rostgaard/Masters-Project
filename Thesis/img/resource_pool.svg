@@ -7,10 +7,10 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="2.1614583in"
+   width="2.2425406in"
    stroke-miterlimit="10"
    font-weight="normal"
-   viewBox="0 0 207.49999 151.50001"
+   viewBox="0 0 215.28389 151.50001"
    height="1.578125in"
    font-style="normal"
    font-size="12"
@@ -48,9 +48,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.4388716"
-     inkscape:cx="297.82895"
-     inkscape:cy="1.4011273"
+     inkscape:zoom="2.8777432"
+     inkscape:cx="10.212114"
+     inkscape:cy="62.270441"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
@@ -245,7 +245,7 @@
      clip-path="url(#clipPath1)"
      id="text101"
      style="font-style:italic;font-size:medium;fill:#000028;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)">+aquire() : T</text>
+     transform="translate(-272.5,-160.5)">+acquire() : T</text>
   <text
      x="297"
      space="preserve"
@@ -271,7 +271,7 @@
      height="36"
      id="rect107"
      style="font-style:italic;font-size:medium;fill:#b2b2b2;stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)" />
+     transform="matrix(1.0846074,0,0,1,-305.32766,-160.5)" />
   <rect
      x="385"
      y="273"
@@ -280,7 +280,7 @@
      height="36"
      id="rect109"
      style="font-style:italic;font-size:medium;fill:url(#linearGradient2);stroke:none;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)" />
+     transform="matrix(1.0906508,0,0,1,-307.40054,-160.5)" />
   <rect
      x="385"
      y="273"
@@ -289,7 +289,7 @@
      height="36"
      id="rect111"
      style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)" />
+     transform="matrix(1.0841656,0,0,0.99887098,-304.88342,-160.17145)" />
   <line
      clip-path="url(#clipPath1)"
      x1="385"
@@ -298,7 +298,7 @@
      y2="291"
      id="line113"
      style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)" />
+     transform="matrix(1.0841656,0,0,0.99887098,-304.88342,-160.17145)" />
   <line
      clip-path="url(#clipPath1)"
      x1="385"
@@ -307,7 +307,7 @@
      y2="300"
      id="line115"
      style="font-style:italic;font-size:medium;fill:none;stroke:#99795c;stroke-linecap:butt;stroke-linejoin:round;text-rendering:geometricPrecision"
-     transform="translate(-272.5,-160.5)" />
+     transform="matrix(1.0841656,0,0,0.99887098,-304.88342,-160.17145)" />
   <text
      x="395.5"
      space="preserve"
