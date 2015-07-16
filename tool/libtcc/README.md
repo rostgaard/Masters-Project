@@ -1,19 +1,5 @@
-# libtcc
+Use case structuring and test generation library
+================================================
 
-A library for Dart developers. It is awesome.
-
-## Usage
-
-A simple usage example:
-
-    import 'package:libtcc/libtcc.dart';
-
-    main() {
-      var awesome = new Awesome();
-    }
-
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
+A shared library between the server and the client of the use case structuring and test generation tool.
+The library is meant to be imported into other applications, and is meant to be run on its own.

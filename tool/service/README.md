@@ -14,10 +14,14 @@ This service requires a few additional components to be able to run.
 
 Additionally, a the PostgreSQL server needs to be configured with a new database and user. The `makefile.setup.dist` file provides makefile variables that enables the makefile rule `install_latest_db`, provided that a corresponding `.pgpass` file has been setup prior. The file `lib/config.dart` defines the database connection parameters, and may be changed to suit your deployment.
 
-Building
+Building & dependencies
 --------
 
-Dart is an interpreted just-in-time compiled language, so there is no build step. Onwards to the running step.
+Dart is an interpreted just-in-time compiled language, so there is no build step. We do need to download additional dependencies. This is done by the `pub` package management tool by running the command:
+
+`pub get`
+
+The `pub` tool will resolve remote dependencies and prepare the project for running.
 
 Running
 -------
