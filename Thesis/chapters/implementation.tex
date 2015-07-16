@@ -1,5 +1,6 @@
 \chapter{Implementation}
-%TODO Make sure to mention that we handle requirements, concretely as use cases.
+\label{chapter:implementation}
+%TODO The server also handles test generation. EXPLAIN!
 This chapter describe the tool that was implemented as part of this thesis, to enable the generation of tests from use cases. The chapter provides a high-level architectural view of the test system, and an example on how a use case goes from description to test.\medskip
 
 \noindent As already mentioned in chapter \ref{ch:design}, the actions of users were eventually dropped, as they provided little or no value in test. This will become more evident, when an example of a generated test is shown.\medskip
@@ -7,60 +8,71 @@ This chapter describe the tool that was implemented as part of this thesis, to e
 \noindent The protocol specification for the implementation is shown in appendix \ref{appendix:protocol}, test results for it can be found in appendix \ref{appendix:tests}, and the database schema is located in appendix \ref{appendix:database-schema}. The handbook, written from the point of view of the user interface, can be found in appendix \ref{appendix:handbook}.
 
 \section{Architecture}
-The implementation is done in a client/server architecture. It consists of a three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
+%TODO GDR
+The implementation is done in a client/server architecture. It consists of three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
 \begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.7]{\imgdir layered-mvc}
   \caption{Layered model-view-control architecture with test backend}
   \label{fig:layered-mvc}
 \end{figure}
-\noindent The distributed model is built around a layered model-view-control (MVC), that uses a dedicated test backend. Our backend built upon the Dart unittest library configured for junit xml output, the Jenkins continuous integration server, and Git revision control system. Git is used, first and foremost, to control revisions, but also as a test code distribution system. The Jenkins server will se a change in the Git repository, update to this version, and trigger a new build. Being that the tests output junit-format xml documents, Jenkins can parse this and provide detailed reports on success/failure output, run-times, and historical data.\medskip
+\noindent The distributed model is built around a layered model-view-control (MVC), that uses a dedicated test backend. Our backend built upon the Dart unittest library\footnote{\url{https://pub.dartlang.org/packages/test}} configured for junit xml output, the Jenkins continuous integration server, and Git revision control system. Git is used, first and foremost, to control revisions, but also as a test code distribution system. The Jenkins server will see a change in the Git repository, update to this version and trigger a new build. Being that the tests output junit-format xml documents, Jenkins can parse this and provide detailed reports on success/failure output, run-times and historical data.\medskip
 
-\noindent The layered MVC introduced above, is a model commonly used in web programming. It is illustrated in figure \ref{fig:layered-mvc}, and is a method for maintaining the MVC paradigm, in a distributed system. In it's simplicity, it has a service interface that provide an API. This API delegates to an internal controller, that is allowed to modify the model. This model is only stored on by the service, but may be retrieved (or even pushed) to a client's model via a representation, which then becomes the service's view. The client's model is pushed to a local view, which is a user interface, that may send change requests to its local controller that delegates it to the controller of the service.\medskip
+\noindent The layered MVC introduced above, is a model commonly used in web programming. It is illustrated in figure \ref{fig:layered-mvc} and is a method for maintaining the MVC paradigm -- in a distributed system. The service interface provide an API that delegates to an internal controller. This is allowed to modify the model. This model is only stored on by the service, but may be retrieved (or even pushed) to a client's model via a representation, which then becomes the service's view. The client's model is pushed to a local view, which is a user interface, that may send change requests to its local controller that delegates it to the controller of the service.\medskip
 
 \noindent The client and the server share their code-base around a library package that contain (meta model) models, serialization/de-serialization tools, and the (use case) translation tools. The translation can, thus be done either by the client, or the server.
 
 \section{Use case translation}
-This section contains the a description of the different implemented components and utilities needed to support the use case to test translation, and details of the use case details as well.\medskip
+%TODO Fill out this section with more stuffy-stuff.
+%TODO Guide-the-reader, also mentioning subsections.
+This section contains a description of the implemented components and utilities needed to support the use case to test translation. A description on how the use case is unfolded into paths is also provided.\medskip
 
-\noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}), and potentially an error. Errors arise when an expectation failed, or a system error occurs and are fatal for the test run -- i.e. the run will at the point where the error occurred. Assumptions are for use case entries that are mapped to assumption statements, and are non-fatal.
+\noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}) and potentially an error. Errors arise when an expectation fail, or a system error occurs. These error are fatal for the test run -- i.e. the run will stop at the point where the error occurred. Assumptions are for use case entries that are mapped to assumption statements and are non-fatal.\medskip
+
+\noindent The actual translation of use cases into tests are handled by the server, but requested by the client.
+%TODO Elaborate
 
 \subsection{Test templates}
-Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
+Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So, if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
 
-\noindent The templates are implemented in a simple form. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and complied before the generation step, enabling them to be verified prior to use.\medskip
-The templates are the mapping link between use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
+\noindent The templates are implemented in a simple form. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and compiled before the generation step, enabling them to be verified prior to use.\medskip
+
+\noindent The templates are the mapping link between the use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
 
 \subsection{Actor and concept classes}
-Actor classes represent a domain actor, and should be able support the behavior that is expected from an actor of that type. The classes will be hand-written by a developer, but the functionality that is needed, may be inferred by the use case steps involving the actor/concept and the actions it performs.
+Actor classes represent a domain actor and should be able to support the behavior that is expected from an actor of that type. The classes will be hand-written by a developer, but the functionality that is needed may be inferred by the use case steps involving the actor/concept and the actions it performs.
 
 \subsection{Definition}
-Definitions are mappings from use case roles -- which are simple string identifiers -- to actor, or concept types. Definitions are stored in a global definition set that may be reused by different use cases. The definitions are used to determine which actor and concept types that should be part of the signature of; both the individual use case steps, but also the signature of the use case path functions.
+Definitions are mappings from use case roles -- which are simple string identifiers -- to actor or concept types. Definitions are stored in a global definition set that may be reused by different use cases. The definitions are used to determine which actor and concept types that should be part of the signature of; both the individual use case steps, but also the source code function signature of the use case path functions.
 
 \subsection{Normalization of use case steps}
 To be able to make a use case step into a function call, we need to normalize it to a string that follows the general conventions of function call in programming languages (and specific for Dart, as this is our target language). We also need to be able to recognize identical steps in different use cases. It gives us the following constraints for a normalization function.
 \begin{itemize}
+
   \item Programming conventions must be followed. This means no spaces in function identifier, no redeclaration of function identifiers with different parameter set, and no identifiers must start with a number.
-  \item Function should be deterministic. So given the an specific input, it always produces the same output.
-  \item Not specifically a constraint; but a the function should -- if at all possible -- produce human-readable output to make it easier to trace generated code.
+  
+  \item Function should be deterministic. So, given specific input, they always produces the same output.
+  
+  \item Not specifically a constraint; but a normalization function should -- if at all possible -- produce human-readable output, to make it easier to trace generated code.
+  
 \end{itemize}
-The normalization described above, could be realized by a good hashing algorithm -- prefixed by a constant string to avoid prefixed numbers in identifiers. This, however would collide with our desire to have human-readable functions. The implementation ended up doing the following:
+The normalization described above could be realized by a good hashing algorithm -- prefixed by a constant string to avoid prefixed numbers in identifiers. This, however would collide with our desire to have human-readable functions. The implementation ended up doing the following:
 \begin{itemize}
   \item Replace all non-allowed characters with underscores.
   \item Prefix the functions with an underscore
-  \item Transform the every character in the string of step to lower case
+  \item Transform every character in the string of a step to lower case
 \end{itemize}
 A function identifier for ``Receptionist answers call'' then becomes:
 \begin{verbatim}
   _receptionist_answers_call
 \end{verbatim}
-One thing that is needed for a function \emph{call}, are the function parameters. These are supplied by the definitions associated with the use case. So, given that the set of definitions contain the ``receptionist'' and ``call', the signature of the function would look like this:
+One thing that is needed for a function \emph{call}, are the function parameters. These are supplied by the definitions associated with the use case. So, given that the set of definitions contains the ``receptionist'' and ``call', the signature of the function would look like this:
 \begin{verbatim}
   _receptionist_answers_call (receptionist, call)
 \end{verbatim}
 
 \section{Example translation}
-This section goes through the steps associated with creating tests from use cases in this implementation. The example is done, disregarding the concrete user interface details, which can instead be found in the handbook in appendix \ref{appendix:handbook}.\medskip
+This section goes through the steps associated with creating tests from use cases in this implementation. The example is done disregarding the concrete user interface details, which can instead be found in the handbook, in appendix \ref{appendix:handbook}.\medskip
 
 \noindent The example reuses the use case from the 3rd concept section (\ref{sec:3rd-iteration}), that is also repeated in figure \ref{lst:uc-simple-example-revisited} for convenience.
 
@@ -76,7 +88,7 @@ Postconditions:
   The message is stored
   The receptionist is ready to handle the next call
 \end{lstlisting}
-As mentioned earlier, the modeling of an ``action'' was dropped because it provided no real value in test generation. With this ignored, the highlighting of actors (orange) and concepts (blue) -- done by the use case writer -- will look like listing \ref{lst:uc-simple-example-highlighted-revisited}, and lead to two declarations; one declaration of the role of ``receptionist'' actor of type ``receptionist'', and a domain concept role of a ``message'' of type ``message''. The concrete user interface will have containers that signify where pre- and postconditions and main scenario, effectively giving us the composition and structure of the use case.
+As mentioned earlier, the modeling of an ``action'' was dropped because it provided no real value in test generation. With this ignored, the highlighting of actors (orange) and concepts (blue) -- done by the use case writer -- will look like listing \ref{lst:uc-simple-example-highlighted-revisited}, and lead to two declarations; one declaration of the role of ``receptionist'' actor of type ``receptionist'' and a domain concept role of a ``message'' of type ``message''. The concrete user interface has visual containers that signify how to build up pre- and postconditions and main scenario. This effectively gives us the composition and structure of the use case.
 
 \begin{lstlisting}[frame=single,style=usecase, caption=Use case example with its different parts highlighted, label=lst:uc-simple-example-highlighted-revisited]
 Scenario:
@@ -90,7 +102,7 @@ Postconditions:
   The @\color{blue}message@ is stored
   The @\color{orange}receptionist@ is ready to handle the next call
 \end{lstlisting} 
-When the declarations are in place, we can pass the structured use case, along with them to the generator. It will perform normalization on the steps (and actor roles), in order to build a test that does not break the syntax of the programming language. Listing \ref{lst:generated-test-code-example} show the generated code with normalizations applied. A thing to note, is the function signature for the generated functions includes every concept and actor that is used within their bodies. This is done to support chaining model presented back in section \ref{ssec:step-execution}. The code generated here is clearly not runnable, as the called functions is not declared. We need to write up a template that we can place the functions in.
+When the declarations are in place, we can pass the structured use case, along with them to the generator. It will perform normalization on the steps (and actor roles), in order to build a test that does not break the syntax of the programming language. Listing \ref{lst:generated-test-code-example} shows the generated code with normalizations applied. A thing to note is that the function signature for the generated functions includes every concept and actor that is used within their bodies. This is done to support chaining model presented back in section \ref{ssec:step-execution}. The code generated here is clearly not runnable, as the called functions are not declared. We need to write up a template that we can place the functions in.
 \begin{lstlisting}[style=Dart, caption=Example of generated code without a template applied concept,label={lst:generated-test-code-example}]
 
 void preconditions(Receptionist receptionist) {
@@ -113,9 +125,9 @@ void scenario(Receptionist receptionist, Message message) {
 
 \end{lstlisting}
 
-\noindent Listing \ref{lst:example-template-methods} show the template that supports the generated use case from listing \ref{lst:generated-test-code-example}. Initially, we require some services, so we instantiate a client for them. The specifics of passing the configuration to them is omitted in this example for simplicity.\medskip
+\noindent Listing \ref{lst:example-template-methods} shows the template that supports the generated use case from listing \ref{lst:generated-test-code-example}. Initially, we require some services, so we instantiate a client for them. The specifics of passing the configuration to them are omitted in this example for simplicity.\medskip
 
-\noindent The first mapped function elaborates the behavior of the statement ``receptionist is created''. This means, in our implementation, that the receptionist actor's user is known by the user service. If not, the test should fail. The unmet condition is here handled here by writing a code block that uses the \texttt{fail} function provided by the test framework. It simply makes the entire test fail, with message passed as parameter.\medskip
+\noindent The first mapped function elaborates the behavior of the statement ``receptionist is created''. This means, in our implementation, that the receptionist actor's user is known by the user service. If not, the test should fail. The unmet condition is, in this example, handled by writing a code block that uses the \texttt{fail} function provided by the test framework. It simply makes the entire test fail, with message passed as parameter.\medskip
 
 \noindent In the test support tools of the case study system, the receptionist actor is automatically logged in, prior to running the tests. This means that we can safely assume, that this actor is logged in. Nevertheless, we may explicitly state it for the log using ``assume''. (listing \ref{lst:example-template-methods} l. 16).\medskip
 
@@ -124,7 +136,7 @@ void scenario(Receptionist receptionist, Message message) {
 \noindent The step ``the\_message\_is\_stored'' uses the MessageService to re-retrieve the message saved in the main scenario. In order to do so, it uses an \texttt{expect} function, that is part of the test framework. A thing to note, is that equality must be defined for the \texttt{equals} matcher to work.\medskip
 
 
-\noindent The use case placeholder is located at very bottom of the template, and will contain the generated code from listing \ref{lst:generated-test-code-example}, once this template is applied to the use case.
+\noindent The use case placeholder is located at the very bottom of the template and will contain the generated code from listing \ref{lst:generated-test-code-example}, once this template is applied to the use case.
 \begin{lstlisting}[style=Dart, caption=Example template methods (written manually),label={lst:example-template-methods}]
 UserService userService = new UserService(...);
 MessageService messageService = new MessageService(...);
@@ -166,28 +178,31 @@ void receptionist_marks_state_as_ready(receptionist) {
 
 /*[USE-CASE-PLACEHOLDER]*/
 \end{lstlisting}
-As we see from the listings; both the generated, and written code is quite readable, and encourages decomposition into small and intuitive steps. It may be desirable to have a common set of utility functions that are shared among use cases, and to move some of the function to the belonging actor to build a more object-oriented set of test support tools.\medskip
+As we see from the listings, both the generated and written code is quite readable, and encourage decomposition into small and intuitive steps. It may be desirable to have a common set of utility functions that are shared among use cases, and to move some of the function to the belonging actor to build a more object-oriented set of test support tools.\medskip
 
 \noindent The initial state of the test support tools are provided by a global setup and teardown function that encapsulates the entire pool of tests.\medskip
 
-\noindent Generated tests are source code files meant to be compiled an run by a test runner. This means that they may be added to the same source code management (SCM) system, as the test tools for easy distribution. If the SCM system also supports revision management, then requirement changes that lead to regeneration of tests, will be evident in -- and traceable from -- the revision log.
+\noindent Generated tests are source code files meant to be compiled and run by a test runner. This means that they may be added to the same source code management (SCM) system, as the test tools for easy distribution. If the SCM system also supports revision management, then requirement changes that lead to regeneration of tests, will be evident in -- and traceable from -- the revision log.
 \section{Technical details}
-The client, server and library is built using the web-oriented programming language Dart. It is optionally typed and class-oriented. It was originally meant as a replacement for the popular JavaScript as a natively supported browser scripting language via a virtual machine, built into the browser, like with JavaScript. This effort has recently been abandoned in favor of a cross-compilation to JavaScript instead.\medskip
+%GDR
+The client, server and library are built using the web-oriented programming language Dart\footnote{\url{http://dartlang.org/}}. It is optionally typed and class-oriented. It was originally meant as a replacement for the popular JavaScript as a natively supported browser scripting language via a virtual machine, built into the browser, like with JavaScript. This effort has recently been abandoned in favor of a cross-compilation to JavaScript instead.\medskip
 
-\noindent One of the big advantages of Dart is that it supports both web-client and server-side development, and hereby also code sharing between server and client. It has a built-in package manager with many component with everything, ranging from markdown visualization library to database bindings.\medskip
+\noindent One of the big advantages of Dart is that it supports both web-client and server-side development and hereby also code sharing between server and client. It has a built-in package manager with many component with many uses, ranging from markdown visualization library to database bindings.\medskip
 
 \noindent This service of the tool makes use of a HTTP-server and router package called ``shelf'', which handles all of the low-level work associated with server programming. Focus can then be placed on writing API response handlers instead.\medskip
 
-\noindent Persistent storage is done in a PostgreSQL database, via the response handlers. The schema is quite simple, and most of the tables focus on storing encoded objects, rather than enforcing database constraints. A latter implementation would most likely have these constrains. But during development it has been convenient to be able to focus on the model, rather than database design, when the -- inevitable -- changes to the design occurred.\medskip
+\noindent Persistent storage is done in a PostgreSQL database, via the response handlers. The schema is quite simple and most of the tables focus on storing encoded objects, rather than enforcing database constraints. A latter implementation would most likely have these constrains. But, during development it has been convenient to be able to focus on the model, rather than database design, when the -- inevitable -- changes to the design occurred.\medskip
 
-\noindent The client is web-based and uses some HTML5 features for presentation -- the notification API\footnote{\url{http://www.w3.org/TR/notifications/}}, just to name one. It is built around the model-view-control (figure \ref{fig:layered-mvc}), and has no external dependencies, other than the service. Once compiled to JavaScript, it should be able to run on every modern browser.
+\noindent The client is web-based and uses some HTML5 features for presentation -- the notification API\footnote{\url{http://www.w3.org/TR/notifications/}}, just to name one. It is built around the model-view-control (figure \ref{fig:layered-mvc}) and has no external dependencies, other than the service. Once compiled to JavaScript, it should be able to run on every modern browser.
 
 \section{Summary}
+%GDR
 While the mappings here were done to a specific domain, the concepts of mapping to actors, concepts, mock objects and interfaces should be applicable for most system. Most test frameworks (junit, testNG and others) should also have built-in matcher functionalities, such as \texttt{expect} and \texttt{fail}. If not, simple if-else statement and thrown named exceptions will yield roughly the same result.\medskip
 
 \noindent The mapping procedure is simple, and can be done in whichever IDE or editor a developer prefers. The task of writing a single step function that performs one specific (high-level) task is easily distributed, as there shouldn't be shared state between the steps -- other than the one they forward.\medskip
 
-\noindent The definition sets, from which we can detect actors and concepts from textually analyzing the text of every use case step, is -- at best -- a pragmatic solution. The simple analysis of looking for occurrences of the definition string by comparing strings, may result in ambiguity, in normalized and defined strings.\medskip
+\noindent The definition sets, from which we can detect actors and concepts from textually analyzing the text of every use case step, is an \emph{
+ad-hoc} solution, and should be improved in a later iteration. The simple analysis of looking for occurrences of the definition string by comparing strings, may result in ambiguity when two strings share a sub-pattern.\medskip
 
 \noindent In the test support tools written for the test case system, we make heavy use of resource pools and object factories to supply the tests with the, quite large, resource blocks that they need.\medskip
 
@@ -196,6 +211,6 @@ While the mappings here were done to a specific domain, the concepts of mapping 
 \subsection{Known bugs and limitations}
 This section documents the identified bugs and errors in the application.
 \begin{description}
-  \item[Textual analysis too primitive.] The current textual analysis is performing raw substring matching on whichever definition is matched first. This means that if you have a definition of ``something'', and add another definition of ``thing'', then the textual analysis will only match one of them. Which one, depends on which one occurs first in the definition set.
+  \item[Textual analysis too primitive.] The current textual analysis is performing raw substring matching on whichever definition is matched first. This means that if you have a definition of ``something'' and add another definition of ``thing'', then the textual analysis will only match one of them. Which one, depends on which one occurs first in the definition set.
 \end{description}
 
