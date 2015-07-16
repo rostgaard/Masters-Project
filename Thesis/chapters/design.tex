@@ -20,7 +20,7 @@ Once we have built the use case models, translation of a them is a matter determ
 
 \noindent During the design process, three major constraints for use cases -- in regards to test generation -- were defined. 
 \begin{description}
-  \item[Entries:] Every entry in a use case scenario is a synchronous self-contained action -- every step must finish before the next start. Single steps may mutate the system state.
+  \item[Steps:] Every step in a use case scenario is a synchronous self-contained action -- every step must finish before the next start. Single steps may mutate the system state.
   \item[Termination:] A use case scenario (the main scenario) should always terminate. It should have distinct start and finish. Otherwise it would be impossible to generate tests from it.
   \item[No extensions nesting:] A design decision that simplified the path determination.
 \end{description}

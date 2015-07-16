@@ -26,28 +26,27 @@ This chapter contains a discussion on possible designs for use case structuring 
 \label{fig:project_parameter_plot_project}
 \end{figure}
 
-\noindent By discussing a iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable  working model will be refined. Figure \ref{fig:project_parameter_plot_project} shows the ideal placement of the tool, as something that combines both concepts from the previous chapters.
+\noindent By discussing and iterating through a number of different conceptual designs, levering their benefits and disadvantages, a suitable  working model will be refined. Figure \ref{fig:project_parameter_plot_project} shows the ideal placement of the tool, as something that combines both concepts from the previous iterations.
 
 \section{Interpreting use cases}
-In order to be able to structure use cases, we need to define to it what a use case is. But since a use case is do not have a widely adopted standardized format, we need to pick a suitable representation.\medskip
+%TODO Guide the reader.
+In order to be able to structure use cases, we need to define to it what a use case is. But, since use cases do not have a widely adopted standardized format, we need to pick a suitable representation.\medskip
 
-\noindent While we did find an existing formalized use case model\cite{klimek2010formal}, it focused on model checking and semantics. While this is indeed in important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\medskip
+\noindent While we did find an existing formalized use case model\cite{klimek2010formal}, it focused on model checking and semantics. While this is indeed an important field of study, our scope is a bit different. As the tool we want to build here is meant as a support for existing development procedure -- rather than replacing it, and introducing formalism -- we constrain ourselves from constructing it from a formal model.\medskip
 
-\noindent We have decided on using a use case template\cite{larman2005} as a guideline for the basic structure of the use case. In this, we have some key concepts that we need to address in our translation model, which is primary actor definition, well-suited structure for use case steps, and a good structure for building use case alternative and extensions. Examples of use cases using this template can be seen in appendix \ref{appendix:use-cases}.\medskip
-
-We focus on the structure provided by the template, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000} we get;
+\noindent We focus on the structure provided by the template, and build our way up from there. But, before we try to build up a model for use case that support test translation, we need to establish a common ground of what a use case is, what it should include, and what it shouldn't include. From \cite{cockburn2000}, we get:
 \begin{quote}
 ``... The use case, as the contract for behavior, captures \emph{all and only} the behaviors related to satisfy the stakeholders’ interests.''
 \end{quote}which basically means that we should write our use cases, solely focusing on behavior and intent of the involved stakeholders. Any non-essential information should be left out. Another point that is stated\cite{larman2005} is that use cases should not be used to describe user interface actions, so for example an action ``user presses submit button'' is not suitable writing level for a use case.\medskip
 
-\noindent So, in essence; use cases express \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario. An overview of the terms used for the remainder of the thesis is shown below.
+\noindent So, in essence, use cases express \emph{expected system behavior from a stakeholder's point of view}. For this thesis we use the ``fully dressed'' use case template\cite{larman2005}, as it already provides very good structure to build upon. It specifies the need to include a stakeholder list, a primary actor, main scenario, pre- and postconditions and a list of extension that are linked to main scenario. An overview of the terms used for the remainder of the thesis is shown below.
 \begin{description}
 
   \item[Use case:] Contains -- as a minimum -- a primary actor, which signifies to aspect of the use case, and a scenario. The use case represents a high-level goal that the primary actor wants to achieve.
 
-  \item[Scenario:] The scenario is the list of steps (entries) that the primary actor needs to go through in order achieve the use case goal.
+  \item[Scenario:] The scenario is the list of steps that the primary actor needs to go through in order achieve the use case goal.
 
-  \item[Steps:] Every step in the main scenario is composed of a entry. The entry may be decomposed into smaller components or just be a text, based on which level of detail we want. 
+  \item[Steps:] The steps of a use case. A step may be decomposed into smaller components or just be a text, based on which level of detail we want. 
 
   \item[Extensions:] Extensions are alternate scenarios that branch out of the original scenario. They are not meant as use case extensions, but alternate paths that a use case scenario may take.
 

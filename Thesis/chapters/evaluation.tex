@@ -1,14 +1,14 @@
 \chapter{Discussion}
 %TODO something about the moving taget (mainly how does injecting change look like, and how does it scale in this process?
 %TODO is this integrateable in an exisiting development process?
-This section discusses and evaluates the implementation from the thesis, establishing some quantifiable goals while discussing the general feasibility of the approach. Also raises some issues that needs to be solved before in order to improve the method, and identifies some of the side-benefits that followed the approach.
+This chapter discusses and evaluates the implementation from the thesis, establishing some quantifiable goals, while discussing the general feasibility of the approach. It also raises some issues that need to be solved before in order to improve the technique of the thesis. Additionally it identifies a number of the side-benefits that followed the approach.
 
 
 \section{General usefulness}
 %TODO VERY IMPORTANT, as this gives the motivation for filling the thesis with crap about OpenReception project and architecture.
 %is this always possible? Are we lucky to have found a good fit for this procedure? Which cases could be thought, not to support this method?
 
-The process described in this thesis, fit quite nicely into the case study system. Is it a coincidence that the architecture described in chapter \ref{ch:background} fit very nicely. Another thing, is that the use cases -- in general -- are quite simple. This can also be seen in appendix \ref{appendix:use-cases}. The scope of the case study project has not been to provide a complex usage model, but rather the opposite. The target businesses for the product, focus on low average call-handling time and, thus, will try to keep the use cases simple -- in that effort. Another thing, that may have an effect on the specific fit, is the fact that the case study system uses a stateless architecture. This may make the use case steps easier to write, as the state is carried by the tests, rather than the services.\medskip
+The process described in this thesis fit quite nicely into the case study system. Is it a coincidence that the architecture described in chapter \ref{ch:background} fit very nicely. Another thing, is that the use cases -- in general -- are quite simple. This can also be seen in appendix \ref{appendix:use-cases}. The scope of the case study project has not been to provide a complex usage model, but rather the opposite. The target businesses for the product, focus on low average call-handling time and, thus, will try to keep the use cases simple -- in that effort. Another thing, that may have an effect on the specific fit, is the fact that the case study system uses a stateless architecture. This may make the use case steps easier to write, as the state is carried by the tests, rather than the services.\medskip
 
 \noindent Other development projects, that have more complex use cases or interfaces, may experience larger complexity in writing mapping functions that realize their use case.
 
