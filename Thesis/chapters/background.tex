@@ -145,7 +145,7 @@ During the progression of the project, it became more and more clear to us that 
 \centering
 \includegraphics[width=0.6\textwidth]{\imgdir receptionist_workflow}
 \caption{Labeled activity diagram of the basic workflow of a receptionist}
-\label{fig:receptionist_workflow}
+\label{fig:receptionist-workflow}
 \end{figure}
 As system consisted of a number of loosely coupled components, and some of them were not under our control, we decided to focus on writing up black-box tests focusing on verifying the behavior of the individual components, or multiple connected components.
 Furthermore, we wanted to automate this using a continuous integration service that could run our tests for us, and provide us with reports on regressions, or identified bugs. But first, a proper level of testing had to be chosen.
@@ -155,7 +155,7 @@ Furthermore, we wanted to automate this using a continuous integration service t
 The tests were built from the perspective of how the system was meant to work. We basically treated the system as a block-box system and abstracted away as many implementation details as possible. For this purpose, we and built a ``robot-receptionist'' and a ``robot-caller''. These ``robots'' acted as clients and connected to the \textbf{REST-Data}, \textbf{REST-Call}, \textbf{REST-SIP} interfaces from figure \ref{fig:component_diagram}.
 
 \subsection{Coverage of testing}
-In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist_workflow}). From this, we could assert which paths of the activity diagram were covered.
+In order to test the system, using the black-box method, we needed to formulate the tests in a way that provided the broadest coverage possible. To achieve this, we crafted a set of activity diagrams from the use cases of the system (see figure \ref{fig:receptionist-workflow}). From this, we could assert which paths of the activity diagram were covered.
 
 \subsection{Generation of tests}
 To make sure that all paths were covered, every activity node got labeled. Any unique path through the activity diagram should then correspond to a use case, but more importantly; be realized by a test. To achieve this, we constructed a set of tools that, among other things contained the ``robots'' discussed briefly in section \ref{ssec:level-of-testing}.\medskip
