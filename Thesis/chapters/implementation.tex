@@ -27,7 +27,7 @@ The implementation is done in a client/server architecture. It consists of three
 %TODO Guide-the-reader, also mentioning subsections.
 This section contains a description of the implemented components and utilities needed to support the use case to test translation. A description on how the use case is unfolded into paths is also provided.\medskip
 
-\noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}) and potentially an error. Errors arise when an expectation fail, or a system error occurs. These error are fatal for the test run -- i.e. the run will stop at the point where the error occurred. Assumptions are for use case entries that are mapped to assumption statements and are non-fatal.\medskip
+\noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}) and potentially an error. Errors arise when an expectation fail, or a system error occurs. These error are fatal for the test run -- i.e. the run will stop at the point where the error occurred. Assumptions are for use case steps that are mapped to assumption statements and are non-fatal.\medskip
 
 \noindent The actual translation of use cases into tests are handled by the server, but requested by the client.
 %TODO Elaborate
