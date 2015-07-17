@@ -1,13 +1,12 @@
 \chapter{Discussion}
 %TODO something about the moving taget (mainly how does injecting change look like, and how does it scale in this process?
 %TODO is this integrateable in an exisiting development process?
-This chapter discusses and evaluates the implementation from the thesis, establishing some quantifiable goals, while discussing the general feasibility of the approach. It also raises some issues that need to be solved before in order to improve the technique of the thesis. Additionally it identifies a number of the side-benefits that followed the approach.
+%TODO Check that there is something about long-lived requirements, or kill the section in the introduction.
+
+This chapter discusses and evaluates the implementation from the thesis, establishing some quantifiable goals, while discussing the general usefulness and feasibility of the approach. It also raises some issues that need to be solved before in order to improve the technique of the thesis. Additionally it identifies a number of the side-benefits that followed the approach and evaluates the overhead associated with it, based on collected data. The General applicability is discussed in the next section. This is followed by a section that describes the impact of changes in either requirements or system under test, how this technique handles it, and how much extra work is associated with it.
 
 
-\section{General usefulness}
-%TODO VERY IMPORTANT, as this gives the motivation for filling the thesis with crap about OpenReception project and architecture.
-%is this always possible? Are we lucky to have found a good fit for this procedure? Which cases could be thought, not to support this method?
-
+\section{General applicability}
 The process described in this thesis fit quite nicely into the case study system. Is it a coincidence that the architecture described in chapter \ref{ch:background} fit very nicely. Another thing, is that the use cases -- in general -- are quite simple. This can also be seen in appendix \ref{appendix:use-cases}. The scope of the case study project has not been to provide a complex usage model, but rather the opposite. The target businesses for the product, focus on low average call-handling time and, thus, will try to keep the use cases simple -- in that effort. Another thing, that may have an effect on the specific fit, is the fact that the case study system uses a stateless architecture. This may make the use case steps easier to write, as the state is carried by the tests, rather than the services.\medskip
 
 \noindent Other development projects, that have more complex use cases or interfaces, may experience larger complexity in writing mapping functions that realize their use case.
@@ -40,12 +39,12 @@ This section presents some of the benefits of using this procedure
 \subsection{Simple use cases model}
 The structuring of the use cases have been kept simple in order to make it flexible. Instead of just supporting one view of how, for instance, a use step would look like, mere textual representations are used for them. The mappings to the domain models of the system under test are provided by keyword identifications that refer to a domain actor or concept, via a definition. This makes it flexible in two ways: The first is that you do not need to define every actor and/or concept beforehand, but may simply write your use cases -- as use cases -- and add the definitions later. The second benefit is that the simple structure and textual representation makes it easy to export to other platforms, for example documentation.
 
-\subsection{Source code mappings}
+\subsection{Mappings as source code}
 The use cases mappings to system under test are defined as being source code that is to be written by developers (acting in the role of mappers). This gives the benefit of not having to train developers in a mapping language, but instead enable them to use a tool that should already know quite well -- general purpose programming. If the developers are the same as ones that develop the system under test, then there will be additional benefit of them already knowing how to interface with the system, in the context of writing up the test support tools.\medskip
 
 \noindent Mappings as source code also give access to a wide range of static analysis source code tools, that provide useful information about the generated tests and written mappings, and detect errors in both. 
 
-\subsection{Side effects}
+\subsection{Benefits}
 A thing that was observed during the writeup of the tests using the second iteration of the test support tools was that writing general integration tests became a lot easier. The code written becomes very verbose in the way that you state the test from the point of view of an actor performing an action. Informally, what is actually possible, is writing a requirement as a test. Not as in the topic of this thesis, but as a hand-coded test that asserts that a feature is present. Having the tools (the test framework) makes it very intuitive and easy to write. The concrete code for testing the example outlined in section \ref{sec:parallelism} is shown in listing \ref{lst:test-code-single-call-allocation}. This code is not generated, but written by hand, using the test support tools.
 \begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
   static void pickupAllocatedCall(Receptionist receptionist, 
@@ -79,6 +78,20 @@ As mentioned in chapter \ref{ch:design}, the open issue on path coverage -- and 
 
 \noindent As the approach presented in this thesis have not been applied to a system with more complicated use cases, it is difficult to say with certainty that it would not be possible to apply it on that system. It is however, very unlikely -- given the problem stated above -- that it would possible to use it without the heuristics also discussed.
 
+\subsection{Side effects of use case steps}
+While the view of having the system viewed as an environment -- or global state -- that is passed around and mutated, it does not solve the issue that sometimes use case steps will have side effects. And sometimes they are necessary for the next steps in the use case. Consider the following use case steps:
+
+\begin{enumerate}
+ \item Receptionist pickup inbound call
+ \item Receptionist parks inbound call
+ \item Receptionist locates an employee for dialing
+ \item Receptionist dials employee
+ \item Receptionist transfers the inbound call to the employee
+\end{enumerate}
+
+In this example, we are dealing with two calls which we can map to a ``Call'' class in our support test tools. The first call can be provided to test via a precondition. The other, however introduces two problems. The first is that the call has no explicit reference to a call being created. The keyword ``dials'' may be considered an active action, but as actions are no longer part of the meta model, this cannot be used. ``Employee'' is a role that is mapped to actor, so this leaves us with no information about that a ``Call'' object is being generated here. The other problem is derived from this. As we have no indication of the call being created, we will have means of tracking it either. So the last action -- ``Receptionist transfers the inbound call to the employee'' -- will not be able to be mapped without some way of sharing the created ``Call'' object between the two last steps.\medskip
+A solution to this, which is also the way is should be solved in the current implementation, is to share these created objects via global variables -- which is a very error-prone and impure (software design-wise).
+
 \subsection{Parallelism}
 \label{sec:parallelism}
 A case that is not able to be covered by this approach, is when a use case contains multiple actors that perform the same action simultaneously.\medskip
@@ -92,7 +105,7 @@ A case that is not able to be covered by this approach, is when a use case conta
 %TODO add sequence diagram.
 A postcondition may read ``The call is assigned to \emph{only} one receptionist'', in order to emphasize on the actual intended behavior of the system, but the description above should be sufficient.\medskip
 
-\noindent Studying the use case a bit closer, what is actually implied is that 1. happens simultaneously with 2. In practice, it would mean that a test would have to emulate the simultaneous behavior by spawning multiple threads and collecting their return values once they have terminated. But there is another problem with the scenario above, which is that the test tools do not know when to parallelize. As of now, every entry in a use case scenario is modeled as a synchronous action and will wait until the entry has completed its execution before starting the next one.\medskip
+\noindent Studying the use case a bit closer, what is actually implied is that 1. happens simultaneously with 2. In practice, it would mean that a test would have to emulate the simultaneous behavior by spawning multiple threads and collecting their return values once they have terminated. But there is another problem with the scenario above, which is that the test tools do not know when to parallelize. As of now, every step in a use case scenario is modeled as a synchronous action and will wait until the step has completed its execution before starting the next one.\medskip
 
 \noindent A method for solving this, is to add the asynchronism in the mapped test code, but this is a very bad idea. This would lead to very unexpected behavior if requirements change in the specific block. This would lead to treads being spawned, expecting to perform a specific action that no longer existed in the requirements, perhaps deadlocking while waiting for an event to happen -- or change the state of the system that would lead an error later in the test.\medskip
 
@@ -102,9 +115,7 @@ A postcondition may read ``The call is assigned to \emph{only} one receptionist'
  \item Receptionist 2 tries to pickup call \textbf{simultaneously}
  \item Call is assigned to either Receptionist
 \end{enumerate}
-Making the keyword refer in 2. refer to the previous entry, 1. This feature is neither implemented, nor conceptualized further, but included in the discussion as it is a actual problem that was encountered during the development of the 2nd iteration of the tests. There has been developed an \emph{ad-hoc} test that uses the spawn-threads-and-collect method introduced above so there exists a technical solution for the problem.
-
-
+Making the keyword refer in 2. refer to the previous step, 1. This feature is neither implemented, nor conceptualized further, but included in the discussion as it is a actual problem that was encountered during the development of the 2nd iteration of the tests. There has been developed an \emph{ad-hoc} test that uses the spawn-threads-and-collect method introduced above so there exists a technical solution for the problem.
 
 \section{Metrics}
 This section presents the empiric evidence gathered with the purpose of determining the usefulness, additional workload factor of the approach in this thesis. We also try to determine the significance of the presence of a domain framework, integrated with the main code base. This is done by comparing failure levels for the first two iterations of the requirement translation tool (chapter \ref{chapter:first-iterations}).

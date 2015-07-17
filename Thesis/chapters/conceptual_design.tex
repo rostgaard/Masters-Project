@@ -1,15 +1,15 @@
 \chapter{Conceptual design}
 \label{chap:conceptual_design}
-This chapter contains a discussion on possible designs for use case structuring methods -- with user interface mock-ups. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain. It is assumed that a domain framework (such as the one discussed in \ref{ssec:openreception-framework}) is present, and the \medskip
+This chapter contains a discussion of possible designs for use case structuring methods -- with user interface mock-ups. The discussion is started by defining an appropriate view on use case and then presenting three conceptual solutions along with a discussion on their applicability in the problem domain. It is assumed that a domain framework (such as the one discussed in \ref{ssec:openreception-framework}) is present, and the test support tools are written alongside -- or prior.\medskip
 
-\noindent The goal is identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests, and supports tests generation from them. The goal is to identify a concept that supports loose structuring of use cases, but still provide enough information to be able to map to the system under test for test generation.\medskip
+\noindent The goal is to identify a suitable concept for a tool that enables us to inject better domain-awareness in our tests. It should also be able to support tests generation from them. The goal is to identify a concept that supports loose structuring of use cases. It should still provide enough information to be able to map to the system under test for test generation.\medskip
 \begin{figure}[!htbp]
 \centering
 
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -54,10 +54,10 @@ In order to be able to structure use cases, we need to define to it what a use c
 
   \item[Postconditions:] A list of predicates that needs to be true in order to make use case goal succeed, after the steps in the scenario (possibly including the extensions), have been performed.
 
-  \item[Actors:] May be considered primary or supporting, as is typically a human performing a role in the system, but may also be another system that provides provides a service or information. An actor has a set of goals, which he/she wants to realize through the system. A good goal has a verb/noun combination, is a the rule of thumb. In the context of a use case, an actor may act in a given role.
+  \item[Actors:] May be considered primary or supporting. Is typically a human performing a role in the system, but may also be another system that provides provides a service or information. An actor has a set of goals, which he/she wants to realize through the system. A good goal has a verb/noun combination, as a rule of thumb. In the context of a use case, an actor may act in a given role.
 
   \item[Concepts:] Concepts are general terms that are usually part of the domain model for the system under development. Basically, most terms that can be interacted with in the system under development count as concept. In our example system, a ``call'' is considered a concept.
-
+  
 \end{description}
 This use case representation is used in the next section, where three use case editor concepts are presented.
 \input{chapters/design_concept1}

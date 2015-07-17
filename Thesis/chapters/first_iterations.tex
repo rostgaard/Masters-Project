@@ -16,7 +16,7 @@ This section is provided as reference, and documents our original motivation and
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -49,7 +49,7 @@ Every use case statement was analyzed, and concepts and actors were extracted fr
 
 \noindent In the scripting environment, we then outlined the domain actors (such as caller and receptionists). When external resources were needed, they were provided by the main system (under test) via service interfaces. The final thing to outline and add to classes were the non-actor domain concepts, such as calls and messages.\medskip
 
-\noindent The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code block. We also wanted to generate documentation along with the tests, so the mapping from on entry was done to three separate chunks, each serving its own purpose.
+\noindent The next step was then to assign every action, precondition and postcondition line a unique identification and map the identification to individual code block. We also wanted to generate documentation along with the tests, so the mapping from on use case step was done to three separate chunks, each serving its own purpose.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.60\textwidth]{\imgdir initial_model}
@@ -108,7 +108,7 @@ We soon realized that doing individual mapping for every line was tedious, time 
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -198,8 +198,8 @@ Another thing that was added to the test support tools in the second iteration, 
 \begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.60]{\imgdir support-tools-recepionist-example}
- \caption{support-tools-recepionist-example}
- \label{fig:Example composition of a receptionist actor class}
+ \caption{Example composition of a receptionist actor class}
+ \label{fig:support-tools-recepionist-example}
 \end{figure}
 
 \noindent Actor object would also know about which service interfaces they would require. In figure \ref{fig:support-tools-recepionist-example} we see a Receptionist actor that needs to store messages. This leads to a dependency on the RESTMessageStore via a RESTMessageClient instance. The receptionist is now able to provide method calls that include ``Message'' objects belonging to a RESTMessageStore by delegating the calls to that.
