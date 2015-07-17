@@ -24,7 +24,7 @@ diagrams = first_generation_class_structure.pdf \
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
 .PHONY: all
-all: Thesis.tex
+all: generate_diagrams Thesis.tex
 	latexmk -pdf -pdflatex="$(XELATEX)" -use-make Thesis.tex
 
 .PHONY: auto
