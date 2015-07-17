@@ -18,7 +18,8 @@ diagrams = first_generation_class_structure.pdf \
            use_case_creation_activity_diagram.pdf \
            layered-mvc.pdf \
            tests-relation-to-implementation.pdf \
-           ideal_flow.pdf
+           ideal_flow.pdf \
+           mapping-levels.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
