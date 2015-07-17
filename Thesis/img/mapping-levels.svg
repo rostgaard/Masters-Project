@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="113.74705mm"
+   height="97.09449mm"
+   viewBox="0 0 403.04072 344.03559"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="286.51608"
-     inkscape:cy="695.65507"
+     inkscape:zoom="0.35"
+     inkscape:cx="284.90022"
+     inkscape:cy="465.41368"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +35,11 @@
      inkscape:window-height="1059"
      inkscape:window-x="0"
      inkscape:window-y="19"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -51,7 +55,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-58.719032,-130.91066)">
     <rect
        style="fill:#ffffb1;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4136"
@@ -70,7 +75,7 @@
          id="tspan4140"
          x="65.714287"
          y="273.07651"
-         style="-inkscape-font-specification:'FreeSans Semi-Bold';font-family:FreeSans;font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal">Domain description level</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold'">Domain description level</tspan></text>
     <rect
        y="371.41071"
        x="59.219032"
@@ -89,7 +94,7 @@
          x="65.714287"
          id="tspan4146"
          sodipodi:role="line"
-         style="-inkscape-font-specification:'FreeSans Semi-Bold';font-family:FreeSans;font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal">Mapping level</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold'">Mapping level</tspan></text>
     <rect
        y="131.41066"
        x="59.219032"
@@ -108,7 +113,7 @@
          x="65.714287"
          id="tspan4152"
          sodipodi:role="line"
-         style="-inkscape-font-specification:'FreeSans Semi-Bold';font-family:FreeSans;font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal">Behavioral description level</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold'">Behavioral description level</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
