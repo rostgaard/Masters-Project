@@ -102,9 +102,7 @@ p_{exten} = \left\lbrace s_1 \dots E_{entry} \right\rbrace \bigcup E_{scenario} 
 
 \noindent Loops make it impossible to achieve 100\% test coverage, but we could approximate the behavior by defining a fixed number times that the loop must execute and a fixed path that it should always take during the loops. While this is far from optimal, the test generation tool could provide some convenience functions. These should aid the use case writer in choosing which paths should be taken in which loop execution and how many time it should loop. The general use case coverage, however, should be high, as we have the opportunity to generate tests for every possible path.
 
-%The basic rules for path collection is;
 \section{Mapping the test to the domain}
-%TODO mention errors, how to emulate errors. We need to have a use case that describes the exact circumstances under which the error arises.
 This section discusses the individual components of a use case with the perspective of converting it into an executable test. In order to write up functions that implement the generated function block stubs in actual system behavior, a programming model is presented in this section.\medskip
 
 \noindent The programming model builds upon the constraint of having the use case represented as an ordered list of steps that are unrolled into paths, that represent the different ways a use case can play out. The steps of these paths need to be executed in order.

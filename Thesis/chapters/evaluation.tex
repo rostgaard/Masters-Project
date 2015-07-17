@@ -19,6 +19,7 @@ A thing that may have made the case study system a good platform for this techni
 \noindent The general applicability of the technique of this thesis is strongly linked to the number of external dependencies, complexity of use cases and architecture of the system. The higher the number of external dependencies, the higher the workload, and complexity of the test support tools themselves.
 
 \section{Impact of changes}
+\label{sec:impact-of-changes}
 This section tries to uncover the relative additional workload of this approach, from a requirement or implementation change perspective. Changes are, thus, discussed from these two points of view.
 
 \subsection{Requirement changes}
@@ -40,8 +41,8 @@ Most implementation changes should be transparent to the tests, and only interfa
 \section{Benefits}
 This section presents some of the benefits identified in using the technique introduced in this thesis.
 
-%\subsection{Requirement/test relationship}
-%TODO Automatically generate tests. Strong relationship and so on.
+\subsection{Requirement/test relationship}
+The big gain from generating tests from use cases are that there is now a strong link between tests and requirements. Whenever a change occurs in a requirement, we may simply re-generate the tests and run them again. Some additional work is, however, required as we also saw in section \ref{sec:impact-of-changes}. But nevertheless, the requirement/test relationship is valuable benefit.
 
 
 \subsection{Simple use cases model}

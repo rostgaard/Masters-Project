@@ -1,6 +1,5 @@
 \chapter{Implementation}
 \label{chapter:implementation}
-%TODO The server also handles test generation. EXPLAIN!
 This chapter describe the tool that was implemented as part of this thesis, to enable the generation of tests from use cases. The chapter provides a high-level architectural view of the test system, and an example on how a use case goes from description to test.\medskip
 
 \noindent As already mentioned in chapter \ref{ch:design}, the actions of users were eventually dropped, as they provided little or no value in test. This will become more evident, when an example of a generated test is shown.\medskip
@@ -8,8 +7,9 @@ This chapter describe the tool that was implemented as part of this thesis, to e
 \noindent The protocol specification for the implementation is shown in appendix \ref{appendix:protocol}, test results for it can be found in appendix \ref{appendix:tests}, and the database schema is located in appendix \ref{appendix:database-schema}. The handbook, written from the point of view of the user interface, can be found in appendix \ref{appendix:handbook}.
 
 \section{Architecture}
-%TODO GDR
-The implementation is done in a client/server architecture. It consists of three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
+This section provides a description of the architecture used in the implementation of the use case mapping and generation tool.\medskip
+
+\noindent The implementation is done in a client/server architecture. It consists of three basic components; a client, a service and a shared library. These map to the folder structure. It is web based to allow easy collaboration.\medskip
 \begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.7]{\imgdir layered-mvc}
@@ -22,22 +22,24 @@ The implementation is done in a client/server architecture. It consists of three
 
 \noindent The client and the server share their code-base around a library package that contain (meta model) models, serialization/de-serialization tools, and the (use case) translation tools. The translation can, thus be done either by the client, or the server.
 
-\section{Use case translation}
-%TODO Fill out this section with more stuffy-stuff.
-%TODO Guide-the-reader, also mentioning subsections.
+\section{Use case translation and generation}
 This section contains a description of the implemented components and utilities needed to support the use case to test translation. A description on how the use case is unfolded into paths is also provided.\medskip
 
 \noindent A use case that is unfolded to a set of paths, each having its own test function, will produce a log transcript on every run. This output log includes a list of assumptions (see section \ref{ssec:simulating-error-conditions}) and potentially an error. Errors arise when an expectation fail, or a system error occurs. These error are fatal for the test run -- i.e. the run will stop at the point where the error occurred. Assumptions are for use case steps that are mapped to assumption statements and are non-fatal.\medskip
 
-\noindent The actual translation of use cases into tests are handled by the server, but requested by the client.
-%TODO Elaborate
+\noindent The actual translation of use cases into tests are handled by the server, but requested by the client. When the server receives such a request, it generates the test files and runs a static code analysis on them, and gives back the client an analysis report, along with the generated test code.\medskip
+
+\noindent
+The tests are generated from test templates, that are explained in the next section.
 
 \subsection{Test templates}
 Test templates are, in this thesis, hand-written source code files that are missing the actual test code function bodies. They provide the tests with the implemented functions of what they need. So, if a test makes a function call to a function called ``receptionist\_answers\_call(receptionist, call)'' with the passed parameters ``receptionist'' and ``call'', then the template is expected to provide this function.\medskip
 
 \noindent The templates are implemented in a simple form. They are source code files that have a single placeholder entry that is replaced with the generated code by the tool. The placeholder is located within a comment, so template files can still be parsed and compiled before the generation step, enabling them to be verified prior to use.\medskip
 
-\noindent The templates are the mapping link between the use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.
+\noindent The templates are the mapping link between the use case and the system under development, and are -- for the example use in this chapter -- linked to our case study system (section \ref{sec:case-study-system}.\medskip
+
+\noindent They assume the presence of a set of test support tools, in the location where they are generated. Actor and concept classes (explained in the next section) are part of these test support tools.
 
 \subsection{Actor and concept classes}
 Actor classes represent a domain actor and should be able to support the behavior that is expected from an actor of that type. The classes will be hand-written by a developer, but the functionality that is needed may be inferred by the use case steps involving the actor/concept and the actions it performs.

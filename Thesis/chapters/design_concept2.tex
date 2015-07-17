@@ -1,7 +1,6 @@
 \section{Concept 2 - Component/structure editor}
-%TODO add some stuff about the fact that the concept was acutally implemented in a form of prototype.
 This section presents the second requirement-to-test translation concept, proposes a rudimentary meta model and evaluates the approach in terms which parts should be refined in a later concept, and which shouldn't.
-The second concept originated from the idea that structure could be added by a component-oriented tool. The user interface only provides graphical components that represent domain actors and concepts than can be connected and re-arranged to create the use cases. The user interface should then -- similar to the first concept -- provide immediate visual feedback in the form of textual use case representation (or a diagram), like in the first concept.\medskip
+The second concept originated from the idea that structure could be added by a component-oriented tool. The user interface only provides graphical components that represent domain actors and concepts than can be connected and re-arranged to create the use cases. The user interface should then -- similar to the first concept -- provide immediate visual feedback in the form of textual use case representation (or a diagram), like in the first concept. The concept was implemented as an initial prototype and the evaluation of it is partly based on this.\medskip
 
 \noindent The procedure of the concept is to define actors and concepts beforehand, and then create use cases from combining these. So, if starting from scratch, a user would be expected to initially define at least one actor and the actions that the actor perform and the objects that this action would be performed on. This should be done prior to actually writing the use case.\medskip
 \begin{figure}[!htbp]
@@ -47,7 +46,6 @@ Predicates are treated as functional expressions, that link to a matcher which m
 \noindent 
 One thing that proved useful, was the parameters of the test class. Basically, to be able to specify which domain concepts should be part of the signature of the test function. An example would be that a test function involving a receptionist actor, would need to have the signature \texttt{exampleTest(Receptionist r)}, or similar. The basic is just that the involved concepts, need to be supplied to the test function from the test support framework.
 \subsection{Mapping language}
-%TODO add something about how generated tests could look like.
 In order to define the mappings from the use cases to the concepts in the meta model, the concept of a mapping language emerged. While the language never left the conceptual state, it is described in this section for completeness.\medskip
 
 \noindent The mapping language is written in the aspect of an actor. It is conceptually the same as a recipe for a holder-class (class as i object-oriented programming) that knows about every interface that it needs to access, and every resource that needs to be provided to it.\medskip
