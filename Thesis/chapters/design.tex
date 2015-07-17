@@ -11,7 +11,7 @@ This chapter documents the analysis performed. This is done in order to support 
 \end{figure}
 \noindent This section discusses an evolved and simplified version of the meta model introduced in chapter \ref{chap:conceptual_design}, and covers the changes that happened when the model transitioned from concept to design.\medskip
 
-\noindent A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. The predicates that signified the pre- and postcondition needs to be mapped as code in the test templates (see section \ref{sec:process-overview}). This effectively means that the mapper actor needs write up a function that explicitly break the execution within the conditional steps, in the case of an unmet condition. An example function that realizes this is shown in listing \ref{lst:example-precondition-code} where an \texttt{AssertionError} is thrown if the pre-/postcondition fail.\medskip
+\noindent A central concept that was removed, is the actor actions. While they provided additional information about what actors were capable of, they added little or no value to tests. The predicates that signified the pre- and postcondition needs to be mapped as code in the test templates (see section \ref{sec:technique-overview}). This effectively means that the mapper actor needs write up a function that explicitly break the execution within the conditional steps, in the case of an unmet condition. An example function that realizes this is shown in listing \ref{lst:example-precondition-code} where an \texttt{AssertionError} is thrown if the pre-/postcondition fail.\medskip
 
 \begin{lstlisting}[style=Dart, caption=Example pre-/postcondition code mapping (written manually),label={lst:example-precondition-code}]
 void the_user_is_logged_in(User user) {
@@ -148,11 +148,11 @@ In order to run the tests, we need to supply them with some input values, which 
 
 \noindent Assuming that the actor and concept classes that map to the domain model are already written as code, we may use these test runners (or harness) as scaffolding for our test, providing them with the necessary inputs. An example: For the use case ``Send message to contact'' (see appendix \ref{appendix:use-cases}). We need, beforehand, at least a class representing the actor ``Receptionist'' and a class representing a message. Initialization and de-initialization of these objects can then be done by the setup and teardown function of the test runner, respectively.\medskip
 
-\noindent The next obvious question is then; how do we define which objects are available for the test harness? In the test case system, we have made a configuration file that outlines which actors are available, and simply added the data to initial state of the developed system. Another approach could be to turn the creation of resources needed by tests into a use case itself and feed the output of that generated test into the next test. This approach is covered in more detail in the next chapter.
+\noindent The next obvious question is then; how do we define which objects are available for the test harness? In the test case system, we have made a configuration file that outlines which actors are available, and simply added the data to initial state of the system under test. Another approach could be to turn the creation of resources needed by tests into a use case itself and feed the output of that generated test into the next test. This approach is covered in more detail in the next chapter.
 
 \subsection{Target system state}
 \label{ssec:target-system-state}
-This sections outlines a design that -- ideally -- provides a clean view on development system state and how the use cases should mutate it in. It, roughly, re-applies the design from section \ref{ssec:step-execution} on a higher level and encapsulates the (test) system state into an even larger environment.\medskip
+This sections outlines, from a test runner point of view, a design that -- ideally -- provides a clean view on development system state and how the use cases should mutate it in. It, roughly, re-applies the design from section \ref{ssec:step-execution} on a higher level and encapsulates the (test) system state into an even larger environment.\medskip
 
 \noindent Assuming that the use cases are self-contained\cite{larman2005} in the way that every action and alternative, for a given actor, may be put into a single (large) use case, then it should also be possible to treat use cases as functions that operate on a global system state.\medskip
 
@@ -177,15 +177,25 @@ So, the \emph{accountant creates invoice} effectively has a precondition that is
 \subsection{Simulating error conditions}
 \label{ssec:simulating-error-conditions}
 %GDR
-Use cases may branch out and go to alternatives actions. These branches may signify that an error has occurred, and may be difficult to emulate. Injecting faults in systems to see how they respond to it, is a field of study on its own. For this purpose, some of the error scenarios could be described as use cases. That is, a sequence of steps that lead up to the error and how the actor experiencing the error must handle it. Simulating error conditions outside of the control of the developed system may be impossible by a mapper. One possible solution is to add an assumption here and merely treat the event or decision as having occurred. An \textbf{assumption} is a no-operation statement that, in some way, must notify the test runner about its occurrence in a test. This may be realized by just injecting a message into the log stream of the use case test.
+Use cases may branch out and go to alternatives actions. These branches may signify that an error has occurred, and may be difficult to emulate. Injecting errors in systems to see how they respond to it, is a field of study on its own. For this purpose, some of the failure scenarios could be described as use cases. That is, a sequence of steps that lead up to the error and how the actor experiencing the error must handle it. Simulating error conditions outside of the control of the system under test may be impossible by a mapper. One possible solution is to add an assumption here and merely treat the event or decision as having occurred. An \textbf{assumption} is a no-operation statement that, in some way, must notify the test runner about its occurrence in a test. This may be realized by just injecting a message into the log stream of the use case test.
 
-\section{Process overview}
-\label{sec:process-overview}
-%TODO CLEANUP AND GDR
-Write up use the cases in the tool. This process can be supported by using activity diagrams as a base. This is also covered in section \ref{sec:1st-iteration-test-specification}.
-When the use cases are written, they need to be annotated using the hinting tool. Each actor and concept role need to be marked as their respective types.
-When this is done, a template needs to be created. The template should support the individual functions and function stubs with the correct signatures could be generated from the use cases -- once annotated.
-The templates serve a mappings from the use cases to the implemented system and enables the generation of executable tests from the use cases.
+\section{Technique overview}
+\label{sec:technique-overview}
+The technique in this thesis may, at this point, be summarized as the following steps:
+
+\begin{enumerate}
+
+  \item Write up use the cases in the tool. This process can be supported by using activity diagrams as a base. This is also covered in section \ref{sec:1st-iteration-test-specification}.
+  
+  \item When the use cases are written, they need to be annotated using the hinting tool. Each actor and concept role need to be marked as their respective types.
+  
+  \item When this is done, a template needs to be created. The template should support the individual functions and function stubs with the correct signatures could be generated from the use cases -- once annotated.
+  
+\item The templates serve a mappings from the use cases to the implemented system and the generation of executable tests from the use cases may now be performed.
+
+\end{enumerate}
+
+Once the tests are generated, they can be checked into a source code repository for a continuous integration service to use or be run locally -- depending on the chosen test runner.\medskip
 
 \section{Summary}
 The path coverage, despite the fact that it is a sound concept, does not really scale. For every new extension in the use cases, every test need to be regenerated taking into account this extension. If the system had $n$ paths before, adding a new use case extension, adds an exponential number number of new paths -- especially in the presence of loops. This is very impractical in a development environment with continuously evolving requirements, and can make the running of tests -- because of the large amount of them -- so time consuming that result is useless, once it arrives.\medskip
@@ -193,7 +203,6 @@ The path coverage, despite the fact that it is a sound concept, does not really 
 \noindent
 The same basic problem applies to the target system state, and its associated use case mutation functions. If we were to build up complete model for this, it would lead to a state-space explosion very fast.\medskip
 
-\noindent The simplified design of the meta-model does, however, support a more intuitive work-flow, where the use case writer may write up use cases, almost as they would write up use cases normally. The process of this will also described in the next chapter.
+\noindent The simplified design of the meta-model does, however, support a more intuitive work-flow, where the use case writer may write up use cases, almost as they would write up use cases normally. The process of this will also described in the next chapter.\medskip
 
-
-%TODO IMPORTANT. one sentence that sums up the chapter.
+\noindent The implementation discussed in the next chapter will use the meta model introduced in this chapter as its model for use cases. The graph model and path extraction will be implemented, but the test case environment and target system state are left as design patterns for a test mapper to use when writing mappings and test support tools.
