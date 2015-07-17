@@ -1,45 +1,55 @@
 \chapter{Introduction}
-%TODO What is the scope of this? Is it for small/large projects? Long-lived projects? Continously evolving projects?
-%How does this project want to change to actual problem.
-%STATE THE ACTUAL PROBLEM - VERY SPECIFIC.
-%State what is supposed to be done!
-%TODO outline the three implementations, and say how they relate to each other.
+This thesis proposes, discusses and evaluates a technique and tool for mapping requirements to tests. It proposes a technique and a tool; designed to alleviate some of the workload of continuous manual acceptance testing, and requirement change integration. The idea is that code generation -- specifically test code generation, meant to be run automatically -- will keep test code in sync with the system under test, and its requirements.  An idealized model of the process of the technique is shown in figure \ref{fig:ideal_flow}. The overall concept is: Construct requirements as use cases, map them to the implementation, generate tests from these requirements, and finally execute and validate these tests.\medskip
 
-
-Within the realm of software engineering, there exists a realm of requirement engineering there exists a domain of requirement elicitation and maintenance. In this realm, struggles of keeping documented requirements both consistent with -- and relevant to -- implementation often take place. A common procedure for gaining an upper hand in this struggle is to continuously, verify requirements though reviews and manual acceptance testing. This thesis proposes a tool and technique that is designed to alleviate some of the workload of continuous acceptance testing, and requirement change integration via code generation -- specifically test code generation. An idealized model of the process of this, is shown in figure \ref{fig:ideal_flow}. The concept is simple; construct requirements as use cases, map them to the implementation, generate tests from these requirements, and finally execute and validate these tests.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
 \caption{Ideal development flow}
 \label{fig:ideal_flow}
 \end{figure}
+
+\noindent
+The thesis will also present and briefly discuss the origin of the idea, and extract generally usable concepts from that discussion. Additionally, it discusses a number of design concepts and how they would be able support the technique. After this, an analysis is performed to identify usable design models for use in an implementation of a tool, that supports the technique. Finally discussion and conclusion of the different concepts introduced in the project closes the thesis.\medskip
+
+\noindent
+The remainder of this introduction presents the problem statement, and outlines the proposed solution.
+
 \section{Problem statement}
-%TODO Overall problem. Provide a that enables tests to generated from structured use cases, without enforcing too many constraints on use case creation.
-%The usability use cases are conditioned by their ease of use.
-%TODO How to structure the use cases? Thiss is facilitated in the conceptual designs
-%TODO MAKE IT VERY CLEAR THAT WE DO NOT WANT TO MEDDLE WITH USE CASES AS THEY ARE TOO MUCH. NOT TOO MUCH STRUCTURE.
-Given the high rate of software project failures\cite{verner2008} \cite{charette2005}, and the general widespread requirement/implementation mismatch, we treat requirements and as incomplete and continuously evolving.
-During the development life-cycle, additional domain knowledge is bound be acquired. This knowledge improves then general understanding of the problem domain, towards a better solutions. And often it also affects the requirements by making them more elaborate, complete, correct -- or event invalidate them. In any case, software development is an ongoing process, and use cases, and requirements must be, in a strict definition, expected to be incomplete, inaccurate and part of the development process.\bigskip
+This section is a presentation of the problem, that the technique and tool of this thesis tries to solve.\medskip
 
-\noindent Integrating requirements deeper into the development can be -- and is -- done by adding a reference system from documentation to implementation files or components. This way, automated system can send out reminders to developers on which documents should be review, whenever a change has happened in a component.
-Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows.\bigskip
+\noindent
+Given the high rate of software project failures\cite{verner2008} \cite{charette2005}, and the general widespread requirement/implementation mismatch, we should treat requirements as incomplete and continuously evolving.\medskip
 
-\noindent In this thesis, one of the goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process. A design of a development process is explained in the next section.\bigskip
+During the development life-cycle of a software system, additional domain knowledge is bound be acquired. This knowledge improves the general understanding of the problem domain towards a better solution. Often, it also affects the requirements by making them more elaborate, complete, correct -- or even invalid. In any case, software development is an ongoing process, and requirements must be, in a strict definition, expected to be an incomplete, inaccurate part of the software development domain.\medskip
 
-%TODO Check that there is something about long-lived requirements, or kill this section.
-\noindent Related challenges, faced by software engineers and developers, are requirement requirement documentation decay and inconsistency, and  by long-lived projects that continuously add features and components, is maintenance of requirements while adding new ones. This increases the risk of requirement documentation decay and inconsistency significantly. For example, a new requirement that allows users to access some information unauthenticated, may contradict a previous requirement.
-Requirement maintenance is usually a time-consuming and tedious task with little -- immediately -- added value. When, for example, an implementation-specific constraint is forcing a requirement change, the change may propagate to the requirements, but not back into the validation.\medskip
+\noindent Integrating requirements deeper into the development can be done by adding a reference system from requirement documentation to implementation artifacts. This way, automated system can send out reminders to developers on which documents should be reviewed, whenever a change has happened in a component. Documentation, however, is usually written in natural language, with all the befits and ambiguities that follows. The general concept is that requirements maps to implemented system to provide additional analysis and feedback.\medskip
 
-\noindent When kept up-to-date and well-structured requirements usually map nicely to integration tests (either manual or automatic), but maintenance is needed for both if requirements change. It would therefore be very desirable to formalize requirements so that changes propagate to tests automatically.\medskip
+\noindent In this thesis, one of the main goals is to add this feedback channel via generated acceptance tests. It is believed that if these tests are strongly linked to the requirements, then implementation changes that affect requirements, will change the tests, which then will verify that the system still works as intended. But to be able to actually generate requirements from tests, we need to integrate some measures into the development process.\medskip
 
-\noindent If the requirements are formalized in a sufficiently structured way, and annotated with references to the implementation, we would be also able to automatically generate system tests from them. By generating these tests, we effectively provide a feedback channel from implementation to requirements, as these tests will serve as a link between requirements and implementation.\medskip
+\noindent The thesis will use the behavioral aspect -- namely use cases -- as requirements and tool that will be a product of this thesis, should provide the mapping technique so that software developers are able to map the essential information from use cases. This must be done in respect to the model of use cases and not change it.
 
-\noindent The tool that will be a product of this thesis, should support a technique that is able to extract the essential information, from informally specified -- yet structured -- information. Keeping as close to natural language as possible.
+\noindent The next section outlines the project.
+
+%\subsection{Related challenges}
+%\noindent Related challenges, faced by software engineers and developers, are requirement requirement documentation decay and inconsistency. In long-lived projects that continuously add features and components, maintenance of requirements while adding new ones. This increases the risk of requirement documentation decay and inconsistency significantly. For example, a new requirement that allows users to access some information unauthenticated, may contradict a previous requirement.
+
 
 \section{Project}
-This thesis proposes a tool designed for writing use cases coupled with an implementation mapping process. It is meant to provide a link between requirement and implementation through tests generated from structured implementation-mapped requirements. The generated tests will serve as a behavioral-validation mechanism meant for continuously be run against the implementation to assert that requirements are met throughout the evolution of the system under development.\medskip
 
-\noindent The overall concept is illustrated in figure \ref{fig:tests-relation-to-implementation} that show requirements that are linked to artifacts from the implemented system, such as model classes in interfaces. The requirements will generate tests using the implementation artifacts links (mappings). Tests will run against the implementation and feed back reports that reveals whether the requirement behavior is working in the implementation or not.\medskip
+
+Specifically, we want to convert requirements into tests. An concrete example of the process in figure \ref{fig:ideal_flow} is provided below.\medskip
+
+\begin{description}
+  \item[Requirement:] User must be able to log in to the system.
+  \item[Use case:] User logs in.
+  \item[Mapping:] Link use case to login subsystem.
+  \item[Generation:] Generate test that assert login functionality of the user against the implemented login subsystem.
+  \item[Report:] Run the generated test and report back if it succeeded or not.
+\end{description}
+
+\noindent
+The requirement involves the ``User'' actor that must be able to log in. To describe the behavior of this requirement, we expand it into a use case. The body of the use case is not provide here, in order to keep the example simple. The use case is description of the intended behavior of the system under development, from an actor point of view. This description may then be mapped to artifacts of the system under development (as illustrated in figure \ref{fig:tests-relation-to-implementation}). In this case, we link this use case to a login subsystem which needs to work in order for this use case to pass. Once the requirements have been provided with an implementation link (a mapping), we should be able to generate tests that tests the behavioral model from the use case, directly against the system under development. Once the test is done, it should be reported back to the developers of the system under development.\medskip
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.5\textwidth]{\imgdir tests-relation-to-implementation}
@@ -47,45 +57,39 @@ This thesis proposes a tool designed for writing use cases coupled with an imple
 \label{fig:tests-relation-to-implementation}
 \end{figure}
 
-\noindent Doing this will provide a general methodology for mapping requirements to implementation -- and vise versa -- that is \emph{feasible}. Feasible in the sense that is does not increase the number of extra man-hours spend on development significantly and scalable.\medskip
+\noindent
+The next section describes the concept of the implementation mapping technique.
 
-\noindent Some systems may be more testable than others, and the meaning of the design of the system is facilitated through a discussion of the case study system (section \ref{ssec:case-study-system-intro}).
+\subsection{Technique}
+The basic idea of the technique is that for every use case -- or change to an existing use case -- the system should generate a new set of tests, possibly replacing old tests. This process requires the participation of three different roles:
 
+\begin{description}
 
-\subsection{Overall concept}
-In addition any activities already in place within the development of a software product (code writing, reviews, stakeholder meetings), a few more needs to be added for the different stakeholders to support use case test generation.\medskip
+  \item[Writer:] The person responsible for writing the use case. May be the customer of the system under development.
 
-\noindent For every use case -- or change to an existing use case -- the system should generate a new set of tests, possibly replacing old tests. This process requires the participation of three different actors; the use case writer (Writer), the use case mapper (Mapper) and the system designed for generating and running tests (Testing system).\medskip
+  \item[Mapper:] The use case mapper will provide the mappings from the use cases to the system under development.
 
-Figure \ref{fig:use_case_creation_activity_diagram} shows an activity diagram involving these actors. The Writer 
-\begin{figure}[!htbp]
-\includegraphics[width=0.95\linewidth]{\imgdir use_case_creation_activity_diagram}
-\centering
-\caption{Use case creation with different actors}
-\label{fig:use_case_creation_activity_diagram}
-\end{figure}
-\noindent The basic idea is that sufficient structure in requirement formalization may enable tests to be generated directly from requirements fully automatically. To facilitate this, it means that requirements should be written with a strong focus on testability, and try to avoid non-realizable requirements. This, as a side effect, may increase the motivation for quantifying, constraining and refining requirements. As an example: \emph{Who} will perform this action, and how are the outcomes expected to be presented/received?\medskip
+  \item[Testing system:] The system designed for generating and running tests. It also reports back to the developers of the system.
 
-\noindent These questions should -- preferably -- be answered by the customer of the system, and mapped by a developer to actual functionality that may then be tested with regards to the behavior described in the requirements. So, in essence, the very basic use case; ``Administrator creates a new user'' with the postcondition ``The new user is created in the system'' should result in a test that, in some way, performs the ``add user'' action of the Administrator actor, and then verifies it against the postconditions. Ideally: With an appropriate level of detail provided in the use cases, and a grain of automated (and manual) mapping to domain concepts will enable automatic generation of acceptance tests. These can then be combined with a continuous integration service that runs the tests and reports results to developers.\medskip
+The technique is presented in chapter \ref{chapter:first-iterations}, and refined during the course the the thesis. The next section outlines the main parts of the thesis.
 
+\end{description}
+
+\section{Outline}
 \noindent The project will use the requirements from an existing system as a case study and build up a structure of these, so that test generation from them is possible. During this process, we will investigate how to structure requirements so that we can generate tests directly from them and map implementation to requirements. In doing this, we want to identify general patterns and constraints in the structure introduced to our requirements in the case study system to be able to apply them to other projects. In general, we will investigate to which extent this idea can be applied, and try to implement a translation tool that is able to translate a representation of a use cases into a tests case.\medskip
 
 \noindent The project is considered to be derived from the test-driven development methodology (see section \ref{ssec:test-driven-development}). Lifting it from its typical application of integration testing onto the new level of acceptance testing. This process is meant to be tool-assisted, so that tests may be generated automatically, but the mappings to the system needs to be done by hand.\medskip
 
-\noindent The tool we want to build here aims in usage to be integrated in an existing development procedure, with a low learning curve that enables a broad range of programmers to gain better integration of use cases into the development process.
+\noindent The tool we want to build here aims in usage to be integrated in an existing development procedure, with a low learning curve that enables a broad range of programmers to gain better integration of use cases into the development process.\medskip
 
-\subsection{Case study system}
-\label{ssec:case-study-system-intro}
-This thesis uses the software project ``OpenReception'' as case study. The project aims to provide a drop-in replacement for an existing system, and therefore has relatively fixed requirements that are extracted from the workings of the existing system.The case study system is developed and released under an open source license and any implementation details are therefore public domain and not covered by any non-disclosure agreements.
+\noindent The development of the case study system (see section \ref{sec:case-study-system}) coined the idea of test generation from structured use cases, and spawned two implementations, than founded the basis of this project. The first was test generator, built as an auxiliary project, with no direct link to main project, other than the knowledge of which interfaces it exposed, and the serialized data structures it transmitted. It, thus, had a no direct implementation link, and every change in implementation had to propagated manually.\medskip
 
-\subsection{Outline}
-The development of the case study system coined the idea of test generation from structured use cases, and spawned two implementations, than founded the basis of this project. The first was test generator, built as an auxiliary project, with no direct link to main project, other than the knowledge of which interfaces it exposed, and the serialized data structures it transmitted. It, thus, had a no direct implementation link, and every change in implementation had to propagated manually.\medskip
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 
 % horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Generation};
+\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
 
 % vertical axis
 \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
@@ -100,17 +104,20 @@ The development of the case study system coined the idea of test generation from
 \caption{Project parameters and key points}
 \label{fig:project_parameter_plot}
 \end{figure}
-\noindent In the second iteration, the generated tests were later manually translated (programming language-wise) into a new set of tests that re-used the implemented code, and added what we defined as ``Domain-awareness''. This was done by, again manually, writing up a set of support tools that tried to mimic the domain model of the case study system. So, any actor or general domain concept would have an appropriate source code class in this tool set. It imported most of the interfaces and model classes from main code base of the case study system, so any implementation change would be propagated to -- or lead to compilation error in -- the test support tools. Having the domain-awareness helped linking requirements to tests, and -- indirectly -- implementation. But this implementation was not without its flaws.\medskip
 
-\noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests? The idea of combining the test generation with domain-awareness would allow for a mapping between requirements in implementation that enable changes in either to be propagated to the other. Figure \ref{fig:project_parameter_plot} shows the parameters that we design after, and how the different implementations a located in this space. The figure will be repeated throughout the thesis to indicate where in this space the current section operate.
+\noindent In the second iteration, the generated tests were later manually translated (programming language-wise) into a new set of tests that re-used the implemented code, and added what we defined as ``Domain-awareness''. This was done by, again manually, writing up a set of support tools that tried to mimic the domain model of the case study system. So, any actor or general domain concept would have an appropriate source code class in this tool set. It imported most of the interfaces and model classes from main code base of the case study system, so any implementation change would be propagated to -- or lead to compilation error in -- the test support tools. Having the domain-awareness helped linking requirements to tests, and -- indirectly -- implementation.\medskip
+
+\noindent Having written \emph{everything} manually in second iteration had two problems; the coverage was questionable -- did we cover all branches of the use cases? And, how should we propagate requirement changes to these tests? The idea of combining the test generation with domain-awareness would allow for a mapping between requirements in implementation that enable changes in either to be propagated to the other. Figure \ref{fig:project_parameter_plot} shows the parameters that we design after, and how the different implementations a located in this space. The figure will be repeated throughout the thesis to indicate where in this space the current section operate.\medskip
+
+\noindent The thesis will look closer into the concepts of first two iterations of the technique and summarize which them may generally needed, how the use case structuring should look like, and if the technique and/or tool is feasible for broad development purposes.\medskip
 
 \section{Related work}
-This section contains a brief overview of the related works, founded during the background research phase of this project.\medskip
+This section contains a brief overview of the related works, founded during the background research phase for this thesis.\medskip
 
 \noindent John Rushby\cite{rushby2008automated} proposes that tests can be generated from requirements, \emph{if} these are already in an executable form, commonly found in model based software engineering. He identifies that there is a problem with loops in models as well. In the project from this thesis, the requirements are not executable, but merely text that is explicitly mapped to implementation.\medskip
 
-\noindent Angelo Gargantini et al. proposes model checking techniques to generate tests from requirements\cite{gargantini1999using}. The scope of this, however, appears to be mostly on software cost reductions in the field of safety-critical software, and is too formal in nature to mainstream software development.\medskip
+\noindent Angelo Gargantini et al. propose model checking techniques to generate tests from requirements\cite{gargantini1999using}. The scope of this, however, appears to be mostly on software cost reductions in the field of safety-critical software, and is too formal in nature to mainstream software development.\medskip
 
-\noindent A, not strictly related, but very interesting concept that may support this project, is a textual analysis with the purpose of building up an initial conceptual (domain) model for use in the early development stages\cite{kop2010natural}. This would aid our project with a mapping suggestions, based on an analysis of what is written in the use cases.\medskip
+\noindent A, not strictly related, but very interesting concept that may support this project, is the textual analysis with the purpose of building up an initial conceptual (domain) model for use in the early development stages\cite{kop2010natural}. This would aid our project with a mapping suggestions, based on an analysis of what is written in the use cases.\medskip
 
-\noindent In summary: There exist already methods and tools that support the formalization or structuring of requirements, but there seems to be a lack of motivation for applying them widely. The scope of them are either model-based software engineering, or safety-critical systems. The scope of this project is to provide an approach that is applicable in a wider array development environments -- without restrictions on software engineering paradigm, or target system market. It would however \emph{not} be suitable for safety-critical systems as it is very informal.
+\noindent In summary: There already exist methods and tools that support the formalization or structuring of requirements, but there seems to be a lack of motivation for applying them widely. Their scopes are either model-based software engineering, or safety-critical systems. The scope of this project is to provide an approach that is applicable in a wider array of development environments -- without restrictions on software engineering paradigm, or target system market. It would, however, \emph{not} be suitable for safety-critical systems, as it is very informal.
