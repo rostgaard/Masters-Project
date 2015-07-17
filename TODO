@@ -1,33 +1,42 @@
 Minors:
- - Add scour (svg cleanup rule to makefile).
  - Add comments to all source code files.
  - Add copyright and author headers to all source code files.
  - Check that the terminology is the same throughout the thesis - i.e. developed system.
 
-Intro
- - (Very high level introduction of the project)
- - Revisit the introduction
- 
-Conclusion
- - Actual conclusion
- - Further work.
-
-Loose TODOs's;
- - Make a daigram that shows the relation between python test.
-   Basically a diagram that consists of an abstract class with all the macro functions needed for a given use case, and a number of realization that map to a "route" through the use case.
 
 ---------
 Not done:
 ----------
+
+Minors:
+ - Add scour (svg cleanup rule to makefile).
+ - Replace medskip with bigskip.
+
 Loose TODOs's;
  - Find a _good_ use case as an example
+ - Make a daigram that shows the relation between python test.
 
 Implementation
  - Point-and-click interface.
 
+Conclusion
+ - Further work.
+
 -------
 Done:
 -------
+
+Conclusion
+ - Actual conclusion
+
+
+Loose TODOs's;
+ -  Basically a diagram that consists of an abstract class with all the macro functions needed for a given use case, and a number of realization that map to a "route" through the use case.
+
+
+Intro
+ - (Very high level introduction of the project)
+ - Revisit the introduction
 
 Design
  - Concept. Workflow and who is involved in what. Screen shots and more.
