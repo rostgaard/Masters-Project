@@ -1,25 +1,29 @@
 \chapter{Conclusion}
-This chapter presents the findings of this thesis and evaluates the general feasibility based on them. The feasibility evaluation serves as an overall conclusion.
+This chapter presents the findings of this thesis and evaluates the general feasibility based on them. The feasibility evaluation serves as an overall conclusion. In the next section a brief overview of the project work of this thesis.\medskip
+
+\noindent During the development of the tool for this thesis, a number of conceptual designs were proposed in order to optimize the technique along with the tool. An analysis of how to model the different components was performed, and a tool was implemented. The tool is in a proof-of-concept state as not all features are implemented. The discussion and the metrics served as good tools for evaluating feasibility.
 
 \section{Findings}
 This sections identifies and describes the overall findings of this thesis.
 
 \begin{description}
 
-  \item[Code base sharing:] As seen in section \ref{sec:domain-framework-significance}, a common programming language for tests and main code base matters. The implicit tracking of the main code base, by the tests, result in fewer false negatives. The same section also concludes that a domain framework, that the test support tools can use, to perform their test is also critical for the application of this technique.
+  \item[Code base sharing:] As seen in section \ref{sec:domain-framework-significance}, a common programming language for tests and main code base is important. The implicit tracking of the main code base, by the tests, result in fewer false negatives. The same section also concludes that a domain framework, that the test support tools can use, to perform their test is also critical for the application of this technique.
 
-  \item[Test support tools:] The support tools that provide the code that exposes the system functionality required by use case steps, needs to be present in order to be able to execute the generated tests.
+  \item[Test support tools:] The support tools that provide the code that exposes the system functionality required by use case steps, need to be present in order to be able to execute the generated tests.
 
   \item[Coverage issues] The general find-all-paths method for generating tests from use case paths is not scalable. This makes the generation non-feasible without constraining the use cases.
 
-  \item[Additional workload:] The overhead is estimate to be around 28\% (section \ref{sec:workload overhead}) of the code size. We use this as estimated workload increase, which -- in practice -- may be higher because additional activities (an example is use case mapping) is involved in applying this technique.
+  \item[Additional workload:] The overhead is estimated to be around 28\% (section \ref{sec:workload overhead}) of the code size. We use this as estimated workload increase, which -- in practice -- may be higher because additional activities (an example is use case mapping) are involved in applying this technique.
 
 Based on these findings, a conclusive feasibility is performed.
 \end{description}
 
 \section{Feasibility}
-The feasibility of the technique and tool for broad development purposes cannot be substantiated by the work of this thesis. The mapping simply unfolds into a too large state space with a structure so complex that is impossible for an end-user to specify it -- and very hard for a trained professional to elaborate it. When applied to projects, with simple use cases (such as the case study system), the test coverage generation can be similarly kept simple.\medskip
+The feasibility of the technique and tool for broad development purposes cannot be substantiated by the work of this thesis. The mapping simply unfolds into a too large state space with a structure so complex that it is impossible for an end-user to specify it -- and very hard for a trained professional to elaborate it. When applied to projects with simple use cases (such as the case study system), the test coverage generation can be similarly kept simple.\medskip
 
-\noindent In conclusion; the goal of having our tool users write use cases -- as close to use cases as possible, is not feasible in regards to automatic test generation without enforcing restrictions on use case writing. As this thesis focused in enforcing as little restrictions on use case writing as possible -- the solution proposed here is faulty by design, as it contradicts itself.\medskip
+\noindent In conclusion: The goal of having our tool users write use cases -- without changing the form of use cases, is not feasible in regards to automatic test generation without enforcing restrictions on use case writing. As this thesis focused on enforcing as little restrictions on use case writing as possible -- the solution proposed here is faulty by design, as it contradicts itself.\medskip
 
-\noindent While the tool implemented in the context of thesis may not be feasible as a general technique, the artifacts that it produced has helped the case study system in two major ways: The use case driven development approach aided in getting the system stabilized, and aided to focus on functionality, rather than features. The other aid, was the test support tools that provided an excellent component-based structure for writing additional tests. The actor and concept classes, along with the service-oriented architecture made the test very readable, and even implicitly be read as requirements.
+\noindent While the tool implemented in the context of thesis may not be feasible as a general technique, the artifacts that it produced (the domain framework, and test support tools) have helped the case study system in two major ways: The use case driven development approach aided in getting the system stabilized and aided to focus on functionality, rather than features. The other aid was the test support tools that provided an excellent component-based structure for writing additional tests. The actor and concept classes, along with the service-oriented architecture made the test very readable and could even implicitly be read as requirements.\medskip
+
+\noindent As a final note: The technique presented in this thesis is not really feasible as a requirements-to-tests approach, but may be refined to disregard test generation and work as a tests-as-requirements approach instead.
