@@ -1,23 +1,33 @@
-First iterations
- - Descriptions of the first two implementations
 Minors:
- - Redo all the diagrams from MagicDraw using the <text> option. Gives a crisper look on diagrams.
  - Add scour (svg cleanup rule to makefile).
  - Add comments to all source code files.
  - Add copyright and author headers to all source code files.
- - Rename use case entry to use case step.
  - Check that the terminology is the same throughout the thesis - i.e. developed system.
-
-Tool:
-  - Change the template placeholder to a comment.
-
-Structure:
 
 Intro
  - (Very high level introduction of the project)
+ - Revisit the introduction
+ 
+Conclusion
+ - Actual conclusion
+ - Further work.
 
-Background (Background material on tests, requirements,
- - terminology, why it did not fit entirely, and something about the case study system) 
+Loose TODOs's;
+ - Make a daigram that shows the relation between python test.
+   Basically a diagram that consists of an abstract class with all the macro functions needed for a given use case, and a number of realization that map to a "route" through the use case.
+
+---------
+Not done:
+----------
+Loose TODOs's;
+ - Find a _good_ use case as an example
+
+Implementation
+ - Point-and-click interface.
+
+-------
+Done:
+-------
 
 Design
  - Concept. Workflow and who is involved in what. Screen shots and more.
@@ -26,31 +36,35 @@ Design
  - How to represent use cases (a presentation of possibilites and a discussion on which may be better suited.
  - How to map domain concepts to use cases
 
+
+Background (Background material on tests, requirements,
+ - terminology, why it did not fit entirely, and something about the case study system) 
+
 Implementation
  - Architecture
  - Techology
- - Point-and-click interface.
- 
+
 Evaluation
  - Make up some metrics. (Number of commits done in support tools, for instance).
- 
-Conclusion
- - Further work.
+
+Loose TODOs's;
+ - Finish the case study system section
+ - Integrate the feedback from papers
+ - Add a section on Jenkins CI
+ - Parallelizing use case execution
+
+Tool:
+  - Change the template placeholder to a comment.
+
+Minors:
+ - Redo all the diagrams from MagicDraw using the <text> option. Gives a crisper look on diagrams.
+ - Rename use case entry to use case step.
 
 Appendix
  - Handbook?
 
-Loose TODOs's;
-- Finish the case study system section
- - Integrate the feedback from papers
- - Revisit the introduction
- - Add a section on Jenkins CI
- - Parallelizing use case execution
- - Find a _good_ use case as an example
- - Make a digram that shows the relation between python test.
-   Basically a diagram that consists of an abstract class with all the macro functions needed for a given use case, and a number of realization that map to a "route" through the use case.
- 
-Done:
+First iterations
+ - Descriptions of the first two implementations
 
 Report sections:
   First iterations
