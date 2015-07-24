@@ -1,5 +1,10 @@
 \documentclass[aspectratio=43]{beamer}
 
+\bibliographystyle{plain}
+\bibliography{../Thesis/bibliography/Bibliography.bib}
+
+
+
 \usepackage{dtucolors}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -9,6 +14,8 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{listings}
+\usepackage{subfig} % for subfigures
+\usepackage{caption}
 
 % Listings
 \lstset{
@@ -102,16 +109,19 @@
 	\frametitle{Problem statement}
 	
 	\begin{block}{High failure rate in software projects}
-%TODO Find reference to why software projects fail.
 	  Causes points to requirements being:
 		\begin{itemize}
 			\item Incomplete
             \item Under-specified
 			\item Unaligned
 		\end{itemize}
+		\begin{quote}
+Delivery decision was made without adequate requirements information .. in 73\% of the (studied) failed projects\cite{verner2008};
+		
+		\end{quote}
 	\end{block}
 	
-	\begin{block}{Ualigned requirements}
+	\begin{block}{Unaligned requirements}
 	Having the requirements decoupled from implementation leads to split-brain operations and error-prone manual review processes to assert that the two are in sync.
 
 	\end{block}
@@ -153,8 +163,6 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \label{fig:ideal_flow}
 \end{figure}
 }
-
-
 
 %Add a section on literate programming.
 % Wouldn't it be nice to be able to tell the computer what the expected behaviour would be? https://en.wikipedia.org/wiki/Literate_programming
@@ -215,6 +223,141 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \end{figure}
 }
 
+\frame {
+  \frametitle{Origin}
+  \begin{itemize}
+    \item A mean for doing system-level testing
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Original problem}
+  \begin{itemize}
+    \item System feature regressions
+    \item Evolving requirements
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Original solution}
+  \begin{itemize}
+    \item Built scripting environment
+    %TODO Find figure number
+    \item Split use cases into chunks (figure ?? in thesis)
+    \item Patched tests, diagrams and documentation together
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Original solution}
+  \begin{itemize}
+    \item Built scripting environment
+    %TODO Find figure number
+    \item Split use cases into chunks (figure ?? in thesis)
+    \item Patched tests, diagrams and documentation together
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Original solution - problems}
+  %TODO Jenkins build trend
+  \begin{itemize}
+    \item 
+  \end{itemize}
+}
+
+
+\frame {
+  \frametitle{Refined solution}
+  %TODO Solution with framework
+  \begin{itemize}
+    \item 
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Framework}
+  \begin{itemize}
+    \item 
+  \end{itemize}
+}
+
+\frame{
+	\frametitle{Component diagram}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
+\caption{Component diagram}
+\label{fig:component_diagram}
+\end{figure}
+}
+
+\frame{
+	\frametitle{Component diagram - with tests}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{\imgdir component_diagram_with_tests}
+\caption{Component diagram, extended with tests}
+\label{fig:component_diagram_with_tests}
+\end{figure}
+}
+
+\frame {
+  \frametitle{Test support tools}
+  \begin{itemize}
+    \item Actor classes
+    \item Interface bindings
+    \item Mapping functions
+  \end{itemize}
+}
+%TODO Example
+
+\frame {
+  \frametitle{Structuring use cases}
+  Components:
+  \begin{itemize}
+    \item Participating actors
+    \item Ordered list of steps (scenario)
+    \item Set of ordered lists of steps (extensions)
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Representing use cases}
+  %TODO Graph
+}
+
+\frame {
+  \frametitle{System state for tests}
+  %TODO Figure
+}
+
+\frame {
+  \frametitle{System state for tests}
+  The use case user log in requires a user to be present. This could be realized by having a precondition of a another use case of "administrator creates user". Initial system state will need to be cleansed on every use case run.
+}
+
+\frame {
+  \frametitle{Mapping}
+  %TODO EXPLAIN
+}
+
+\frame {
+  \frametitle{Example - walk-through}
+}
+
+\frame {
+  \frametitle{Evaluation}
+  %TODO Table with both numbers from the first and second evaluation
+}
+
+\frame {
+  \frametitle{Implementation}
+  %TODO Basic overview of the implementation
+}
+
 \frame{
 	\frametitle{SOR Model}
 
@@ -237,27 +380,7 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \end{figure}
 }
 
-\frame{
-	\frametitle{Component diagram}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
-\caption{Component diagram}
-\label{fig:component_diagram}
-\end{figure}
-}
-
-\frame{
-	\frametitle{Component diagram - extended}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
-\caption{Component diagram}
-\label{fig:component_diagram}
-\end{figure}
-}
 
 
 \begin{figure}[ht]
@@ -286,6 +409,14 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \includegraphics[width=0.4\textwidth]{\imgdir customer-ui-mockup-use-cases}
 
 %Meta models
+\begin{figure}[ht]
+\centering
+\subfloat[My first picture]{\label{fig:mdleft}{\includegraphics[width=0.4\textwidth]{\imgdir concept2_use_case_meta_model}}}\hfill
+\subfloat[My second picture]{\label{fig:mdright}{\includegraphics[width=0.4\textwidth]{\imgdir concept2_use_case_meta_model}}}
+\caption{My two big pictures}
+\label{fig:subfigures}
+\end{figure}
+
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.72]{\imgdir concept2_use_case_meta_model}
@@ -352,13 +483,31 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
   
 }
 
-\frame[dtublacklogo]{
+\frame {
   \begin{tikzpicture}[remember picture,overlay]
     \node[text=black, text opacity=1.0,
           font=\scriptsize] at (current page.center) {\Huge Presentation};
   \end{tikzpicture}
 }
 
+\frame {
+ \frametitle{Summary}
+ \begin{itemize}
+   \item Gains: 
+  \begin{itemize}
+    \item Closer relationship between requirements and implementation
+    \item More testing -- better software
+    \item Mapping technique works without structuring
+  \end{itemize}
+  \item Losses: 
+  \begin{itemize}
+    \item Fixed structure for use cases
+    \item Requires \emph{ad hoc} import/export tools
+    \item Time/cost increase
+  \end{itemize}
+ \end{itemize}
+  
+}
 
 
 \end{document}
