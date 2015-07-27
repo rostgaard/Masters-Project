@@ -11,6 +11,12 @@
 \usepackage{listings}
 \usepackage{subfig} % for subfigures
 \usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{
+    decorations.pathmorphing,
+    arrows
+}
+
 
 % Listings
 \lstset{
@@ -117,7 +123,8 @@
 		\end{quote}
 	\end{block}
 	
-	\begin{block}{Concept: link requirements to implementation}
+	\begin{block}{Solution concept}
+Link requirements to implementation make them reflections of each other.
 % Having the requirements decoupled from implementation leads to split-brain operations and error-prone manual review processes to assert that the two are in sync.
 %Humans make a substantial amount of errors when performing repetitive tasks.
 	\end{block}
@@ -125,18 +132,19 @@
 }
 
 \frame {
-  \frametitle{Design goals}
+  \frametitle{Design constraints}
   
-  \begin{block}{}
-Use cases are unstructured, lets keep them that way, and only add the minimal structure to enable test generation.
-Use cases work, because they are a good, common, communication platform. They are simple, with a clear objective.
-Supplementing them with too many new (unrelated to the original objective) concepts, or a structure that is too constraining will make them lose their primary focus, and value as communication platform.
-  \end{block}
-  
-  \begin{block}{}
-  Basics of verified communication; repeat what I said
- This is basically an echo. So the best way of verifying agreement is to have your work read back to you, This can be done very nicely by changing the representation. For instance, from a textual to a visual representation.
-  \end{block}
+  \begin{itemize}
+    \item Enable test generation
+    \begin{itemize}
+      \item Add enough structure to enable test generation.
+    \end{itemize}
+    \item Don't change use case form too much
+    \begin{itemize}
+      \item Use cases work, because they are a good, common, communication platform. They are simple, with a clear objective.
+    \end{itemize}
+    \item Simple, with little or no additional training of developers
+  \end{itemize}
 }
 
 \subsection{Problem scope}
@@ -176,6 +184,7 @@ Supplementing them with too many new (unrelated to the original objective) conce
 
 \section{Proposed solution}
 \frame {
+
   \begin{tikzpicture}[remember picture,overlay]
     \node[text=black, text opacity=1.0,
           font=\scriptsize] at (current page.center) {\Huge Proposed solution};
@@ -212,7 +221,6 @@ Supplementing them with too many new (unrelated to the original objective) conce
     \label{fig:tests-relation-to-implementation}
   \end{figure}
 }
-
 \frame {
   \frametitle{Solution overview}
   \begin{itemize}
@@ -222,49 +230,59 @@ Supplementing them with too many new (unrelated to the original objective) conce
   \end{itemize}
 }
 
+\frame {
+  \frametitle{Solution actors}
+
+\begin{description}
+
+  \item[Writer:] The person responsible for writing the use case. May be the customer of the system under development.
+
+  \item[Mapper:] The use case mapper will provide the mappings from the use cases to the system under development.
+
+  \item[Testing system:] The system designed for generating and running tests. It also reports back to the developers of the system.
+
+\end{description}
+}
+
 \frame{
-  \frametitle{Project plot}
+  \frametitle{Mapping concept example}
 
   \begin{figure}[!htbp]
     \centering
-    \begin{tikzpicture}
-      % horizontal axis
-      \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
-
-      % vertical axis
-      \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-
-      \draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
-      \draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
-
-      % Project dot
-      \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
-    \end{tikzpicture}
-    \caption{Project parameters and key points}
+    \includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
   \end{figure}
+
+\begin{description}
+  \item[Requirement:] User must be able to log in to the system.
+  \item[Use case:] User logs in.
+  \item[Mapping:] Link use case to login subsystem.
+  \item[Generation:] Generate test that assert login functionality of the user against the implemented login subsystem.
+  \item[Report:] Run the generated test and report back if it succeeded or not.
+\end{description}
 }
 
 \frame {
   \frametitle{Origin}
   \begin{itemize}
-    \item A mean for doing system-level testing
+    \item A mean for doing system-level testing.
   \end{itemize}
 }
 
 \frame {
   \frametitle{Original problem}
   \begin{itemize}
-    \item System feature regressions
-    \item Evolving requirements
+    \item System feature regressions.
+    \item Evolving requirements.
   \end{itemize}
 }
 
 \frame {
   \frametitle{Original solution}
   \begin{itemize}
-    \item Built scripting environment
-    \item Split use cases into chunks (figure 3.2 in thesis)
-    \item Patched tests, diagrams and documentation together
+    \item Built scripting environment.
+    \item Split use cases into chunks (figure 3.2 in thesis).
+    \item Patched tests, diagrams and documentation together.
+    \item Dedicated and decoupled code base.
   \end{itemize}
 }
 
@@ -303,16 +321,36 @@ Supplementing them with too many new (unrelated to the original objective) conce
   \end{figure}
 }
 
+\frame{
+  \frametitle{Component diagram - extended}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{\imgdir component_diagram_with_tests}
+    \caption{Component diagram, extended with tests}
+  \end{figure}
+}
 
 \frame{
-	\frametitle{Component diagram - extended}
+  \frametitle{Project plot}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.9\textwidth]{\imgdir component_diagram_with_tests}
-\caption{Component diagram, extended with tests}
-\label{fig:component_diagram_with_tests}
-\end{figure}
+  \begin{figure}[!htbp]
+    \centering
+    \begin{tikzpicture}
+      % horizontal axis
+      \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
+
+      % vertical axis
+      \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+
+      \draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
+      \draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
+
+      % Project dot
+      \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
+    \end{tikzpicture}
+    \caption{Project parameters and key points}
+  \end{figure}
 }
 
 %-----------------------
@@ -334,10 +372,20 @@ Supplementing them with too many new (unrelated to the original objective) conce
     \item Mapping functions
   \end{itemize}
 }
-%TODO Example
 
 \frame {
-  \frametitle{Structuring use cases}
+  \frametitle{Test support tools - actor example} 
+
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale=0.60]{\imgdir support-tools-recepionist-example}
+    \caption{Example composition of a receptionist actor class using a client class}
+    \label{fig:support-tools-recepionist-example}
+  \end{figure}
+}
+
+\frame {
+  \frametitle{Structure of use cases}
   Components:
   \begin{itemize}
     \item Participating actors
@@ -346,145 +394,340 @@ Supplementing them with too many new (unrelated to the original objective) conce
   \end{itemize}
 }
 
+%TODO if there is time.
+%\frame {
+%  \frametitle{Mapping function example}
+%  
+%  \begin{lstlisting}[style=Dart, caption=User logging in]
+%  static void user_log_in(User user, 
+%                          AuthenticationModule authModule) {
+%   
+%    expect (authModule.authenticate(user), equals(true));
+%  }
+%%  \end{lstlisting}
+% 
+%}
+
+
 \frame {
   \frametitle{Representing use cases}
-  %TODO Graph
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=0.6pt,auto,node distance=1.5cm,
+thick,
+extension1 node/.style={circle,fill=blue!20,draw,font=\sffamily\bfseries},
+extension2 node/.style={circle,fill=orange!20,draw,font=\sffamily\bfseries},
+extension3 node/.style={circle,fill=brown!20,draw,font=\sffamily\bfseries},
+exit node/.style={circle,fill=red!20,draw,font=\sffamily\bfseries},
+chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
+
+%Scenario
+\node[chosen node] (s1) {$s_1$};
+\node[chosen node] (s2) [below of=s1] {$s_2$};
+\node[chosen node] (s3) [below of=s2] {$s_3$};
+\node[chosen node] (s4) [below of=s3] {$s_4$};
+\node[chosen node] (s5) [below of=s4] {$s_5$};
+\node[exit node] (exit) [below of=s5] {$exit$};
+
+%Extension 1
+\node[extension1 node] (e1_1) [left of=s2] {$e_{1.1}$};
+
+%Extension 2
+\node[extension2 node] (e2_1) [right of=s4] {$e_{2.1}$};
+
+%Extension 3
+\node[extension3 node] (e3_1) [left of=s4] {$e_{3.1}$};
+
+%Paths
+\path[every node/.style={font=\sffamily\small}]
+(s1)   edge node [] {} (s2)	
+(s2)   edge node [] {} (s3)
+       edge node [] {} (e1_1)
+(s3)   edge node [] {} (s4)
+(s4)   edge node [] {} (s5)
+       edge node [] {} (e2_1)
+       edge node [] {} (e3_1)
+(s5)   edge node [] {} (exit)
+
+(e1_1) edge[bend right] node [] {} (s3)
+(e2_1) edge[bend right] node [] {} (s2)
+(e3_1) edge[bend right] node [] {} (exit)
+;
+\end{tikzpicture}
+\end{figure}
+}
+
+\frame {
+  \frametitle{Representing use cases}
+
+  \begin{itemize}
+    \item Single linear path (of steps) for main scenario.
+    \item Implicit exit point.
+    \item Extensions are steps with extension point and optional return point.
+    \begin{itemize}
+      \item Defaults to $exit$ when none is specified.
+    \end{itemize}
+    \item Use case paths are collected from graph paths.
+  \end{itemize}
+}
+
+\frame {
+  \frametitle{Participating actors/concepts of use cases}
+
+  \begin{itemize}
+    \item Inferred from definition set
+    \item Definitions are defined concepts or actors
+    \item Participators are used in test generation.
+  \end{itemize}
 }
 
 \frame {
   \frametitle{System state for tests}
-  %TODO Figure
+
+  \begin{figure}[!htbp]
+     \centering
+     \includegraphics[scale=0.75]{\imgdir system-state-machine-relations}
+     
+     \caption{State machine of the perceived system state}
+  \end{figure}
+  
+  \begin{block}{Example}
+  The use case user log in requires a user to be present. Realized by a precondition this is another use case ("administrator creates user").\\ Initial system state will need to be cleansed on every use case run.
+  
+  \end{block}
 }
 
+\section{Concepts}
 \frame {
-  \frametitle{System state for tests}
-  The use case user log in requires a user to be present. This could be realized by having a precondition of a another use case of "administrator creates user". Initial system state will need to be cleansed on every use case run.
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Concepts};
+  \end{tikzpicture}
 }
 
+
+%The concepts
+
 \frame {
-  \frametitle{Mapping}
-  %TODO EXPLAIN
+  \frametitle{Overview}
+  
+  \begin{figure}[ht]
+    \centering
+    \subfloat[Concept 1]{
+      \includegraphics[width=0.3\textwidth]{\imgdir markdown_ui_mockup}
+
+    }\hfill
+    \subfloat[Concept 2]{
+      \includegraphics[width=0.3\textwidth]{\imgdir test_case_ui}
+
+    }\hfill
+    \subfloat[Concept 3]{
+      \includegraphics[width=0.3\textwidth]{\imgdir customer-ui-mockup-use-cases}
+    }
+    \caption{The different concepts worked on in course of this thesis.}
+  \end{figure}
+  
+  \begin{itemize}
+    \item Each served as a concept -> implementation -> evaluation iteration.
+    \item Refined the meta model and guided design choices.
+  \end{itemize}
 }
+
+%Meta models
+\frame{
+  \frametitle{Meta model evolution}
+  
+  \begin{figure}[ht]
+    \centering
+    \subfloat[2\textsuperscript{nd} iteration] {
+      \includegraphics[width=0.4\textwidth]{\imgdir concept2_use_case_mapping}
+    
+    }\hfill
+    \subfloat[3\textsuperscript{rd} iteration] {
+      \includegraphics[width=0.4\textwidth]{\imgdir 3rd_iteration_meta_model}
+    }
+    \caption{Evolution of meta model from 2\textsuperscript{nd} to 3\textsuperscript{rd} concept.}
+  \end{figure}
+
+  \begin{itemize}
+    \item Value of increased complexity became questionable
+    \item Simplification led realizable implementation
+  \end{itemize}
+}
+
+\section{Technique}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Technique};
+  \end{tikzpicture}
+}
+
 
 \frame {
   \frametitle{Example - walk-through}
 }
 
 \frame {
-  \frametitle{Evaluation}
-  %TODO Table with both numbers from the first and second evaluation
+  \frametitle{Writing use cases}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{\figdir basic-use-case}
+    \caption{Example use case.}
+  \end{figure}
 }
 
 \frame {
-  \frametitle{Implementation}
-  %TODO Basic overview of the implementation
+  \frametitle{Hinting use cases}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{\figdir hinted-use-case}
+    \caption{Hinted use case.}
+  \end{figure}
+  
+  \begin{itemize}
+    \item Select the text that signifies actors or concepts.
+    \item Add them as definitions    
+  \end{itemize}
 }
 
-\frame{
-	\frametitle{SOR Model}
+\frame {
+  \frametitle{Mapping - template writing}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[scale=0.6]{\imgdir sor-model}
-  \caption{Stimuli-organism-response model. Used -- for instance -- in psychology, but is analogous to black-box testing}
-  \label{fig:sor-model}
-\end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{\figdir example-template}
+    \caption{Example template.}
+  \end{figure}
+  
+  \begin{itemize}
+    \item Create template for use case (or reuse a previous one).
+    \item Realize the normalized use case steps in functions.
+  \end{itemize}
 }
 
-\frame{
-	\frametitle{TDD}
+\frame {
+  \frametitle{Generating test}
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[scale=0.6]{\imgdir test-driven-development-flow}
-\caption{Basic work-flow of test-driven development}
-\label{fig:test-driven-development-flow}
-\end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{\figdir generated-test}
+    \caption{Example generated test.}
+  \end{figure}
+
+  \begin{itemize}
+    \item Generate a test from a selected use case and template.
+    \item Running the test may be done manually.
+  \end{itemize}
+
 }
 
 
 
+%--------------------
+% Test as requirement
 
-\begin{figure}[ht]
+
+%\begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
+%  static void pickupAllocatedCall(Receptionist receptionist, 
+%                                  Receptionist receptionist2, 
+%                                  Customer callee) {
+%    String receptionNumber = '12340002';
+%    Model.Call allocatedCall;
+%    
+%    log.info ('Customer ${callee.name} dials ${receptionNumber}');
+%    callee.dial (receptionNumber);
+%    log.info ('Receptionist ${receptionist.user.name} hunts call.');
+%    allocatedCall = receptionist.huntNextCall();
+%   
+%    expect (receptionist2.pickup(call), throwsA(Forbidden));
+%    log.info('Test done');
+%  }
+%\end{lstlisting}
+
+\section{Wrap up}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Wrap up};
+  \end{tikzpicture}
+}
+
+\frame {
+  \frametitle{Evaluation - metrics}
+ \begin{table}[!htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{\imgdir receptionist_workflow}
-\caption{Labeled activity diagram of the basic workflow of a receptionist}
-\label{fig:receptionist-workflow}
-\end{figure}
+\begin{tabular}{ | l | r | r | r |}
+   \hline
+   Project        & Total (kLoc) & Test support (kLoc) & Overhead \\ \hline
+   Test framework & 8.9          & 1.1                 & 10\%     \\
+   PhonIO library & 2            & 2                   & 100\%    \\
+   \hline
+   \hline
+   Total          & 10.9         & 3.1                 & \textbf{28\%}     \\
+   \hline
+\end{tabular}
+\caption{Test framework metrics}
+\label{tab:loc-metrics}
+\end{table} 
 
-%The concepts
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.70\textwidth]{\imgdir markdown_ui_mockup}
-  \caption{Crude mock-up of a user interface using a markup language for writing use cases}
-\label{fig:markdown_ui_mockup}
-\end{figure}
-
-\begin{figure}[!htbp]
-\includegraphics[scale=0.4]{\imgdir test_case_ui}
+\begin{table}[!htbp]
 \centering
-\caption{Use case editor UI mockup}
-\label{fig:use_case_editor_mockup}
-\end{figure}
-
-\includegraphics[width=0.4\textwidth]{\imgdir customer-ui-mockup-use-cases}
-
-%Meta models
-\begin{figure}[ht]
-\centering
-\subfloat[My first picture]{\label{fig:mdleft}{\includegraphics[width=0.4\textwidth]{\imgdir concept2_use_case_meta_model}}}\hfill
-\subfloat[My second picture]{\label{fig:mdright}{\includegraphics[width=0.4\textwidth]{\imgdir concept2_use_case_meta_model}}}
-\caption{My two big pictures}
-\label{fig:subfigures}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.72]{\imgdir concept2_use_case_meta_model}
-  \caption{Partial meta model for creating use cases models in concept 2}
-  \label{fig:concept2_use_case_meta_model}
-\end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[scale=0.72]{\imgdir concept2_use_case_mapping}
-  \caption{Concept 2 use case mapping}
-  \label{fig:concept2_use_case_mapping}
-\end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[scale=0.9]{\imgdir 3rd_iteration_meta_model}
-  \caption{Meta model of the third concept}
-  \label{fig:3rd_iteration_meta_model}
-\end{figure}
-
-\begin{lstlisting}[style=Dart, caption=Test code for single call allocation,label={lst:test-code-single-call-allocation}]
-  static void pickupAllocatedCall(Receptionist receptionist, 
-                                  Receptionist receptionist2, 
-                                  Customer callee) {
-    String receptionNumber = '12340002';
-    Model.Call allocatedCall;
-    
-    log.info ('Customer ${callee.name} dials ${receptionNumber}');
-    callee.dial (receptionNumber);
-    log.info ('Receptionist ${receptionist.user.name} hunts call.');
-    allocatedCall = receptionist.huntNextCall();
+\begin{tabular}{ | l | r | r | r |}
+   \hline
+   Project        & Total (commits) & Test support (commits) & Overhead \\ \hline
+   Test framework & 355             & 53                     & 14.9\%   \\
+   PhonIO         & 68              & 68                     & 100\%    \\
+   \hline
+   Total          & 10.9            & 3.1                    & \textbf{28.60\%}  \\
+   \hline
    
-    expect (receptionist2.pickup(call), throwsA(Forbidden));
-    log.info('Test done');
-  }
-\end{lstlisting}
+\end{tabular}
+\caption{Number of commits (as of 2\textsuperscript{nd} of July, 2015)}
+\label{tab:metrics-commit-count}
+\end{table}
+
+}
+
 
 \frame {
  \frametitle{Findings}
  
  \begin{itemize}
-  \item ...
+  \item Generation is very limited without strict structuring.
+  \item Use case path selection method is required for high coverage.
+  \item Workload increase is estimated to be \emph{at least} 28\%.
+  \item Test as requirement seems more feasible, but with a different scope.
  \end{itemize} 
- 
 }
+%-------------
+% Presentation
+
+\section{Presentation}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Presentation};
+  \end{tikzpicture}
+}
+
+\frame {
+  \frametitle{Implementation overview}
+  
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale=0.5]{\imgdir layered-mvc}
+    \caption{Layered model-view-control architecture with test backend}
+  \end{figure}
+  
+  \begin{itemize}
+    \item Client/server MVC architecture.
+    \item Server is responsible for test generation and maintenance.
+  \end{itemize}
+}
+
 
 \frame {
  \frametitle{State of implementation}
@@ -502,15 +745,6 @@ Supplementing them with too many new (unrelated to the original objective) conce
     \item Has incomplete \emph{visual} model for use cases
   \end{itemize}
  \end{itemize}
-  
-}
-
-\section{Presentation}
-\frame {
-  \begin{tikzpicture}[remember picture,overlay]
-    \node[text=black, text opacity=1.0,
-          font=\scriptsize] at (current page.center) {\Huge Presentation};
-  \end{tikzpicture}
 }
 
 \frame {
@@ -525,7 +759,7 @@ Supplementing them with too many new (unrelated to the original objective) conce
   \end{itemize}
   \item Losses: 
   \begin{itemize}
-    \item Fixed structure for use cases
+    \item Informal structure (instead, fixed structure for use cases)
     \item Requires \emph{ad hoc} import/export tools
     \item Time/cost increase
   \end{itemize}
