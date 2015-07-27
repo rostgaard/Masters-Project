@@ -108,43 +108,26 @@
 %TODO Remember requirement documentation rot.
 \subsection{Problem statement}
 \frame{
-	\frametitle{Problem statement}
+  \frametitle{Problem statement}
 	
-	\begin{block}{High failure rate in software projects}
-	  Causes points to requirements being:
-		\begin{itemize}
-			\item Incomplete
-            \item Under-specified
-			\item Unaligned
-		\end{itemize}
-		\begin{quote}
+  \begin{block}{High failure rate in software projects}
+    Causes points to requirements being:
+      \begin{enumerate}
+        \item Incomplete
+        \item Under-specified
+        \item Unaligned
+      \end{enumerate}
+    \begin{quote}
 ``Delivery decision was made without adequate requirements information \dots in 73\% of the [studied] failed projects\cite{verner2008}.''
-		
-		\end{quote}
-	\end{block}
+    \end{quote}
+  \end{block}
 	
-	\begin{block}{Solution concept}
+  \begin{block}{Solution concept}
 Link requirements to implementation make them reflections of each other.
 % Having the requirements decoupled from implementation leads to split-brain operations and error-prone manual review processes to assert that the two are in sync.
 %Humans make a substantial amount of errors when performing repetitive tasks.
 	\end{block}
 	
-}
-
-\frame {
-  \frametitle{Design constraints}
-  
-  \begin{itemize}
-    \item Enable test generation
-    \begin{itemize}
-      \item Add enough structure to enable test generation.
-    \end{itemize}
-    \item Don't change use case form too much
-    \begin{itemize}
-      \item Use cases work, because they are a good, common, communication platform. They are simple, with a clear objective.
-    \end{itemize}
-    \item Simple, with little or no additional training of developers
-  \end{itemize}
 }
 
 \subsection{Problem scope}
@@ -191,7 +174,6 @@ Link requirements to implementation make them reflections of each other.
   \end{tikzpicture}
 }
 
-
 \frame{
   \frametitle{Flow}
   \begin{figure}[!htbp]
@@ -212,7 +194,7 @@ Link requirements to implementation make them reflections of each other.
 }
 
 \frame{
-  \frametitle{Requirement/implementation Relationship}
+  \frametitle{Requirement/implementation relationship}
 
   \begin{figure}[!htbp]
     \centering
@@ -225,7 +207,7 @@ Link requirements to implementation make them reflections of each other.
   \frametitle{Solution overview}
   \begin{itemize}
     \item Additional structure for use cases.
-    \item Technique for mapping to implementation.
+    \item Technique for mapping use cases to implementation.
     \item Tool for writing and structuring use cases -- and generate tests from them.
   \end{itemize}
 }
@@ -254,11 +236,27 @@ Link requirements to implementation make them reflections of each other.
 
 \begin{description}
   \item[Requirement:] User must be able to log in to the system.
-  \item[Use case:] User logs in.
-  \item[Mapping:] Link use case to login subsystem.
-  \item[Generation:] Generate test that assert login functionality of the user against the implemented login subsystem.
-  \item[Report:] Run the generated test and report back if it succeeded or not.
+  \item[Use case:] User logs in. (Writer)
+  \item[Mapping:] Link use case to login subsystem. (Mapper)
+  \item[Generation:] Generate test that assert login functionality of the user against the implemented login subsystem. (Test system)
+  \item[Report:] Run the generated test and report back if it succeeded or not. (Test system)
 \end{description}
+}
+
+\frame {
+  \frametitle{Design constraints}
+  
+  \begin{itemize}
+    \item Enable test generation
+    \begin{itemize}
+      \item Add enough structure to enable test generation.
+    \end{itemize}
+    \item Don't change use case form too much
+    \begin{itemize}
+      \item Use cases work, because they are a good, common, communication platform. They are simple, with a clear objective.
+    \end{itemize}
+    \item Simple, with little or no additional training of developers
+  \end{itemize}
 }
 
 \frame {
@@ -331,28 +329,6 @@ Link requirements to implementation make them reflections of each other.
   \end{figure}
 }
 
-\frame{
-  \frametitle{Project plot}
-
-  \begin{figure}[!htbp]
-    \centering
-    \begin{tikzpicture}
-      % horizontal axis
-      \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
-
-      % vertical axis
-      \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
-
-      \draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
-      \draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
-
-      % Project dot
-      \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
-    \end{tikzpicture}
-    \caption{Project parameters and key points}
-  \end{figure}
-}
-
 %-----------------------
 % Test support tools
 
@@ -383,6 +359,15 @@ Link requirements to implementation make them reflections of each other.
     \label{fig:support-tools-recepionist-example}
   \end{figure}
 }
+
+\section{Structuring use cases}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Structuring use cases};
+  \end{tikzpicture}
+}
+
 
 \frame {
   \frametitle{Structure of use cases}
@@ -497,11 +482,11 @@ chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
   \end{block}
 }
 
-\section{Concepts}
+\section{UI Concepts}
 \frame {
   \begin{tikzpicture}[remember picture,overlay]
     \node[text=black, text opacity=1.0,
-          font=\scriptsize] at (current page.center) {\Huge Concepts};
+          font=\scriptsize] at (current page.center) {\Huge UI Concepts};
   \end{tikzpicture}
 }
 
@@ -702,14 +687,16 @@ chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
   \item Test as requirement seems more feasible, but with a different scope.
  \end{itemize} 
 }
-%-------------
-% Presentation
 
-\section{Presentation}
+%-------------
+% Implementation
+
+\section{Implementation}
+
 \frame {
   \begin{tikzpicture}[remember picture,overlay]
     \node[text=black, text opacity=1.0,
-          font=\scriptsize] at (current page.center) {\Huge Presentation};
+          font=\scriptsize] at (current page.center) {\Huge Implementation};
   \end{tikzpicture}
 }
 
@@ -745,6 +732,17 @@ chosen node/.style={circle,fill=green!20,draw,font=\sffamily\bfseries}]
     \item Has incomplete \emph{visual} model for use cases
   \end{itemize}
  \end{itemize}
+}
+
+%-------------
+% Presentation
+
+\section{Presentation}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Presentation};
+  \end{tikzpicture}
 }
 
 \frame {
