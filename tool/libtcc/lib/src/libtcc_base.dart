@@ -41,7 +41,9 @@ String statementToCode(Statement stmt) {
 }
 
 String declarationToCode(Declaration decl) {
-  return '${decl.type} ${decl.iden};';
+  String type = '${capitalize(decl.type)}';
+
+  return '$type ${decl.iden};';
 }
 
 String predicateToCode(Predicate con) {
@@ -52,8 +54,12 @@ String predicateToCode(Predicate con) {
   return '${match}($actual, $expectation)';
 }
 
+String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
 String actorDeclarationToCode(Actor act) {
-  return '${act.type} ${normalize(act.role)}';
+  String type = '${capitalize(act.type)}';
+
+  return '$type ${normalize(act.role)}';
 }
 
 String toTestCase(AnalyzedUseCase uc) {
@@ -100,7 +106,7 @@ AnalyzedUseCase useCase1 = new AnalyzedUseCase('Use case 1')
 
 
 definitionToDeclaration (Concept concept) =>
-  '${concept.type} ${normalize(concept.role)}';
+  '${capitalize(concept.type)} ${normalize(concept.role)}';
 
 definitionToArgument (Concept concept) =>
     '${normalize(concept.role)}';
@@ -130,7 +136,7 @@ String useCasesToCode (UseCase uc, Definitions defs, String template) {
 
     buf.write('  ');
     buf.write (e.map((e1) => useCaseEntryToCode(e1, defs)).join(';\n    '));
-    buf.write('\n  }\n');
+    buf.write(';\n  }\n');
 
   });
 
