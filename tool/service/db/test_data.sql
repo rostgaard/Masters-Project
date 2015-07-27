@@ -20,7 +20,7 @@ VALUES ('concept'),
 
 INSERT INTO concepts (type, role, name, description)
 VALUES ('actor', 'user', 'User',
-'##Basic user 
+'##Basic user
 Markdown syntax is supported, and gives list items
 
   * For example this
@@ -31,7 +31,7 @@ Very convenient.'),
 
 INSERT INTO concepts (type, name, role, description)
 VALUES ('concept', 'message', 'Message', 'A message'),
-       ('concept', 'call', 'Call', 'A call');
+       ('concept', 'Call', 'call', 'A call');
 
 
 INSERT INTO use_cases (name, primary_role_id, scenario, extensions, description)
@@ -44,71 +44,69 @@ VALUES ('{"jenkinsUri":"http://localhost/jenkins",
           "analyzerLocation" : "/home/krc/lib/dart/dart-sdk/bin/dartanalyzer"}');
 
 INSERT INTO templates (name, description, body)
-VALUES ('Send message template', 'A simple test template for send message use case',
-'import or_test_fw;
+VALUES ('Call transfer template', 'A simple test template for send message use case',
+'import "dart:async";
+import "package:logging/logging.dart";
 
-abstract class SendMessage {
+import "test_support.dart";
 
-  static DateTime startTime = null;
-  static int nextStep = 1;
-  static Customer caller = null;
-  static Receptionist receptionist = null;
-  static Storage.Message messageStore = null;
-  static Storage.Contact contactStore = null;
+DateTime _startTime = null;
+int _nextStep = 1;
+Customer caller = null;
+MessageStore messageStore = null;
+ContactStore contactStore = null;
+ReceptionStore receptionStore = null;
 
-  static Logger log = new Logger("$libraryName.UseCase.SendMessage");
+Logger log = new Logger("UseCase.TransferCall");
 
-  static Future setup() {
-    startTime = new DateTime.now();
-    nextStep = 1;
+Future setup() {
+  _startTime = new DateTime.now();
+  _nextStep = 1;
 
-    log.finest("Setting up preconditions...");
+  log.finest("Setting up preconditions...");
 
-    log.finest ("Setting up a MessageStore...");
-    messageStore = new Service.RESTMessageStore(
-        Config.messageStoreUri,
-        receptionist.authToken,
-        new Transport.Client());
+  log.finest("Setting up a MessageStore...");
+  messageStore = new MessageStore();
 
-    log.finest ("Setting up a ReceptionStore...");
-    contactStore= new Service.RESTContactStore(
-        Config.contactStoreUri,
-        receptionist.authToken,
-        new Transport.Client());
+  log.finest("Setting up a ReceptionStore...");
+  receptionStore = new ReceptionStore();
 
-    log.finest ("Send message test case: Preconditions set up.");
+  log.finest("Send message test case: Preconditions set up.");
 
-    return new Future.value (null);
-  }
+  return new Future.value(null);
+}
 
-  static void teardown() {
-    log.finest("Cleaning up after test...");
-  }
+void teardown() {
+  log.finest("Cleaning up after test...");
+}
 
-  static Future Receptionist_Send_Message () {
-    step ("Receptionist sends a message...");
-    Model.Message message = new Model.Message.stub(Model.Message.noID);
-    return contactStore.getByReception(4, 1).then((Model.Contact contact) {
-      message.recipients = contact.distributionList;
-      message.body = "Sent from test framework.";
-      message.sender = receptionist.user;
-   }).then((_) {
-      return messageStore.enqueue(message);
-   }).then((_) {
-      step ("Receptionist has sent message.");
-   });
-  }
+void receptionist_picks_up_call(Call c, Receptionist r) {
+  r.pickup(c);
+}
 
-  static Future Callee_Checks_For_Message () {
-    step ("Callee checks for message...");
-    log.severe("Assuming the message is delivered, as we do not have built "
-        "access to IMAP stores yet);
-    return new Future.value(null);
-  }
+void receptionist_gives_greeting(Receptionist receptionist) {
+  log.finest("Receptionist gives greeting");
+}
+
+void receptionist_looks_up_employee(Receptionist receptionist) {
+  log.finest("receptionist_looks_up_employee");
+}
+
+void receptionist_select_specific_employee(Receptionist receptionist) {
+  log.finest("receptionist_select_specific_employee");
+}
+
+void receptionist_dials_contact(Receptionist receptionist) {
+  log.finest("receptionist_dials_contact");
+}
+
+void receptionist_initiates_transfer(Receptionist receptionist) {
+  log.finest("receptionist_initiates_transfer");
+}
 
   /*[@USECASES@]*/
 
-}');
+');
 
 -------------------
 
