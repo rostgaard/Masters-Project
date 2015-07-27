@@ -11,15 +11,17 @@ diagrams = first_generation_class_structure.pdf \
            initial_model.pdf \
            framework_example.pdf \
            test_case_ui.pdf \
-	   concept2_example_object.pdf \
+           concept2_example_object.pdf \
            concept2_use_case_meta_model.pdf \
-	   concept2_use_case_mapping.pdf \
+           concept2_use_case_mapping.pdf \
            event-stack-to-state-machine.pdf \
            use_case_creation_activity_diagram.pdf \
            layered-mvc.pdf \
            tests-relation-to-implementation.pdf \
            ideal_flow.pdf \
-           mapping-levels.pdf
+           mapping-levels.pdf \
+           ideal_flow-feedback.pdf \
+           ideal_flow-padded.pdf
 
 XELATEX=xelatex -file-line-error -interaction=nonstopmode
 
