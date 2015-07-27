@@ -1,10 +1,5 @@
 \documentclass[aspectratio=43]{beamer}
 
-\bibliographystyle{plain}
-\bibliography{../Thesis/bibliography/Bibliography.bib}
-
-
-
 \usepackage{dtucolors}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -104,6 +99,7 @@
 }
 
 \section{Problem domain}
+%TODO Remember requirement documentation rot.
 \subsection{Problem statement}
 \frame{
 	\frametitle{Problem statement}
@@ -116,14 +112,14 @@
 			\item Unaligned
 		\end{itemize}
 		\begin{quote}
-Delivery decision was made without adequate requirements information .. in 73\% of the (studied) failed projects\cite{verner2008};
+``Delivery decision was made without adequate requirements information \dots in 73\% of the [studied] failed projects\cite{verner2008}.''
 		
 		\end{quote}
 	\end{block}
 	
-	\begin{block}{Unaligned requirements}
-	Having the requirements decoupled from implementation leads to split-brain operations and error-prone manual review processes to assert that the two are in sync.
-
+	\begin{block}{Concept: link requirements to implementation}
+% Having the requirements decoupled from implementation leads to split-brain operations and error-prone manual review processes to assert that the two are in sync.
+%Humans make a substantial amount of errors when performing repetitive tasks.
 	\end{block}
 	
 }
@@ -131,17 +127,19 @@ Delivery decision was made without adequate requirements information .. in 73\% 
 \frame {
   \frametitle{Design goals}
   
-  \begin{block}
+  \begin{block}{}
 Use cases are unstructured, lets keep them that way, and only add the minimal structure to enable test generation.
+Use cases work, because they are a good, common, communication platform. They are simple, with a clear objective.
+Supplementing them with too many new (unrelated to the original objective) concepts, or a structure that is too constraining will make them lose their primary focus, and value as communication platform.
   \end{block}
   
-  \begin{block}
+  \begin{block}{}
   Basics of verified communication; repeat what I said
  This is basically an echo. So the best way of verifying agreement is to have your work read back to you, This can be done very nicely by changing the representation. For instance, from a textual to a visual representation.
   \end{block}
 }
 
-\section{Problem scope}
+\subsection{Problem scope}
 \frame {
   \frametitle{Problem scope - anticipated}
 % At first; I regarded this as a "small" project. But then... Communicate that this project was larger than anticipated.
@@ -149,18 +147,16 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \begin{figure}[!htbp]
 \includegraphics[scale=0.6]{\figdir mountain-trivial}
 \caption{Anticipated project size}
-\label{fig:ideal_flow}
 \end{figure}
 }
 
 \frame {
-  \frametitle{Problem scope - realized}
+  \frametitle{Problem scope - actual}
 % At first; I regarded this as a "small" project. But then... Communicate that this project was larger than anticipated.
-  
+
 \begin{figure}[!htbp]
 \includegraphics[scale=0.6]{\figdir mountain-challenging}
-\caption{Realized project size}
-\label{fig:ideal_flow}
+\caption{Actual project size}
 \end{figure}
 }
 
@@ -169,58 +165,83 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 
 %Remember a section on what is gained, and what is lost.
 
-
 %On Use case design:
 %I didn't want to fuck up use cases. They work in their current form, and people have tried to "fix" them, add formalism and such. But none of the effort have caught on.
 %So in essence; keep the use case as they are, and "fix" as little as possible.
 
+%TODO clairifications. Using different terminologies for the same thing. Check Test support tools/test support framework.
 
-\subsection{Figure/stuff}
-\frame{
-	\frametitle{Flow}
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.7\textwidth]{\imgdir ideal_flow}
-\caption{Ideal development flow}
-\label{fig:ideal_flow}
-\end{figure}
+%-----------------------
+% Proposed solution
+
+\section{Proposed solution}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Proposed solution};
+  \end{tikzpicture}
 }
 
 
 \frame{
-	\frametitle{Relationship}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{\imgdir tests-relation-to-implementation}
-\caption{Concept of mapping from requirements to implementation}
-\label{fig:tests-relation-to-implementation}
-\end{figure}
+  \frametitle{Flow}
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{\imgdir ideal_flow-padded}
+    \caption{Ideal development flow}
+  \end{figure}
 }
 
 \frame{
-	\frametitle{Project plot}
+  \frametitle{Flow -- with feedback}
+  
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{\imgdir ideal_flow-feedback}
+    \caption{Ideal development flow}
+  \end{figure}
+}
 
-\begin{figure}[!htbp]
-\centering
-\begin{tikzpicture}
+\frame{
+  \frametitle{Requirement/implementation Relationship}
 
-% horizontal axis
-\draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{\imgdir tests-relation-to-implementation}
+    \caption{Concept of mapping from requirements to implementation}
+    \label{fig:tests-relation-to-implementation}
+  \end{figure}
+}
 
-% vertical axis
-\draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+\frame {
+  \frametitle{Solution overview}
+  \begin{itemize}
+    \item Additional structure for use cases.
+    \item Technique for mapping to implementation.
+    \item Tool for writing and structuring use cases -- and generate tests from them.
+  \end{itemize}
+}
 
-\draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
-\draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
+\frame{
+  \frametitle{Project plot}
 
-% Project dot
-\draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
+  \begin{figure}[!htbp]
+    \centering
+    \begin{tikzpicture}
+      % horizontal axis
+      \draw[->] (0,0) -- (6,0) node[anchor=north,midway] {\small Code generation};
 
-\end{tikzpicture}
-\caption{Project parameters and key points}
-\label{fig:project_parameter_plot}
-\end{figure}
+      % vertical axis
+      \draw[->] (0,0) -- (0,4) node[anchor=south,rotate=90,midway] {\small Domain-awareness};
+
+      \draw (5,0.2) node[circle,fill,inner sep=1pt, fill=blue, label=above:1st iteration] {};
+      \draw (1.2,3.0) node[circle,fill,inner sep=1pt, fill=blue, label=above:2nd iteration] {};
+
+      % Project dot
+      \draw (5,3) node[circle,fill,inner sep=1pt, fill=dkgreen, label=above:Project] {}; 
+    \end{tikzpicture}
+    \caption{Project parameters and key points}
+  \end{figure}
 }
 
 \frame {
@@ -242,59 +263,49 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
   \frametitle{Original solution}
   \begin{itemize}
     \item Built scripting environment
-    %TODO Find figure number
-    \item Split use cases into chunks (figure ?? in thesis)
-    \item Patched tests, diagrams and documentation together
-  \end{itemize}
-}
-
-\frame {
-  \frametitle{Original solution}
-  \begin{itemize}
-    \item Built scripting environment
-    %TODO Find figure number
-    \item Split use cases into chunks (figure ?? in thesis)
+    \item Split use cases into chunks (figure 3.2 in thesis)
     \item Patched tests, diagrams and documentation together
   \end{itemize}
 }
 
 \frame {
   \frametitle{Original solution - problems}
-  %TODO Jenkins build trend
-  \begin{itemize}
-    \item 
-  \end{itemize}
-}
 
+  \begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{\imgdir jenkins-build-trend-iteration-1}
+\caption{High failure rate of tests. Red area is failures. Blue area is successes.}
+\end{figure}
+  
+}
 
 \frame {
   \frametitle{Refined solution}
-  %TODO Solution with framework
   \begin{itemize}
-    \item 
+    \item Introduced domain framework
   \end{itemize}
 }
 
 \frame {
-  \frametitle{Framework}
+  \frametitle{Domain framework content}
   \begin{itemize}
-    \item 
+    \item Exposed interfaces (client classes)
+    \item Model classes
   \end{itemize}
 }
 
 \frame{
-	\frametitle{Component diagram}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
-\caption{Component diagram}
-\label{fig:component_diagram}
-\end{figure}
+  \frametitle{Component diagram}
+  \begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\imgdir component_diagram}
+  \caption{Component diagram}
+  \end{figure}
 }
 
+
 \frame{
-	\frametitle{Component diagram - with tests}
+	\frametitle{Component diagram - extended}
 
 \begin{figure}[ht]
 \centering
@@ -302,6 +313,17 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
 \caption{Component diagram, extended with tests}
 \label{fig:component_diagram_with_tests}
 \end{figure}
+}
+
+%-----------------------
+% Test support tools
+
+\section{Test support tools}
+\frame {
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[text=black, text opacity=1.0,
+          font=\scriptsize] at (current page.center) {\Huge Test support tools};
+  \end{tikzpicture}
 }
 
 \frame {
@@ -483,6 +505,7 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
   
 }
 
+\section{Presentation}
 \frame {
   \begin{tikzpicture}[remember picture,overlay]
     \node[text=black, text opacity=1.0,
@@ -498,6 +521,7 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
     \item Closer relationship between requirements and implementation
     \item More testing -- better software
     \item Mapping technique works without structuring
+    \item Good fit for us -- even without generation
   \end{itemize}
   \item Losses: 
   \begin{itemize}
@@ -509,5 +533,7 @@ Use cases are unstructured, lets keep them that way, and only add the minimal st
   
 }
 
+\bibliographystyle{plain}
+\bibliography{../Thesis/bibliography/Bibliography.bib}
 
 \end{document}
