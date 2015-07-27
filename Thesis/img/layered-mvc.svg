@@ -13,9 +13,9 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    xml:space="preserve"
-   width="546.56952"
+   width="552.61536"
    height="237.26213"
-   viewBox="0 0 546.56952 237.26213"
+   viewBox="0 0 552.61536 237.26213"
    sodipodi:docname="layered-mvc.svg"><metadata
      id="metadata8"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -569,8 +569,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1918"
-     inkscape:window-height="1059"
+     inkscape:window-width="1920"
+     inkscape:window-height="1058"
      id="namedview4"
      showgrid="false"
      fit-margin-top="0"
@@ -578,10 +578,10 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.9097224"
-     inkscape:cx="420.884"
-     inkscape:cy="52.139477"
+     inkscape:cx="283.17316"
+     inkscape:cy="125.7476"
      inkscape:window-x="0"
-     inkscape:window-y="19"
+     inkscape:window-y="22"
      inkscape:window-maximized="1"
      inkscape:current-layer="g10" /><g
      id="g10"
@@ -1279,12 +1279,12 @@
        id="g1592"
        transform="matrix(1,0,0,-1,0,1174)"><g
          id="g1594" /></g><rect
-       style="fill:#c9c51f;fill-opacity:0.53170735;fill-rule:nonzero;stroke:#959595;stroke-width:1.00341523;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#c9c51f;fill-opacity:0.53170734;fill-rule:nonzero;stroke:#959595;stroke-width:1.02779841;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4776"
-       width="96.413963"
-       height="35.475391"
-       x="501.75986"
-       y="-844.44989"
+       width="101.22622"
+       height="35.451008"
+       x="501.77203"
+       y="-844.43768"
        transform="scale(1,-1)" /><text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.80000019px;line-height:125%;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1310,7 +1310,7 @@
          y="-860.06781"
          x="165.46188"
          id="tspan4811"
-         sodipodi:role="line">Service</tspan></text>
+         sodipodi:role="line">Server</tspan></text>
 <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.80000019px;line-height:125%;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
