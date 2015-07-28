@@ -99,13 +99,16 @@ This section explains the business model of the case study system, who the custo
 
 \subsection{Replacement system}
 This section gives a short introduction to the replacement system (the case study system of this thesis), its architecture and design and the development process that ultimately motivated the test approach, that is the topic of this thesis.\medskip
+
 \begin{figure}[!hbpt]
 \centering
 \includegraphics[width=0.8\textwidth]{\imgdir openreception-client-ui}
 \caption{Screenshot of the receptionist frontend of the replacement system}
 \label{fig:openreception-client-ui}
 \end{figure}
-\noindent ``OpenReception''' is the brand name of the replacement system. It is a web-oriented software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide them with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\medskip
+
+\noindent
+``OpenReception'' is the brand name of the replacement system. It is a web-oriented software/telephony system. It is a system designed to enable receptionists to handle incoming calls, and provide them with the appropriate information so that they may divert or directly handle the calls. The system is designed with high availability in mind with many -- largely independent -- components that are loosely coupled. This limits the Domino-effect, where one faulty component can take down another for no other reason than the fact that they are partitioned together.\medskip
 
 \noindent This component-oriented design has also helped the testing process, as it enabled individual components to be tested and verified independently of the others. A screenshot of the receptionist client of the replacement system can be seen in figure \ref{fig:openreception-client-ui} and provides the same information as the original one.
 
