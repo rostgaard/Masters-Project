@@ -1,3 +1,7 @@
+Motivation for chosen methodoligy
+  Buttom-up may lead to over-engineering overly-contstrained solution due to lack of overview.
+  Thus trying to find the optimal general solution has a big risk of trying to reshape your problem to a good solution.
+  Top-down may lead to under-engineering, leaving the tool useless for anything but the one purpose that sparked the development.
 
 
 %Jacobson’s original usage scenarios were intentionally informal. He found out that people did — and still do — resist writing them whenever they become more formal. In fact, when I once asked him about formal models for use cases, Jacobson replied, “Oh, I have a formal model for use cases, all right. The only problem is that no one wants to use it.” http://alistair.cockburn.us/Use+cases%2c+ten+years+later
