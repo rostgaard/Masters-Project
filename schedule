@@ -1,0 +1,38 @@
+Feb
+ - Background, full project description. Introduction
+ - Minimum viable solution
+ - Material finding
+ 
+Week 6:
+ - Document example without code
+
+Week 7:
+ - Generate output tests
+ - Experimental test-generation tool
+
+Feb
+ - Formalization of requirements (parallel with tests).
+ - Write-up of tests from the chosen requirements.
+ - Research on tests and testability
+
+Mar
+ - Initial test-generation tool
+ - Deriving requirements from tests.
+
+Apr
+ - Test-generation tool work
+ - Test approach sections in thesis
+
+May
+ - Test-generation tool finalization
+ - Probably Course work
+
+Jun
+ - Writing and tool refinement
+
+Jul
+ - Writing.
+
+
+TODO:
+ - Find related work. Research, reading and documenting.
